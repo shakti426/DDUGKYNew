@@ -19,12 +19,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.BuildConfig
+import com.deendayalproject.adapter.LivingRoomListAdapter
 import com.deendayalproject.R
 import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
@@ -32,21 +31,22 @@ import com.deendayalproject.adapter.IndoorGameAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.VillageAdapter
-import com.deendayalproject.databinding.FragmentQTeamFormBinding
 import com.deendayalproject.databinding.FragmentResidentialBinding
 import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
+import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
+import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.StateRequest
-import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
+import com.deendayalproject.model.response.LivingRoomListItem
 import com.deendayalproject.model.response.StateModel
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.model.response.VillageModel
@@ -55,7 +55,6 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.material.textfield.TextInputEditText
-import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -74,7 +73,10 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var photoUri: Uri
     private var currentPhotoTarget: String = ""
     private var latValue: String = ""
+    private var selectedRoomPermitted: Int = 0
     private var langValue: String = ""
+    private var deletedItem: LivingRoomListItem? = null
+
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
@@ -96,6 +98,8 @@ class ResidentialFacilityFragment : Fragment() {
     private var base64TypeLivingRoofDocFile: String? = null
     private var base64CeilingDocFile: String? = null
     private var base64AirConditioningDocFile: String? = null
+    private var base64AirHieghtOfCelingDocFile: String? = null
+    private var base64WindowAreaDocFile: String? = null
     private var base64CotDocFile: String? = null
     private var base64MattressDocFile: String? = null
     private var base64BedSheetDocFile: String? = null
@@ -226,7 +230,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var etMattress: TextInputEditText
     private lateinit var etBedSheet: TextInputEditText
     private lateinit var etCupboard: TextInputEditText
-    private lateinit var etStudentsPermitted: TextInputEditText
+
     private lateinit var etLivingAreaLights: TextInputEditText
     private lateinit var etLivingAreaFans: TextInputEditText
     /////////////////////////Toilets Information Section////////////
@@ -270,6 +274,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerElectricalPowerBackupAvailable: Spinner
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var livingRoomAdapter: LivingRoomListAdapter
 
 
     private var isBasicInfoVisible = true
@@ -420,6 +425,19 @@ class ResidentialFacilityFragment : Fragment() {
                             ivAirConditioningPreview.setImageURI(photoUri)
                             ivAirConditioningPreview.visibility = View.VISIBLE
                             base64AirConditioningDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+
+                        "WindowArea" -> {
+                            binding.ivLivingAreaWindowAreaPreview.setImageURI(photoUri)
+                            binding.ivLivingAreaWindowAreaPreview.visibility = View.VISIBLE
+                            base64WindowAreaDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+                        "HieghtOfCeiling" -> {
+                            binding.ivLivingAreaHieghtOfCeilingPreview.setImageURI(photoUri)
+                            binding.ivLivingAreaHieghtOfCeilingPreview.visibility = View.VISIBLE
+                            base64AirHieghtOfCelingDocFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                             "COT" -> {
@@ -594,6 +612,29 @@ class ResidentialFacilityFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+
+
+        livingRoomAdapter = LivingRoomListAdapter(mutableListOf()) { roomItem ->
+
+            val request = DeleteLivingRoomList(
+
+                appVersion = BuildConfig.VERSION_NAME,
+                livingRoomId = roomItem.livingRoomId.toString()
+            )
+
+            showProgressBar()
+            viewModel.deleteLivingRoom(request)
+
+
+        }
+
+        binding.livingAreaRecycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = livingRoomAdapter
+        }
+
+        observeViewModelLivingAreaList()
+
         // Expand all section
 
 
@@ -631,7 +672,11 @@ class ResidentialFacilityFragment : Fragment() {
             }
 
         }
-
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
 
         binding.headerLivingAreaInfo.setOnClickListener {
 
@@ -640,6 +685,16 @@ class ResidentialFacilityFragment : Fragment() {
                 binding.hideRectcler.visible()
                 binding.ivToggleLivingAreaInfo.setImageResource(R.drawable.outline_arrow_upward_24)
                 isLivingAreaVisible= false
+
+                val rfLAreaListReq = LivingRoomReq(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerItem!!.trainingCenterId,
+                    sanctionOrder = centerItem!!.senctionOrder,
+                )
+
+                viewModel.getRfLivingRoomListView(rfLAreaListReq)
+
+
             }
             else{
                 binding.hideRectcler.gone()
@@ -797,6 +852,9 @@ class ResidentialFacilityFragment : Fragment() {
         // All submit response
 
 
+        observeDeleteResponse()
+
+
         viewModel.RfBasicInfo.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 hideProgressBar()
@@ -807,6 +865,7 @@ class ResidentialFacilityFragment : Fragment() {
                 ).show()
 
                 binding.layoutTCBasicInfoContent.gone()
+                isBasicInfoVisible = true
 
             }
             result.onFailure {
@@ -829,9 +888,8 @@ class ResidentialFacilityFragment : Fragment() {
                     "Infra Detail submitted successfully!",
                     Toast.LENGTH_SHORT
                 ).show()
-
                 binding.layoutInfraDetailComplianceContent.gone()
-
+                isInfraVisible = true
             }
             result.onFailure {
                 hideProgressBar()
@@ -845,8 +903,30 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
 
+        viewModel.RfLivingArea.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(
+                    requireContext(),
+                    "Living Area submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
 
+                binding.layoutLivingAreaInfoContent.gone()
+                binding.hideRectcler.gone()
+                isLivingAreaVisible = true
 
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Living Area submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
 
 
@@ -980,7 +1060,10 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
-        setupAutoAreaCalculation(binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea)
+        setupAutoAreaCalculationForRoom(binding.etRoomLength, binding.etRoomWidth, binding.etRoomArea)
+
+
+
 
 
         setupAutoAreaCalculation(binding.etKitchenLength, binding.etKitchenWidth, binding.etKitchenArea)
@@ -1196,7 +1279,16 @@ class ResidentialFacilityFragment : Fragment() {
             currentPhotoTarget = "AirConditioning"
             checkAndLaunchCamera()
         }
+        view.findViewById<Button>(R.id.btnUploadLivingWindowArea).setOnClickListener {
+            currentPhotoTarget = "WindowArea"
+            checkAndLaunchCamera()
+        }
 
+
+        view.findViewById<Button>(R.id.btnUploadLivingAreaHieghtOfCeiling).setOnClickListener {
+            currentPhotoTarget = "HieghtOfCeiling"
+            checkAndLaunchCamera()
+        }
 
 
 
@@ -1636,7 +1728,6 @@ class ResidentialFacilityFragment : Fragment() {
         etMattress= view.findViewById(R.id.etMattress)
         etBedSheet= view.findViewById(R.id.etBedSheet)
         etCupboard= view.findViewById(R.id.etCupboard)
-        etStudentsPermitted= view.findViewById(R.id.etStudentsPermitted)
         etLivingAreaLights= view.findViewById(R.id.etLivingAreaLights)
         etLivingAreaFans= view.findViewById(R.id.etLivingAreaFans)
         /////////////////////////Toilets Information Section////////////
@@ -1873,12 +1964,12 @@ class ResidentialFacilityFragment : Fragment() {
        if (!checkTextInput(etMattress, "Mattress (In No.)")) isValid = false
        if (!checkTextInput(etBedSheet, "Bed Sheet (In No.)")) isValid = false
        if (!checkTextInput(etCupboard, "Cupboard / Almirah / Trunk with Locking Arrangements (In No.)")) isValid = false
-       if (!checkTextInput(etStudentsPermitted, "Number of Students Permitted")) isValid = false
        if (!checkTextInput(etLivingAreaLights, "Lights")) isValid = false
        if (!checkTextInput(etLivingAreaFans, "Fans")) isValid = false
        if(base64TypeLivingRoofDocFile == null || base64CeilingDocFile == null ||base64AirConditioningDocFile == null || base64LivingAreaInfoBoardDocFile == null
            || base64CotDocFile == null || base64MattressDocFile == null ||base64BedSheetDocFile == null || base64CupBoardDocFile == null
-           || base64LightsDocFile == null || base64FansDocFile == null) isValid = false
+           || base64LightsDocFile == null || base64FansDocFile == null
+           || base64AirHieghtOfCelingDocFile == null || base64WindowAreaDocFile == null ) isValid = false
 
 
        return isValid
@@ -2133,6 +2224,56 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
 
+    private fun calculateAndShowAreaForRoom(
+        etLength: EditText,
+        etWidth: EditText,
+        tvArea: TextView
+    ) {
+        val lengthStr = etLength.text.toString().trim()
+        val widthStr = etWidth.text.toString().trim()
+
+        // Safely convert inputs to numbers
+        val length = lengthStr.toDoubleOrNull() ?: 0.0
+        val width = widthStr.toDoubleOrNull() ?: 0.0
+
+        // Calculate area
+        val area = length * width
+
+        tvArea.text = String.format("%.2f", area)
+
+        val value = etRoomArea.text.toString().toDoubleOrNull()
+        if (value != null) {
+             selectedRoomPermitted = (value / 25).toInt()
+            Log.d("Result", "Approx value: $selectedRoomPermitted")
+           binding.etStudentsPermitted.text = selectedRoomPermitted.toString()
+        } else {
+            Toast.makeText(context, "Please enter a valid number", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+    }
+
+    private fun setupAutoAreaCalculationForRoom(
+        etLengths: EditText,
+        etWidths: EditText,
+        tvAreas: TextView
+    ) {
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                calculateAndShowAreaForRoom(etLengths, etWidths, tvAreas)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        }
+
+        etLengths.addTextChangedListener(watcher)
+        etWidths.addTextChangedListener(watcher)
+    }
+
+
 
 
     private fun hasLocationPermission(): Boolean {
@@ -2285,7 +2426,10 @@ class ResidentialFacilityFragment : Fragment() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
 
-     /*   val request =
+
+
+
+        val request =
             InsertLivingAreaReq(
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
@@ -2304,32 +2448,27 @@ class ResidentialFacilityFragment : Fragment() {
                 windowArea = etRoomWindowArea.text.toString(),
                 airConditioning = spinnerAirConditioning.selectedItem.toString(),
                 airConditioningFilePath = base64AirConditioningDocFile!!,
-                circulatingArea = etCirculatingArea.text.toString(),
-                corridor = spinnerCorridor.selectedItem.toString(),
-                securingWiresDone = spinnerSecuringWires.selectedItem.toString(),
-                switchBoardsPanelBoards = spinnerSwitchBoards.selectedItem.toString(),
-                hostelNameBoard = spinnerHostelNameBoard.selectedItem.toString(),
-                studentEntitlementBoard = spinnerEntitlementBoard.selectedItem.toString(),
-                contactDetailImportantPeople = spinnerContactDetail.selectedItem.toString(),
-                basicInformationBoard = spinnerBasicInfoBoard.selectedItem.toString(),
-                foodSpecificationBoard = spinnerFoodSpecificationBoard.selectedItem.toString(),
-                openSpaceArea = etAreaForOutDoorGames.text.toString(),
-                leakagesProof = base64SignOfLeakageDocFile!!,
-                conformanceDDUProof = base64ConformanceDDUGKYDocFile!!,
-                protectionStairsProof = base64ProtectionofStairsDocFile!!,
-                circulatingAreaProof =base64CirculatingAreaProof!! ,
-                corridorProof = base64CorridorDocFile!!,
-                securingWiresDoneProof = base64SecuringWiresDocFile!!,
-                switchBoardsPanelBoardsProof = base64SwitchBoardsDocFile!!,
-                hostelNameBoardProof = base64HostelNameBoardDocFile!!,
-                studentEntitlementBoardProof = base64EntitlementBoardDocFile!!,
-                contactDetailImportantPeopleproof = base64ContactDetailDocFile!!,
-                basicInformationBoardproof = base64BasicInfoBoardDocFile!!,
-                foodSpecificationBoardproof = base64FoodSpecificationBoardDocFile!!
-
+                cot = etCot.text.toString(),
+                cotFilePath = base64CotDocFile!!,
+                mattress = etMattress.text.toString(),
+                mattressFilePath = base64MattressDocFile!!,
+                bedSheet = etBedSheet.text.toString(),
+                bedSheetFilePath = base64BedSheetDocFile!!,
+                storage = etCupboard.text.toString(),
+                storageFilePath = base64CupBoardDocFile!!,
+                infoBoard = spinnerLivingAreaInfoBoard.selectedItem.toString(),
+                infoBoardFilePath = base64LivingAreaInfoBoardDocFile!!,
+                studentsPermitted = selectedRoomPermitted.toString(),
+                lights = etLivingAreaLights.text.toString(),
+                lightsFilePath = base64LightsDocFile!!,
+                fans =etLivingAreaFans.text.toString() ,
+                fansFilePath =base64FansDocFile!!,
+                ceilingHeightFilePath= base64AirHieghtOfCelingDocFile!!,
+                areaFilePath = "",
+                windowAreaFilePath=base64WindowAreaDocFile!!
             )
 
-        viewModel.SubmitRfLivingAreaInformationToServer(request, token)*/
+        viewModel.SubmitRfLivingAreaInformationToServer(request, token)
         showProgressBar()
     }
 
@@ -2373,10 +2512,6 @@ class ResidentialFacilityFragment : Fragment() {
         this.visibility = View.VISIBLE
     }
 
-    fun View.invisible() {
-        this.visibility = View.INVISIBLE
-    }
-
     fun showProgressBar() {
         if (context != null && isAdded && progress?.isShowing == false) {
             progress?.show()
@@ -2402,4 +2537,61 @@ class ResidentialFacilityFragment : Fragment() {
             gameCounter = indoorGamesList.size + 1
         }
     }
+
+
+    private fun observeViewModelLivingAreaList() {
+        viewModel.getRfLivingRoomListView.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                when (it.responseCode) {
+                    200 -> {
+                        livingRoomAdapter.updateList(it.wrappedList)
+
+                    }
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+    private fun observeDeleteResponse() {
+        viewModel.deleteLivingRoom.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Room Deleted Successfully", Toast.LENGTH_SHORT).show()
+
+                deletedItem?.let { item ->
+                    livingRoomAdapter.removeItem(item)
+                    deletedItem = null
+                }
+
+                if (livingRoomAdapter.itemCount == 0) {
+                    binding.layoutTCBasicInfoContent.gone()
+                    isBasicInfoVisible = true
+                }
+            }
+
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Room Deletion failed: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 }

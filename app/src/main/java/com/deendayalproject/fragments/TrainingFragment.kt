@@ -2482,6 +2482,15 @@ class TrainingFragment : Fragment() {
         status = arguments?.getString("status")
         remarks = arguments?.getString("remarks")
         RecyClerViewUI()
+
+
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
+
+
         if (status == STATUS_QM || status == STATUS_SM) {
             AlertDialog.Builder(requireContext())
                 .setTitle("Remarks")
