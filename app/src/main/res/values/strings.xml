@@ -230,6 +230,7 @@
     <string name="training_list">Training List</string>
     <string name="training_center_address">Training Center Address</string>
     <string name="training_center_name">Training Center Name</string>
+
     <string name="sanction_order">Sanction Order</string>
     <string name="district_name">District Name</string>
     <string name="center_name">Center Name</string>
@@ -721,5 +722,5 @@
     <string name="residential_facility">Residential Facility</string>
     <string name="add_living_area">+Add Living Area</string>
 
-
+    <string name="training_center_id">Training Center ID</string>
 </resources>

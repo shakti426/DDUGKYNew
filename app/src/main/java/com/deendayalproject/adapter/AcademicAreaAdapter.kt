@@ -19,6 +19,8 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+
+// my new Ajit Ranjan 27/10/2025 time in last 11:11M
 class AcademicAreaAdapter(
     private var centers: MutableList<wrappedList>,
 ) : RecyclerView.Adapter<AcademicAreaAdapter.CenterViewHolder>() {
