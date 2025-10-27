@@ -6,8 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
 <!--livingareainformationlayout-->
+
     <LinearLayout
-        android:id="@+id/llTopIDC"
+        android:id="@+id/llTopLAI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_background_light_grey"
@@ -19,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tvIDC"
+            android:id="@+id/tvLAI"
             android:fontFamily="@font/avenir_next_semi_bold"
             android:text="@string/living_area_information"
             android:textColor="@color/color_dark_green"
@@ -41,7 +42,210 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llTopIDC"/>
+        app:layout_constraintTop_toBottomOf="@+id/llTopLAI"/>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LivingAreaInformationExpand"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:elevation="@dimen/dp_2"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/llTopLAI"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Header row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#DDDDDD"
+                android:padding="8dp">
+
+                <!-- <TextView
+                     android:layout_width="0dp"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:text="Room No."
+                     android:textStyle="bold" />-->
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/room_number_label"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/roomlength"
+                    android:textStyle="bold" />
+
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/roomtype"-->
+<!--                    android:textStyle="bold" />-->
+
+<!--                <TextView-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/roomarea"-->
+<!--                    android:textStyle="bold" />-->
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:text="Area (SqFt.)"
+                    android:textStyle="bold" />
+
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="View"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- RecyclerView for listing rooms -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="1dp"
+                android:scrollbars="vertical"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llDescAcademiaApproval"
+                android:text="@string/select_approvals"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_next_demi_bold"
+                android:hint="@string/select_approval"
+                android:id="@+id/llTcDescAcademia"
+                android:layout_marginStart="@dimen/dp_3"
+                android:textColorHint="@color/color_dark_green"
+                app:boxStrokeColor="@color/color_dark_green"
+                >
+
+                <AutoCompleteTextView
+                    android:id="@+id/SpinnerDescAcademia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="15sp"
+                    tools:ignore="LabelFor"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/DescAcademiaRemarks"
+                android:visibility="gone"
+                android:text="@string/remarkss"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                />
+
+            <EditText
+                android:id="@+id/etDescAcademiaRemarks"
+                android:visibility="gone"
+                style="@style/EditText"
+                android:hint="@string/remarks"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:id="@+id/llDescAcademiaBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etInfraRemarks">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:id="@+id/btnDescAcademiaPrevious"
+                    android:elevation="4dp"
+                    android:text="@string/previous"
+                    android:textColor="@color/color_dark_blue"
+                    android:textSize="@dimen/sp_16"
+                    android:background="@drawable/backgroung_overlay"
+                    android:layout_margin="8dp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="@string/save_and_next"
+                    android:gravity="center"
+                    android:id="@+id/btnDescAcademiaNext"
+                    android:textColor="@color/white"
+                    android:elevation="4dp"
+                    android:textSize="@dimen/sp_16"
+                    android:background="@drawable/card_background"
+                    android:layout_margin="8dp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/IDetailsComplainExpand"
@@ -49,7 +253,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:elevation="@dimen/dp_2"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTopIDC">
 
@@ -580,7 +784,7 @@
             app:layout_constraintTop_toBottomOf="@id/laiStorageFile" />
 
         <TextView
-            android:id="@+id/BasicInformationBoard"
+            android:id="@+id/LiaBasicInformationBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
@@ -593,60 +797,49 @@
 
 
         <TextView
-            android:id="@+id/labelSecuringWiresDone"
+            android:id="@+id/labelliaTrainingCenterId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
             android:drawablePadding="8dp"
-            android:text="@string/basic_information_board"
+            android:text="@string/training_center_id"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/backup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard" />
+            app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoard" />
 
         <TextView
-            android:id="@+id/SecuringWiresDone"
+            android:id="@+id/liaTrainingCenterId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
             android:text="@string/n_a"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelSecuringWiresDone" />
+            app:layout_constraintTop_toBottomOf="@id/labelliaTrainingCenterId" />
 
 
         <TextView
-            android:id="@+id/SecuringWiresDoneFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_35"
-            android:text="@string/view"
-            android:textColor="@color/color_dark_blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard" />
-
-
-        <TextView
-            android:id="@+id/labelArea"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/labelLaiSanctionNumber"
+            android:layout_width="118dp"
+            android:layout_height="52dp"
             android:layout_marginTop="@dimen/dp_15"
             android:drawablePadding="8dp"
-            android:text="@string/lable_area"
+            android:text="@string/sanction_order"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/backup"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/SecuringWiresDoneFile" />
+            app:layout_constraintTop_toBottomOf="@id/liaTrainingCenterId" />
 
         <TextView
-            android:id="@+id/Area"
+            android:id="@+id/LaiSanctionNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
             android:text="@string/n_a"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelArea" />
+            app:layout_constraintTop_toBottomOf="@id/labelLaiSanctionNumber" />
 
 
         <TextView
@@ -658,7 +851,7 @@
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Area" />
+            app:layout_constraintTop_toBottomOf="@id/LaiSanctionNumber" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/llTcIDC"
