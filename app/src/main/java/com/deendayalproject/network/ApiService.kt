@@ -361,7 +361,7 @@ interface ApiService {
     suspend fun deleteLivingRoom(@Body request: DeleteLivingRoomList) : Response<LivingAreaDelete>
 
 
-    @POST(value ="livingRoomListView")
+    @POST(value ="toiletRoomListView")
     suspend fun getRfToiletListView(@Body request: LivingRoomReq) : Response<ToiletListRes>
 
 
@@ -373,5 +373,6 @@ interface ApiService {
 
     @POST(value = "insertRfToiletRoomInformation")
     suspend fun insertRfToiletRoomInformation(@Body request: InsertToiletDataReq) : Response<ITLAbDetailsErrorResponse>
+
 
 }

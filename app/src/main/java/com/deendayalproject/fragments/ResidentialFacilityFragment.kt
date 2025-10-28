@@ -30,6 +30,7 @@ import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.IndoorGameAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.StateAdapter
+import com.deendayalproject.adapter.ToiletAdapter
 import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentResidentialBinding
 import com.deendayalproject.model.IndoorGame
@@ -276,6 +277,7 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var spinnerGrievanceRegisterAvailable: Spinner
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var livingRoomAdapter: LivingRoomListAdapter
+    private lateinit var ToiletAdapter: ToiletAdapter
 
 
     private var isBasicInfoVisible = true
@@ -712,7 +714,7 @@ class ResidentialFacilityFragment : Fragment() {
 
         }
 
-        binding.btnAddLivingArea.setOnClickListener {
+        binding.btnAddtoilet.setOnClickListener {
             binding.layoutToiletsContent.visible()
 
         }
@@ -721,15 +723,31 @@ class ResidentialFacilityFragment : Fragment() {
 
 
             if (isToiletsVisible){
-                binding.layoutToiletsContent.visible()
+                binding.hideRecyclerToilet.visible()
                 binding.ivToggleToilets.setImageResource(R.drawable.outline_arrow_upward_24)
                 isToiletsVisible= false
+
+                val rfLAreaListReq = LivingRoomReq(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerItem!!.trainingCenterId,
+                    sanctionOrder = centerItem!!.senctionOrder,
+                )
+
+                viewModel.getRfToiletListView(rfLAreaListReq)
+
+
             }
             else{
+                binding.hideRecyclerToilet.gone()
                 binding.layoutToiletsContent.gone()
                 binding.ivToggleToilets.setImageResource(R.drawable.ic_dropdown_arrow)
                 isToiletsVisible= true
             }
+
+
+
+
+
 
         }
 
@@ -934,6 +952,32 @@ class ResidentialFacilityFragment : Fragment() {
                 ).show()
             }
         }
+
+        viewModel.SubmitRfToiletDataToServer.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(
+                    requireContext(),
+                    "Toilet data submitted successfully!",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                binding.layoutToiletsContent.gone()
+                binding.hideRecyclerToilet.gone()
+                isLivingAreaVisible = true
+
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Living Area submission failed: ${it.message}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+
 
 
 
@@ -2536,7 +2580,7 @@ class ResidentialFacilityFragment : Fragment() {
 
             )
 
-      //  viewModel.SubmitRfLivingAreaInformationToServer(request, token)
+        viewModel.SubmitRfToiletDataToServer(request, token)
         showProgressBar()
     }
 
@@ -2641,4 +2685,17 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
+
+
+   /* private fun setupToiletRecyclerView() {
+        ToiletAdapter = ToiletAdapter(mutableListOf()) { toiletItem ->
+            // Handle delete click
+            deleteToilet(toiletItem)
+        }
+        binding.toiletRecycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = ToiletAdapter
+        }
+    }
+*/
 }
