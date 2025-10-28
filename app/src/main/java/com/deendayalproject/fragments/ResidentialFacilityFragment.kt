@@ -39,6 +39,7 @@ import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
+import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.VillageReq
@@ -604,6 +605,8 @@ class ResidentialFacilityFragment : Fragment() {
         findById(view)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         observeViewModel()
+        observeViewModelLivingAreaList()
+
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -633,7 +636,6 @@ class ResidentialFacilityFragment : Fragment() {
             adapter = livingRoomAdapter
         }
 
-        observeViewModelLivingAreaList()
 
         // Expand all section
 
@@ -707,6 +709,11 @@ class ResidentialFacilityFragment : Fragment() {
 
         binding.btnAddLivingArea.setOnClickListener {
             binding.layoutLivingAreaInfoContent.visible()
+
+        }
+
+        binding.btnAddLivingArea.setOnClickListener {
+            binding.layoutToiletsContent.visible()
 
         }
 
@@ -1437,7 +1444,7 @@ class ResidentialFacilityFragment : Fragment() {
             ).show()
         }
         view.findViewById<Button>(R.id.btnSubmitToiletInfo).setOnClickListener {
-            if (validateToiletInfoForm(view)) submitBasicInfoForm(view)
+            if (validateToiletInfoForm(view)) submitRFToiletForm(view)
             else Toast.makeText(
                 requireContext(),
                 "Complete all Toilets  fields and photos.",
@@ -2472,10 +2479,6 @@ class ResidentialFacilityFragment : Fragment() {
         showProgressBar()
     }
 
-
-
-
-
     private fun submitBasicInfoForm(view: View) {
       /*  val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -2503,6 +2506,40 @@ class ResidentialFacilityFragment : Fragment() {
         )
         viewModel.submitBasicInfoFormToServer(request, token)*/
     }
+
+
+
+    private fun submitRFToiletForm(view: View) {
+        val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
+            .getString("ACCESS_TOKEN", "") ?: ""
+
+
+
+
+        val request =
+            InsertToiletDataReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                trainingCentre = centerItem!!.trainingCenterId,
+                sanctionOrder = centerItem!!.senctionOrder,
+                facilityId = 0,
+                type = spinnerToiletType.selectedItem.toString(),
+                lights =  binding.etLightsInToilet.text.toString().toIntOrNull() ?: 0,
+                proofLight = base64LightsInToiletDocFile!!,
+                flooring = spinnerToiletFlooringType.selectedItem.toString(),
+                proofFloor = base64ToiletFlooringDocFile!!,
+                runningWater = spinnerConnectionToRunningWater.selectedItem.toString()
+                /*width = etRoomWidth.text.toString(),
+                area = etRoomArea.text.toString(),
+                windowArea = etRoomWindowArea.text.toString()*/
+
+            )
+
+      //  viewModel.SubmitRfLivingAreaInformationToServer(request, token)
+        showProgressBar()
+    }
+
 
     fun View.gone() {
         this.visibility = View.GONE
@@ -2585,6 +2622,16 @@ class ResidentialFacilityFragment : Fragment() {
                     binding.layoutTCBasicInfoContent.gone()
                     isBasicInfoVisible = true
                 }
+
+                val rfLAreaListReq = LivingRoomReq(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerItem!!.trainingCenterId,
+                    sanctionOrder = centerItem!!.senctionOrder,
+                )
+
+                viewModel.getRfLivingRoomListView(rfLAreaListReq)
+
+
             }
 
             result.onFailure {

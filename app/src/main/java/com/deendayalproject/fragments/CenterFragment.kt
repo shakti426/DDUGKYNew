@@ -43,6 +43,11 @@ class CenterFragment : Fragment() {
             findNavController().navigate(action)
         }
 
+        binding.backButton.setOnClickListener {
+
+            findNavController().navigateUp()
+        }
+
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
