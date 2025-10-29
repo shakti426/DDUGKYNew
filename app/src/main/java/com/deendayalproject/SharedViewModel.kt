@@ -1176,15 +1176,19 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) {
     private val _getRfToiletListView = MutableLiveData<Result<ToiletListRes>>()
     val getRfToiletListView: LiveData<Result<ToiletListRes>> = _getRfToiletListView
 
+
     fun getRfToiletListView(request: LivingRoomReq) {
         _loading.postValue(true)
         viewModelScope.launch {
-            val result = repository.getRfToiletListView(request)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
+            try {
+                val result = repository.getRfToiletListView(request)
+                _getRfToiletListView.postValue(result) // ✅ Correct LiveData used here
+            } catch (e: Exception) {
+                _getRfToiletListView.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _loading.postValue(false)
             }
-            _getRfToiletListView.postValue(result)
-            _loading.postValue(false)
         }
     }
 
@@ -1197,12 +1201,15 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) {
     fun deleteToiletRoom(request: ToiletDeleteList) {
         _loading.postValue(true)
         viewModelScope.launch {
-            val result = repository.deleteToiletRoom(request)
-            result.onFailure {
-                _errorMessage.postValue(it.message ?: "Unknown error")
+            try {
+                val result = repository.deleteToiletRoom(request)
+                _deleteToiletRoom.postValue(result) // ✅ Correct LiveData used here
+            } catch (e: Exception) {
+                _deleteToiletRoom.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _loading.postValue(false)
             }
-            _deleteLivingRoom.postValue(result)
-            _loading.postValue(false)
         }
     }
 

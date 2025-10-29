@@ -28,6 +28,7 @@
         android:id="@+id/ivToiletDelete"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:layout_weight="1"
         android:layout_gravity="center"
         android:src="@drawable/baseline_delete_24" />
 </LinearLayout>

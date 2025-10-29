@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
+import com.deendayalproject.model.response.LivingRoomListItem
 import com.deendayalproject.model.response.ToiletItem
 
 class ToiletAdapter(
@@ -42,4 +43,15 @@ class ToiletAdapter(
         toiletList.addAll(newList)
         notifyDataSetChanged()
     }
+
+    fun removeItem(item: ToiletItem) {
+        val position = toiletList.indexOf(item)
+        if (position != -1) {
+            toiletList.removeAt(position)
+            notifyItemRemoved(position)
+        }
+    }
+
+
+
 }

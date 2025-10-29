@@ -2381,20 +2381,12 @@
                         android:text="Fire Fighting Equipment"
                         android:textStyle="bold" />
 
-                    <!-- TextInputLayout wrapping TextInputEditText -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Type here">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editFireFightingEquipment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/dp_5"
-                            android:layout_marginEnd="@dimen/dp_5"
-                            android:inputType="text" />
-                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Spinner
+                        android:id="@+id/spinnerFireFightingEquipment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
                     <Button
                         android:id="@+id/btnUploadFireFightingEquipment"

@@ -43,6 +43,7 @@ import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.StateRequest
+import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.BlockModel
@@ -50,6 +51,7 @@ import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.LivingRoomListItem
 import com.deendayalproject.model.response.StateModel
+import com.deendayalproject.model.response.ToiletItem
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.util.AppUtil
@@ -78,7 +80,7 @@ class ResidentialFacilityFragment : Fragment() {
     private var selectedRoomPermitted: Int = 0
     private var langValue: String = ""
     private var deletedItem: LivingRoomListItem? = null
-
+    private var deletedToiletItem: ToiletItem? = null
     private var base64PVDocFile: String? = null
     private var base64ALDocFile: String? = null
     private var base64OwnerBuildingDocFile: String? = null
@@ -608,6 +610,9 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
         observeViewModel()
         observeViewModelLivingAreaList()
+        observeViewModelToiletList()
+        observeDeleteToiletResponse()
+        setupToiletRecyclerView()
 
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
@@ -963,7 +968,6 @@ class ResidentialFacilityFragment : Fragment() {
                 ).show()
 
                 binding.layoutToiletsContent.gone()
-                binding.hideRecyclerToilet.gone()
                 isLivingAreaVisible = true
 
             }
@@ -2663,8 +2667,7 @@ class ResidentialFacilityFragment : Fragment() {
                 }
 
                 if (livingRoomAdapter.itemCount == 0) {
-                    binding.layoutTCBasicInfoContent.gone()
-                    isBasicInfoVisible = true
+                    isLivingAreaVisible = true
                 }
 
                 val rfLAreaListReq = LivingRoomReq(
@@ -2685,17 +2688,126 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
+/*
+    private fun observeDeleteToiletResponse() {
+        viewModel.deleteToiletRoom.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Toilet Deleted Successfully", Toast.LENGTH_SHORT).show()
 
+                deletedToiletItem?.let { item ->
+                    ToiletAdapter.removeItem(item)
+                    deletedToiletItem = null
+                }
 
-   /* private fun setupToiletRecyclerView() {
-        ToiletAdapter = ToiletAdapter(mutableListOf()) { toiletItem ->
-            // Handle delete click
-            deleteToilet(toiletItem)
-        }
-        binding.toiletRecycler.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = ToiletAdapter
+                if (ToiletAdapter.itemCount == 0) {
+                    isToiletsVisible = true
+                }
+
+                val request = LivingRoomReq(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerItem!!.trainingCenterId,
+                    sanctionOrder = centerItem!!.senctionOrder,
+                )
+                viewModel.getRfToiletListView(request)
+            }
+
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Delete failed: ${it.message}", Toast.LENGTH_LONG).show()
+            }
         }
     }
 */
+
+
+    private fun setupToiletRecyclerView() {
+        ToiletAdapter = ToiletAdapter(mutableListOf()) { toiletItem ->
+            showProgressBar()
+            deletedToiletItem = toiletItem
+
+            val deleteRequest = ToiletDeleteList(
+                appVersion = BuildConfig.VERSION_NAME,
+                rfToiletId = toiletItem.rfToiletId.toString()
+            )
+
+            viewModel.deleteToiletRoom(deleteRequest)
+        }
+
+        binding.toiletRecycler.apply {
+            adapter = ToiletAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun observeViewModelToiletList() {
+        viewModel.getRfToiletListView.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                when (it.responseCode) {
+                    200 -> {
+                        ToiletAdapter.updateData(it.wrappedList)
+                    }
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No Toilet data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun observeDeleteToiletResponse() {
+        viewModel.deleteToiletRoom.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Toilet Deleted Successfully", Toast.LENGTH_SHORT).show()
+
+                deletedToiletItem?.let { item ->
+                    ToiletAdapter.removeItem(item)
+                    deletedToiletItem = null
+                }
+
+                if (ToiletAdapter.itemCount == 0) {
+                    isToiletsVisible = true
+                }
+
+                // ✅ Re-fetch and immediately observe the updated list
+                val request = LivingRoomReq(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerItem!!.trainingCenterId,
+                    sanctionOrder = centerItem!!.senctionOrder,
+                )
+
+                viewModel.getRfToiletListView(request)
+
+                // ✅ Observe fresh result directly here
+                viewModel.getRfToiletListView.observe(viewLifecycleOwner) { listResult ->
+                    listResult.onSuccess { listResponse ->
+                        if (listResponse.responseCode == 200) {
+                            ToiletAdapter.updateData(listResponse.wrappedList)
+                        }
+                    }
+                }
+            }
+
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Delete failed: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
 }

@@ -878,7 +878,7 @@ class TrainingFragment : Fragment() {
     //Support Infra
     private lateinit var spinnerFirstAidKit: Spinner
     private lateinit var spinnerSafeDrinkingWater: Spinner
-    private lateinit var editFireFightingEquipment: EditText
+    private lateinit var spinnerFireFightingEquipment: Spinner
 
     // Safe Drinking Water
     private lateinit var ivSafeDrinkingWaterPreview: ImageView
@@ -2715,7 +2715,7 @@ class TrainingFragment : Fragment() {
         spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
 
         spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
-        editFireFightingEquipment = view.findViewById<TextInputEditText>(R.id.editFireFightingEquipment)
+        spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
 
 
 
@@ -2990,7 +2990,7 @@ class TrainingFragment : Fragment() {
         ivSafeDrinkingWaterPreview = view.findViewById(R.id.ivSafeDrinkingWaterPreview)
         spinnerFirstAidKit = view.findViewById(R.id.spinnerFirstAidKit)
         spinnerSafeDrinkingWater = view.findViewById(R.id.spinnerSafeDrinkingWater)
-        editFireFightingEquipment = view.findViewById<TextInputEditText>(R.id.editFireFightingEquipment)
+        spinnerFireFightingEquipment = view.findViewById(R.id.spinnerFireFightingEquipment)
 
         // ImageView preview  commmon equipment IDs
         ivPowerBackupPreview = view.findViewById(R.id.ivPowerBackupPreview)
@@ -3476,6 +3476,7 @@ class TrainingFragment : Fragment() {
         spinnerTCRCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
         spinnerTCRDoes_the_room_has.setAdapter(yesNoAdapter)
         spinnerTCRPowerBackup.setAdapter(yesNoAdapter)
+        spinnerFireFightingEquipment.setAdapter(yesNoAdapter)
 
 
 
@@ -5384,8 +5385,8 @@ class TrainingFragment : Fragment() {
                             val spinnerDetailsMap = mutableMapOf<Any, String?>()
                             val imagesMap = mutableMapOf<ImageView, String?>()
 
-                            editFireFightingEquipment.setText(x.fireFighterEquip)
 
+                            spinnerDetailsMap[spinnerFireFightingEquipment] = x.fireFighterEquip
                             spinnerDetailsMap[spinnerSafeDrinkingWater] = x.drinkingWater
                             spinnerDetailsMap[spinnerFirstAidKit] = x.firstAidKit
 
@@ -5713,38 +5714,73 @@ class TrainingFragment : Fragment() {
         }
     }
 
-    private fun validateCCTVForm(view: View): Boolean {
-        val spinnerOk = listOf(
-            R.id.spinnerMonitorAccessible,
-            R.id.spinnerConformance,
-            R.id.spinnerStorage,
-            R.id.spinnerDVRStaticIP,
-            R.id.spinnerIPEnabled,
-            R.id.spinnerResolution,
-            R.id.spinnerVideoStream,
-            R.id.spinnerRemoteAccessBrowser,
-            R.id.spinnerSimultaneousAccess,
-            R.id.spinnerSupportedProtocols,
-            R.id.spinnerColorVideoAudio,
-            R.id.spinnerStorageFacility
-        ).all {
-            view.findViewById<Spinner>(it).selectedItem.toString() != "--Select--"
-        }
 
-        val photosOk = base64MonitorFile != null && base64ConformanceFile != null &&
-                base64StorageFile != null && base64DVRFile != null
-        return spinnerOk && photosOk
-    }
+private fun validateCCTVForm(view: View): Boolean {
+    // Step 1: Get spinner references
+    val spinnerMonitorAccessible = view.findViewById<Spinner>(R.id.spinnerMonitorAccessible)
+    val spinnerConformance = view.findViewById<Spinner>(R.id.spinnerConformance)
+    val spinnerStorage = view.findViewById<Spinner>(R.id.spinnerStorage)
+    val spinnerDVRStaticIP = view.findViewById<Spinner>(R.id.spinnerDVRStaticIP)
+
+    // Step 2: Validate all spinners are selected (not "--Select--")
+    val spinnerOk = listOf(
+        spinnerMonitorAccessible,
+        spinnerConformance,
+        spinnerStorage,
+        spinnerDVRStaticIP,
+        view.findViewById(R.id.spinnerIPEnabled),
+        view.findViewById(R.id.spinnerResolution),
+        view.findViewById(R.id.spinnerVideoStream),
+        view.findViewById(R.id.spinnerRemoteAccessBrowser),
+        view.findViewById(R.id.spinnerSimultaneousAccess),
+        view.findViewById(R.id.spinnerSupportedProtocols),
+        view.findViewById(R.id.spinnerColorVideoAudio),
+        view.findViewById(R.id.spinnerStorageFacility)
+    ).all { it.selectedItem.toString() != "--Select--" }
+
+    // Step 3: Conditional photo validation based on spinner values
+    val monitorOk = if (spinnerMonitorAccessible.selectedItem.toString() == "Yes") {
+        !base64MonitorFile.isNullOrEmpty()
+    } else true
+
+    val conformanceOk = if (spinnerConformance.selectedItem.toString() == "Yes") {
+        !base64ConformanceFile.isNullOrEmpty()
+    } else true
+
+    val storageOk = if (spinnerStorage.selectedItem.toString() == "Yes") {
+        !base64StorageFile.isNullOrEmpty()
+    } else true
+
+    val dvrOk = if (spinnerDVRStaticIP.selectedItem.toString() == "Yes") {
+        !base64DVRFile.isNullOrEmpty()
+    } else true
+
+    // Step 4: Combine all conditions
+    return spinnerOk && monitorOk && conformanceOk && storageOk && dvrOk
+}
 
     private fun validateElectricalForm(view: View): Boolean {
-        val switchSelected =
-            view.findViewById<Spinner>(R.id.spinnerSwitchBoards).selectedItem != "--Select--"
-        val wireSelected =
-            view.findViewById<Spinner>(R.id.spinnerSecure).selectedItem != "--Select--"
-        val photosOk = base64SwitchBoardImage != null && base64WireSecurityImage != null
-        return switchSelected && wireSelected && photosOk
+        val spinnerSwitchBoards = view.findViewById<Spinner>(R.id.spinnerSwitchBoards)
+        val spinnerSecure = view.findViewById<Spinner>(R.id.spinnerSecure)
+
+        // Step 1: Ensure spinners are selected
+        val switchSelected = spinnerSwitchBoards.selectedItem.toString() != "--Select--"
+        val wireSelected = spinnerSecure.selectedItem.toString() != "--Select--"
+
+        // Step 2: Conditional image validation
+        val switchPhotoOk = if (spinnerSwitchBoards.selectedItem.toString() == "Yes") {
+            !base64SwitchBoardImage.isNullOrEmpty()
+        } else true
+
+        val wirePhotoOk = if (spinnerSecure.selectedItem.toString() == "Yes") {
+            !base64WireSecurityImage.isNullOrEmpty()
+        } else true
+
+        // Step 3: Final validation
+        return switchSelected && wireSelected && switchPhotoOk && wirePhotoOk
     }
 
+/*
     private fun validateGeneralDetailsForm(): Boolean {
         return spinnerLeakageCheck.selectedItem.toString() != "--Select--"
                 && spinnerProtectionStairs.selectedItem.toString() != "--Select--"
@@ -5753,7 +5789,28 @@ class TrainingFragment : Fragment() {
                 && base64LeakageImage != null
                 && base64StairsImage != null
     }
+*/
+private fun validateGeneralDetailsForm(): Boolean {
+    val leakageSelected = spinnerLeakageCheck.selectedItem.toString() != "--Select--"
+    val stairsSelected = spinnerProtectionStairs.selectedItem.toString() != "--Select--"
+    val dduSelected = spinnerDDUConformance.selectedItem.toString() != "--Select--"
+    val safetySelected = spinnerCandidateSafety.selectedItem.toString() != "--Select--"
 
+    // Conditional validation
+    val leakagePhotoOk = if (spinnerLeakageCheck.selectedItem.toString() == "Yes") {
+        !base64LeakageImage.isNullOrEmpty()
+    } else true
+
+    val stairsPhotoOk = if (spinnerProtectionStairs.selectedItem.toString() == "Yes") {
+        !base64StairsImage.isNullOrEmpty()
+    } else true
+
+    return leakageSelected && stairsSelected && dduSelected && safetySelected &&
+            leakagePhotoOk && stairsPhotoOk
+}
+
+
+/*
     private fun validateSupportInfrastructure(): Boolean {
         var isValid = true
 
@@ -5784,12 +5841,62 @@ class TrainingFragment : Fragment() {
 
         // Validate Safe Drinking Water spinner
         if (!checkSpinner(spinnerSafeDrinkingWater, "Safe Drinking Water")) isValid = false
-
-        // Validate Fire Fighting Equipment EditText
-        if (!checkEditText(editFireFightingEquipment, "Fire Fighting Equipment")) isValid = false
+        if (!checkSpinner(spinnerFireFightingEquipment, "Fire Fighting Equipment")) isValid = false
 
         return isValid
     }
+*/
+
+
+    private fun validateSupportInfrastructure(): Boolean {
+        var isValid = true
+
+        // Helper function to check spinner selection
+        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+            return if (spinner.selectedItemPosition == 0) {
+                spinner.requestFocus()
+                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                false
+            } else {
+                true
+            }
+        }
+
+        // Helper function to check EditText input (if used)
+        fun checkEditText(editText: EditText, fieldName: String): Boolean {
+            return if (editText.text.toString().trim().isEmpty()) {
+                editText.error = "Please enter $fieldName"
+                editText.requestFocus()
+                false
+            } else {
+                true
+            }
+        }
+
+        // ✅ Validate Spinner Selections
+        if (!checkSpinner(spinnerSafeDrinkingWater, "Safe Drinking Water")) isValid = false
+        if (!checkSpinner(spinnerFireFightingEquipment, "Fire Fighting Equipment")) isValid = false
+        if (!checkSpinner(spinnerFirstAidKit, "First Aid Kit")) isValid = false
+
+        // ✅ Conditional Image Validations (for "Yes" selections)
+        if (spinnerSafeDrinkingWater.selectedItem.toString() == "Yes" && base64SafeDrinkingWater.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Safe Drinking Water", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerFireFightingEquipment.selectedItem.toString() == "Yes" && base64FireFightingEquipment.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Fire Fighting Equipment", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerFirstAidKit.selectedItem.toString() == "Yes" && base64FirstAidKit.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for First Aid Kit", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        return isValid
+    }
+
 
     private fun validateTcBasicInfoFields(): Boolean {
         var isValid = true
@@ -5821,6 +5928,7 @@ class TrainingFragment : Fragment() {
         return isValid
     }
 
+/*
     private fun validateCommonEquipment(): Boolean {
         var isValid = true
 
@@ -5864,7 +5972,77 @@ class TrainingFragment : Fragment() {
 
         return isValid
     }
+*/
 
+    private fun validateCommonEquipment(): Boolean {
+        var isValid = true
+
+        // Helper function to check spinner selection
+        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+            return if (spinner.selectedItemPosition == 0) {
+                spinner.requestFocus()
+                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                false
+            } else true
+        }
+
+        // Helper function to check TextInputEditText input
+        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
+            return if (editText.text.isNullOrBlank()) {
+                editText.error = "Please enter $fieldName"
+                editText.requestFocus()
+                false
+            } else true
+        }
+
+        // ✅ Validate all required Spinners
+        if (!checkSpinner(spinnerPowerBackup, "Electrical Power Backup")) isValid = false
+        if (!checkSpinner(spinnerCCTV, "Installation of CCTV Monitor")) isValid = false
+        if (!checkSpinner(spinnerDocumentStorage, "Storage Place for Securing Documents")) isValid = false
+        if (!checkSpinner(spinnerGrievanceRegister, "Grievance Register")) isValid = false
+        if (!checkSpinner(spinnerMinimumEquipment, "Minimum Equipment as per SF 5.1P")) isValid = false
+        if (!checkSpinner(spinnerDirectionBoards, "Direction Boards")) isValid = false
+
+        // ✅ Conditional image validation
+        if (spinnerPowerBackup.selectedItem.toString() == "Yes" && base64PowerBackupImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Electrical Power Backup", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerCCTV.selectedItem.toString() == "Yes" && base64CCTVImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for CCTV Installation", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerDocumentStorage.selectedItem.toString() == "Yes" && base64DocumentStorageImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Document Storage", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerGrievanceRegister.selectedItem.toString() == "Yes" && base64GrievanceRegisterImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Grievance Register", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerMinimumEquipment.selectedItem.toString() == "Yes" && base64MinimumEquipmentImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Minimum Equipment", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerDirectionBoards.selectedItem.toString() == "Yes" && base64DirectionBoardsImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Direction Boards", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        // ✅ Validate required TextInputEditTexts
+        if (!checkTextInput(etBiometricDevices, "Biometric Devices details")) isValid = false
+        if (!checkTextInput(etPrinterScanner, "Printer Cum Scanner number")) isValid = false
+        if (!checkTextInput(etDigitalCamera, "Digital Camera number")) isValid = false
+
+        return isValid
+    }
+
+/*
     private fun validateSignagesInfoBoards(): Boolean {
         var isValid = true
 
@@ -5890,6 +6068,70 @@ class TrainingFragment : Fragment() {
         if (!checkSpinner(spinnerCodeConductBoard, "Code of Conduct Board")) isValid = false
         if (!checkSpinner(spinnerStudentAttendanceBoard, "Attendance Summary Board")) isValid =
             false
+
+        return isValid
+    }
+*/
+
+
+    private fun validateSignagesInfoBoards(): Boolean {
+        var isValid = true
+
+        // Helper function to check spinner selection
+        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+            return if (spinner.selectedItemPosition == 0) {
+                spinner.requestFocus()
+                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+                false
+            } else {
+                true
+            }
+        }
+
+        // ✅ Validate all spinner selections
+        if (!checkSpinner(spinnerTcNameBoard, "Training Centre Name Board")) isValid = false
+        if (!checkSpinner(spinnerActivityAchievementBoard, "Activity Summary Board")) isValid = false
+        if (!checkSpinner(spinnerStudentEntitlementBoard, "Student Entitlement Board")) isValid = false
+        if (!checkSpinner(spinnerContactDetailBoard, "Contact Detail Board")) isValid = false
+        if (!checkSpinner(spinnerBasicInfoBoard, "Basic Info Board")) isValid = false
+        if (!checkSpinner(spinnerCodeConductBoard, "Code of Conduct Board")) isValid = false
+        if (!checkSpinner(spinnerStudentAttendanceBoard, "Attendance Summary Board")) isValid = false
+
+        // ✅ Conditional image validations (for "Yes" selections)
+        if (spinnerTcNameBoard.selectedItem.toString() == "Yes" && base64TcNameBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Training Centre Name Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerActivityAchievementBoard.selectedItem.toString() == "Yes" && base64ActivityAchievementBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Activity Summary Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerStudentEntitlementBoard.selectedItem.toString() == "Yes" && base64StudentEntitlementBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Student Entitlement Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerContactDetailBoard.selectedItem.toString() == "Yes" && base64ContactDetailBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Contact Detail Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerBasicInfoBoard.selectedItem.toString() == "Yes" && base64BasicInfoBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Basic Info Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerCodeConductBoard.selectedItem.toString() == "Yes" && base64CodeConductBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Code of Conduct Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+
+        if (spinnerStudentAttendanceBoard.selectedItem.toString() == "Yes" && base64StudentAttendanceBoardImage.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Please upload image for Attendance Summary Board", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
 
         return isValid
     }
@@ -5981,6 +6223,8 @@ class TrainingFragment : Fragment() {
 
         return isValid
     }
+
+
     private fun submitCCTVData(view: View) {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6150,8 +6394,7 @@ class TrainingFragment : Fragment() {
             .getString("ACCESS_TOKEN", "") ?: ""
         val firstAidKit = spinnerFirstAidKit.selectedItem.toString()
         val safeDrinkingWater = spinnerSafeDrinkingWater.selectedItem.toString()
-        val fireFightingEquipment =
-            view?.findViewById<TextInputEditText>(R.id.editFireFightingEquipment)?.text.toString()
+        val fireFightingEquipment = spinnerFireFightingEquipment.selectedItem.toString()
 
         val request = TcAvailabilitySupportInfraRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -6168,6 +6411,7 @@ class TrainingFragment : Fragment() {
         )
         viewModel.submitTcSupportInfraDataToserver(request, token)
     }
+
     private fun submitCommonEquipment() {
         val token = requireContext()
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
