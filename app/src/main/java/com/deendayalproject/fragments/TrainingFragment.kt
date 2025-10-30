@@ -5715,7 +5715,8 @@ class TrainingFragment : Fragment() {
     }
 
 
-private fun validateCCTVForm(view: View): Boolean {
+
+    private fun validateCCTVForm(view: View): Boolean {
     // Step 1: Get spinner references
     val spinnerMonitorAccessible = view.findViewById<Spinner>(R.id.spinnerMonitorAccessible)
     val spinnerConformance = view.findViewById<Spinner>(R.id.spinnerConformance)
@@ -5780,17 +5781,7 @@ private fun validateCCTVForm(view: View): Boolean {
         return switchSelected && wireSelected && switchPhotoOk && wirePhotoOk
     }
 
-/*
     private fun validateGeneralDetailsForm(): Boolean {
-        return spinnerLeakageCheck.selectedItem.toString() != "--Select--"
-                && spinnerProtectionStairs.selectedItem.toString() != "--Select--"
-                && spinnerDDUConformance.selectedItem.toString() != "--Select--"
-                && spinnerCandidateSafety.selectedItem.toString() != "--Select--"
-                && base64LeakageImage != null
-                && base64StairsImage != null
-    }
-*/
-private fun validateGeneralDetailsForm(): Boolean {
     val leakageSelected = spinnerLeakageCheck.selectedItem.toString() != "--Select--"
     val stairsSelected = spinnerProtectionStairs.selectedItem.toString() != "--Select--"
     val dduSelected = spinnerDDUConformance.selectedItem.toString() != "--Select--"
@@ -5808,44 +5799,6 @@ private fun validateGeneralDetailsForm(): Boolean {
     return leakageSelected && stairsSelected && dduSelected && safetySelected &&
             leakagePhotoOk && stairsPhotoOk
 }
-
-
-/*
-    private fun validateSupportInfrastructure(): Boolean {
-        var isValid = true
-
-        // Helper function to check spinner selection
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        // Helper function to check EditText input
-        fun checkEditText(editText: EditText, fieldName: String): Boolean {
-            return if (editText.text.toString().trim().isEmpty()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-        // Validate First Aid Kit spinner
-        if (!checkSpinner(spinnerFirstAidKit, "First Aid Kit")) isValid = false
-
-        // Validate Safe Drinking Water spinner
-        if (!checkSpinner(spinnerSafeDrinkingWater, "Safe Drinking Water")) isValid = false
-        if (!checkSpinner(spinnerFireFightingEquipment, "Fire Fighting Equipment")) isValid = false
-
-        return isValid
-    }
-*/
 
 
     private fun validateSupportInfrastructure(): Boolean {
@@ -5928,51 +5881,6 @@ private fun validateGeneralDetailsForm(): Boolean {
         return isValid
     }
 
-/*
-    private fun validateCommonEquipment(): Boolean {
-        var isValid = true
-
-        // Helper function to check spinner selection
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        // Helper function to check TextInputEditText input
-        fun checkTextInput(editText: TextInputEditText, fieldName: String): Boolean {
-            return if (editText.text.isNullOrBlank()) {
-                editText.error = "Please enter $fieldName"
-                editText.requestFocus()
-                false
-            } else {
-                true
-            }
-        }
-
-        // Validate all required Spinners
-        if (!checkSpinner(spinnerPowerBackup, "Electrical Power Backup")) isValid = false
-        if (!checkSpinner(spinnerCCTV, "Installation of CCTV Monitor")) isValid = false
-        if (!checkSpinner(spinnerDocumentStorage, "Storage Place for Securing Documents")) isValid =
-            false
-        if (!checkSpinner(spinnerGrievanceRegister, "Grievance Register")) isValid = false
-        if (!checkSpinner(spinnerMinimumEquipment, "Minimum Equipment as per SF 5.1P")) isValid =
-            false
-        if (!checkSpinner(spinnerDirectionBoards, "Direction Boards")) isValid = false
-
-        // Validate required TextInputEditTexts
-        if (!checkTextInput(etBiometricDevices, "Biometric Devices details")) isValid = false
-        if (!checkTextInput(etPrinterScanner, "Printer Cum Scanner number")) isValid = false
-        if (!checkTextInput(etDigitalCamera, "Digital Camera number")) isValid = false
-
-        return isValid
-    }
-*/
 
     private fun validateCommonEquipment(): Boolean {
         var isValid = true
@@ -6041,37 +5949,6 @@ private fun validateGeneralDetailsForm(): Boolean {
 
         return isValid
     }
-
-/*
-    private fun validateSignagesInfoBoards(): Boolean {
-        var isValid = true
-
-        // Helper function to check spinner selection
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            return if (spinner.selectedItemPosition == 0) {
-                spinner.requestFocus()
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT)
-                    .show()
-                false
-            } else {
-                true
-            }
-        }
-
-        if (!checkSpinner(spinnerTcNameBoard, "Training Centre Name Board")) isValid = false
-        if (!checkSpinner(spinnerActivityAchievementBoard, "Activity Summary Board")) isValid =
-            false
-        if (!checkSpinner(spinnerStudentEntitlementBoard, "Student Entitlement Board")) isValid =
-            false
-        if (!checkSpinner(spinnerContactDetailBoard, "Contact Detail Board")) isValid = false
-        if (!checkSpinner(spinnerBasicInfoBoard, "Basic Info Board")) isValid = false
-        if (!checkSpinner(spinnerCodeConductBoard, "Code of Conduct Board")) isValid = false
-        if (!checkSpinner(spinnerStudentAttendanceBoard, "Attendance Summary Board")) isValid =
-            false
-
-        return isValid
-    }
-*/
 
 
     private fun validateSignagesInfoBoards(): Boolean {
@@ -6254,6 +6131,7 @@ private fun validateGeneralDetailsForm(): Boolean {
         )
         viewModel.submitCCTVDataToServer(request, token)
     }
+
     private fun submitElectricalData(view: View) {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6272,28 +6150,7 @@ private fun validateGeneralDetailsForm(): Boolean {
         viewModel.submitElectricalData(request, token)
     }
 
-    /*
-        private fun submitGeneralDetails() {
-            val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
-                .getString("ACCESS_TOKEN", "") ?: ""
 
-            val request = InsertTcGeneralDetailsRequest(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                imeiNo = AppUtil.getAndroidId(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                signLeakages = dropdownLeakageCheck.selectedItem.toString(),
-                signLeakagesImage = base64LeakageImage ?: "",
-                stairsProtection = dropdownProtectionStairs.selectedItem.toString(),
-                stairsProtectionImage = base64StairsImage ?: "",
-                dduConformance = dropdownDDUConformance.selectedItem.toString(),
-                centerSafety = dropdownCandidateSafety.selectedItem.toString(),
-                tcId = centerId,
-                sanctionOrder = AppUtil.getSavedSanctionOrder(requireContext())
-            )
-            viewModel.submitGeneralDetails(request, token)
-
-        }
-    */
     private fun submitGeneralDetails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6346,7 +6203,7 @@ private fun validateGeneralDetailsForm(): Boolean {
         )
         viewModel.submitTcBasicDataToServer(request, token)
     }
-    //Rohit Signages Info Details
+
     private fun submitSignagesInfoBoards() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6389,6 +6246,7 @@ private fun validateGeneralDetailsForm(): Boolean {
         )
         viewModel.submitTcInfoSignageDataToServer(request, token)
     }
+
     private fun submitInfraDetails() {
         val token = requireContext().getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
             .getString("ACCESS_TOKEN", "") ?: ""
@@ -6464,6 +6322,7 @@ private fun validateGeneralDetailsForm(): Boolean {
 
         viewModel.submitTcCommonEquipment(request, token)
     }
+
     private fun submitDescriptionOtherAreas() {
         val token = requireContext()
             .getSharedPreferences("MY_PREFS", Context.MODE_PRIVATE)
