@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/color_light_grey">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/dp_100">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:background="@color/color_dark_blue"
+            android:elevation="4dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/back_arrow" />
+
+            <TextView
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="wrap_content"
+                android:text="@string/toilet_room_information"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="150dp"
+                android:layout_height="@dimen/dp_60"
+                android:layout_gravity="end"
+                android:background="@color/white"
+                android:padding="@dimen/dp_5"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ddy_logo"
+                app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Content Fields -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/IDetailsComplainExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:elevation="@dimen/dp_2"
+            android:padding="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/laiHeading"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/residential_areas"
+                android:textColor="@color/color_green"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/labeltriTypeOfFlooring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/type_of_flooring"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/flooring"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeading" />
+
+            <TextView
+                android:id="@+id/triTypeOfFlooring"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labeltriTypeOfFlooring" />
+
+            <TextView
+                android:id="@+id/laiTypeOfFlooringFile"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/triTypeOfFlooring" />
+
+            <TextView
+                android:id="@+id/labelConnectionToRunningWater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/connection_to_running_water"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/drinkin_water"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiTypeOfFlooringFile" />
+
+            <TextView
+                android:id="@+id/ConnectionToRunningWater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelConnectionToRunningWater" />
+
+            <TextView
+                android:id="@+id/ConnectionToRunningWaterFile"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ConnectionToRunningWater" />
+
+
+            <TextView
+                android:id="@+id/labelToiletType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/toilet_type"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/toilet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ConnectionToRunningWaterFile" />
+
+            <TextView
+                android:id="@+id/ToiletType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelToiletType" />
+
+            <TextView
+                android:id="@+id/triToiletTypeView"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ToiletType" />
+
+
+            <!--        <TextView-->
+            <!--            android:id="@+id/valueConformanceCCTV"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="@string/view"-->
+            <!--            android:textColor="@color/color_dark_blue"-->
+            <!--            android:layout_marginStart="@dimen/dp_35"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/yesNoConformanceCCTV"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+            <TextView
+                android:id="@+id/labelTriLights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/lights"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/triToiletTypeView" />
+
+            <TextView
+                android:id="@+id/TriLights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelTriLights" />
+
+                    <TextView
+                        android:id="@+id/TriLightsFile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view"
+                        android:textColor="@color/color_dark_blue"
+                        android:layout_marginStart="@dimen/dp_35"
+                        app:layout_constraintTop_toBottomOf="@id/TriLights"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+
+
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiLength"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:visibility=""-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/length_in_ft"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/lan"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/roof_building_label" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiLength"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiLength" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiLengthFile"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiLength" />-->
+
+
+<!--            &lt;!&ndash; 1. IP Enabled &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiWidth"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/width_in_ft"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/lan"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiLengthFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiWidth"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiWidth" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiWidthFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:visibility="gone"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiWidth" />-->
+
+
+<!--            &lt;!&ndash; 2. Resolution &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiArea"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/area_in_sq_ft"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/cctv"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiWidthFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiArea"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiArea" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiAreaFile"-->
+<!--                android:visibility="gone"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiArea" />-->
+
+
+<!--            &lt;!&ndash; 3. Video Stream &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiwindowsArea"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/window_area_in_sq_ft"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/baseline_videostream"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiAreaFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiwindowsArea"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiwindowsArea" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiwindowsAreaFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsArea" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiSleepingAndStoringMaterialHeading"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:gravity="center"-->
+<!--                android:text="@string/sleeping_and_storing_material"-->
+<!--                android:textColor="@color/color_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsAreaFile" />-->
+
+<!--            &lt;!&ndash; 4. Remote Access (Web) &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiCotInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/cot_in_no"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/internet"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiSleepingAndStoringMaterialHeading" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiCotInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiCotInNo" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiCotInNoFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNo" />-->
+
+
+<!--            &lt;!&ndash; 5. Remote Access (10 users) &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiMattersInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/mattress_in_no"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/office_room"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNoFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiMattersInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiMattersInNo" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiMattersInNoFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNo" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiBedSheetInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:gravity="center"-->
+<!--                app:drawableStartCompat="@drawable/office_room"-->
+<!--                android:text="@string/bed_sheet_in_no"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNoFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiBedSheetInNo"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiBedSheetInNo" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/laiBedSheetInNoFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNo" />-->
+
+
+<!--            &lt;!&ndash; 7. Color video with audio &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiAirCondtion"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/does_the_room_has_air_conditioning"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/audio"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNoFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiAirCondtion"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiAirCondtion" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiAirCondtionFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtion" />-->
+
+
+
+
+<!--            &lt;!&ndash; 8. Storage Facility &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/LabellaiLights"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/lights_in_no"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/backup"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtionFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiLights"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/LabellaiLights" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiLightsFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiLights" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiStorage"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/storage_place_for_securing_documents"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/backup"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiLightsFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiStorage"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiStorage" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiStorageFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiStorage" />-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/labellaiBasicInformationBoard"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:text="@string/basic_information_board"-->
+<!--                android:textColor="@color/color_dark_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                app:drawableStartCompat="@drawable/backup"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/laiStorageFile" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/LiaBasicInformationBoard"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/n_a"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/labellaiBasicInformationBoard" />-->
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
