@@ -15,6 +15,7 @@ import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
+import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
@@ -34,6 +35,7 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
@@ -79,6 +81,7 @@ import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
@@ -378,5 +381,20 @@ interface ApiService {
 
     @POST(value ="deleteLivingRoom")
     suspend fun deleteLivingRoom(@Body request: DeleteLivingRoomList) : Response<LivingAreaDelete>
+
+
+    @POST(value ="toiletRoomListView")
+    suspend fun getRfToiletListView(@Body request: LivingRoomReq) : Response<ToiletListRes>
+
+
+
+    @POST(value ="deleteToiletRoom")
+    suspend fun deleteToiletRoom(@Body request: ToiletDeleteList) : Response<LivingAreaDelete>
+
+
+
+    @POST(value = "insertRfToiletRoomInformation")
+    suspend fun insertRfToiletRoomInformation(@Body request: InsertToiletDataReq) : Response<ITLAbDetailsErrorResponse>
+
 
 }

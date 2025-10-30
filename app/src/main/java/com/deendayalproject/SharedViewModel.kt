@@ -19,6 +19,7 @@ import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LivingRoomListViewRQ
+import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -37,6 +38,7 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
@@ -83,6 +85,7 @@ import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
@@ -970,6 +973,24 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+    private val _SubmitRfToiletDataToServer = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val SubmitRfToiletDataToServer: LiveData<Result<ITLAbDetailsErrorResponse>> = _SubmitRfToiletDataToServer
+
+
+
+    fun SubmitRfToiletDataToServer(request: InsertToiletDataReq, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfToiletRoomInformation(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _SubmitRfToiletDataToServer.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
 
 
     //    Theory Class Room
@@ -1212,5 +1233,49 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
         }
     }
 
+
+
+
+
+
+    private val _getRfToiletListView = MutableLiveData<Result<ToiletListRes>>()
+    val getRfToiletListView: LiveData<Result<ToiletListRes>> = _getRfToiletListView
+
+
+    fun getRfToiletListView(request: LivingRoomReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            try {
+                val result = repository.getRfToiletListView(request)
+                _getRfToiletListView.postValue(result) // ✅ Correct LiveData used here
+            } catch (e: Exception) {
+                _getRfToiletListView.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _loading.postValue(false)
+            }
+        }
+    }
+
+
+
+
+    private val _deleteToiletRoom = MutableLiveData<Result<LivingAreaDelete>>()
+    val deleteToiletRoom: LiveData<Result<LivingAreaDelete>> = _deleteToiletRoom
+
+    fun deleteToiletRoom(request: ToiletDeleteList) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            try {
+                val result = repository.deleteToiletRoom(request)
+                _deleteToiletRoom.postValue(result) // ✅ Correct LiveData used here
+            } catch (e: Exception) {
+                _deleteToiletRoom.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _loading.postValue(false)
+            }
+        }
+    }
 
 }

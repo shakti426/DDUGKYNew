@@ -724,6 +724,10 @@
     <string name="add_living_area">+Add Living Area</string>
 
     <string name="training_center_id">Training Center ID</string>
+    <string name="toilet_id">Toilet Id</string>
+    <string name="delete">Delete</string>
+    <string name="add_more_toilet">+Add Toilet</string>
+    <string name="training_center">Training Center</string>
     <string name="toiletid">ToiletId</string>
     <string name="toilet_type">Toilet Type</string>
     <string name="proof_og_image_it_cum_domain_lab_photograph">Proof og Image IT cum Domain Lab Photograph</string>
