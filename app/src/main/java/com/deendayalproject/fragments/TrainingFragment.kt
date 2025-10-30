@@ -3,6 +3,7 @@ package com.deendayalproject.fragments
 import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
@@ -18,6 +19,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -35,6 +37,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
@@ -71,8 +74,11 @@ import com.deendayalproject.util.ProgressDialogUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.internal.ViewUtils.hideKeyboard
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -85,6 +91,10 @@ class TrainingFragment : Fragment() {
 //{
 //        IT (LAB)
 //    Spinner
+
+
+//    etOROfficeRoomPhotograph
+//            spinnerROfficeRoomPhotograph
 
     private lateinit var Academicadapter: AcademicAreaAdapter
     private var centersList = mutableListOf<wrappedList>()
@@ -113,8 +123,10 @@ class TrainingFragment : Fragment() {
 
 
     private lateinit var AcsdemicSpinner: Spinner
-    private lateinit var spinnerITLepbftr: Spinner
+    private lateinit var spinnerITLTypeofRoofItLab: Spinner
+    private lateinit var spinnerITLSoundLevelAsPerSpecifications: Spinner
     private lateinit var spinnerITLFalseCellingProvide: Spinner
+    private lateinit var spinnerITLepbftr: Spinner
     private lateinit var spinnerITLwhether_all_the_academic: Spinner
     private lateinit var spinnerITLAcademicRoomInformationBoard: Spinner
     private lateinit var spinnerITLInternalSignage: Spinner
@@ -126,10 +138,10 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerITLtLabPhotograph: Spinner
     private lateinit var spinnerITLDoes_the_room_has: Spinner
     //    TextInputEditText
-    private lateinit var etITLTypeofRoofItLab: TextInputEditText
+//    private lateinit var etITLTypeofRoofItLab: TextInputEditText
     private lateinit var etITLHeightOfCelling: TextInputEditText
     private lateinit var etITLVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etITLSoundLevelAsPerSpecifications: TextInputEditText
+//    private lateinit var etITLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etITLSoundLevelInDb: TextInputEditText
     private lateinit var etITLLanEnabledComputersInNo: TextInputEditText
     private lateinit var etITLTablets: TextInputEditText
@@ -188,14 +200,19 @@ class TrainingFragment : Fragment() {
 
     //            Office Cum(Counselling room)
 ////    Spinner
+//    private lateinit var spinnerOCCROfficeTable: Spinner
+    private lateinit var spinnerOCCRCumSplaceforSecuringDoc: Spinner
+    private lateinit var spinnerOCCRPhotograph: Spinner
+    private lateinit var spinnerOfficeCumTypeofRoofItLab: Spinner
     private lateinit var spinnerOfficeCumFalseCellingProvide: Spinner
     private lateinit var spinnerOfficeCumLepbftr: Spinner
     private lateinit var spinnerOfficeCumTableOfofficeCumpter: Spinner
     //    //    TextInputEditText
-    private lateinit var etOfficeRoomPhotograph: TextInputEditText
-    private lateinit var etOfficeCumTypeofRoofItLab: TextInputEditText
+//    private lateinit var etOfficeRoomPhotograph: TextInputEditText
+//    private lateinit var etOfficeCumTypeofRoofItLab: TextInputEditText
+    private lateinit var etOCCROfficeTable: TextInputEditText
     private lateinit var etOfficeCumHeightOfCelling: TextInputEditText
-    private lateinit var etOfficeCumSplaceforSecuringDoc: TextInputEditText
+//    private lateinit var etOfficeCumSplaceforSecuringDoc: TextInputEditText
     private lateinit var etOfficeCumAnOfficeTableNo: TextInputEditText
     private lateinit var etOfficeCumChairs: TextInputEditText
     private lateinit var etOfficeCumPrinterCumScannerInNo: TextInputEditText
@@ -206,6 +223,7 @@ class TrainingFragment : Fragment() {
     private var base64ProofOfficeCumFalseCellingProvide: String? = null
     private var base64ProofOfficeCumHeightOfCelling: String? = null
     private var base64ProofOfficeCumSplaceforSecuringDoc: String? = null
+    private var base64ProofOCCROfficeTable: String? = null
     private var base64ProofOfficeCumAnOfficeTableNo: String? = null
     private var base64ProofOfficeCumChairs: String? = null
     private var base64ProofOfficeCumTableOfofficeCumpter: String? = null
@@ -218,6 +236,7 @@ class TrainingFragment : Fragment() {
     private lateinit var ivPreviewOfficeCumFalseCellingProvide: ImageView
     private lateinit var ivPreviewOfficeCumHeightOfCelling: ImageView
     private lateinit var ivPreviewOfficeCumSplaceforSecuringDoc: ImageView
+    private lateinit var ivPreviewOCCROfficeTable: ImageView
     private lateinit var ivPreviewOfficeCumAnOfficeTableNo: ImageView
     private lateinit var ivPreviewOfficeCumChairs: ImageView
     private lateinit var ivPreviewOfficeCumTableOfofficeCumpter: ImageView
@@ -240,10 +259,10 @@ class TrainingFragment : Fragment() {
 
     //     OfficeRoom
 //      TextInputEditText
-    private lateinit var etOROfficeRoomPhotograph: TextInputEditText
-    private lateinit var etORTypeofRoofItLab: TextInputEditText
+//    private lateinit var etOROfficeRoomPhotograph: TextInputEditText
+//    private lateinit var etORTypeofRoofItLab: TextInputEditText
     private lateinit var etORHeightOfCelling: TextInputEditText
-    private lateinit var etORSplaceforSecuringDoc: TextInputEditText
+//    private lateinit var etORSplaceforSecuringDoc: TextInputEditText
     private lateinit var etORAnOfficeTableNo: TextInputEditText
     private lateinit var etORChairs: TextInputEditText
     private lateinit var etORPrinterCumScannerInNo: TextInputEditText
@@ -251,6 +270,11 @@ class TrainingFragment : Fragment() {
 
 
     //    Spinner
+
+
+    private lateinit var spinnerORTypeofRoofItLab: Spinner
+    private lateinit var spinnerORSplaceforSecuringDoc: Spinner
+    private lateinit var spinnerROfficeRoomPhotograph: Spinner
     private lateinit var spinnerORFalseCellingProvide: Spinner
     private lateinit var spinnerORTableOfofficeCumpter: Spinner
     private lateinit var spinnerORPOEPBFTR: Spinner
@@ -294,21 +318,28 @@ class TrainingFragment : Fragment() {
 
 
     //      TextInputEditText
-    private lateinit var etITCDLTypeofRoofItLab: TextInputEditText
-    private lateinit var etITCDLFalseCellingProvide: TextInputEditText
+//    private lateinit var etITCDLTypeofRoofItLab: TextInputEditText
+//    private lateinit var etITCDLFalseCellingProvide: TextInputEditText
     private lateinit var etITCDLHeightOfCelling: TextInputEditText
     private lateinit var etITCDLVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etITCDLSoundLevelAsPerSpecifications: TextInputEditText
+//    private lateinit var etITCDLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etITCDLabSoundLevelInDb: TextInputEditText
     private lateinit var etITCDLLanEnabledComputersInNo: TextInputEditText
     private lateinit var etITCDLTablets: TextInputEditText
     private lateinit var etITCDLStoolsChairs: TextInputEditText
     private lateinit var etITCDLLightsInNo: TextInputEditText
     private lateinit var etITCDLFansInNo: TextInputEditText
-    private lateinit var etITCDLItLabPhotograph: TextInputEditText
+//    private lateinit var etITCDLItLabPhotograph: TextInputEditText
     private lateinit var etITCDLListofDomain: TextInputEditText
 
     //    Spinner
+
+
+
+    private lateinit var spinnerITCDLSoundLevelAsPerSpecifications: Spinner
+    private lateinit var spinnerITCDLItLabPhotograph: Spinner
+    private lateinit var spinnerITCDLTypeofRoofItLab: Spinner
+    private lateinit var spinnerITCDLFalseCellingProvide: Spinner
     private lateinit var spinnerITCDLwhether_all_the_academic: Spinner
     private lateinit var spinnerITCDLAcademicRoomInformationBoard: Spinner
     private lateinit var spinnerITCDLInternalSignage: Spinner
@@ -384,21 +415,29 @@ class TrainingFragment : Fragment() {
 
     //      TextInputEditText
     private lateinit var etTCILListofDomain: TextInputEditText
-    private lateinit var etTCILTypeofRoofItLab: TextInputEditText
-    private lateinit var etTCILFalseCellingProvide: TextInputEditText
+//    private lateinit var etTCILTypeofRoofItLab: TextInputEditText
+//    private lateinit var etTCILFalseCellingProvide: TextInputEditText
     private lateinit var etTCILHeightOfCelling: TextInputEditText
     private lateinit var etTCILVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etTCILSoundLevelAsPerSpecifications: TextInputEditText
+//    private lateinit var etTCILSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etTCILSoundLevelInDb: TextInputEditText
     private lateinit var etTCILLanEnabledComputersInNo: TextInputEditText
     private lateinit var etTCILTablets: TextInputEditText
     private lateinit var etTCILStoolsChairs: TextInputEditText
-    private lateinit var etTCILTrainerChair: TextInputEditText
-    private lateinit var etTCILTrainerTable: TextInputEditText
+//    private lateinit var etTCILTrainerChair: TextInputEditText
+//    private lateinit var etTCILTrainerTable: TextInputEditText
     private lateinit var etTCILLightsInNo: TextInputEditText
     private lateinit var etTCILFansInNo: TextInputEditText
-    private lateinit var etTCILTheoryCumItLabPhotogragh: TextInputEditText
+//    private lateinit var etTCILTheoryCumItLabPhotogragh: TextInputEditText
     //    Spinner
+
+
+
+    private lateinit var spinnerTCILITypeofRoofItLab: Spinner
+    private lateinit var spinnerTCILFalseCellingProvide: Spinner
+    private lateinit var spinnerTTCILSoundLevelAsPerSpecifications: Spinner
+    private lateinit var spinnerTCILTrainerChair: Spinner
+    private lateinit var spinnerTCILTrainerTable: Spinner
     private lateinit var spinnerTCILwhether_all_the_academic: Spinner
     private lateinit var spinnerTCILLAcademicRoomInformationBoard: Spinner
     private lateinit var spinnerTCILInternalSignage: Spinner
@@ -408,6 +447,7 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerTCILDLDoAllComputersHaveTypingTutor: Spinner
     private lateinit var spinnerTCILIPEnabled: Spinner
     private lateinit var spinnerTCILDLDoes_the_room_has: Spinner
+    private lateinit var spinnerTCILTheoryCumItLabPhotogragh: Spinner
     //    ////    ImageViewBase64
     private var base64ProofPreviewTCILListofDomain: String? = null
     private var base64ProofPreviewTCILTypeofRoofItLab: String? = null
@@ -457,25 +497,33 @@ class TrainingFragment : Fragment() {
 
 
     //    Theory Cum Domain Lab
-//      TextInputEditText
-    private lateinit var etTCDLTypeofRoofItLab: TextInputEditText
-    private lateinit var etTCDLFalseCellingProvide: TextInputEditText
     private lateinit var etTCDLHeightOfCelling: TextInputEditText
     private lateinit var etTCDLVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etTCDLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etTCDLSoundLevelInDb: TextInputEditText
-    private lateinit var etTCDLLcdDigitalProjector: TextInputEditText
     private lateinit var etTCDLChairForCandidatesInNo: TextInputEditText
-    private lateinit var etTCDLTrainerChair: TextInputEditText
-    private lateinit var etTCDLTrainerTable: TextInputEditText
-    private lateinit var etTCDLWritingBoard: TextInputEditText
     private lateinit var etTCDLLightsInNo: TextInputEditText
     private lateinit var etTCDLFansInNo: TextInputEditText
     private lateinit var etTCDLListofDomain: TextInputEditText
-    private lateinit var etTCDLDomainLabPhotogragh: TextInputEditText
 
 
     //    Spinner
+
+    //        spinnerTCDLTypeofRoofItLab
+//spinnerTCDLFalseCellingProvide
+//spinnerTCDLSoundLevelAsPerSpecifications
+//spinnerTCDLLcdDigitalProjector
+//spinnerTCDLTrainerChair
+//spinnerTCDLTrainerTable
+//spinnerTCDLWritingBoard
+//spinnerTCDLDomainLabPhotogragh
+    private lateinit var spinnerTCDLTypeofRoofItLab: Spinner
+    private lateinit var spinnerTCDLFalseCellingProvide: Spinner
+    private lateinit var spinnerTCDLSoundLevelAsPerSpecifications: Spinner
+    private lateinit var spinnerTCDLLcdDigitalProjector: Spinner
+    private lateinit var spinnerTCDLTrainerChair: Spinner
+    private lateinit var spinnerTCDLTrainerTable: Spinner
+    private lateinit var spinnerTCDLWritingBoard: Spinner
+    private lateinit var spinnerTCDLDomainLabPhotogragh: Spinner
     private lateinit var spinnerTCDLwhether_all_the_academic: Spinner
     private lateinit var spinnerTCDLAcademicRoomInformationBoard: Spinner
     private lateinit var spinnerTCDLInternalSignage: Spinner
@@ -532,32 +580,41 @@ class TrainingFragment : Fragment() {
 
 
     //      TextInputEditText
-    private lateinit var etDLTypeofRoofItLab: TextInputEditText
-    private lateinit var etDLFalseCellingProvide: TextInputEditText
+//    private lateinit var etDLTypeofRoofItLab: TextInputEditText
+//    private lateinit var etDLFalseCellingProvide: TextInputEditText
     private lateinit var etDLHeightOfCelling: TextInputEditText
     private lateinit var etDLVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etDLSoundLevelAsPerSpecifications: TextInputEditText
+//    private lateinit var etDLSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etDLSoundLevelInDb: TextInputEditText
     private lateinit var etDLwhether_all_the_academic: TextInputEditText
-    private lateinit var etDLLcdDigitalProjector: TextInputEditText
+//    private lateinit var etDLLcdDigitalProjector: TextInputEditText
     private lateinit var etDLChairForCandidatesInNo: TextInputEditText
-    private lateinit var etDLTrainerChair: TextInputEditText
-    private lateinit var etDLTrainerTable: TextInputEditText
-    private lateinit var etDLWritingBoard: TextInputEditText
+//    private lateinit var etDLTrainerChair: TextInputEditText
+//    private lateinit var etDLTrainerTable: TextInputEditText
+//    private lateinit var etDLWritingBoard: TextInputEditText
     private lateinit var etDLLightsInNo: TextInputEditText
+    private lateinit var etDLListOfDomainLab: TextInputEditText
     private lateinit var etDLFansInNo: TextInputEditText
-    private lateinit var etDLDomainLabPhotogragh: TextInputEditText
+//    private lateinit var etDLDomainLabPhotogragh: TextInputEditText
 
 
 
 //    Spinner
 
+    private lateinit var spinnerDLDomainLabPhotogragh: Spinner
     private lateinit var spinnerDLAcademicRoomInformationBoard: Spinner
+    private lateinit var spinnerDLLcdDigitalProjector: Spinner
+    private lateinit var spinnerDLTrainerChair: Spinner
+    private lateinit var spinnerDLTrainerTable: Spinner
+    private lateinit var spinnerDLWritingBoard: Spinner
+    private lateinit var spinnerDDLSoundLevelAsPerSpecifications: Spinner
+    private lateinit var spinnerDLFalseCellingProvide: Spinner
+    private lateinit var spinnerDLTypeofRoofItLab: Spinner
     private lateinit var spinnerDLInternalSignage: Spinner
     private lateinit var spinnerDLCctcCamerasWithAudioFacility: Spinner
     private lateinit var spinnerDLElectricaPowerBackUp: Spinner
     private lateinit var spinnerDLwhether_all_the_academic: Spinner
-    private lateinit var spinnerDLListofDomain: Spinner
+//    private lateinit var spinnerDLListofDomain: Spinner
     private lateinit var spinnerDLDoes_the_room_has: Spinner
 
     //    ////    ImageViewBase64
@@ -578,9 +635,10 @@ class TrainingFragment : Fragment() {
     private  var base64ProofPreviewDLWritingBoard: String? = null
     private  var base64ProofPreviewDLLightsInNo: String? = null
     private  var base64ProofPreviewDLFansInNo: String? = null
+    private  var base64ProofPreviewDLDomainLabPhotogragh: String? = null
+
     private  var base64ProofPreviewDLElectricaPowerBackUpForThRoom: String? = null
     private  var base64ProofPreviewDLILListofDomain: String? = null
-    private  var base64ProofPreviewDLDomainLabPhotogragh: String? = null
     private  var base64ProofPreviewDLDoes_the_room_has: String? = null
 
 
@@ -609,24 +667,37 @@ class TrainingFragment : Fragment() {
 //    Theory Class Room
 
     //      TextInputEditText
-    private lateinit var etTCRTypeofRoofItLab: TextInputEditText
-    private lateinit var etTCRFalseCellingProvide: TextInputEditText
+//    private lateinit var etTCRTypeofRoofItLab: TextInputEditText
+//    private lateinit var etTCRFalseCellingProvide: TextInputEditText
     private lateinit var etTCRHeightOfCelling: TextInputEditText
     private lateinit var etTCRVentilationAreaInSqFt: TextInputEditText
-    private lateinit var etTCRSoundLevelAsPerSpecifications: TextInputEditText
+//    private lateinit var etTCRSoundLevelAsPerSpecifications: TextInputEditText
     private lateinit var etTCRSoundLevelInDb: TextInputEditText
     //    private lateinit var ivPreviewTCRAcademicRoomInformationBoard: TextInputEditText
-    private lateinit var etTCRLcdDigitalProjector: TextInputEditText
+//    private lateinit var etTCRLcdDigitalProjector: TextInputEditText
     private lateinit var lcd_digital_projector: TextInputEditText
     private lateinit var etTCRChairForCandidatesInNo: TextInputEditText
-    private lateinit var etTCRTrainerChair: TextInputEditText
-    private lateinit var etTCRTrainerTable: TextInputEditText
-    private lateinit var etTCRWritingBoard: TextInputEditText
+//    private lateinit var etTCRTrainerChair: TextInputEditText
+//    private lateinit var etTCRTrainerTable: TextInputEditText
+//    private lateinit var etTCRWritingBoard: TextInputEditText
     private lateinit var etTCRLightsInNo: TextInputEditText
     private lateinit var etTCRFansInNo: TextInputEditText
-    private lateinit var etTCRDomainLabPhotogragh: TextInputEditText
+//    private lateinit var etTCRDomainLabPhotogragh: TextInputEditText
 //    Spinner
 
+
+
+
+
+
+    private lateinit var spinnerTCRTypeofRoofItLab: Spinner
+    private lateinit var spinnerTCRFalseCellingProvide: Spinner
+    private lateinit var spinnerTCRSoundLevelAsPerSpecifications: Spinner
+    private lateinit var spinnerTCRLcdDigitalProjector: Spinner
+    private lateinit var spinnerTCRTrainerChair: Spinner
+    private lateinit var spinnerTCRTrainerTable: Spinner
+    private lateinit var spinnerTCRWritingBoard: Spinner
+    private lateinit var spinnerTCRDomainLabPhotogragh: Spinner
     private lateinit var spinnerTCRwhether_all_the_academic: Spinner
     private lateinit var spinnerTCRAcademicRoomInformationBoard: Spinner
     private lateinit var spinnerTCRInternalSignage: Spinner
@@ -928,6 +999,7 @@ class TrainingFragment : Fragment() {
         (R.id.btnOfficeCumFalseCellingProvide to "btnofficecumfalsecellingprovide"),
         (R.id.btnOfficeCumHeightOfCelling to "btnofficecumheightofcelling"),
         (R.id.btnOfficeCumSplaceforSecuringDoc to "btnofficecumsplaceforsecuringdoc"),
+        (R.id.btnUploadOCCROfficeTable to "btnUploadOCCROfficeTable"),
         (R.id.btnOfficeCumAnOfficeTableNo to "btnofficecumanofficetableno"),
         (R.id.btnOfficeCumChairs to "btnofficecumchairs"),
         (R.id.btnOfficeCumTableOfofficeCumpter to "btnofficecumtableofofficecumpter"),
@@ -968,7 +1040,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnITCDLFalseCellingProvide to "btnITCDLFalseCellingProvide"),
         (R.id.btnITCDLHeightOfCelling to "btnITCDLHeightOfCelling"),
         (R.id.btnITCDLVentilationAreaInSqFt to "btnITCDLVentilationAreaInSqFt"),
-        (R.id.btnITCDLabSoundLevelAsPerSpecifications to "btnITCDLabSoundLevelAsPerSpecifications"),
         (R.id.btnITCDLabSoundLevelInDb to "btnITCDLabSoundLevelInDb"),
         (R.id.btnITDLwhether_all_the_academic to "btnITDLwhether_all_the_academic"),
         (R.id.btnITCDLAcademicRoomInformationBoard to "btnITCDLAcademicRoomInformationBoard"),
@@ -1202,7 +1273,6 @@ class TrainingFragment : Fragment() {
         (R.id.btnITCDLFalseCellingProvide to "btnITCDLFalseCellingProvide"),
         (R.id.btnITCDLHeightOfCelling to "btnITCDLHeightOfCelling"),
         (R.id.btnITCDLVentilationAreaInSqFt to "btnITCDLVentilationAreaInSqFt"),
-        (R.id.btnITCDLabSoundLevelAsPerSpecifications to "btnITCDLabSoundLevelAsPerSpecifications"),
         (R.id.btnITCDLabSoundLevelInDb to "btnITCDLabSoundLevelInDb"),
         (R.id.btnITDLwhether_all_the_academic to "btnITDLwhether_all_the_academic"),
         (R.id.btnITCDLAcademicRoomInformationBoard to "btnITCDLAcademicRoomInformationBoard"),
@@ -1366,12 +1436,14 @@ class TrainingFragment : Fragment() {
                     Log.d("Camera", "Captured image URI: $photoUri")
                     when (currentPhotoTarget) {
                         "monitor" -> {
+
                             ivMonitorPreview.setImageURI(photoUri)
                             ivMonitorPreview.visibility = View.VISIBLE
                             base64MonitorFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "conformance" -> {
+
                             ivConformancePreview.setImageURI(photoUri)
                             ivConformancePreview.visibility = View.VISIBLE
                             base64ConformanceFile =
@@ -1379,18 +1451,21 @@ class TrainingFragment : Fragment() {
                         }
 
                         "storage" -> {
+
                             ivStoragePreview.setImageURI(photoUri)
                             ivStoragePreview.visibility = View.VISIBLE
                             base64StorageFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "dvr" -> {
+
                             ivDVRPreview.setImageURI(photoUri)
                             ivDVRPreview.visibility = View.VISIBLE
                             base64DVRFile = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "switchBoard" -> {
+
                             ivSwitchBoardPreview.setImageURI(photoUri)
                             ivSwitchBoardPreview.visibility = View.VISIBLE
                             base64SwitchBoardImage =
@@ -1398,6 +1473,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "WireSecurity" -> {
+
                             ivWireSecurityPreview.setImageURI(photoUri)
                             ivWireSecurityPreview.visibility = View.VISIBLE
                             base64WireSecurityImage =
@@ -1405,6 +1481,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "leakage" -> {
+
                             ivLeakagePreview.setImageURI(photoUri)
                             ivLeakagePreview.visibility = View.VISIBLE
                             base64LeakageImage =
@@ -1412,12 +1489,14 @@ class TrainingFragment : Fragment() {
                         }
 
                         "stairs" -> {
+
                             ivStairsPreview.setImageURI(photoUri)
                             ivStairsPreview.visibility = View.VISIBLE
                             base64StairsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "tcNameBoard" -> {
+
                             ivTcNameBoardPreview.setImageURI(photoUri)
                             ivTcNameBoardPreview.visibility = View.VISIBLE
                             base64TcNameBoardImage =
@@ -1425,6 +1504,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "activityAchievementBoard" -> {
+
                             ivActivityAchievementBoardPreview.setImageURI(photoUri)
                             ivActivityAchievementBoardPreview.visibility = View.VISIBLE
                             base64ActivityAchievementBoardImage =
@@ -1432,6 +1512,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "studentEntitlementBoard" -> {
+
                             ivStudentEntitlementBoardPreview.setImageURI(photoUri)
                             ivStudentEntitlementBoardPreview.visibility = View.VISIBLE
                             base64StudentEntitlementBoardImage =
@@ -1439,6 +1520,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "contactDetailBoard" -> {
+
                             ivContactDetailBoardPreview.setImageURI(photoUri)
                             ivContactDetailBoardPreview.visibility = View.VISIBLE
                             base64ContactDetailBoardImage =
@@ -1446,6 +1528,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "basicInfoBoard" -> {
+
                             ivBasicInfoBoardPreview.setImageURI(photoUri)
                             ivBasicInfoBoardPreview.visibility = View.VISIBLE
                             base64BasicInfoBoardImage =
@@ -1453,6 +1536,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "codeConductBoard" -> {
+
                             ivCodeConductBoardPreview.setImageURI(photoUri)
                             ivCodeConductBoardPreview.visibility = View.VISIBLE
                             base64CodeConductBoardImage =
@@ -1460,18 +1544,21 @@ class TrainingFragment : Fragment() {
                         }
 
                         "studentAttendanceBoard" -> {
+
                             ivStudentAttendanceBoardPreview.setImageURI(photoUri)
                             ivStudentAttendanceBoardPreview.visibility = View.VISIBLE
                             base64StudentAttendanceBoardImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "SafeDrinkingWater" -> {
+
                             ivSafeDrinkingWaterPreview.setImageURI(photoUri)
                             ivSafeDrinkingWaterPreview.visibility = View.VISIBLE
                             base64SafeDrinkingWater = AppUtil.imageUriToBase64(context = requireContext(), photoUri)
                         }
 
                         "FireFightingEquipment" -> {
+
                             ivFireFightingEquipmentPreview.setImageURI(photoUri)
                             ivFireFightingEquipmentPreview.visibility = View.VISIBLE
                             base64FireFightingEquipment =
@@ -1479,64 +1566,75 @@ class TrainingFragment : Fragment() {
                         }
 
                         "FirstAidKit" -> {
+
                             ivFirstAidKitPreview.setImageURI(photoUri)
                             ivFirstAidKitPreview.visibility = View.VISIBLE
                             base64FirstAidKit = AppUtil.imageUriToBase64(context = requireContext(), photoUri)
                         }
                         "powerBackup" -> {
+
                             ivPowerBackupPreview.setImageURI(photoUri)
                             ivPowerBackupPreview.visibility = View.VISIBLE
                             base64PowerBackupImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "biometricDevices" -> {
+
                             ivBiometricDevicesPreview.setImageURI(photoUri)
                             ivBiometricDevicesPreview.visibility = View.VISIBLE
                             base64BiometricDevices = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "cctv" -> {
+
                             ivCCTVPreview.setImageURI(photoUri)
                             ivCCTVPreview.visibility = View.VISIBLE
                             base64CCTVImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "documentStorage" -> {
+
                             ivDocumentStoragePreview.setImageURI(photoUri)
                             ivDocumentStoragePreview.visibility = View.VISIBLE
                             base64DocumentStorageImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "printerScanner" -> {
+
                             ivPrinterScannerPreview.setImageURI(photoUri)
                             ivPrinterScannerPreview.visibility = View.VISIBLE
                             base64PrinterScanner = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "digitalCamera" -> {
+
                             ivDigitalCameraPreview.setImageURI(photoUri)
                             ivDigitalCameraPreview.visibility = View.VISIBLE
                             base64DigitalCamera = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "grievanceRegister" -> {
+
                             ivGrievanceRegisterPreview.setImageURI(photoUri)
                             ivGrievanceRegisterPreview.visibility = View.VISIBLE
                             base64GrievanceRegisterImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "minimumEquipment" -> {
+
                             ivMinimumEquipmentPreview.setImageURI(photoUri)
                             ivMinimumEquipmentPreview.visibility = View.VISIBLE
                             base64MinimumEquipmentImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "directionBoards" -> {
+
                             ivDirectionBoardsPreview.setImageURI(photoUri)
                             ivDirectionBoardsPreview.visibility = View.VISIBLE
                             base64DirectionBoardsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
                         "maleToiletsProof" -> {
+
                             try{
                                 ivPreviewMaleToiletsProof.setImageURI(photoUri)
                                 ivPreviewMaleToiletsProof.visibility = View.VISIBLE
@@ -1547,65 +1645,76 @@ class TrainingFragment : Fragment() {
 
                         }
                         "maleToiletsSignageProof" -> {
+
                             ivPreviewMaleToiletsSignageProof.setImageURI(photoUri)
                             ivPreviewMaleToiletsSignageProof.visibility = View.VISIBLE
                             base64ProofMaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "femaleToiletsProof" -> {
+
                             ivPreviewFemaleToiletsProof.setImageURI(photoUri)
                             ivPreviewFemaleToiletsProof.visibility = View.VISIBLE
                             base64ProofFemaleToilets = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "femaleToiletsSignageProof" -> {
+
                             ivPreviewFemaleToiletsSignageProof.setImageURI(photoUri)
                             ivPreviewFemaleToiletsSignageProof.visibility = View.VISIBLE
                             base64ProofFemaleToiletsSignage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "maleUrinalsProof" -> {
+
                             ivPreviewMaleUrinalsProof.setImageURI(photoUri)
                             ivPreviewMaleUrinalsProof.visibility = View.VISIBLE
                             base64ProofMaleUrinals = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "maleWashBasinsProof" -> {
+
                             ivPreviewMaleWashBasinsProof.setImageURI(photoUri)
                             ivPreviewMaleWashBasinsProof.visibility = View.VISIBLE
                             base64ProofMaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "femaleWashBasinsProof" -> {
+                            AppUtil.hideKeyboard(requireContext(), requireView())
                             ivPreviewFemaleWashBasinsProof.setImageURI(photoUri)
                             ivPreviewFemaleWashBasinsProof.visibility = View.VISIBLE
                             base64ProofFemaleWashBasins = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "overheadTanksProof" -> {
+
                             ivPreviewOverheadTanksProof.setImageURI(photoUri)
                             ivPreviewOverheadTanksProof.visibility = View.VISIBLE
                             base64ProofOverheadTanks = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "flooringProof" -> {
+
                             ivPreviewFlooringProof.setImageURI(photoUri)
                             ivPreviewFlooringProof.visibility = View.VISIBLE
                             base64ProofFlooring = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
                         "proofUpload" -> {
+
                             ivProofPreview.setImageURI(photoUri)
                             ivProofPreview.visibility = View.VISIBLE
                             base64ProofUploadImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "circulationProof" -> {
+
                             ivCirculationProofPreview.setImageURI(photoUri)
                             ivCirculationProofPreview.visibility = View.VISIBLE
                             base64CirculationProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
 
                         "openSpaceProof" -> {
+
                             ivOpenSpaceProofPreview.setImageURI(photoUri)
                             ivOpenSpaceProofPreview.visibility = View.VISIBLE
                             base64penSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -1613,6 +1722,7 @@ class TrainingFragment : Fragment() {
                         }
 
                         "parking" -> {
+
                             ivParkingProofPreview.setImageURI(photoUri)
                             ivParkingProofPreview.visibility = View.VISIBLE
                             base64ParkingSpaceProofImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -1627,6 +1737,7 @@ class TrainingFragment : Fragment() {
 //                            IT(LAB)
 
                         "itltypeofroofitlab" -> {
+
                             ivPreviewITLTypeofRoofItLab.setImageURI(photoUri)
                             ivPreviewITLTypeofRoofItLab.visibility = View.VISIBLE
                             base64ProofPreviewITLTypeofRoofItLab = AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -1775,6 +1886,13 @@ class TrainingFragment : Fragment() {
                             ivPreviewOfficeCumSplaceforSecuringDoc.visibility = View.VISIBLE
                             base64ProofOfficeCumSplaceforSecuringDoc = AppUtil.imageUriToBase64(requireContext(), photoUri)
                         }
+                        "btnUploadOCCROfficeTable" -> {
+                            ivPreviewOCCROfficeTable.setImageURI(photoUri)
+                            ivPreviewOCCROfficeTable.visibility = View.VISIBLE
+                            base64ProofOCCROfficeTable = AppUtil.imageUriToBase64(requireContext(), photoUri)
+                        }
+
+
                         "btnofficecumanofficetableno" -> {
                             ivPreviewOfficeCumAnOfficeTableNo.setImageURI(photoUri)
                             ivPreviewOfficeCumAnOfficeTableNo.visibility = View.VISIBLE
@@ -2517,11 +2635,8 @@ class TrainingFragment : Fragment() {
         //RecyClerViewUI()
 
 //         Initilize  IT LAB  AJIT PMAYG Crate ID
-
-        etITLTypeofRoofItLab = view.bindView(R.id.etITLTypeofRoofItLab)
         etITLHeightOfCelling = view.bindView(R.id.etITLHeightOfCelling)
         etITLVentilationAreaInSqFt = view.bindView(R.id.etITLVentilationAreaInSqFt)
-        etITLSoundLevelAsPerSpecifications = view.bindView(R.id.etITLSoundLevelAsPerSpecifications)
         etITLSoundLevelInDb = view.bindView(R.id.etITLSoundLevelInDb)
         etITLLanEnabledComputersInNo = view.bindView(R.id.etITLLanEnabledComputersInNo)
         etITLTablets = view.bindView(R.id.etITLTablets)
@@ -2532,10 +2647,8 @@ class TrainingFragment : Fragment() {
 
 
         //         Office Cum(Counselling room)    Ajit Ranjan  EditText Id GET
-        etOfficeRoomPhotograph = view.bindView(R.id.etOfficeRoomPhotograph)
-        etOfficeCumTypeofRoofItLab = view.bindView(R.id.etOfficeCumTypeofRoofItLab)
+        etOCCROfficeTable = view.bindView(R.id.etOCCROfficeTable)
         etOfficeCumHeightOfCelling = view.bindView(R.id.etOfficeCumHeightOfCelling)
-        etOfficeCumSplaceforSecuringDoc = view.bindView(R.id.etOfficeCumSplaceforSecuringDoc)
         etOfficeCumAnOfficeTableNo = view.bindView(R.id.etOfficeCumAnOfficeTableNo)
         etOfficeCumChairs = view.bindView(R.id.etOfficeCumChairs)
         etOfficeCumPrinterCumScannerInNo = view.bindView(R.id.etOfficeCumPrinterCumScannerInNo)
@@ -2544,12 +2657,7 @@ class TrainingFragment : Fragment() {
 
 
 //        (Office room)    Ajit Ranjan  EditText Id GET
-
-
-        etOROfficeRoomPhotograph = view.bindView(R.id.etOROfficeRoomPhotograph)
-        etORTypeofRoofItLab = view.bindView(R.id.etORTypeofRoofItLab)
         etORHeightOfCelling = view.bindView(R.id.etORHeightOfCelling)
-        etORSplaceforSecuringDoc = view.bindView(R.id.etORSplaceforSecuringDoc)
         etORAnOfficeTableNo = view.bindView(R.id.etORAnOfficeTableNo)
         etORChairs = view.bindView(R.id.etORChairs)
         etORPrinterCumScannerInNo = view.bindView(R.id.etORPrinterCumScannerInNo)
@@ -2560,93 +2668,58 @@ class TrainingFragment : Fragment() {
 
 
 //        IT COME DOMAIN LAB  Ajit Ranjan  EditText Id GET
-        etITCDLTypeofRoofItLab = view.bindView(R.id.etITCDLTypeofRoofItLab)
-        etITCDLFalseCellingProvide = view.bindView(R.id.etITCDLFalseCellingProvide)
         etITCDLHeightOfCelling = view.bindView(R.id.etITCDLHeightOfCelling)
         etITCDLVentilationAreaInSqFt = view.bindView(R.id.etITCDLVentilationAreaInSqFt)
-        etITCDLSoundLevelAsPerSpecifications = view.bindView(R.id.etITCDLSoundLevelAsPerSpecifications)
         etITCDLabSoundLevelInDb = view.bindView(R.id.etITCDLabSoundLevelInDb)
         etITCDLLanEnabledComputersInNo = view.bindView(R.id.etITCDLLanEnabledComputersInNo)
         etITCDLTablets = view.bindView(R.id.etITCDLTablets)
         etITCDLStoolsChairs = view.bindView(R.id.etITCDLStoolsChairs)
         etITCDLLightsInNo = view.bindView(R.id.etITCDLLightsInNo)
         etITCDLFansInNo = view.bindView(R.id.etITCDLFansInNo)
-        etITCDLItLabPhotograph = view.bindView(R.id.etITCDLItLabPhotograph)
         etITCDLListofDomain = view.bindView(R.id.etITCDLListofDomain)
 
 //        Theory Cum IT Lab Ajit Ranjan
         etTCILListofDomain = view.bindView(R.id.etTCILListofDomain)
-        etTCILTypeofRoofItLab = view.bindView(R.id.etTCILTypeofRoofItLab)
-        etTCILFalseCellingProvide = view.bindView(R.id.etTCILFalseCellingProvide)
         etTCILHeightOfCelling = view.bindView(R.id.etTCILHeightOfCelling)
         etTCILVentilationAreaInSqFt = view.bindView(R.id.etTCILVentilationAreaInSqFt)
-        etTCILSoundLevelAsPerSpecifications = view.bindView(R.id.etTCILSoundLevelAsPerSpecifications)
         etTCILSoundLevelInDb = view.bindView(R.id.etTCILSoundLevelInDb)
         etTCILLanEnabledComputersInNo = view.bindView(R.id.etTCILLanEnabledComputersInNo)
         etTCILTablets = view.bindView(R.id.etTCILTablets)
         etTCILStoolsChairs = view.bindView(R.id.etTCILStoolsChairs)
-        etTCILTrainerChair = view.bindView(R.id.etTCILTrainerChair)
-        etTCILTrainerTable = view.bindView(R.id.etTCILTrainerTable)
         etTCILLightsInNo = view.bindView(R.id.etTCILLightsInNo)
         etTCILFansInNo = view.bindView(R.id.etTCILFansInNo)
-        etTCILTheoryCumItLabPhotogragh = view.bindView(R.id.etTCILTheoryCumItLabPhotogragh)
-
-
 
 //        Theory Cum DOMAIN Lab Ajit Ranjan
-        etTCDLTypeofRoofItLab = view.bindView(R.id.etTCDLTypeofRoofItLab)
-        etTCDLFalseCellingProvide = view.bindView(R.id.etTCDLFalseCellingProvide)
         etTCDLHeightOfCelling = view.bindView(R.id.etTCDLHeightOfCelling)
         etTCDLVentilationAreaInSqFt = view.bindView(R.id.etTCDLVentilationAreaInSqFt)
-        etTCDLSoundLevelAsPerSpecifications = view.bindView(R.id.etTCDLSoundLevelAsPerSpecifications)
         etTCDLSoundLevelInDb = view.bindView(R.id.etTCDLSoundLevelInDb)
-        etTCDLLcdDigitalProjector = view.bindView(R.id.etTCDLLcdDigitalProjector)
         etTCDLChairForCandidatesInNo = view.bindView(R.id.etTCDLChairForCandidatesInNo)
-        etTCDLTrainerChair = view.bindView(R.id.etTCDLTrainerChair)
-        etTCDLTrainerTable = view.bindView(R.id.etTCDLTrainerTable)
-        etTCDLWritingBoard = view.bindView(R.id.etTCDLWritingBoard)
         etTCDLLightsInNo = view.bindView(R.id.etTCDLLightsInNo)
         etTCDLFansInNo = view.bindView(R.id.etTCDLFansInNo)
         etTCDLListofDomain = view.bindView(R.id.etTCDLListofDomain)
-        etTCDLDomainLabPhotogragh = view.bindView(R.id.etTCDLDomainLabPhotogragh)
 
 //        DOMAIN Lab Ajit Ranjan
 
 
-        etDLTypeofRoofItLab = view.bindView(R.id.etDLTypeofRoofItLab)
-        etDLFalseCellingProvide = view.bindView(R.id.etDLFalseCellingProvide)
         etDLHeightOfCelling = view.bindView(R.id.etDLHeightOfCelling)
         etDLVentilationAreaInSqFt = view.bindView(R.id.etDLVentilationAreaInSqFt)
-        etDLSoundLevelAsPerSpecifications = view.bindView(R.id.etDLSoundLevelAsPerSpecifications)
         etDLSoundLevelInDb = view.bindView(R.id.etDLSoundLevelInDb)
-        etDLLcdDigitalProjector = view.bindView(R.id.etDLLcdDigitalProjector)
         etDLChairForCandidatesInNo = view.bindView(R.id.etDLChairForCandidatesInNo)
-        etDLTrainerChair = view.bindView(R.id.etDLTrainerChair)
-        etDLTrainerTable = view.bindView(R.id.etDLTrainerTable)
-        etDLWritingBoard = view.bindView(R.id.etDLWritingBoard)
         etDLLightsInNo = view.bindView(R.id.etDLLightsInNo)
         etDLFansInNo = view.bindView(R.id.etDLFansInNo)
-        etDLDomainLabPhotogragh = view.bindView(R.id.etDLDomainLabPhotogragh)
+        etDLListOfDomainLab = view.bindView(R.id.etDLILListofDomain)
 
 //           TCR
 
-        etTCRTypeofRoofItLab = view.bindView(R.id.etTCRTypeofRoofItLab)
-        etTCRFalseCellingProvide = view.bindView(R.id.etTCRFalseCellingProvide)
         etTCRHeightOfCelling = view.bindView(R.id.etTCRHeightOfCelling)
         etTCRVentilationAreaInSqFt = view.bindView(R.id.etTCRVentilationAreaInSqFt)
-        etTCRSoundLevelAsPerSpecifications = view.bindView(R.id.etTCRSoundLevelAsPerSpecifications)
         etTCRSoundLevelInDb = view.bindView(R.id.etTCRSoundLevelInDb)
         ivPreviewTCRAcademicRoomInformationBoard = view.bindView(R.id.ivPreviewTCRAcademicRoomInformationBoard)
         ivPreviewTCRCctcCamerasWithAudioFacility = view.bindView(R.id.ivPreviewTCRCctcCamerasWithAudioFacility)
         ivPreviewivPreviewTCRInternalSignage = view.bindView(R.id.ivPreviewTCRInternalSignage)
-        etTCRLcdDigitalProjector = view.bindView(R.id.etTCRLcdDigitalProjector)
         etTCRChairForCandidatesInNo = view.bindView(R.id.etTCRChairForCandidatesInNo)
-        etTCRTrainerChair = view.bindView(R.id.etTCRTrainerChair)
-        etTCRTrainerTable = view.bindView(R.id.etTCRTrainerTable)
-        etTCRWritingBoard = view.bindView(R.id.etTCRWritingBoard)
         etTCRLightsInNo = view.bindView(R.id.etTCRLightsInNo)
         etTCRFansInNo = view.bindView(R.id.etTCRFansInNo)
-        etTCRDomainLabPhotogragh = view.bindView(R.id.etTCRDomainLabPhotogragh)
 
         // Initialize Wash Basin views
         etMaleToilets = view.bindView(R.id.etMaleToilets)
@@ -2820,6 +2893,7 @@ class TrainingFragment : Fragment() {
         ivPreviewOfficeCumTypeofRoofItLab = view.findViewById(R.id.ivPreviewOfficeCumTypeofRoofItLab)
         ivPreviewOfficeCumFalseCellingProvide = view.findViewById(R.id.ivPreviewOfficeCumFalseCellingProvide)
         ivPreviewOfficeCumHeightOfCelling = view.findViewById(R.id.ivPreviewOfficeCumHeightOfCelling)
+        ivPreviewOCCROfficeTable = view.findViewById(R.id.ivPreviewOCCROfficeTable)
         ivPreviewOfficeCumSplaceforSecuringDoc = view.findViewById(R.id.ivPreviewOfficeCumSplaceforSecuringDoc)
         ivPreviewOfficeCumAnOfficeTableNo = view.findViewById(R.id.ivPreviewOfficeCumAnOfficeTableNo)
         ivPreviewOfficeCumChairs = view.findViewById(R.id.ivPreviewOfficeCumChairs)
@@ -3043,11 +3117,20 @@ class TrainingFragment : Fragment() {
         ///////////////////////////
         val overheadTankOptions = listOf("--Select--", "Available", "Not Available")
         val flooringOptions = listOf("--Select--", "Cement", "TILE", "Polished")
+        val RccNonRCC = listOf("--Select--", "RCC", "NON-RCC", "RCC & NON RCC")
+
         // Find your AutoCompleteTextViews in fragment or activity
         //val actvOverheadTanks: AutoCompleteTextView = view.findViewById(R.id.actvOverheadTanks)
         //val actvTypeOfFlooring: AutoCompleteTextView = view.findViewById(R.id.actvTypeOfFlooring)
 
 // Create ArrayAdapter for Overhead Tanks dropdown
+
+        val RCCNONRCCAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_dropdown_item_1line,
+            RccNonRCC
+        )
+
         val overheadTankAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
@@ -3075,15 +3158,18 @@ class TrainingFragment : Fragment() {
 
 
 //               IT LAB
-            , R.id.spinnerITLepbftr,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
+
+
+            , R.id.spinnerITLepbftr,R.id.spinnerITLTypeofRoofItLab,R.id.spinnerITLSoundLevelAsPerSpecifications,R.id.spinnerITLFalseCellingProvide,R.id.spinnerITLAcademicRoomInformationBoard
             ,R.id.spinnerITLInternalSignage,R.id.spinnerITLCctcCamerasWithAudioFacility,R.id.spinnerITLabInternetConnections
             ,R.id.spinnerITLDoAllComputersHaveTypingTutor,R.id.spinnerITLTrainerChair,R.id.spinnerITLTrainerTable
             ,R.id.spinnerITLtLabPhotograph,R.id.spinnerITLDoes_the_room_has,
 
 
 
-//           OfficeCum
-            R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
+//           OCCR
+
+            R.id.spinnerOCCRCumSplaceforSecuringDoc,R.id.spinnerOCCRPhotograph,R.id.spinnerOfficeCumTypeofRoofItLab,R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
 
 //               OfficeCum
             R.id.spinnerReceptionAreaEPBR,
@@ -3092,6 +3178,10 @@ class TrainingFragment : Fragment() {
             R.id.spinnerCounsellingRoomAreaPhotograph,
 
 //               Office Room
+
+            R.id.spinnerORTypeofRoofItLab,
+            R.id.spinnerORSplaceforSecuringDoc,
+            R.id.spinnerROfficeRoomPhotograph,
             R.id.spinnerORFalseCellingProvide,
             R.id.spinnerORTableOfofficeCumpter,
             R.id.spinnerORPOEPBFTR,
@@ -3101,6 +3191,10 @@ class TrainingFragment : Fragment() {
 //               IT Come Domain Lab
 
 
+            R.id.spinnerITCDLSoundLevelAsPerSpecifications,
+            R.id.spinnerITCDLItLabPhotograph,
+            R.id.spinnerITCDLTypeofRoofItLab,
+            R.id.spinnerITCDLFalseCellingProvide,
             R.id.spinnerITCDLwhether_all_the_academic,
             R.id.spinnerITCDLAcademicRoomInformationBoard,
             R.id.spinnerITCDLInternalSignage,
@@ -3114,6 +3208,15 @@ class TrainingFragment : Fragment() {
 
 //               Theory Cum IT Lab Ajit Ranjan Spinner's Id
 
+            R.id.spinnerTCILITypeofRoofItLab,
+            R.id.spinnerTCILFalseCellingProvide,
+            R.id.spinnerTTCILSoundLevelAsPerSpecifications,
+            R.id.spinnerTCILTrainerChair,
+            R.id.spinnerTCILTrainerTable,
+
+
+
+
             R.id.spinnerTCILwhether_all_the_academic,
             R.id.spinnerTCILLAcademicRoomInformationBoard,
             R.id.spinnerTCILInternalSignage,
@@ -3122,9 +3225,18 @@ class TrainingFragment : Fragment() {
             R.id.spinnerTCILDLDoAllComputersHaveTypingTutor,
             R.id.spinnerTCILIPowerBackup,
             R.id.spinnerTCILDLDoes_the_room_has,
+            R.id.spinnerTCILTheoryCumItLabPhotogragh,
 
 //               Theory Cum Domain Lab Ajit Ranjan Spinner's Id
 
+            R.id.spinnerTCDLTypeofRoofItLab,
+            R.id.spinnerTCDLFalseCellingProvide,
+            R.id.spinnerTCDLSoundLevelAsPerSpecifications,
+            R.id.spinnerTCDLLcdDigitalProjector,
+            R.id.spinnerTCDLTrainerChair,
+            R.id.spinnerTCDLTrainerTable,
+            R.id.spinnerTCDLWritingBoard,
+            R.id.spinnerTCDLDomainLabPhotogragh,
             R.id.spinnerTCDLwhether_all_the_academic,
             R.id.spinnerTCDLAcademicRoomInformationBoard,
             R.id.spinnerTCDLInternalSignage,
@@ -3135,17 +3247,38 @@ class TrainingFragment : Fragment() {
 
 //               Domain Lab Ajit Ranjan Spinner's Id
 
+            R.id.spinnerDLLcdDigitalProjector,
+            R.id.spinnerDLTrainerChair,
+            R.id.spinnerDLTrainerTable,
+            R.id.spinnerDLWritingBoard,
+            R.id.spinnerDLFalseCellingProvide,
+            R.id.spinnerDLTypeofRoofItLab,
+            R.id.spinnerDDLSoundLevelAsPerSpecifications,
+            R.id.spinnerDLDomainLabPhotogragh,
             R.id.spinnerDLAcademicRoomInformationBoard,
             R.id.spinnerDLInternalSignage,
             R.id.spinnerDLCctcCamerasWithAudioFacility,
 
             R.id.spinnerDLElectricaPowerBackUp,
             R.id.spinnerDLwhether_all_the_academic,
-            R.id.spinnerDLListofDomain,
             R.id.spinnerDLDoes_the_room_has,
 
 
 //                  TCR
+
+
+
+
+
+
+            R.id.spinnerTCRTypeofRoofItLab,
+            R.id.spinnerTCRFalseCellingProvide,
+            R.id.spinnerTCRSoundLevelAsPerSpecifications,
+            R.id.spinnerTCRLcdDigitalProjector,
+            R.id.spinnerTCRTrainerChair,
+            R.id.spinnerTCRTrainerTable,
+            R.id.spinnerTCRWritingBoard,
+            R.id.spinnerTCRDomainLabPhotogragh,
             R.id.spinnerTCRwhether_all_the_academic,
             R.id.spinnerTCRAcademicRoomInformationBoard,
             R.id.spinnerTCRInternalSignage,
@@ -3198,6 +3331,8 @@ class TrainingFragment : Fragment() {
 
 
 //                    It Lab  Ajit Ranjan
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITLTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITLSoundLevelAsPerSpecifications)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITLepbftr), view.findViewById<Button>(R.id.btnITLElectricaPowerBackUpForThRoom)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITLFalseCellingProvide), view.findViewById<Button>(R.id.btnITLFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITLAcademicRoomInformationBoard)),
@@ -3212,6 +3347,10 @@ class TrainingFragment : Fragment() {
 
 //                    Office Cum(Counselling room)   Ajit Ranjan
 
+//            Pair(view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable), view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOCCRCumSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnOfficeCumSplaceforSecuringDoc)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOCCRPhotograph), view.findViewById<Button>(R.id.btnUploadOfficeRoomPhotograph)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTypeofRoofItLab), view.findViewById<Button>(R.id.btnUploadOfficeCumTypeofRoofItLab)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumFalseCellingProvide), view.findViewById<Button>(R.id.btnOfficeCumFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumLepbftr), view.findViewById<Button>(R.id.btnOfficeCumElectricialPowerBackup)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTableOfofficeCumpter), view.findViewById<Button>(R.id.btnOfficeCumTableOfofficeCumpter)),
@@ -3225,12 +3364,23 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerCounsellingRoomAreaPhotograph), view.findViewById<Button>(R.id.btnCounsellingRoomAreaPhotograph)),
 
 //            Office Room
+
+            Pair(view.findViewById<Spinner>(R.id.spinnerORTypeofRoofItLab), view.findViewById<Button>(R.id.btnORTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerORSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnORSplaceforSecuringDoc)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerROfficeRoomPhotograph), view.findViewById<Button>(R.id.btnOROfficeRoomPhotograph)),
             Pair(view.findViewById<Spinner>(R.id.spinnerORFalseCellingProvide), view.findViewById<Button>(R.id.btnORFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerORTableOfofficeCumpter), view.findViewById<Button>(R.id.btnORTableOfofficeCumpter)),
             Pair(view.findViewById<Spinner>(R.id.spinnerORPOEPBFTR), view.findViewById<Button>(R.id.btnORElectricialPowerBackup)),
 
 //            IT Come Domain Lab
 
+
+
+
+//            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnITCDLabSoundLevelAsPerSpecifications)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLItLabPhotograph), view.findViewById<Button>(R.id.btnITCDLItLabPhotograph)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnITCDLTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerITCDLFalseCellingProvide), view.findViewById<Button>(R.id.btnITCDLFalseCellingProvide)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
@@ -3245,6 +3395,14 @@ class TrainingFragment : Fragment() {
 //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
 
 
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILITypeofRoofItLab), view.findViewById<Button>(R.id.btnTCILTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILFalseCellingProvide), view.findViewById<Button>(R.id.btnTCILFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTTCILSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCILSoundLevelAsPerSpecifications)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerChair), view.findViewById<Button>(R.id.btnTCILTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTrainerTable), view.findViewById<Button>(R.id.btnTCILTrainerTable)),
+
+
+
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILwhether_all_the_academic), view.findViewById<Button>(R.id.btnITDLwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnITCDLAcademicRoomInformationBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILInternalSignage), view.findViewById<Button>(R.id.btnITCDLInternalSignage)),
@@ -3254,7 +3412,22 @@ class TrainingFragment : Fragment() {
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor), view.findViewById<Button>(R.id.btnITCDLDoAllComputersHaveTypingTutor)),
             Pair(view.findViewById<Spinner>(R.id.spinnerITCDLTrainerChair), view.findViewById<Button>(R.id.btnITCDLTrainerChair)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCILDLDoes_the_room_has), view.findViewById<Button>(R.id.btnITCDLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCILTheoryCumItLabPhotogragh), view.findViewById<Button>(R.id.btnTCILTheoryCumItLabPhotogragh)),
 //                    Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
+
+
+
+
+
+
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCDLTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLFalseCellingProvide), view.findViewById<Button>(R.id.btnTCDLFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCDLSoundLevelAsPerSpecifications)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLLcdDigitalProjector), view.findViewById<Button>(R.id.btnTCDLLcdDigitalProjector)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTrainerChair), view.findViewById<Button>(R.id.btnTCDLUploaadTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLTrainerTable), view.findViewById<Button>(R.id.btnTCDLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLWritingBoard), view.findViewById<Button>(R.id.btnTCDLWritingBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCDLDomainLabPhotogragh), view.findViewById<Button>(R.id.btnTCDLDomainLabPhotogragh)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCDLwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCDLAcademicRoomInformationBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCDLInternalSignage), view.findViewById<Button>(R.id.btnTCDLInternalSignage)),
@@ -3265,17 +3438,39 @@ class TrainingFragment : Fragment() {
 
 
             //                    Domain Lab Ajit Ranjan Spinner set adapter
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLLcdDigitalProjector), view.findViewById<Button>(R.id.btnDLLcdDigitalProjector)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLTrainerChair), view.findViewById<Button>(R.id.btnDLUploaadTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLTrainerTable), view.findViewById<Button>(R.id.btnDLTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLWritingBoard), view.findViewById<Button>(R.id.btnDLWritingBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLFalseCellingProvide), view.findViewById<Button>(R.id.btnDLFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLTypeofRoofItLab), view.findViewById<Button>(R.id.btnDLTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDDLSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnDLSoundLevelAsPerSpecifications)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerDLDomainLabPhotogragh), view.findViewById<Button>(R.id.btnDLDomainLabPhotogragh)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnDLAcademicRoomInformationBoard)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLInternalSignage), view.findViewById<Button>(R.id.btnDLInternalSignage)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLCctcCamerasWithAudioFacility), view.findViewById<Button>(R.id.btnDLCctcCamerasWithAudioFacility)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLElectricaPowerBackUp), view.findViewById<Button>(R.id.btnDLElectricaPowerBackUpForThRoom)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLwhether_all_the_academic), view.findViewById<Button>(R.id.btnDLwhether_all_the_academic)),
-            Pair(view.findViewById<Spinner>(R.id.spinnerDLListofDomain), view.findViewById<Button>(R.id.btnDLILListofDomain)),
             Pair(view.findViewById<Spinner>(R.id.spinnerDLDoes_the_room_has), view.findViewById<Button>(R.id.btnDLDoes_the_room_has)),
 
 
 
 //                TCR
+
+
+
+
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTypeofRoofItLab), view.findViewById<Button>(R.id.btnTCRTypeofRoofItLab)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRFalseCellingProvide), view.findViewById<Button>(R.id.btnTCRFalseCellingProvide)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRSoundLevelAsPerSpecifications), view.findViewById<Button>(R.id.btnTCRSoundLevelAsPerSpecifications)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRLcdDigitalProjector), view.findViewById<Button>(R.id.btnTCRLcdDigitalProjector)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTrainerChair), view.findViewById<Button>(R.id.btnTCRTrainerChair)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRTrainerTable), view.findViewById<Button>(R.id.btnTCRTrainerTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRWritingBoard), view.findViewById<Button>(R.id.btnTCRWritingBoard)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerTCRDomainLabPhotogragh), view.findViewById<Button>(R.id.btnTCRDomainLabPhotogragh)),
+
+
+
 
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRwhether_all_the_academic), view.findViewById<Button>(R.id.btnTCRwhether_all_the_academic)),
             Pair(view.findViewById<Spinner>(R.id.spinnerTCRAcademicRoomInformationBoard), view.findViewById<Button>(R.id.btnTCRAcademicRoomInformationBoard)),
@@ -3300,9 +3495,11 @@ class TrainingFragment : Fragment() {
                     position: Int,
                     id: Long
                 ) {
+
                     val selected = parent.getItemAtPosition(position).toString()
-                    //button.visibility = if (selected == "No") View.GONE else View.VISIBLE
+//                    button.visibility = if (selected == "No") View.GONE else View.VISIBLE
                     button.visibility = View.VISIBLE
+                    AppUtil.hideKeyboard(requireContext(), requireView())
                 }
                 override fun onNothingSelected(parent: AdapterView<*>) {}
             }
@@ -3311,7 +3508,11 @@ class TrainingFragment : Fragment() {
 
 
 //        It Lab    Spinner Id Ajit Ranjan
+
+
         spinnerITLepbftr = view.findViewById(R.id.spinnerITLepbftr)
+        spinnerITLTypeofRoofItLab = view.findViewById(R.id.spinnerITLTypeofRoofItLab)
+        spinnerITLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITLSoundLevelAsPerSpecifications)
         spinnerITLFalseCellingProvide = view.findViewById(R.id.spinnerITLFalseCellingProvide)
         spinnerITLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerITLAcademicRoomInformationBoard)
         spinnerITLInternalSignage = view.findViewById(R.id.spinnerITLInternalSignage)
@@ -3326,6 +3527,11 @@ class TrainingFragment : Fragment() {
 
 //        Spinner setAdapter Ajit Ranjan
         spinnerITLepbftr.setAdapter(yesNoAdapter)
+
+        //    spinnerITLTypeofRoofItLab
+//    spinnerITLSoundLevelAsPerSpecifications
+        spinnerITLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerITLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
         spinnerITLFalseCellingProvide.setAdapter(yesNoAdapter)
         spinnerITLwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerITLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
@@ -3341,11 +3547,19 @@ class TrainingFragment : Fragment() {
 
 
 //               Office Cum(Counselling room)    Spinner Id Ajit Ranjan
+//        spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
+        spinnerOCCRCumSplaceforSecuringDoc = view.findViewById(R.id.spinnerOCCRCumSplaceforSecuringDoc)
+        spinnerOCCRPhotograph = view.findViewById(R.id.spinnerOCCRPhotograph)
+        spinnerOfficeCumTypeofRoofItLab = view.findViewById(R.id.spinnerOfficeCumTypeofRoofItLab)
         spinnerOfficeCumFalseCellingProvide = view.findViewById(R.id.spinnerOfficeCumFalseCellingProvide)
         spinnerOfficeCumLepbftr = view.findViewById(R.id.spinnerOfficeCumLepbftr)
         spinnerOfficeCumTableOfofficeCumpter = view.findViewById(R.id.spinnerOfficeCumTableOfofficeCumpter)
 //        Spinner setAdapter Ajit Ranjan  Office Cum(Counselling room)
+        spinnerOfficeCumTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerOfficeCumFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerOCCRPhotograph.setAdapter(yesNoAdapter)
+//        spinnerOCCROfficeTable.setAdapter(yesNoAdapter)
+        spinnerOCCRCumSplaceforSecuringDoc.setAdapter(yesNoAdapter)
         spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
         spinnerOfficeCumTableOfofficeCumpter.setAdapter(yesNoAdapter)
 //      ReceptionArea  Spinner Id Ajit Ranjan
@@ -3360,14 +3574,29 @@ class TrainingFragment : Fragment() {
 
 //          Office Room
 
+        spinnerORTypeofRoofItLab = view.findViewById(R.id.spinnerORTypeofRoofItLab)
+        spinnerORSplaceforSecuringDoc = view.findViewById(R.id.spinnerORSplaceforSecuringDoc)
+        spinnerROfficeRoomPhotograph = view.findViewById(R.id.spinnerROfficeRoomPhotograph)
         spinnerORFalseCellingProvide = view.findViewById(R.id.spinnerORFalseCellingProvide)
         spinnerORTableOfofficeCumpter = view.findViewById(R.id.spinnerORTableOfofficeCumpter)
         spinnerORPOEPBFTR = view.findViewById(R.id.spinnerORPOEPBFTR)
+        spinnerROfficeRoomPhotograph.setAdapter(yesNoAdapter)
         spinnerORFalseCellingProvide.setAdapter(yesNoAdapter)
         spinnerORTableOfofficeCumpter.setAdapter(yesNoAdapter)
         spinnerORPOEPBFTR.setAdapter(yesNoAdapter)
+        spinnerORTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerORSplaceforSecuringDoc.setAdapter(yesNoAdapter)
+
+
 
 //            IT Come Domain Lab
+
+
+
+        spinnerITCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerITCDLSoundLevelAsPerSpecifications)
+        spinnerITCDLItLabPhotograph = view.findViewById(R.id.spinnerITCDLItLabPhotograph)
+        spinnerITCDLTypeofRoofItLab = view.findViewById(R.id.spinnerITCDLTypeofRoofItLab)
+        spinnerITCDLFalseCellingProvide = view.findViewById(R.id.spinnerITCDLFalseCellingProvide)
         spinnerITCDLwhether_all_the_academic = view.findViewById(R.id.spinnerITCDLwhether_all_the_academic)
         spinnerITCDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerITCDLAcademicRoomInformationBoard)
         spinnerITCDLInternalSignage = view.findViewById(R.id.spinnerITCDLInternalSignage)
@@ -3379,6 +3608,10 @@ class TrainingFragment : Fragment() {
         spinnerITCDLElectricaPowerBackUp = view.findViewById(R.id.spinnerITCDLElectricaPowerBackUp)
         spinnerITCDLDoes_the_room_has = view.findViewById(R.id.spinnerITCDLDoes_the_room_has)
 
+        spinnerITCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerITCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+        spinnerITCDLItLabPhotograph.setAdapter(yesNoAdapter)
+        spinnerITCDLFalseCellingProvide.setAdapter(yesNoAdapter)
         spinnerITCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerITCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
         spinnerITCDLInternalSignage.setAdapter(yesNoAdapter)
@@ -3392,6 +3625,17 @@ class TrainingFragment : Fragment() {
 
 
         //                    Theory Cum IT Lab Ajit Ranjan Spinner set adapter
+
+
+
+
+
+
+        spinnerTCILITypeofRoofItLab = view.findViewById(R.id.spinnerTCILITypeofRoofItLab)
+        spinnerTCILFalseCellingProvide = view.findViewById(R.id.spinnerTCILFalseCellingProvide)
+        spinnerTTCILSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTTCILSoundLevelAsPerSpecifications)
+        spinnerTCILTrainerChair = view.findViewById(R.id.spinnerTCILTrainerChair)
+        spinnerTCILTrainerTable = view.findViewById(R.id.spinnerTCILTrainerTable)
         spinnerTCILwhether_all_the_academic = view.findViewById(R.id.spinnerTCILwhether_all_the_academic)
         spinnerTCILLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCILLAcademicRoomInformationBoard)
         spinnerTCILInternalSignage = view.findViewById(R.id.spinnerTCILInternalSignage)
@@ -3401,8 +3645,20 @@ class TrainingFragment : Fragment() {
         spinnerTCILDLDoAllComputersHaveTypingTutor = view.findViewById(R.id.spinnerTCILDLDoAllComputersHaveTypingTutor)
 //        spinnerTCILIPEnabled = view.findViewById(R.id.spinnerTCILIPEnabled)
         spinnerTCILDLDoes_the_room_has = view.findViewById(R.id.spinnerTCILDLDoes_the_room_has)
+        spinnerTCILTheoryCumItLabPhotogragh = view.findViewById(R.id.spinnerTCILTheoryCumItLabPhotogragh)
 
 //
+
+
+
+
+
+
+        spinnerTCILITypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerTCILFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerTCILTrainerChair.setAdapter(yesNoAdapter)
+        spinnerTCILTrainerTable.setAdapter(yesNoAdapter)
         spinnerTCILwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerTCILLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
         spinnerTCILInternalSignage.setAdapter(yesNoAdapter)
@@ -3412,13 +3668,49 @@ class TrainingFragment : Fragment() {
         spinnerTCILDLDoAllComputersHaveTypingTutor.setAdapter(yesNoAdapter)
 //        spinnerTCILIPEnabled.setAdapter(yesNoAdapter)
         spinnerTCILDLDoes_the_room_has.setAdapter(yesNoAdapter)
+        spinnerTCILTheoryCumItLabPhotogragh.setAdapter(yesNoAdapter)
 //        Theory Cum Domain Lab Ajit Ranjan Spinner set adapter
+
+        //              R.id.spinnerTCDLTypeofRoofItLab,
+//            R.id.spinnerTCDLFalseCellingProvide,
+//            R.id.spinnerTCDLSoundLevelAsPerSpecifications,
+//            R.id.spinnerTCDLLcdDigitalProjector,
+//            R.id.spinnerTCDLTrainerChair,
+//            R.id.spinnerTCDLTrainerTable,
+//            R.id.spinnerTCDLWritingBoard,
+//            R.id.spinnerTCDLDomainLabPhotogragh,
+
+
+
+
+
+        spinnerTCDLTypeofRoofItLab = view.findViewById(R.id.spinnerTCDLTypeofRoofItLab)
+        spinnerTCDLFalseCellingProvide = view.findViewById(R.id.spinnerTCDLFalseCellingProvide)
+        spinnerTCDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTCDLSoundLevelAsPerSpecifications)
+        spinnerTCDLLcdDigitalProjector = view.findViewById(R.id.spinnerTCDLLcdDigitalProjector)
+        spinnerTCDLTrainerChair = view.findViewById(R.id.spinnerTCDLTrainerChair)
+        spinnerTCDLTrainerTable = view.findViewById(R.id.spinnerTCDLTrainerTable)
+        spinnerTCDLWritingBoard = view.findViewById(R.id.spinnerTCDLWritingBoard)
+        spinnerTCDLDomainLabPhotogragh = view.findViewById(R.id.spinnerTCDLDomainLabPhotogragh)
         spinnerTCDLwhether_all_the_academic = view.findViewById(R.id.spinnerTCDLwhether_all_the_academic)
         spinnerTCDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCDLAcademicRoomInformationBoard)
         spinnerTCDLInternalSignage = view.findViewById(R.id.spinnerTCDLInternalSignage)
         spinnerTCDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerTCDLCctcCamerasWithAudioFacility)
         spinnerTCDLPowerBackup = view.findViewById(R.id.spinnerTCDLPowerBackup)
         spinnerTCDLDoes_the_room_has = view.findViewById(R.id.spinnerTCDLDoes_the_room_has)
+
+
+
+
+
+        spinnerTCDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerTCDLFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerTCDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+        spinnerTCDLLcdDigitalProjector.setAdapter(yesNoAdapter)
+        spinnerTCDLTrainerChair.setAdapter(yesNoAdapter)
+        spinnerTCDLTrainerTable.setAdapter(yesNoAdapter)
+        spinnerTCDLWritingBoard.setAdapter(yesNoAdapter)
+        spinnerTCDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
         spinnerTCDLwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerTCDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
         spinnerTCDLInternalSignage.setAdapter(yesNoAdapter)
@@ -3429,18 +3721,39 @@ class TrainingFragment : Fragment() {
 
 
         //                    Domain Lab Ajit Ranjan Spinner set adapter
+        spinnerDLLcdDigitalProjector = view.findViewById(R.id.spinnerDLLcdDigitalProjector)
+        spinnerDLTrainerChair = view.findViewById(R.id.spinnerDLTrainerChair)
+        spinnerDLTrainerTable = view.findViewById(R.id.spinnerDLTrainerTable)
+        spinnerDLWritingBoard = view.findViewById(R.id.spinnerDLWritingBoard)
+        spinnerDLFalseCellingProvide = view.findViewById(R.id.spinnerDLFalseCellingProvide)
+        spinnerDLTypeofRoofItLab = view.findViewById(R.id.spinnerDLTypeofRoofItLab)
+        spinnerDDLSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerDDLSoundLevelAsPerSpecifications)
 
 
 
 
+        spinnerDLDomainLabPhotogragh = view.findViewById(R.id.spinnerDLDomainLabPhotogragh)
         spinnerDLAcademicRoomInformationBoard = view.findViewById(R.id.spinnerDLAcademicRoomInformationBoard)
         spinnerDLInternalSignage = view.findViewById(R.id.spinnerDLInternalSignage)
         spinnerDLCctcCamerasWithAudioFacility = view.findViewById(R.id.spinnerDLCctcCamerasWithAudioFacility)
 
         spinnerDLElectricaPowerBackUp = view.findViewById(R.id.spinnerDLElectricaPowerBackUp)
         spinnerDLwhether_all_the_academic = view.findViewById(R.id.spinnerDLwhether_all_the_academic)
-        spinnerDLListofDomain = view.findViewById(R.id.spinnerDLListofDomain)
         spinnerDLDoes_the_room_has = view.findViewById(R.id.spinnerDLDoes_the_room_has)
+
+
+        spinnerDLDomainLabPhotogragh.setAdapter(yesNoAdapter)
+        spinnerDLLcdDigitalProjector.setAdapter(yesNoAdapter)
+        spinnerDLTrainerChair.setAdapter(yesNoAdapter)
+        spinnerDLTrainerTable.setAdapter(yesNoAdapter)
+        spinnerDLWritingBoard.setAdapter(yesNoAdapter)
+        spinnerDLFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerDLTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerDDLSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+
+
+
+
 
 
         spinnerDLAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
@@ -3448,11 +3761,26 @@ class TrainingFragment : Fragment() {
         spinnerDLCctcCamerasWithAudioFacility.setAdapter(yesNoAdapter)
         spinnerDLwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerDLElectricaPowerBackUp.setAdapter(yesNoAdapter)
-        spinnerDLListofDomain.setAdapter(yesNoAdapter)
         spinnerDLDoes_the_room_has.setAdapter(yesNoAdapter)
 
 
 //          TCR Ajit Ranjan(PMAYG)
+
+
+
+
+
+
+        spinnerTCRTypeofRoofItLab = view.findViewById(R.id.spinnerTCRTypeofRoofItLab)
+        spinnerTCRFalseCellingProvide = view.findViewById(R.id.spinnerTCRFalseCellingProvide)
+        spinnerTCRSoundLevelAsPerSpecifications = view.findViewById(R.id.spinnerTCRSoundLevelAsPerSpecifications)
+        spinnerTCRLcdDigitalProjector = view.findViewById(R.id.spinnerTCRLcdDigitalProjector)
+        spinnerTCRTrainerChair = view.findViewById(R.id.spinnerTCRTrainerChair)
+        spinnerTCRTrainerTable = view.findViewById(R.id.spinnerTCRTrainerTable)
+        spinnerTCRWritingBoard = view.findViewById(R.id.spinnerTCRWritingBoard)
+        spinnerTCRDomainLabPhotogragh = view.findViewById(R.id.spinnerTCRDomainLabPhotogragh)
+
+
         spinnerTCRwhether_all_the_academic = view.findViewById(R.id.spinnerTCRwhether_all_the_academic)
         spinnerTCRAcademicRoomInformationBoard = view.findViewById(R.id.spinnerTCRAcademicRoomInformationBoard)
         spinnerTCRInternalSignage = view.findViewById(R.id.spinnerTCRInternalSignage)
@@ -3461,6 +3789,19 @@ class TrainingFragment : Fragment() {
         spinnerTCRDoes_the_room_has = view.findViewById(R.id.spinnerTCRDoes_the_room_has)
         spinnerTCRPowerBackup = view.findViewById(R.id.spinnerTCRPowerBackup)
 
+
+
+
+
+
+        spinnerTCRTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
+        spinnerTCRFalseCellingProvide.setAdapter(yesNoAdapter)
+        spinnerTCRSoundLevelAsPerSpecifications.setAdapter(yesNoAdapter)
+        spinnerTCRLcdDigitalProjector.setAdapter(yesNoAdapter)
+        spinnerTCRTrainerChair.setAdapter(yesNoAdapter)
+        spinnerTCRTrainerTable.setAdapter(yesNoAdapter)
+        spinnerTCRWritingBoard.setAdapter(yesNoAdapter)
+        spinnerTCRDomainLabPhotogragh.setAdapter(yesNoAdapter)
         spinnerTCRwhether_all_the_academic.setAdapter(yesNoAdapter)
         spinnerTCRAcademicRoomInformationBoard.setAdapter(yesNoAdapter)
         spinnerTCRInternalSignage.setAdapter(yesNoAdapter)
@@ -3616,9 +3957,10 @@ class TrainingFragment : Fragment() {
                 "Please complete all fields for Office Cum(Counselling room) Details.",
                 Toast.LENGTH_LONG
             ).show()
+//            SubmitOfficeCumCounsellingRoom()
         }
-//        ReceptionArea
-
+//            SubmitOfficeCumCounsellingRoom()
+//        }
 
 
 
@@ -3681,17 +4023,19 @@ class TrainingFragment : Fragment() {
                 "Please complete all fields for Submit Theory Cum Domain Lab Details.",
                 Toast.LENGTH_LONG
             ).show()
-
+//            SubmitTCDL()
         }
         view.findViewById<Button>(R.id.btnSubmitDL).setOnClickListener {
-            if(validateDomainLab()) SubmitDL()
-            else Toast.makeText(
+            if(validateDomainLab())
+                SubmitDL()
+            else
+                Toast.makeText(
                 requireContext(),
                 "Please complete all fields for Submit Domain Lab Details.",
                 Toast.LENGTH_LONG
             ).show()
 
-//            SubmitDL()
+            //SubmitDL()
 
 
         }
@@ -3741,7 +4085,7 @@ class TrainingFragment : Fragment() {
         // Spinner values
         val items = listOf(
             "Select Area",
-            "Office Cum Counselling",
+            "Office Cum Counselling Room",
             "Reception Area",
             "Counselling Room",
             "Office Room",
@@ -3787,7 +4131,7 @@ class TrainingFragment : Fragment() {
                         lin_theory_cum_domain_lab.visibility = View.GONE
                         lin_theory_class_room.visibility = View.GONE
                     }
-                    "Office Cum Counselling" -> {
+                    "Office Cum Counselling Room" -> {
                         etLength.visibility = View.VISIBLE
                         etWidth.visibility = View.VISIBLE
                         tvArea.visibility = View.VISIBLE
@@ -6302,126 +6646,103 @@ class TrainingFragment : Fragment() {
 
 
 //     IT LAB(validateItLAB)    Ajit Ranjan
+private fun validateItLAB(): Boolean {
+    var isValid = true
+    var firstFocusSet = false
 
+    // --- 1️⃣ Validate EditTexts ---
+    val editTextFields = mapOf(
+        etLength to "Type of Length is required",
+        etWidth to "Type of Width is required",
+        etITLHeightOfCelling to "Height of Ceiling is required",
+        etITLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
+        etITLSoundLevelInDb to "Sound Level in dB is required",
+        etITLLanEnabledComputersInNo to "LAN Enabled Computers (in No) is required",
+        etITLTablets to "Tablets count is required",
+        etITLStoolsChairs to "Stools/Chairs count is required",
+        etITLLightsInNo to "Lights (in No) is required",
+        etITLFansInNo to "Fans (in No) is required"
+    )
 
-    private fun validateItLAB(): Boolean {
-        var isValid = true
-        var firstFocusSet = false
-
-        // --- 1️⃣ Validate EditTexts ---
-        val editTextFields = mapOf(
-            etLength to "Type of Length is required",
-            etWidth to "Type of Width is required",
-            etITLTypeofRoofItLab to "Type of Roof is required",
-            etITLHeightOfCelling to "Height of Ceiling is required",
-            etITLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
-            etITLSoundLevelAsPerSpecifications to "Sound Level as per Specifications is required",
-            etITLSoundLevelInDb to "Sound Level in dB is required",
-            etITLLanEnabledComputersInNo to "LAN Enabled Computers (in No) is required",
-            etITLTablets to "Tablets count is required",
-            etITLStoolsChairs to "Stools/Chairs count is required",
-            etITLLightsInNo to "Lights (in No) is required",
-            etITLFansInNo to "Fans (in No) is required"
-        )
-
-        for ((field, message) in editTextFields) {
-            val text = field.text?.toString()?.trim().orEmpty()
-            if (text.isEmpty()) {
-                field.error = message
-                if (!firstFocusSet) {
-                    field.requestFocus()
-                    firstFocusSet = true
-                }
-                isValid = false
-            } else {
-                field.error = null
+    for ((field, message) in editTextFields) {
+        val text = field.text?.toString()?.trim().orEmpty()
+        if (text.isEmpty()) {
+            field.error = message
+            if (!firstFocusSet) {
+                field.requestFocus()
+                firstFocusSet = true
             }
+            isValid = false
+        } else {
+            field.error = null
         }
-
-        // --- 2️⃣ Spinner validation helper ---
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            if (spinner.selectedItemPosition <= 0) {
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
-                if (!firstFocusSet) {
-                    spinner.requestFocus()
-                    firstFocusSet = true
-                }
-                return false
-            }
-            return true
-        }
-
-        // --- 3️⃣ Validate Spinners ---
-        val spinnerList = listOf(
-            spinnerITLepbftr to getString(R.string.electrical_power_backup_for_the_room),
-            spinnerITLFalseCellingProvide to getString(R.string.false_ceiling_provided),
-            spinnerITLwhether_all_the_academic to getString(R.string.whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning),
-            spinnerITLAcademicRoomInformationBoard to getString(R.string.academic_room_information_board),
-            spinnerITLInternalSignage to getString(R.string.internal_signage),
-            spinnerITLCctcCamerasWithAudioFacility to getString(R.string.cctv_cameras_with_audio_facility),
-            spinnerITLabInternetConnections to getString(R.string.internet_connections),
-            spinnerITLDoAllComputersHaveTypingTutor to getString(R.string.do_all_computers_have_typing_tutor),
-            spinnerITLTrainerChair to getString(R.string.trainer_chair),
-            spinnerITLTrainerTable to getString(R.string.trainer_table),
-            spinnerITLtLabPhotograph to getString(R.string.it_lab_photograph),
-            spinnerITLDoes_the_room_has to getString(R.string.does_the_room_has_air_conditioning)
-        )
-
-        for ((spinner, name) in spinnerList) {
-            if (!checkSpinner(spinner, name)) isValid = false
-        }
-
-        // --- 4️⃣ Image Proof Validation ---
-        val spinnerToProofMap = mapOf(
-            spinnerITLepbftr to Pair(base64ProofITLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
-            spinnerITLFalseCellingProvide to Pair(base64ProofITLFalseCellingProvide, "False Ceiling proof"),
-            spinnerITLwhether_all_the_academic to Pair(base64ProofITLwhether_all_the_academic, "Sound Proofing proof"),
-            spinnerITLAcademicRoomInformationBoard to Pair(base64ProofITLAcademicRoomInformationBoard, "Academic Room Info Board proof"),
-            spinnerITLInternalSignage to Pair(base64ProofITLInternalSignage, "Internal Signage proof"),
-            spinnerITLCctcCamerasWithAudioFacility to Pair(base64ProofITLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-            spinnerITLabInternetConnections to Pair(base64ProofITLInternetConnections, "Internet Connection proof"),
-            spinnerITLDoAllComputersHaveTypingTutor to Pair(base64ProofITLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
-            spinnerITLTrainerChair to Pair(base64ProofITLTrainerChair, "Trainer Chair proof"),
-            spinnerITLTrainerTable to Pair(base64ProofITLTrainerTable, "Trainer Table proof"),
-            spinnerITLtLabPhotograph to Pair(base64ProofITLItLabPhotograph, "IT Lab Photograph proof"),
-            spinnerITLDoes_the_room_has to Pair(base64ProofITLDoes_the_room_has, "Room AC proof")
-        )
-
-        // --- 5️⃣ Conditional Validation: "Yes" ⇒ image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
-            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-            if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 6️⃣ Optional Extra Validation: if no spinner selected but base64 empty ---
-        val proofImages = mapOf(
-            base64ProofPreviewITLTypeofRoofItLab to "Please upload proof for ITL Type of Roof",
-            base64ProofITLHeightOfCelling to "Please upload proof for ITL Height of Ceiling",
-            base64ProofITLVentilationAreaInSqFt to "Please upload proof for ITL Ventilation Area",
-            base64ProofITLSoundLevelAsPerSpecifications to "Please upload proof for ITL Sound Level as per Specifications",
-            base64ProofITLSoundLevelInDb to "Please upload proof for ITL Sound Level in dB",
-            base64ProofITLLanEnabledComputersInNo to "Please upload proof for ITL LAN Enabled Computers",
-            base64ProofITLTablets to "Please upload proof for ITL Tablets",
-            base64ProofITLStoolsChairs to "Please upload proof for ITL Stools/Chairs",
-            base64ProofITLLightsInNo to "Please upload proof for ITL Lights",
-            base64ProofITLFansInNo to "Please upload proof for ITL Fans"
-        )
-
-        for ((base64, errorMsg) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        return isValid
     }
-//    Office Cum(Counselling room)    Ajit Ranjan
 
+    // --- 2️⃣ Spinner Validation helper ---
+    fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+        if (spinner.selectedItemPosition <= 0) {
+            Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+            if (!firstFocusSet) {
+                spinner.requestFocus()
+                firstFocusSet = true
+            }
+            return false
+        }
+        return true
+    }
+
+    // --- 3️⃣ Validate all necessary Spinners only ---
+    val spinnerList = listOf(
+        spinnerITLSoundLevelAsPerSpecifications to getString(R.string.sound_level_as_per_specifications),
+        spinnerITLTypeofRoofItLab to getString(R.string.type_of_roof),
+        spinnerITLepbftr to getString(R.string.electrical_power_backup_for_the_room),
+        spinnerITLFalseCellingProvide to getString(R.string.false_ceiling_provided),
+        spinnerITLwhether_all_the_academic to getString(R.string.whether_all_the_academic_centres_have_been_sound_proofed_with_air_conditioning),
+        spinnerITLAcademicRoomInformationBoard to getString(R.string.academic_room_information_board),
+        spinnerITLInternalSignage to getString(R.string.internal_signage),
+        spinnerITLCctcCamerasWithAudioFacility to getString(R.string.cctv_cameras_with_audio_facility),
+        spinnerITLabInternetConnections to getString(R.string.internet_connections),
+        spinnerITLDoAllComputersHaveTypingTutor to getString(R.string.do_all_computers_have_typing_tutor),
+        spinnerITLTrainerChair to getString(R.string.trainer_chair),
+        spinnerITLTrainerTable to getString(R.string.trainer_table),
+        spinnerITLtLabPhotograph to getString(R.string.it_lab_photograph),
+        spinnerITLDoes_the_room_has to getString(R.string.does_the_room_has_air_conditioning)
+    )
+
+    for ((spinner, name) in spinnerList) {
+        if (!checkSpinner(spinner, name)) isValid = false
+    }
+
+    // --- 4️⃣ Image Proof ONLY IF Spinner = "YES" ✅ ---
+    val spinnerToProofMap = mapOf(
+        spinnerITLTypeofRoofItLab to Pair(base64ProofPreviewITLTypeofRoofItLab, "Electrical Power Backup proof"),
+        spinnerITLepbftr to Pair(base64ProofITLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
+        spinnerITLFalseCellingProvide to Pair(base64ProofITLFalseCellingProvide, "False Ceiling proof"),
+        spinnerITLwhether_all_the_academic to Pair(base64ProofITLwhether_all_the_academic, "Sound Proofing proof"),
+        spinnerITLAcademicRoomInformationBoard to Pair(base64ProofITLAcademicRoomInformationBoard, "Academic Room Info Board proof"),
+        spinnerITLInternalSignage to Pair(base64ProofITLInternalSignage, "Internal Signage proof"),
+        spinnerITLCctcCamerasWithAudioFacility to Pair(base64ProofITLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
+        spinnerITLabInternetConnections to Pair(base64ProofITLInternetConnections, "Internet Connection proof"),
+        spinnerITLDoAllComputersHaveTypingTutor to Pair(base64ProofITLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
+        spinnerITLTrainerChair to Pair(base64ProofITLTrainerChair, "Trainer Chair proof"),
+        spinnerITLTrainerTable to Pair(base64ProofITLTrainerTable, "Trainer Table proof"),
+        spinnerITLtLabPhotograph to Pair(base64ProofITLItLabPhotograph, "IT Lab Photograph proof"),
+        spinnerITLDoes_the_room_has to Pair(base64ProofITLDoes_the_room_has, "Room AC proof")
+    )
+
+    for ((spinner, proofPair) in spinnerToProofMap) {
+        val (base64, proofName) = proofPair
+        val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
+        if (selected == "yes" && base64.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+    }
+
+    return isValid
+}
+
+//    Office Cum(Counselling room)    Ajit Ranjan
     private fun validateOfficeCumCounsellingRoom(): Boolean {
 
         var isValid = true
@@ -6431,10 +6752,8 @@ class TrainingFragment : Fragment() {
         val editTextFields = mapOf(
             etLength to "Length is required",
             etWidth to "Width is required",
-            etOfficeRoomPhotograph to "Office Room Photograph is required",
-            etOfficeCumTypeofRoofItLab to "Type of Roof is required",
+            etOCCROfficeTable to "Office Table",
             etOfficeCumHeightOfCelling to "Height of Ceiling is required",
-            etOfficeCumSplaceforSecuringDoc to "Space for Securing Documents is required",
             etOfficeCumAnOfficeTableNo to "Office Table Number is required",
             etOfficeCumChairs to "Number of Chairs is required",
             etOfficeCumPrinterCumScannerInNo to "Printer/Scanner count is required",
@@ -6450,9 +6769,7 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
         // --- 2️⃣ Spinner Validation Helper ---
@@ -6470,54 +6787,43 @@ class TrainingFragment : Fragment() {
 
         // --- 3️⃣ Validate All Spinners ---
         val spinnerList = listOf(
-            spinnerOfficeCumFalseCellingProvide to "False Ceiling Provided",
-            spinnerOfficeCumLepbftr to "Electrical Power Backup for the Room",
-            spinnerOfficeCumTableOfofficeCumpter to "Office Computer Table Available"
+//            spinnerOCCROfficeTable to "Office Table",
+            spinnerOCCRCumSplaceforSecuringDoc to "Space for Securing Documents",
+            spinnerOCCRPhotograph to "Photograph",
+            spinnerOfficeCumTypeofRoofItLab to "Type of Roof",
+            spinnerOfficeCumFalseCellingProvide to "False Ceiling",
+            spinnerOfficeCumLepbftr to "Power Backup",
+            spinnerOfficeCumTableOfofficeCumpter to "Office Computer Table"
         )
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Spinner to Base64 Proof Mapping ---
-        val spinnerToProofMap = mapOf(
-            spinnerOfficeCumFalseCellingProvide to Pair(base64ProofOfficeCumFalseCellingProvide, "False Ceiling proof"),
-            spinnerOfficeCumLepbftr to Pair(base64ProofOfficeCumElectricialPowerBackup, "Electrical Power Backup proof"),
-            spinnerOfficeCumTableOfofficeCumpter to Pair(base64ProofOfficeCumTableOfofficeCumpter, "Office Computer Table proof")
+        // --- 4️⃣ Spinner → Base64 Image Conditional Validation ---
+        val spinnerToProofMap = listOf(
+//            Triple(spinnerOCCROfficeTable, base64ProofOCCROfficeTable, "Office Table proof"),
+            Triple(spinnerOCCRCumSplaceforSecuringDoc, base64ProofOfficeCumSplaceforSecuringDoc, "Securing Documents proof"),
+            Triple(spinnerOCCRPhotograph, base64ProofPreviewOfficeRoomPhotograph, "Photograph proof"),
+            Triple(spinnerOfficeCumTypeofRoofItLab, base64ProofOfficeCumTypeofRoofItLab, "Type of Roof proof"),
+            Triple(spinnerOfficeCumFalseCellingProvide, base64ProofOfficeCumFalseCellingProvide, "False Ceiling proof"),
+            Triple(spinnerOfficeCumLepbftr, base64ProofOfficeCumElectricialPowerBackup, "Power Backup proof"),
+            Triple(spinnerOfficeCumTableOfofficeCumpter, base64ProofOfficeCumTableOfofficeCumpter, "Office Computer Table proof")
         )
 
-        // --- 5️⃣ Conditional Validation: if Spinner = "Yes" then Base64 image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
+        for ((spinner, base64, proofName) in spinnerToProofMap) {
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 6️⃣ Always Required Image Proofs ---
-        val proofImages = mapOf(
-            base64ProofPreviewOfficeRoomPhotograph to "Please upload proof for Office Room Photograph",
-            base64ProofOfficeCumTypeofRoofItLab to "Please upload proof for Type of Roof",
-            base64ProofOfficeCumHeightOfCelling to "Please upload proof for Height of Ceiling",
-            base64ProofOfficeCumSplaceforSecuringDoc to "Please upload proof for Space for Securing Documents",
-            base64ProofOfficeCumAnOfficeTableNo to "Please upload proof for Office Table Number",
-            base64ProofOfficeCumChairs to "Please upload proof for Chairs",
-            base64ProofOfficeCumPrinterCumScannerInNo to "Please upload proof for Printer/Scanner",
-            base64ProofOfficeCumDigitalCameraInNo to "Please upload proof for Digital Camera"
-        )
-
-        for ((base64, errorMsg) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please upload $proofName (selected Yes)", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
 
         return isValid
     }
+
     //    ReceptionArea
+
     private fun validateReceptionArea(): Boolean {
         var isValid = true
         var firstFocusSet = false
@@ -6525,7 +6831,8 @@ class TrainingFragment : Fragment() {
         // --- 1️⃣ Validate EditText Fields ---
         val editTextFields = mapOf(
             etLength to "Length is required",
-            etWidth to "Width is required")
+            etWidth to "Width is required"
+        )
 
         for ((field, message) in editTextFields) {
             val text = field.text?.toString()?.trim().orEmpty()
@@ -6536,9 +6843,7 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
         // --- 2️⃣ Spinner Validation Helper ---
@@ -6554,7 +6859,7 @@ class TrainingFragment : Fragment() {
             return true
         }
 
-        // --- 3️⃣ Validate All Spinners ---
+        // --- 3️⃣ Validate Spinner ---
         val spinnerList = listOf(
             spinnerReceptionAreaEPBR to getString(R.string.electrical_power_backup_for_the_room)
         )
@@ -6563,34 +6868,20 @@ class TrainingFragment : Fragment() {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Spinner to Base64 Proof Mapping ---
-        val spinnerToProofMap = mapOf(
-            spinnerReceptionAreaEPBR to Pair(base64ProofPreviewReceptionAreaPhotogragh,getString(R.string.electrical_power_backup_for_the_room)),
-        )
-        // --- 5️⃣ Conditional Validation: if Spinner = "Yes" then Base64 image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
-            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-            if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
+        // --- 4️⃣ Conditional Validation for Image ---
+        val selected = spinnerReceptionAreaEPBR.selectedItem?.toString()?.trim()?.lowercase() ?: ""
+        val proofName = getString(R.string.electrical_power_backup_for_the_room)
 
-        // --- 6️⃣ Always Required Image Proofs ---
-        val proofImages = mapOf(
-            base64ProofPreviewReceptionAreaPhotogragh to "Please upload proof for  Photogragh",
-        )
-
-        for ((base64, errorMsg) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
+        if (selected == "yes" && base64ProofPreviewReceptionAreaPhotogragh.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload proof for $proofName (selected Yes)", Toast.LENGTH_SHORT).show()
+            isValid = false
         }
 
         return isValid
     }
+
+
+//    CounsellingRoom
     private fun validateCounsellingRoom(): Boolean {
         var isValid = true
         var firstFocusSet = false
@@ -6598,7 +6889,8 @@ class TrainingFragment : Fragment() {
         // --- 1️⃣ Validate EditText Fields ---
         val editTextFields = mapOf(
             etLength to "Length is required",
-            etWidth to "Width is required")
+            etWidth to "Width is required"
+        )
 
         for ((field, message) in editTextFields) {
             val text = field.text?.toString()?.trim().orEmpty()
@@ -6609,9 +6901,7 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
         // --- 2️⃣ Spinner Validation Helper ---
@@ -6627,44 +6917,29 @@ class TrainingFragment : Fragment() {
             return true
         }
 
-        // --- 3️⃣ Validate All Spinners ---
-        val spinnerList = listOf(
-            spinnerCounsellingRoomAreaPhotograph to getString(R.string.counselling_room)
-        )
-
-        for ((spinner, name) in spinnerList) {
-            if (!checkSpinner(spinner, name)) isValid = false
+        // --- 3️⃣ Validate Spinner ---
+        val spinnerLabel = getString(R.string.counselling_room)
+        if (!checkSpinner(spinnerCounsellingRoomAreaPhotograph, spinnerLabel)) {
+            isValid = false
         }
 
-        // --- 4️⃣ Spinner to Base64 Proof Mapping ---
-        val spinnerToProofMap = mapOf(
-            spinnerCounsellingRoomAreaPhotograph to Pair(base64ProofPreviewCounsellingRoomPhotogragh,getString(R.string.counselling_area_photograph)),
-        )
-        // --- 5️⃣ Conditional Validation: if Spinner = "Yes" then Base64 image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
-            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-            if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
+        // --- 4️⃣ Conditional Proof Image Validation ---
+        val proofName = getString(R.string.counselling_area_photograph)
+        val selected = spinnerCounsellingRoomAreaPhotograph.selectedItem
+            ?.toString()
+            ?.trim()
+            ?.lowercase() ?: ""
 
-        // --- 6️⃣ Always Required Image Proofs ---
-        val proofImages = mapOf(
-            base64ProofPreviewCounsellingRoomPhotogragh to "Please upload proof for Counselling Room Photogragh",
-        )
-
-        for ((base64, errorMsg) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
+        if (selected == "yes" && base64ProofPreviewCounsellingRoomPhotogragh.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload proof for $proofName (selected Yes)", Toast.LENGTH_SHORT).show()
+            isValid = false
         }
 
         return isValid
     }
-    private fun validateOfficeRoom(): Boolean {
+
+//    validateOfficeRoom
+        private fun validateOfficeRoom(): Boolean {
         var isValid = true
         var firstFocusSet = false
 
@@ -6672,10 +6947,7 @@ class TrainingFragment : Fragment() {
         val editTextFields = mapOf(
             etLength to "Length is required",
             etWidth to "Width is required",
-            etOROfficeRoomPhotograph to "Office Room Photograph description is required",
-            etORTypeofRoofItLab to "Type of Roof is required",
             etORHeightOfCelling to "Height of Ceiling is required",
-            etORSplaceforSecuringDoc to "Space for securing documents is required",
             etORAnOfficeTableNo to "Number of Office Tables is required",
             etORChairs to "Number of Chairs is required",
             etORPrinterCumScannerInNo to "Number of Printer/Scanners is required",
@@ -6691,9 +6963,7 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
         // --- 2️⃣ Spinner Validation Helper ---
@@ -6711,168 +6981,33 @@ class TrainingFragment : Fragment() {
 
         // --- 3️⃣ Validate All Spinners ---
         val spinnerList = listOf(
+            spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
+            spinnerORTypeofRoofItLab to "Type of Roof",
+            spinnerORSplaceforSecuringDoc to "Space for Securing Documents",
+            spinnerROfficeRoomPhotograph to "Office Room Photograph",
             spinnerORFalseCellingProvide to "False Ceiling Provided",
             spinnerORTableOfofficeCumpter to "Office Computer Table Available",
-            spinnerORPOEPBFTR to "Electrical Power Backup for the Room"
+            spinnerORPOEPBFTR to "Power Backup"
         )
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Spinner to Base64 Proof Mapping ---
-        val spinnerToProofMap = mapOf(
-            spinnerORFalseCellingProvide to Pair(base64ProofORFalseCellingProvide, "False Ceiling proof"),
-            spinnerORTableOfofficeCumpter to Pair(base64ProofORTableOfofficeCumpter, "Office Computer Table proof"),
-            spinnerORPOEPBFTR to Pair(base64ProofORElectricialPowerBackup, "Electrical Power Backup proof")
+        // --- 4️⃣ Conditional Validation: If Spinner = "Yes" then Base64 mandatory ---
+        val spinnerToProofMap = listOf(
+            Triple(spinnerORTypeofRoofItLab, base64ProofORTypeofRoofItLab, "Type of Roof proof"),
+            Triple(spinnerORSplaceforSecuringDoc, base64ProofORSplaceforSecuringDoc, "Securing Document proof"),
+            Triple(spinnerROfficeRoomPhotograph, base64ProofPreviewOROfficeRoomORPhotograph, "Office Room photograph"),
+            Triple(spinnerORFalseCellingProvide, base64ProofORFalseCellingProvide, "False Ceiling proof"),
+            Triple(spinnerORTableOfofficeCumpter, base64ProofORTableOfofficeCumpter, "Office Computer Table proof"),
+            Triple(spinnerORPOEPBFTR, base64ProofORElectricialPowerBackup, "Power Backup proof")
         )
 
-        // --- 5️⃣ Conditional Validation: if Spinner = "Yes" then Base64 image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
+        for ((spinner, base64, proofMessage) in spinnerToProofMap) {
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please upload $proofName (You selected Yes)",
-                    Toast.LENGTH_SHORT
-                ).show()
-                isValid = false
-            }
-        }
-
-        // --- 6️⃣ Always Required Image Proofs ---
-        val proofImages = mapOf(
-            base64ProofPreviewOROfficeRoomORPhotograph to "Please upload proof for Office Room Photograph",
-            base64ProofORTypeofRoofItLab to "Please upload proof for Type of Roof",
-            base64ProofORHeightOfCelling to "Please upload proof for Height of Ceiling",
-            base64ProofORSplaceforSecuringDoc to "Please upload proof for Space for Securing Documents",
-            base64ProofORAnOfficeTableNo to "Please upload proof for Office Table Number",
-            base64ProofORChairs to "Please upload proof for Chairs",
-            base64ProofORPrinterCumScannerInNo to "Please upload proof for Printer/Scanner",
-            base64ProofORDigitalCameraInNo to "Please upload proof for Digital Camera"
-        )
-
-        for ((base64, errorMsg) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), errorMsg, Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        return isValid
-    }
-    private fun validateITComeDomainLab(): Boolean {
-        var isValid = true
-        var firstFocusSet = false
-
-        // --- 1️⃣ Validate EditText Fields ---
-        val editTextFields = mapOf(
-            etLength to "Length is required",
-            etWidth to "Width is required",
-            etITCDLTypeofRoofItLab to "Type of Roof is required",
-            etITCDLFalseCellingProvide to "False Ceiling information is required",
-            etITCDLHeightOfCelling to "Height of Ceiling is required",
-            etITCDLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
-            etITCDLSoundLevelAsPerSpecifications to "Sound Level (As per Specifications) is required",
-            etITCDLabSoundLevelInDb to "Sound Level (in dB) is required",
-            etITCDLLanEnabledComputersInNo to "Number of LAN-enabled Computers is required",
-            etITCDLTablets to "Number of Tablets is required",
-            etITCDLStoolsChairs to "Number of Stools & Chairs is required",
-            etITCDLLightsInNo to "Number of Lights is required",
-            etITCDLFansInNo to "Number of Fans is required",
-            etITCDLItLabPhotograph to "IT Come Domain Lab Photograph is required"
-//            etITCDLListofDomain to "List of Domains is required"
-        )
-
-        for ((field, message) in editTextFields) {
-            val text = field.text?.toString()?.trim().orEmpty()
-            if (text.isEmpty()) {
-                field.error = message
-                if (!firstFocusSet) {
-                    field.requestFocus()
-                    firstFocusSet = true
-                }
-                isValid = false
-            } else {
-                field.error = null
-            }
-        }
-
-        // --- 2️⃣ Spinner Validation Helper ---
-        fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
-            if (spinner.selectedItemPosition <= 0) {
-                Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
-                if (!firstFocusSet) {
-                    spinner.requestFocus()
-                    firstFocusSet = true
-                }
-                return false
-            }
-            return true
-        }
-
-        // --- 3️⃣ Validate All Spinners ---
-        val spinnerList = listOf(
-            spinnerITCDLwhether_all_the_academic to "Whether all the Academic Rooms are Available",
-            spinnerITCDLAcademicRoomInformationBoard to "Academic Room Information Board",
-            spinnerITCDLInternalSignage to "Internal Signage",
-            spinnerITCDLCctcCamerasWithAudioFacility to "CCTV Cameras with Audio Facility",
-            spinnerITCDLInternetConnections to "Internet Connection Availability",
-            spinnerITCDLDoAllComputersHaveTypingTutor to "Typing Tutor Availability on all Computers",
-            spinnerITCDLTrainerChair to "Trainer Chair Availability",
-            spinnerITCDLTrainerTable to "Trainer Table Availability",
-            spinnerITCDLElectricaPowerBackUp to "Electrical Power Backup",
-            spinnerITCDLDoes_the_room_has to "Whether the Room has Required Facilities"
-        )
-
-        for ((spinner, name) in spinnerList) {
-            if (!checkSpinner(spinner, name)) isValid = false
-        }
-
-        // --- 4️⃣ Spinner to Base64 Proof Mapping ---
-        val spinnerToProofMap = mapOf(
-            spinnerITCDLwhether_all_the_academic to Pair(base64ProofITCDLwhether_all_the_academic, "Academic Room Availability proof"),
-            spinnerITCDLAcademicRoomInformationBoard to Pair(base64ProofITCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
-            spinnerITCDLInternalSignage to Pair(base64ProofITCDLInternalSignage, "Internal Signage proof"),
-            spinnerITCDLCctcCamerasWithAudioFacility to Pair(base64ProofITCDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-            spinnerITCDLInternetConnections to Pair(base64ProofITCDLInternetConnections, "Internet Connection proof"),
-            spinnerITCDLDoAllComputersHaveTypingTutor to Pair(base64ProofITCDLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
-            spinnerITCDLTrainerChair to Pair(base64ProofITCDLTrainerChair, "Trainer Chair proof"),
-            spinnerITCDLTrainerTable to Pair(base64ProofITCDLTrainerTable, "Trainer Table proof"),
-            spinnerITCDLElectricaPowerBackUp to Pair(base64ProofITCDLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
-            spinnerITCDLDoes_the_room_has to Pair(base64ProofITCDLDoes_the_room_has, "Room Facility proof")
-        )
-
-        // --- 5️⃣ Conditional Validation: if Spinner = "Yes" then Base64 image mandatory ---
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
-            val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
-            if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 6️⃣ Always Required Image Proofs ---
-        val proofImages = mapOf(
-            base64ProofPreviewITCDLTypeofRoofItLab to "Please upload proof for Type of Roof",
-            base64ProofITCDLFalseCellingProvide to "Please upload proof for False Ceiling",
-            base64ProofITCDLabHeightOfCelling to "Please upload proof for Height of Ceiling",
-            base64ProofITCDLVentilationAreaInSqFt to "Please upload proof for Ventilation Area (in Sq Ft)",
-            base64ProofITCDLabSoundLevelInDb to "Please upload proof for Sound Level (in dB)",
-            base64ProofITCDLLanEnabledComputersInNo to "Please upload proof for LAN-enabled Computers",
-            base64ProofITCDLTablets to "Please upload proof for Tablets",
-            base64ProofITCDLStoolsChairs to "Please upload proof for Stools and Chairs",
-            base64ProofITCDLLightsInNo to "Please upload proof for Lights",
-            base64ProofITCDLFansInNo to "Please upload proof for Fans",
-            base64ProofITCDLItLabPhotograph to "Please upload proof for IT Come Domain Lab Photograph",
-//            base64ProofITCDLListofDomain to "Please upload proof for List of Domains"
-        )
-
-        for ((base64, message) in proofImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please upload $proofMessage (selected Yes)", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
@@ -6880,7 +7015,107 @@ class TrainingFragment : Fragment() {
         return isValid
     }
 
-    //    TheoryCumITLab
+
+//    validateITComeDomainLab
+private fun validateITComeDomainLab(): Boolean {
+    var isValid = true
+    var firstFocusSet = false
+
+    // ✅ 1️⃣ Validate EditText Fields
+    val editTextFields = mapOf(
+        etLength to "Length is required",
+        etWidth to "Width is required",
+        etITCDLHeightOfCelling to "Height of Ceiling is required",
+        etITCDLVentilationAreaInSqFt to "Ventilation Area (in Sq Ft) is required",
+        etITCDLabSoundLevelInDb to "Sound Level (in dB) is required",
+        etITCDLLanEnabledComputersInNo to "Number of LAN-enabled Computers is required",
+        etITCDLTablets to "Number of Tablets is required",
+        etITCDLStoolsChairs to "Number of Stools & Chairs is required",
+        etITCDLLightsInNo to "Number of Lights is required",
+        etITCDLFansInNo to "Number of Fans is required",
+        etITCDLListofDomain to "ListofDomain",
+    )
+
+    for ((field, message) in editTextFields) {
+        val text = field.text?.toString()?.trim().orEmpty()
+        if (text.isEmpty()) {
+            field.error = message
+            if (!firstFocusSet) {
+                field.requestFocus()
+                firstFocusSet = true
+            }
+            isValid = false
+        } else {
+            field.error = null
+        }
+    }
+
+    // ✅ 2️⃣ Spinner Validation Helper
+    fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
+        if (spinner.selectedItemPosition <= 0) {
+            Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
+            if (!firstFocusSet) {
+                spinner.requestFocus()
+                firstFocusSet = true
+            }
+            return false
+        }
+        return true
+    }
+
+    // ✅ 3️⃣ Validate Required Spinners
+    val spinnerList = listOf(
+        spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
+        spinnerITCDLItLabPhotograph to "IT Lab Photograph",
+        spinnerITCDLTypeofRoofItLab to "Type of Roof",
+        spinnerITCDLFalseCellingProvide to "False Ceiling Provided",
+        spinnerITCDLwhether_all_the_academic to "Academic Rooms Availability",
+        spinnerITCDLAcademicRoomInformationBoard to "Academic Room Information Board",
+        spinnerITCDLInternalSignage to "Internal Signage",
+        spinnerITCDLCctcCamerasWithAudioFacility to "CCTV Cameras With Audio",
+        spinnerITCDLInternetConnections to "Internet Connection",
+        spinnerITCDLDoAllComputersHaveTypingTutor to "Typing Tutor Availability",
+        spinnerITCDLTrainerChair to "Trainer Chair Availability",
+        spinnerITCDLTrainerTable to "Trainer Table Availability",
+        spinnerITCDLElectricaPowerBackUp to "Electrical Power Backup",
+        spinnerITCDLDoes_the_room_has to "Required Facilities Availability"
+    )
+
+    for ((spinner, name) in spinnerList) {
+        if (!checkSpinner(spinner, name)) isValid = false
+    }
+
+    // ✅ 4️⃣ Conditional Proof Validation (Yes → Image required)
+    val spinnerToProofMap = listOf(
+        Triple(spinnerITCDLItLabPhotograph, base64ProofITCDLItLabPhotograph, "IT Lab Photograph proof"),
+        Triple(spinnerITCDLTypeofRoofItLab, base64ProofPreviewITCDLTypeofRoofItLab, "Type of Roof proof"),
+        Triple(spinnerITCDLFalseCellingProvide, base64ProofITCDLFalseCellingProvide, "False Ceiling proof"),
+        Triple(spinnerITCDLwhether_all_the_academic, base64ProofITCDLwhether_all_the_academic, "Academic Room Availability proof"),
+        Triple(spinnerITCDLAcademicRoomInformationBoard, base64ProofITCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
+        Triple(spinnerITCDLInternalSignage, base64ProofITCDLInternalSignage, "Internal Signage proof"),
+        Triple(spinnerITCDLCctcCamerasWithAudioFacility, base64ProofITCDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
+        Triple(spinnerITCDLInternetConnections, base64ProofITCDLInternetConnections, "Internet Connection proof"),
+        Triple(spinnerITCDLDoAllComputersHaveTypingTutor, base64ProofITCDLDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
+        Triple(spinnerITCDLTrainerChair, base64ProofITCDLTrainerChair, "Trainer Chair proof"),
+        Triple(spinnerITCDLTrainerTable, base64ProofITCDLTrainerTable, "Trainer Table proof"),
+        Triple(spinnerITCDLElectricaPowerBackUp, base64ProofITCDLElectricaPowerBackUpForThRoom, "Electrical Power Backup proof"),
+        Triple(spinnerITCDLDoes_the_room_has, base64ProofITCDLDoes_the_room_has, "Required Room Facilities proof"),
+    )
+
+    for ((spinner, base64, message) in spinnerToProofMap) {
+        val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
+        if (selected == "yes" && base64.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "Please upload $message (selected Yes)", Toast.LENGTH_SHORT).show()
+            isValid = false
+        }
+    }
+
+    return isValid
+}
+
+
+    //    validateTheoryCumITLab
+
     private fun validateTheoryCumITLab(): Boolean {
         var isValid = true
         var firstFocusSet = false
@@ -6890,20 +7125,13 @@ class TrainingFragment : Fragment() {
             etLength to "Length is required",
             etWidth to "Width is required",
             etTCILListofDomain to "Theory Cum IT Lab: List of Domain is required",
-            etTCILFalseCellingProvide to "Theory Cum IT Lab: False Ceiling Provide is required",
-            etTCILTypeofRoofItLab to "Theory Cum IT Lab: Type of Roof is required",
             etTCILHeightOfCelling to "Theory Cum IT Lab: Height of Ceiling is required",
             etTCILVentilationAreaInSqFt to "Theory Cum IT Lab: Ventilation Area in Sq Ft is required",
-//        etTCILSoundLevelAsPerSpecifications to "Theory Cum IT Lab: Sound Level as per specifications is required",
-//        etTCILSoundLevelInDb to "Theory Cum IT Lab: Sound Level in dB is required",
             etTCILLanEnabledComputersInNo to "Theory Cum IT Lab: LAN-enabled computers number is required",
             etTCILTablets to "Theory Cum IT Lab: Number of tablets is required",
             etTCILStoolsChairs to "Theory Cum IT Lab: Number of stools & chairs is required",
-            etTCILTrainerTable to "Theory Cum IT Lab: Trainer table is required",
-            etTCILTrainerChair to "Theory Cum IT Lab: Trainer chair is required",
             etTCILLightsInNo to "Theory Cum IT Lab: Number of lights is required",
-            etTCILFansInNo to "Theory Cum IT Lab: Number of fans is required",
-            etTCILTheoryCumItLabPhotogragh to "Theory Cum IT Lab: Lab photograph is required"
+            etTCILFansInNo to "Theory Cum IT Lab: Number of fans is required"
         )
 
         for ((field, message) in editTextFields) {
@@ -6935,31 +7163,40 @@ class TrainingFragment : Fragment() {
 
         // --- 3️⃣ Validate all Spinners ---
         val spinnerList = listOf(
-            spinnerTCILwhether_all_the_academic to "Whether all the academic rooms are available",
-            spinnerTCILLAcademicRoomInformationBoard to "Academic Room Information Board",
+            spinnerTTCILSoundLevelAsPerSpecifications to "Sound Level AsPerS pecificationsf",
+            spinnerTCILITypeofRoofItLab to "Type of Roof",
+            spinnerTCILFalseCellingProvide to "False Ceiling Provided",
+            spinnerTCILTrainerChair to "Trainer Chair",
+            spinnerTCILTrainerTable to "Trainer Table",
+            spinnerTCILwhether_all_the_academic to "Academic Rooms Availability",
+            spinnerTCILLAcademicRoomInformationBoard to "Academic Room Info Board",
             spinnerTCILInternalSignage to "Internal Signage",
-            spinnerTCILCctcCamerasWithAudioFacility to "CCTV Cameras with Audio Facility",
-            spinnerTCILInternetConnections to "Internet Connections",
+            spinnerTCILCctcCamerasWithAudioFacility to "CCTV Cameras with Audio",
+            spinnerTCILInternetConnections to "Internet Connection",
             spinnerTCILElectricPowerBackup to "Electrical Power Backup",
-            spinnerTCILDLDoAllComputersHaveTypingTutor to "Typing Tutor on all computers",
-//        spinnerTCILIPEnabled to "LAN-enabled computers",
-            spinnerTCILDLDoes_the_room_has to "Room Air Conditioning"
+            spinnerTCILDLDoAllComputersHaveTypingTutor to "Typing Tutor Availability",
+            spinnerTCILDLDoes_the_room_has to "Room Facility",
+            spinnerTCILTheoryCumItLabPhotogragh to "Theory Cum IT Lab Photograph"
         )
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Conditional Image Validation (if spinner = "Yes") ---
+        // --- 4️⃣ Conditional Proof Required Only When "Yes" Selected ---
         val spinnerToProofMap = mapOf(
-            spinnerTCILwhether_all_the_academic to Pair(base64ProofPreviewTCILwhether_all_the_academic, "Academic Room Availability proof"),
-            spinnerTCILLAcademicRoomInformationBoard to Pair(base64ProofPreviewTCILAcademicRoomInformationBoard, "Academic Room Information Board proof"),
+            spinnerTCILITypeofRoofItLab to Pair(base64ProofPreviewTCILTypeofRoofItLab, "Type of Roof photo"),
+            spinnerTCILFalseCellingProvide to Pair(base64ProofPreviewTCILFalseCellingProvide, "False Ceiling photo"),
+            spinnerTCILTrainerChair to Pair(base64ProofPreviewTCILTrainerChair, "Trainer Chair photo"),
+            spinnerTCILTrainerTable to Pair(base64ProofPreviewTCILTrainerTable, "Trainer Table photo"),
+            spinnerTCILwhether_all_the_academic to Pair(base64ProofPreviewTCILwhether_all_the_academic, "Academic Room proof"),
+            spinnerTCILLAcademicRoomInformationBoard to Pair(base64ProofPreviewTCILAcademicRoomInformationBoard, "Info Board proof"),
             spinnerTCILInternalSignage to Pair(base64ProofPreviewTCILInternalSignage, "Internal Signage proof"),
-            spinnerTCILCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCILCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-            spinnerTCILInternetConnections to Pair(base64ProofPreviewTCILInternetConnections, "Internet Connection proof"),
+            spinnerTCILCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCILCctcCamerasWithAudioFacility, "CCTV proof"),
+            spinnerTCILInternetConnections to Pair(base64ProofPreviewTCILInternetConnections, "Internet proof"),
             spinnerTCILDLDoAllComputersHaveTypingTutor to Pair(base64ProofPreviewTCILDoAllComputersHaveTypingTutor, "Typing Tutor proof"),
-//        spinnerTCILIPEnabled to Pair(base64ProofPreviewTCILLanEnabledComputersInNo, "LAN-enabled Computers proof"),
-            spinnerTCILDLDoes_the_room_has to Pair(base64ProofPreviewTCILDoes_the_room_has, "Room Facility proof")
+            spinnerTCILDLDoes_the_room_has to Pair(base64ProofPreviewTCILDoes_the_room_has, "Room Facility proof"),
+            spinnerTCILTheoryCumItLabPhotogragh to Pair(base64ProofPreviewTCILTheoryCumItLabPhotogragh, "Lab Photograph proof")
         )
 
         for ((spinner, proofPair) in spinnerToProofMap) {
@@ -6971,57 +7208,25 @@ class TrainingFragment : Fragment() {
             }
         }
 
-        // --- 5️⃣ Always Required Base64 Images ---
-        val requiredImages = mapOf(
-            base64ProofPreviewTCILListofDomain to "List of Domain proof",
-            base64ProofPreviewTCILTypeofRoofItLab to "Type of Roof proof",
-            base64ProofPreviewTCILFalseCellingProvide to "False Ceiling proof",
-            base64ProofPreviewTCILHeightOfCelling to "Height of Ceiling proof",
-            base64ProofPreviewTCILVentilationAreaInSqFt to "Ventilation Area proof",
-//        base64ProofPreviewTTCILSoundLevelInDb to "Sound Level proof",
-            base64ProofPreviewTCILTablets to "Tablets proof",
-            base64ProofPreviewTCILStoolsChairs to "Stools & Chairs proof",
-            base64ProofPreviewTCILTrainerTable to "Trainer Table proof",
-            base64ProofPreviewTCILLanEnabledComputersInNo to "Enabled Computers In No",
-            base64ProofPreviewTCILTrainerChair to "Trainer Chair proof",
-            base64ProofPreviewTCILLightsInNo to "Lights proof",
-            base64ProofPreviewTCILFansInNo to "Fans proof",
-            base64ProofPreviewTCILTheoryCumItLabPhotogragh to "Lab Photograph proof"
-        )
-
-        for ((base64, message) in requiredImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $message", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
         return isValid
     }
+
     //    TheoryCumDomainLab
+
     private fun validateTheoryCumDomainLab(): Boolean {
         var isValid = true
         var firstFocusSet = false
 
-        // --- 1️⃣ Validate EditText Fields ---
+        // ✅ Validate EditText fields
         val editTextFields = mapOf(
             etLength to "Length is required",
             etWidth to "Width is required",
-            etTCDLTypeofRoofItLab to "Theory Cum Domain Lab: Type of Roof is required",
-            etTCDLFalseCellingProvide to "Theory Cum Domain Lab: False Ceiling Provide is required",
-            etTCDLHeightOfCelling to "Theory Cum Domain Lab: Height of Ceiling is required",
-            etTCDLVentilationAreaInSqFt to "Theory Cum Domain Lab: Ventilation Area in Sq Ft is required",
-            etTCDLSoundLevelAsPerSpecifications to "Theory Cum Domain Lab: Sound Level as per specifications is required",
-            etTCDLSoundLevelInDb to "Theory Cum Domain Lab: Sound Level in dB is required",
-            etTCDLLcdDigitalProjector to "Theory Cum Domain Lab: LCD/Digital Projector is required",
-            etTCDLChairForCandidatesInNo to "Theory Cum Domain Lab: Chair for Candidates is required",
-            etTCDLTrainerChair to "Theory Cum Domain Lab: Trainer Chair is required",
-            etTCDLTrainerTable to "Theory Cum Domain Lab: Trainer Table is required",
-            etTCDLWritingBoard to "Theory Cum Domain Lab: Writing Board is required",
-            etTCDLLightsInNo to "Theory Cum Domain Lab: Number of Lights is required",
-            etTCDLFansInNo to "Theory Cum Domain Lab: Number of Fans is required",
-//            etTCDLListofDomain to "Theory Cum Domain Lab: List of Domain is required",
-            etTCDLDomainLabPhotogragh to "Theory Cum Domain Lab: Lab Photograph is required"
+            etTCDLHeightOfCelling to "Height of Ceiling is required",
+            etTCDLVentilationAreaInSqFt to "Ventilation Area Sq Ft is required",
+            etTCDLSoundLevelInDb to "Sound Level in dB is required",
+            etTCDLChairForCandidatesInNo to "Chair for Candidates is required",
+            etTCDLLightsInNo to "Lights is required",
+            etTCDLFansInNo to "Fans is required"
         )
 
         for ((field, message) in editTextFields) {
@@ -7033,12 +7238,10 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
-        // --- 2️⃣ Spinner Validation Helper ---
+        // ✅ Spinner validation
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             if (spinner.selectedItemPosition <= 0) {
                 Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
@@ -7051,12 +7254,19 @@ class TrainingFragment : Fragment() {
             return true
         }
 
-        // --- 3️⃣ Validate all Spinners ---
         val spinnerList = listOf(
-            spinnerTCDLwhether_all_the_academic to "Whether all academic rooms are available",
-            spinnerTCDLAcademicRoomInformationBoard to "Academic Room Information Board",
+            spinnerTCDLTypeofRoofItLab to "Type of Roof",
+            spinnerTCDLFalseCellingProvide to "False Ceiling Provide",
+            spinnerTCDLSoundLevelAsPerSpecifications to "Sound Level as per Specifications",
+            spinnerTCDLLcdDigitalProjector to "LCD/Digital Projector",
+            spinnerTCDLTrainerChair to "Trainer Chair",
+            spinnerTCDLTrainerTable to "Trainer Table",
+            spinnerTCDLWritingBoard to "Writing Board",
+            spinnerTCDLDomainLabPhotogragh to "Domain Lab Photograph",
+            spinnerTCDLwhether_all_the_academic to "Academic Rooms Availability",
+            spinnerTCDLAcademicRoomInformationBoard to "Information Board",
             spinnerTCDLInternalSignage to "Internal Signage",
-            spinnerTCDLCctcCamerasWithAudioFacility to "CCTV Cameras with Audio Facility",
+            spinnerTCDLCctcCamerasWithAudioFacility to "CCTV Camera",
             spinnerTCDLPowerBackup to "Power Backup",
             spinnerTCDLDoes_the_room_has to "Room Air Conditioning"
         )
@@ -7065,75 +7275,52 @@ class TrainingFragment : Fragment() {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Conditional Image Validation (if spinner = "Yes") ---
-        val spinnerToProofMap = mapOf(
-            spinnerTCDLwhether_all_the_academic to Pair(base64ProofPreviewTCDLwhether_all_the_academic, "Academic Room Availability proof"),
-            spinnerTCDLAcademicRoomInformationBoard to Pair(base64ProofPreviewTCDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
-            spinnerTCDLInternalSignage to Pair(base64ProofPreviewTCDLInternalSignage, "Internal Signage proof"),
-            spinnerTCDLCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-            spinnerTCDLPowerBackup to Pair(base64ProofPreviewTCDLElectricaPowerBackUpForThRoom, "Power Backup proof"),
-            spinnerTCDLDoes_the_room_has to Pair(base64ProofPreviewTCDLDoes_the_room_has, "Room Air Conditioning proof")
+        // ✅ Conditional Image Validation (Yes → Image Required)
+        val yesConditionMap = mapOf(
+            spinnerTCDLTypeofRoofItLab to Pair(base64ProofPreviewTCDLTypeofRoofItLab, "Type of Roof Proof"),
+            spinnerTCDLFalseCellingProvide to Pair(base64ProofPreviewTCDLFalseCellingProvide, "False Ceiling Proof"),
+            spinnerTCDLLcdDigitalProjector to Pair(base64ProofPreviewTCDLLcdDigitalProjector, "Digital Projector Proof"),
+            spinnerTCDLTrainerChair to Pair(base64ProofPreviewTCDLTrainerChair, "Trainer Chair Proof"),
+            spinnerTCDLTrainerTable to Pair(base64ProofPreviewTCDLTrainerTable, "Trainer Table Proof"),
+            spinnerTCDLWritingBoard to Pair(base64ProofPreviewTCDLWritingBoard, "Writing Board Proof"),
+            spinnerTCDLDomainLabPhotogragh to Pair(base64ProofPreviewTCDLDomainLabPhotogragh, "Domain Lab Photograph"),
+            spinnerTCDLwhether_all_the_academic to Pair(base64ProofPreviewTCDLwhether_all_the_academic, "Academic Room Proof"),
+            spinnerTCDLAcademicRoomInformationBoard to Pair(base64ProofPreviewTCDLAcademicRoomInformationBoard, "Information Board Proof"),
+            spinnerTCDLInternalSignage to Pair(base64ProofPreviewTCDLInternalSignage, "Internal Signage Proof"),
+            spinnerTCDLCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCDLCctcCamerasWithAudioFacility, "CCTV Camera Proof"),
+            spinnerTCDLPowerBackup to Pair(base64ProofPreviewTCDLElectricaPowerBackUpForThRoom, "Power Backup Proof"),
+            spinnerTCDLDoes_the_room_has to Pair(base64ProofPreviewTCDLDoes_the_room_has, "Air Conditioning Proof")
         )
 
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
+        for ((spinner, pair) in yesConditionMap) {
+            val (base64, proofName) = pair
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 5️⃣ Always Required Base64 Images ---
-        val requiredImages = mapOf(
-            base64ProofPreviewTCDLTypeofRoofItLab to "Type of Roof proof",
-            base64ProofPreviewTCDLFalseCellingProvide to "False Ceiling proof",
-            base64ProofPreviewTCDLHeightOfCelling to "Height of Ceiling proof",
-            base64ProofPreviewTCDLVentilationAreaInSqFt to "Ventilation Area proof",
-            base64ProofPreviewTCDLSoundLevelInDb to "Sound Level proof",
-            base64ProofPreviewTCDLLcdDigitalProjector to "LCD/Digital Projector proof",
-            base64ProofPreviewTCDLChairForCandidatesInNo to "Chair for Candidates proof",
-            base64ProofPreviewTCDLTrainerChair to "Trainer Chair proof",
-            base64ProofPreviewTCDLTrainerTable to "Trainer Table proof",
-            base64ProofPreviewTCDLWritingBoard to "Writing Board proof",
-            base64ProofPreviewTCDLLightsInNo to "Lights proof",
-            base64ProofPreviewTCDLFansInNo to "Fans proof",
-//            base64ProofPreviewTCDLListofDomain to "List of Domain proof",
-            base64ProofPreviewTCDLDomainLabPhotogragh to "Lab Photograph proof"
-        )
-
-        for ((base64, message) in requiredImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $message", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
 
         return isValid
     }
+
     //    DomainLab
+
     private fun validateDomainLab(): Boolean {
         var isValid = true
         var firstFocusSet = false
 
-        // --- 1️⃣ Validate EditText Fields ---
+        // ✅ Validate EditText Fields
         val editTextFields = mapOf(
             etLength to "Length is required",
             etWidth to "Width is required",
-            etDLTypeofRoofItLab to "Domain Lab: Type of Roof is required",
-            etDLFalseCellingProvide to "Domain Lab: False Ceiling Provide is required",
             etDLHeightOfCelling to "Domain Lab: Height of Ceiling is required",
             etDLVentilationAreaInSqFt to "Domain Lab: Ventilation Area in Sq Ft is required",
-            etDLSoundLevelAsPerSpecifications to "Domain Lab: Sound Level as per specifications is required",
             etDLSoundLevelInDb to "Domain Lab: Sound Level in dB is required",
-            etDLLcdDigitalProjector to "Domain Lab: LCD/Digital Projector is required",
             etDLChairForCandidatesInNo to "Domain Lab: Chair for Candidates is required",
-            etDLTrainerChair to "Domain Lab: Trainer Chair is required",
-            etDLTrainerTable to "Domain Lab: Trainer Table is required",
-            etDLWritingBoard to "Domain Lab: Writing Board is required",
             etDLLightsInNo to "Domain Lab: Number of Lights is required",
+            etDLListOfDomainLab to "Domain Lab: Number of List of domain lab",
             etDLFansInNo to "Domain Lab: Number of Fans is required",
-//            etDLDomainLabPhotogragh to "Domain Lab: Lab Photograph is required"
         )
 
         for ((field, message) in editTextFields) {
@@ -7145,12 +7332,11 @@ class TrainingFragment : Fragment() {
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
-        // --- 2️⃣ Spinner Validation Helper ---
+
+        // ✅ Spinner Validation Helper
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             if (spinner.selectedItemPosition <= 0) {
                 Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
@@ -7163,107 +7349,89 @@ class TrainingFragment : Fragment() {
             return true
         }
 
-        // --- 3️⃣ Validate all Spinners ---
+
+        // ✅ Validate Spinners Only
         val spinnerList = listOf(
             spinnerDLwhether_all_the_academic to "Whether all academic rooms are available",
+            spinnerDLLcdDigitalProjector to "Digital Projector",
+            spinnerDLTrainerChair to "Trainer Chair",
+            spinnerDLTrainerTable to "Trainer Table",
+            spinnerDLWritingBoard to "Writing Board",
+            spinnerDLFalseCellingProvide to "False Ceiling Provide",
+            spinnerDLTypeofRoofItLab to "Type of Roof",
+            spinnerDDLSoundLevelAsPerSpecifications to "Sound Level as per Specifications",
+            spinnerDLDomainLabPhotogragh to "Domain Lab Photograph",
             spinnerDLAcademicRoomInformationBoard to "Academic Room Information Board",
             spinnerDLInternalSignage to "Internal Signage",
-            spinnerDLCctcCamerasWithAudioFacility to "CCTV Cameras with Audio Facility",
+            spinnerDLCctcCamerasWithAudioFacility to "CCTV Cameras",
             spinnerDLElectricaPowerBackUp to "Power Backup",
             spinnerDLDoes_the_room_has to "Room Air Conditioning",
-            spinnerDLListofDomain to "Domain Lab List of Domain"
         )
 
         for ((spinner, name) in spinnerList) {
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Conditional Image Validation (if spinner = "Yes") ---
-        val spinnerToProofMap = mapOf(
+
+        // ✅ Conditional Image Validation (Yes → Image Required)
+        val yesConditionalImages = mapOf(
             spinnerDLwhether_all_the_academic to Pair(base64ProofPreviewDLwhether_all_the_academic, "Academic Room Availability proof"),
-            spinnerDLAcademicRoomInformationBoard to Pair(base64ProofPreviewDLAcademicRoomInformationBoard, "Academic Room Information Board proof"),
+            spinnerDLAcademicRoomInformationBoard to Pair(base64ProofPreviewDLAcademicRoomInformationBoard, "Information Board proof"),
             spinnerDLInternalSignage to Pair(base64ProofPreviewDLInternalSignage, "Internal Signage proof"),
             spinnerDLCctcCamerasWithAudioFacility to Pair(base64ProofPreviewDLCctcCamerasWithAudioFacility, "CCTV Camera proof"),
+            spinnerDLLcdDigitalProjector to Pair(base64ProofPreviewDLLcdDigitalProjector, "Digital Projector proof"),
+            spinnerDLTrainerChair to Pair(base64ProofPreviewDLTrainerChair, "Trainer Chair proof"),
+            spinnerDLTrainerTable to Pair(base64ProofPreviewDLTrainerTable, "Trainer Table proof"),
+            spinnerDLWritingBoard to Pair(base64ProofPreviewDLWritingBoard, "Writing Board proof"),
+            spinnerDLFalseCellingProvide to Pair(base64ProofPreviewDLFalseCellingProvide, "False Ceiling proof"),
+            spinnerDLTypeofRoofItLab to Pair(base64ProofPreviewDLTypeofRoofItLab, "Roof Type proof"),
+            spinnerDLDomainLabPhotogragh to Pair(base64ProofPreviewDLDomainLabPhotogragh, "Domain Lab Photograph proof"),
             spinnerDLElectricaPowerBackUp to Pair(base64ProofPreviewDLElectricaPowerBackUpForThRoom, "Power Backup proof"),
-            spinnerDLDoes_the_room_has to Pair(base64ProofPreviewDLDoes_the_room_has, "Room Air Conditioning proof"),
-            spinnerDLListofDomain to Pair(base64ProofPreviewDLILListofDomain, "Domain Lab List of Domain proof")
+            spinnerDLDoes_the_room_has to Pair(base64ProofPreviewDLDoes_the_room_has, "Air Conditioning proof"),
         )
 
-        for ((spinner, proofPair) in spinnerToProofMap) {
-            val (base64, proofName) = proofPair
+        for ((spinner, pair) in yesConditionalImages) {
+            val (base64, proofName) = pair
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 5️⃣ Always Required Base64 Images ---
-        val requiredImages = mapOf(
-            base64ProofPreviewDLTypeofRoofItLab to "Type of Roof proof",
-            base64ProofPreviewDLFalseCellingProvide to "False Ceiling proof",
-            base64ProofPreviewDLHeightOfCelling to "Height of Ceiling proof",
-            base64ProofPreviewDLVentilationAreaInSqFt to "Ventilation Area proof",
-            base64ProofPreviewDLSoundLevelInDb to "Sound Level proof",
-            base64ProofPreviewDLLcdDigitalProjector to "LCD/Digital Projector proof",
-            base64ProofPreviewDLChairForCandidatesInNo to "Chair for Candidates proof",
-            base64ProofPreviewDLTrainerChair to "Trainer Chair proof",
-            base64ProofPreviewDLTrainerTable to "Trainer Table proof",
-            base64ProofPreviewDLWritingBoard to "Writing Board proof",
-            base64ProofPreviewDLLightsInNo to "Lights proof",
-            base64ProofPreviewDLFansInNo to "Fans proof",
-//            base64ProofPreviewDLDomainLabPhotogragh to "Lab Photograph proof"
-        )
-
-        for ((base64, message) in requiredImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $message", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please upload $proofName", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
 
         return isValid
     }
+
     //    Theory Class Room
     private fun validateTheoryClassRoom(): Boolean {
         var isValid = true
         var firstFocusSet = false
 
-        // --- 1️⃣ Validate EditText Fields ---
+        // ✅ 1️⃣ Validate EditText fields
         val editTextFields = mapOf(
             etLength to "Theory Class Room: Length is required",
             etWidth to "Theory Class Room: Width is required",
-            etTCRTypeofRoofItLab to "Theory Class Room: Type of Roof is required",
-            etTCRFalseCellingProvide to "Theory Class Room: False Ceiling Provide is required",
             etTCRHeightOfCelling to "Theory Class Room: Height of Ceiling is required",
             etTCRVentilationAreaInSqFt to "Theory Class Room: Ventilation Area in Sq Ft is required",
-            etTCRSoundLevelAsPerSpecifications to "Theory Class Room: Sound Level as per specifications is required",
             etTCRSoundLevelInDb to "Theory Class Room: Sound Level in dB is required",
-            etTCRLcdDigitalProjector to "Theory Class Room: Digital Projector is required",
             etTCRChairForCandidatesInNo to "Theory Class Room: Chair for Candidates is required",
-            etTCRTrainerChair to "Theory Class Room: Trainer Chair is required",
-            etTCRTrainerTable to "Theory Class Room: Trainer Table is required",
-            etTCRWritingBoard to "Theory Class Room: Writing Board is required",
             etTCRLightsInNo to "Theory Class Room: Number of Lights is required",
-            etTCRFansInNo to "Theory Class Room: Number of Fans is required",
-            etTCRDomainLabPhotogragh to "Theory Class Room: Photograph is required"
+            etTCRFansInNo to "Theory Class Room: Number of Fans is required"
         )
 
-        for ((field, message) in editTextFields) {
+        editTextFields.forEach { (field, errMsg) ->
             val text = field.text?.toString()?.trim().orEmpty()
             if (text.isEmpty()) {
-                field.error = message
+                field.error = errMsg
                 if (!firstFocusSet) {
                     field.requestFocus()
                     firstFocusSet = true
                 }
                 isValid = false
-            } else {
-                field.error = null
-            }
+            } else field.error = null
         }
 
-        // --- 2️⃣ Spinner Validation Helper ---
+        // ✅ 2️⃣ Spinner validation helper
         fun checkSpinner(spinner: Spinner, fieldName: String): Boolean {
             if (spinner.selectedItemPosition <= 0) {
                 Toast.makeText(requireContext(), "Please select $fieldName", Toast.LENGTH_SHORT).show()
@@ -7276,64 +7444,54 @@ class TrainingFragment : Fragment() {
             return true
         }
 
-        // --- 3️⃣ Validate all Spinners ---
+        // ✅ 3️⃣ Validate mandatory spinner selection
         val spinnerList = listOf(
-            spinnerTCRwhether_all_the_academic to "Whether all the Academic Rooms are available",
-            spinnerTCRAcademicRoomInformationBoard to "Academic Room Information Board",
+            spinnerTCRSoundLevelAsPerSpecifications to "Sound Level AsPer Specifications",
+            spinnerTCRTypeofRoofItLab to "Type Of Roof",
+            spinnerTCRFalseCellingProvide to "False Celling Provide",
+            spinnerTCRLcdDigitalProjector to "Digital Projector",
+            spinnerTCRTrainerChair to "Trainer Chair",
+            spinnerTCRTrainerTable to "Trainer Table",
+            spinnerTCRWritingBoard to "Writing Board",
+            spinnerTCRDomainLabPhotogragh to "Domain Lab Photograph",
+            spinnerTCRwhether_all_the_academic to "Academic Room Availability",
+            spinnerTCRAcademicRoomInformationBoard to "Information Board",
             spinnerTCRInternalSignage to "Internal Signage",
-            spinnerTCRCctcCamerasWithAudioFacility to "CCTV Cameras with Audio Facility",
-            spinnerTCRDoes_the_room_has to "Room Air Conditioning / Facilities"
+            spinnerTCRCctcCamerasWithAudioFacility to "CCTV Cameras",
+            spinnerTCRDoes_the_room_has to "AC Room Facilities"
         )
 
-        for ((spinner, name) in spinnerList) {
+        spinnerList.forEach { (spinner, name) ->
             if (!checkSpinner(spinner, name)) isValid = false
         }
 
-        // --- 4️⃣ Conditional Image Validation (if spinner = "Yes") ---
+        // ✅ 4️⃣ Only required if YES selected ✅
         val spinnerToProofMap = mapOf(
-            spinnerTCRwhether_all_the_academic to Pair(base64ProofPreviewTCRwhether_all_the_academic, "Academic Room Availability proof"),
-            spinnerTCRAcademicRoomInformationBoard to Pair(base64ProofPreviewTCRAcademicRoomInformationBoard, "Academic Room Information Board proof"),
-            spinnerTCRInternalSignage to Pair(base64ProofPreviewTCRInternalSignage, "Internal Signage proof"),
-            spinnerTCRCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCRCctcCamerasWithAudioFacility, "CCTV Camera proof"),
-            spinnerTCRDoes_the_room_has to Pair(base64ProofPreviewTCRDoes_the_room_has, "Room Air Conditioning proof")
+            spinnerTCRTypeofRoofItLab to Pair(base64ProofPreviewTCRTypeofRoofItLab, "Type of Roof"),
+            spinnerTCRFalseCellingProvide to Pair(base64ProofPreviewTCRFalseCellingProvide, "False Ceiling"),
+            spinnerTCRLcdDigitalProjector to Pair(base64ProofPreviewTCRLcdDigitalProjector, "Digital Projector"),
+            spinnerTCRTrainerChair to Pair(base64ProofPreviewTCRTrainerChair, "Trainer Chair"),
+            spinnerTCRTrainerTable to Pair(base64ProofPreviewTCRTrainerTable, "Trainer Table"),
+            spinnerTCRWritingBoard to Pair(base64ProofPreviewTCRWritingBoard, "Writing Board"),
+            spinnerTCRDomainLabPhotogragh to Pair(base64ProofPreviewTCRDomainLabPhotogragh, "Domain Lab Photo"),
+            spinnerTCRwhether_all_the_academic to Pair(base64ProofPreviewTCRwhether_all_the_academic, "Academic Room Proof"),
+            spinnerTCRAcademicRoomInformationBoard to Pair(base64ProofPreviewTCRAcademicRoomInformationBoard, "Information Board Proof"),
+            spinnerTCRInternalSignage to Pair(base64ProofPreviewTCRInternalSignage, "Internal Signage Proof"),
+            spinnerTCRCctcCamerasWithAudioFacility to Pair(base64ProofPreviewTCRCctcCamerasWithAudioFacility, "CCTV Proof"),
+            spinnerTCRDoes_the_room_has to Pair(base64ProofPreviewTCRDoes_the_room_has, "AC Room Proof")
         )
 
-        for ((spinner, proofPair) in spinnerToProofMap) {
+        spinnerToProofMap.forEach { (spinner, proofPair) ->
             val (base64, proofName) = proofPair
             val selected = spinner.selectedItem?.toString()?.trim()?.lowercase() ?: ""
             if (selected == "yes" && base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $proofName (You selected Yes)", Toast.LENGTH_SHORT).show()
-                isValid = false
-            }
-        }
-
-        // --- 5️⃣ Always Required Base64 Images ---
-        val requiredImages = mapOf(
-            base64ProofPreviewTCRTypeofRoofItLab to "Type of Roof proof",
-            base64ProofPreviewTCRFalseCellingProvide to "False Ceiling proof",
-            base64ProofPreviewTCRHeightOfCelling to "Height of Ceiling proof",
-            base64ProofPreviewTCRVentilationAreaInSqFt to "Ventilation Area proof",
-            base64ProofPreviewTCRSoundLevelInDb to "Sound Level proof",
-            base64ProofPreviewTCRLcdDigitalProjector to "Digital Projector proof",
-            base64ProofPreviewTCRChairForCandidatesInNo to "Chair for Candidates proof",
-            base64ProofPreviewTCRTrainerChair to "Trainer Chair proof",
-            base64ProofPreviewTCRTrainerTable to "Trainer Table proof",
-            base64ProofPreviewTCRWritingBoard to "Writing Board proof",
-            base64ProofPreviewTCRLightsInNo to "Lights proof",
-            base64ProofPreviewTCRFansInNo to "Fans proof",
-            base64ProofPreviewTCRDomainLabPhotogragh to "Photograph proof"
-        )
-
-        for ((base64, message) in requiredImages) {
-            if (base64.isNullOrBlank()) {
-                Toast.makeText(requireContext(), "Please upload $message", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Upload $proofName (You selected YES)", Toast.LENGTH_SHORT).show()
                 isValid = false
             }
         }
 
         return isValid
     }
-
 
 
 
@@ -7356,74 +7514,75 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-        val ITLTypeofRoofItLab = etITLTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
+//        val ITLTypeofRoofItLab = etITLTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
         val ITLHeightOfCelling = etITLHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val ventilationArea = etITLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val ITLSoundLevelAsPerSpecifications = etITLSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
+
         val ITLSoundLevelInDb = etITLSoundLevelInDb.text.toString().toIntOrNull() ?: 0
         val ITLLanEnabledComputersInNo = etITLLanEnabledComputersInNo.text.toString()
         val ITLTablets = etITLTablets.text.toString()
         val ITLStoolsChairs = etITLStoolsChairs.text.toString()
         val ITLLightsInNo = etITLLightsInNo.text.toString()
         val ITLFansInNo = etITLFansInNo.text.toString()
-        val request = ITLabDetailsRequest(
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType = ITLTypeofRoofItLab.toString(),
-            roofTypeAttachment =  base64ProofPreviewITLTypeofRoofItLab ?: "",
-            falseCeiling = spinnerITLFalseCellingProvide.selectedItem.toString()
-            , falseCeilingAttachment = base64ProofITLFalseCellingProvide?: "",
-            ceilingHeight = ITLHeightOfCelling.toString(),
-            ceilingHeightAttachment = base64ProofITLHeightOfCelling?: "",
-            ventilationArea=ventilationArea.toString(),
-            ventilationAreaAttachment=base64ProofITLVentilationAreaInSqFt?: "",
-            soundLevelSpecifications = ITLSoundLevelAsPerSpecifications.toString(),
-            soundLevel=ITLSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofITLSoundLevelInDb?: "",
-            centerSoungProofed=spinnerITLwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofITLwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerITLAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofITLAcademicRoomInformationBoard?: "",
-            internalSignage=spinnerITLInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofITLInternalSignage?: "",
-            audioCamera=spinnerITLCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment=base64ProofITLCctcCamerasWithAudioFacility?: "",
-            lanEnabledComputers=ITLLanEnabledComputersInNo.toString(),
-            lanEnabledComputersAttachment=base64ProofITLLanEnabledComputersInNo?: "",
-            internetConnection=spinnerITLabInternetConnections.selectedItem.toString(),
-            internetConnectionAttachment=base64ProofITLInternetConnections?: "",
-            typingTuterComputers=spinnerITLDoAllComputersHaveTypingTutor.selectedItem.toString(),
-            typingTuterComputersAttachment=base64ProofITLDoAllComputersHaveTypingTutor?: "",
-            tablets=ITLTablets.toString(),
-            tabletsAttachment=base64ProofITLTablets?: "",
-            candidatesChair=ITLStoolsChairs.toString(),
-            candidatesChairAttachment=base64ProofITLStoolsChairs?: "",
-            trainersChair=spinnerITLTrainerChair.selectedItem.toString(),
-            trainersChairAttachment=base64ProofITLTrainerChair?: "",
-            trainersTable=spinnerITLTrainerTable.selectedItem.toString(),
-            trainersTableAttachment=base64ProofITLTrainerTable?: "",
-            lightsAcademic=ITLLightsInNo.toString(),
-            lightsAttachment=base64ProofITLLightsInNo?: "",
-            fansAcademic=ITLFansInNo.toString(),
-            fansAttachment=base64ProofITLFansInNo?: "",
-            electricalPowerBackup=spinnerITLepbftr.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofITLElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=spinnerITLtLabPhotograph.selectedItem.toString(),
-            roomPhotographAttachment=base64ProofITLItLabPhotograph?: "",
-            airConditioningRoom=spinnerITLDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofITLDoes_the_room_has?: "",
-        )
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = ITLabDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType = spinnerITLTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofPreviewITLTypeofRoofItLab ?: "",
+                falseCeiling = spinnerITLFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofITLFalseCellingProvide ?: "",
+                ceilingHeight = ITLHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofITLHeightOfCelling ?: "",
+                ventilationArea = ventilationArea.toString(),
+                ventilationAreaAttachment = base64ProofITLVentilationAreaInSqFt ?: "",
+                soundLevelSpecifications = spinnerITLSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel = ITLSoundLevelInDb.toString(),
+                soundLevelAttachment = base64ProofITLSoundLevelInDb ?: "",
+                centerSoungProofed = spinnerITLwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment = base64ProofITLwhether_all_the_academic ?: "",
+                roomInfoBoard = spinnerITLAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment = base64ProofITLAcademicRoomInformationBoard ?: "",
+                internalSignage = spinnerITLInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofITLInternalSignage ?: "",
+                audioCamera = spinnerITLCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofITLCctcCamerasWithAudioFacility ?: "",
+                lanEnabledComputers = ITLLanEnabledComputersInNo.toString(),
+                lanEnabledComputersAttachment = base64ProofITLLanEnabledComputersInNo ?: "",
+                internetConnection = spinnerITLabInternetConnections.selectedItem.toString(),
+                internetConnectionAttachment = base64ProofITLInternetConnections ?: "",
+                typingTuterComputers = spinnerITLDoAllComputersHaveTypingTutor.selectedItem.toString(),
+                typingTuterComputersAttachment = base64ProofITLDoAllComputersHaveTypingTutor ?: "",
+                tablets = ITLTablets.toString(),
+                tabletsAttachment = base64ProofITLTablets ?: "",
+                candidatesChair = ITLStoolsChairs.toString(),
+                candidatesChairAttachment = base64ProofITLStoolsChairs ?: "",
+                trainersChair = spinnerITLTrainerChair.selectedItem.toString(),
+                trainersChairAttachment = base64ProofITLTrainerChair ?: "",
+                trainersTable = spinnerITLTrainerTable.selectedItem.toString(),
+                trainersTableAttachment = base64ProofITLTrainerTable ?: "",
+                lightsAcademic = ITLLightsInNo.toString(),
+                lightsAttachment = base64ProofITLLightsInNo ?: "",
+                fansAcademic = ITLFansInNo.toString(),
+                fansAttachment = base64ProofITLFansInNo ?: "",
+                electricalPowerBackup = spinnerITLepbftr.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofITLElectricaPowerBackUpForThRoom ?: "",
+                roomPhotograph = spinnerITLtLabPhotograph.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofITLItLabPhotograph ?: "",
+                airConditioningRoom = spinnerITLDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment = base64ProofITLDoes_the_room_has ?: "",
+            )
 
-        viewModel.SubmitITLABDataToServer(request, token)
+            viewModel.SubmitITLABDataToServer(request, token)
 
-
+        }
 
 
     }
@@ -7436,53 +7595,58 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-
-
-        val OfficeRoomPhotograph = etOfficeRoomPhotograph.text.toString().toIntOrNull() ?: 0
-        val OfficeCumTypeofRoofItLab = etOfficeCumTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
+        val OfficeTable = etOCCROfficeTable.text.toString()
         val OfficeCumHeightOfCelling = etOfficeCumHeightOfCelling.text.toString().toIntOrNull() ?: 0
-        val OfficeCumSplaceforSecuringDoc = etOfficeCumSplaceforSecuringDoc.text.toString().toIntOrNull() ?: 0
-        val OfficeCumAnOfficeTableNo = etOfficeCumAnOfficeTableNo.text.toString().toIntOrNull() ?: 0
         val OfficeCumChairs = etOfficeCumChairs.text.toString().toIntOrNull() ?: 0
         val OfficeCumPrinterCumScannerInNo = etOfficeCumPrinterCumScannerInNo.text.toString()
         val OfficeCumDigitalCameraInNo = etOfficeCumDigitalCameraInNo.text.toString()
+//        officeTable
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = SubmitOfficeCumCounsellingRoomDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType = spinnerOfficeCumTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofOfficeCumTypeofRoofItLab ?: "",
+                falseCeiling = spinnerOfficeCumFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofOfficeCumFalseCellingProvide ?: "",
+                ceilingHeight = OfficeCumHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofOfficeCumHeightOfCelling ?: "",
+                storageSecuringDocument = spinnerOCCRCumSplaceforSecuringDoc.selectedItem.toString(),
+                storageSecuringDocumentAttachment = base64ProofOfficeCumSplaceforSecuringDoc ?: "",
+                officeComputerTable = spinnerOfficeCumTableOfofficeCumpter.selectedItem.toString(),
+                officeComputerTableAttachment = base64ProofOfficeCumTableOfofficeCumpter ?: "",
 
-        val request = SubmitOfficeCumCounsellingRoomDetailsRequest(
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType = OfficeCumTypeofRoofItLab.toString(),
-            roofTypeAttachment =  base64ProofOfficeCumTypeofRoofItLab ?: "",
-            falseCeiling = spinnerOfficeCumFalseCellingProvide.selectedItem.toString(),
-            falseCeilingAttachment = base64ProofOfficeCumFalseCellingProvide?: "",
-            ceilingHeight = OfficeCumHeightOfCelling.toString(),
-            ceilingHeightAttachment = base64ProofOfficeCumHeightOfCelling?: "",
-            storageSecuringDocument=OfficeCumSplaceforSecuringDoc.toString(),
-            storageSecuringDocumentAttachment=base64ProofOfficeCumSplaceforSecuringDoc?: "",
-            officeComputerTable=spinnerOfficeCumTableOfofficeCumpter.selectedItem.toString(),
-            officeComputerTableAttachment=base64ProofOfficeCumTableOfofficeCumpter?: "",
 
 
-            officeChair=OfficeCumChairs.toString(),
-            officeChairAttachment=base64ProofOfficeCumChairs?: "",
-            printerScannerAcademic=OfficeCumPrinterCumScannerInNo.toString(),
-            printerScannerAttachment=base64ProofOfficeCumPrinterCumScannerInNo?: "",
-            digitalCameraAcademic=OfficeCumDigitalCameraInNo.toString(),
-            digitalCameraAttachment=base64ProofOfficeCumPrinterCumScannerInNo?: "",
-            electricalPowerBackup = spinnerOfficeCumLepbftr.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofOfficeCumElectricialPowerBackup?: "",
-            roomPhotograph=OfficeRoomPhotograph.toString(),
-            roomPhotographAttachment =base64ProofPreviewOfficeRoomPhotograph?: "",
+                officeTable = OfficeTable.toString(),
+                officeTableAttachment = base64ProofOCCROfficeTable ?: "",
 
-            )
 
-        viewModel.SubmitOfficeCumCounsellingRoomDataToServer(request, token)
+
+                officeChair = OfficeCumChairs.toString(),
+                officeChairAttachment = base64ProofOfficeCumChairs ?: "",
+                printerScannerAcademic = OfficeCumPrinterCumScannerInNo.toString(),
+                printerScannerAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
+                digitalCameraAcademic = OfficeCumDigitalCameraInNo.toString(),
+                digitalCameraAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
+                electricalPowerBackup = spinnerOfficeCumLepbftr.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofOfficeCumElectricialPowerBackup ?: "",
+                roomPhotograph = spinnerOCCRPhotograph.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewOfficeRoomPhotograph ?: "",
+
+
+
+                )
+
+            viewModel.SubmitOfficeCumCounsellingRoomDataToServer(request, token)
+        }
     }
 
     private fun SubmitReceptionArea() {
@@ -7492,29 +7656,29 @@ class TrainingFragment : Fragment() {
             .getString("ACCESS_TOKEN", "") ?: ""
 
 
-
-
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-        val request = ReceptionAreaRoomDetailsRequest(
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = ReceptionAreaRoomDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
 //            sanctionOrder = sanctionOrder,
-            sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
 
-            roomPhotograph=spinnerReceptionAreaEPBR.selectedItem.toString(),
-            roomPhotographAttachment =base64ProofPreviewReceptionAreaPhotogragh?: "",
+                roomPhotograph = spinnerReceptionAreaEPBR.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewReceptionAreaPhotogragh ?: "",
 
-            )
+                )
 
-        viewModel.SubmitReceptionAreaDataToServer(request, token)
+            viewModel.SubmitReceptionAreaDataToServer(request, token)
+        }
     }
     private fun SubmitCounsellingRoom() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7524,24 +7688,26 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-        val request = ReceptionAreaRoomDetailsRequest(
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = ReceptionAreaRoomDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
 //            sanctionOrder = sanctionOrder,
-            sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
 
-            roomPhotograph=spinnerCounsellingRoomAreaPhotograph.selectedItem.toString(),
-            roomPhotographAttachment =base64ProofPreviewCounsellingRoomPhotogragh?: "",
+                roomPhotograph = spinnerCounsellingRoomAreaPhotograph.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewCounsellingRoomPhotogragh ?: "",
 
-            )
+                )
 
-        viewModel.SubmitReceptionAreaDataToServer(request, token)
+            viewModel.SubmitReceptionAreaDataToServer(request, token)
+        }
     }
     private fun SubmitOfficeRoom() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7551,55 +7717,49 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-
-
-
-
-
-        val ORPhotograph = etOROfficeRoomPhotograph.text.toString().toIntOrNull() ?: 0
-        val ORTypeofRoofItLab = etORTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
         val ORHeightOfCelling = etORHeightOfCelling.text.toString().toIntOrNull() ?: 0
-        val ORSplaceforSecuringDoc = etORSplaceforSecuringDoc.text.toString().toIntOrNull() ?: 0
         val ORAnOfficeTableNo = etORAnOfficeTableNo.text.toString().toIntOrNull() ?: 0
         val ORChairs = etORChairs.text.toString().toIntOrNull() ?: 0
         val ORPrinterCumScannerInNo = etORPrinterCumScannerInNo.text.toString()
         val ORDigitalCameraInNo = etORDigitalCameraInNo.text.toString()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = OfficeRoomDetailsRequest(
 
-        val request = OfficeRoomDetailsRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME, tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roomPhotograph = spinnerROfficeRoomPhotograph.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewOROfficeRoomORPhotograph ?: "",
+                roofType = spinnerORTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofORTypeofRoofItLab ?: "",
+                falseCeiling = spinnerORFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofORFalseCellingProvide ?: "",
+                ceilingHeight = ORHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofORHeightOfCelling ?: "",
+                storageSecuringDocument = spinnerORSplaceforSecuringDoc.selectedItem.toString(),
+                storageSecuringDocumentAttachment = base64ProofORSplaceforSecuringDoc ?: "",
+                officeTable = ORAnOfficeTableNo.toString(),
+                officeTableAttachment = base64ProofORAnOfficeTableNo ?: "",
+                officeChair = ORChairs.toString(),
+                officeChairAttachment = base64ProofORChairs ?: "",
+                officeComputerTable = spinnerORTableOfofficeCumpter.selectedItem.toString(),
+                officeComputerTableAttachment = base64ProofORTableOfofficeCumpter ?: "",
+                printerScannerAcademic = ORPrinterCumScannerInNo.toString(),
+                printerScannerAttachment = base64ProofOfficeCumPrinterCumScannerInNo ?: "",
+                digitalCameraAcademic = ORDigitalCameraInNo.toString(),
+                digitalCameraAttachment = base64ProofORPrinterCumScannerInNo ?: "",
+                electricalPowerBackup = spinnerORPOEPBFTR.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofORElectricialPowerBackup ?: ""
+            )
 
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,  tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roomPhotograph=ORPhotograph.toString(),
-            roomPhotographAttachment=base64ProofPreviewOROfficeRoomORPhotograph?: "",
-            roofType = ORTypeofRoofItLab.toString(),
-            roofTypeAttachment=base64ProofORTypeofRoofItLab ?: "",
-            falseCeiling =spinnerORFalseCellingProvide.selectedItem.toString(),
-            falseCeilingAttachment = base64ProofORFalseCellingProvide?: "",
-            ceilingHeight=ORHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofORHeightOfCelling?: "",
-            storageSecuringDocument=ORSplaceforSecuringDoc.toString(),
-            storageSecuringDocumentAttachment=base64ProofORSplaceforSecuringDoc?: "",
-            officeTable=ORAnOfficeTableNo.toString(),
-            officeTableAttachment=base64ProofORAnOfficeTableNo?: "",
-            officeChair=ORChairs.toString(),
-            officeChairAttachment=base64ProofORChairs?: "",
-            officeComputerTable=spinnerORTableOfofficeCumpter.selectedItem.toString(),
-            officeComputerTableAttachment=base64ProofORTableOfofficeCumpter?: "",
-            printerScannerAcademic=ORPrinterCumScannerInNo.toString(),
-            printerScannerAttachment=base64ProofOfficeCumPrinterCumScannerInNo?: "",
-            digitalCameraAcademic=ORDigitalCameraInNo.toString(),
-            digitalCameraAttachment=base64ProofORPrinterCumScannerInNo?: "",
-            electricalPowerBackup=spinnerORPOEPBFTR.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofORElectricialPowerBackup?: "")
 
-
-        viewModel.SubmitOfficeRoomDataToServer(request, token)
+            viewModel.SubmitOfficeRoomDataToServer(request, token)
+        }
     }
 
 
@@ -7615,84 +7775,80 @@ class TrainingFragment : Fragment() {
         val Area = tvArea.text.toString()
 
 
-
-
-
-        val ITCDLTypeofRoofItLab = etITCDLTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
-        val ITCDLFalseCellingProvide = etITCDLFalseCellingProvide.text.toString().toIntOrNull() ?: 0
         val ITCDLHeightOfCelling = etITCDLHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val ITCDLVentilationAreaInSqFt = etITCDLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val ITCDLSoundLevelAsPerSpecifications = etITCDLSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
         val ITCDLabSoundLevelInDb = etITCDLabSoundLevelInDb.text.toString().toIntOrNull() ?: 0
         val ITCDLLanEnabledComputersInNo = etITCDLLanEnabledComputersInNo.text.toString()
         val ITCDLTablets = etITCDLTablets.text.toString()
         val ITCDLStoolsChairs = etITCDLStoolsChairs.text.toString()
         val ITCDLLightsInNo = etITCDLLightsInNo.text.toString()
         val ITCDLFansInNo = etITCDLFansInNo.text.toString()
-        val ITCDLItLabPhotograph = etITCDLItLabPhotograph.text.toString()
-        val ITCDLListofDomain = etITCDLListofDomain.text.toString()
+        val ListofDomain = etITCDLListofDomain.text.toString()
 
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = ITComeDomainLabDetailsRequest(
+
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType = spinnerITCDLTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofPreviewITCDLTypeofRoofItLab ?: "",
+                falseCeiling = spinnerITCDLFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofITCDLFalseCellingProvide ?: "",
+                ceilingHeight = ITCDLHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofITCDLabHeightOfCelling ?: "",
+                ventilationArea = ITCDLVentilationAreaInSqFt.toString(),
+                ventilationAreaAttachment = base64ProofITCDLVentilationAreaInSqFt ?: "",
+                soundLevelSpecifications = spinnerITCDLSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel = ITCDLabSoundLevelInDb.toString(),
+                soundLevelAttachment = base64ProofITCDLabSoundLevelInDb ?: "",
+                centerSoungProofed = spinnerITCDLwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment = base64ProofITCDLwhether_all_the_academic ?: "",
+                roomInfoBoard = spinnerITCDLAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment = base64ProofITCDLAcademicRoomInformationBoard ?: "",
+                internalSignage = spinnerITCDLInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofITCDLInternalSignage ?: "",
+                audioCamera = spinnerITCDLCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofITCDLCctcCamerasWithAudioFacility ?: "",
+                lanEnabledComputers = ITCDLLanEnabledComputersInNo.toString(),
+                lanEnabledComputersAttachment = base64ProofITCDLLanEnabledComputersInNo ?: "",
+                internetConnection = spinnerITCDLInternetConnections.selectedItem.toString(),
+                internetConnectionAttachment = base64ProofITCDLInternetConnections ?: "",
+                typingTuterComputers = spinnerITCDLDoAllComputersHaveTypingTutor.selectedItem.toString(),
+                typingTuterComputersAttachment = base64ProofITCDLDoAllComputersHaveTypingTutor ?: "",
+                tablets = ITCDLTablets.toString(),
+                tabletsAttachment = base64ProofITCDLTablets ?: "",
+                candidatesChair = ITCDLStoolsChairs.toString(),
+                candidatesChairAttachment = base64ProofITCDLStoolsChairs ?: "",
+                trainersChair = spinnerITCDLTrainerChair.selectedItem.toString(),
+                trainersChairAttachment = base64ProofITCDLTrainerChair ?: "",
+                trainersTable = spinnerITCDLTrainerTable.selectedItem.toString(),
+                trainersTableAttachment = base64ProofITCDLTrainerTable ?: "",
+                lightsAcademic = ITCDLLightsInNo.toString(),
+                lightsAttachment = base64ProofITCDLLightsInNo ?: "",
+                fansAcademic = ITCDLFansInNo.toString(),
+                fansAttachment = base64ProofITCDLFansInNo ?: "",
+                electricalPowerBackup = spinnerITCDLElectricaPowerBackUp.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofITCDLElectricaPowerBackUpForThRoom
+                    ?: "",
+                roomPhotograph = spinnerITCDLItLabPhotograph.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofITCDLItLabPhotograph ?: "",
+                domainRelatedEquipment =ListofDomain.toString(),
+                domainRelatedEquipmentAttachment = base64ProofITCDLListofDomain ?: "",
+                airConditioningRoom = spinnerITCDLDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment = base64ProofITCDLDoes_the_room_has ?: ""
+            )
 
 
-        val request = ITComeDomainLabDetailsRequest(
-
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,  tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType=ITCDLTypeofRoofItLab.toString(),
-            roofTypeAttachment=base64ProofPreviewITCDLTypeofRoofItLab?: ""
-            ,falseCeiling=ITCDLFalseCellingProvide.toString(),
-            falseCeilingAttachment=base64ProofITCDLFalseCellingProvide?: "",
-            ceilingHeight=ITCDLHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofITCDLabHeightOfCelling?: "",
-            ventilationArea=ITCDLVentilationAreaInSqFt.toString(),
-            ventilationAreaAttachment=base64ProofITCDLVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=ITCDLSoundLevelAsPerSpecifications.toString(),
-            soundLevel=ITCDLabSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofITCDLabSoundLevelInDb?: "",
-            centerSoungProofed=spinnerITCDLwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofITCDLwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerITCDLAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofITCDLAcademicRoomInformationBoard?: "",
-            internalSignage = spinnerITCDLInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofITCDLInternalSignage?: "",
-            audioCamera = spinnerITCDLCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment = base64ProofITCDLCctcCamerasWithAudioFacility?: "",
-            lanEnabledComputers =ITCDLLanEnabledComputersInNo.toString(),
-            lanEnabledComputersAttachment = base64ProofITCDLLanEnabledComputersInNo?: "",
-            internetConnection = spinnerITCDLInternetConnections.selectedItem.toString(),
-            internetConnectionAttachment=base64ProofITCDLInternetConnections?: "",
-            typingTuterComputers=spinnerITCDLDoAllComputersHaveTypingTutor.selectedItem.toString(),
-            typingTuterComputersAttachment=base64ProofITCDLDoAllComputersHaveTypingTutor?: "",
-            tablets = ITCDLTablets.toString(),
-            tabletsAttachment = base64ProofITCDLTablets?: "",
-            candidatesChair=ITCDLStoolsChairs.toString(),
-            candidatesChairAttachment=base64ProofITCDLStoolsChairs?: "",
-            trainersChair=spinnerITCDLTrainerChair.selectedItem.toString(),
-            trainersChairAttachment=base64ProofITCDLTrainerChair?: "",
-            trainersTable=spinnerITCDLTrainerTable.selectedItem.toString(),
-            trainersTableAttachment=base64ProofITCDLTrainerTable?: "",
-            lightsAcademic=ITCDLLightsInNo.toString(),
-            lightsAttachment=base64ProofITCDLLightsInNo?: "",
-            fansAcademic=ITCDLFansInNo.toString(),
-            fansAttachment=base64ProofITCDLFansInNo?: "",
-            electricalPowerBackup=spinnerITCDLElectricaPowerBackUp.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofITCDLElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=ITCDLItLabPhotograph.toString(),
-            roomPhotographAttachment=base64ProofITCDLItLabPhotograph?: "",
-            domainRelatedEquipment="",
-            domainRelatedEquipmentAttachment="",
-            airConditioningRoom=spinnerITCDLDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofITCDLDoes_the_room_has?: "")
-
-
-        viewModel.SubmitITComeDomainLabDataToServer(request, token)
+            viewModel.SubmitITComeDomainLabDataToServer(request, token)
+        }
     }
 
     private fun SubmitTCITLABLab() {
@@ -7705,87 +7861,83 @@ class TrainingFragment : Fragment() {
         val Area = tvArea.text.toString()
 
 
-
-
-
         val TCILListofDomain = etTCILListofDomain.text.toString().toIntOrNull() ?: 0
-        val TCILTypeofRoofItLab = etTCILTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
-        val TCILFalseCellingProvide = etTCILFalseCellingProvide.text.toString().toIntOrNull() ?: 0
+//        val TCILTypeofRoofItLab = etTCILTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
         val TCILHeightOfCelling = etTCILHeightOfCelling.text.toString().toIntOrNull() ?: 0
-        val TCILVentilationAreaInSqFt = etTCILVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val TCILSoundLevelAsPerSpecifications = etTCILSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
+        val TCILVentilationAreaInSqFt =
+            etTCILVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
         val TCILSoundLevelInDb = etTCILSoundLevelInDb.text.toString()
         val TCILLanEnabledComputersInNo = etTCILLanEnabledComputersInNo.text.toString()
         val TCILTablets = etTCILTablets.text.toString()
         val TCILStoolsChairs = etTCILStoolsChairs.text.toString()
-        val TCILTrainerTable = etTCILTrainerTable.text.toString()
-        val TCILTrainerChair = etTCILTrainerChair.text.toString()
         val TCILLightsInNo = etTCILLightsInNo.text.toString()
         val TCILFansInNo = etTCILFansInNo.text.toString()
-        val TCILTheoryCumItLabPhotogragh = etTCILTheoryCumItLabPhotogragh.text.toString()
 
 
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = TCITLDomainLabDetailsRequest(
+
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType = spinnerTCILITypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofPreviewTCILTypeofRoofItLab ?: "",
+                falseCeiling = spinnerTCILFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofPreviewTCILFalseCellingProvide ?: "",
+                ceilingHeight = TCILHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofPreviewTCILHeightOfCelling ?: "",
+                ventilationArea = TCILVentilationAreaInSqFt.toString(),
+                ventilationAreaAttachment = base64ProofPreviewTCILVentilationAreaInSqFt ?: "",
+                soundLevelSpecifications = spinnerTTCILSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel = TCILSoundLevelInDb.toString(),
+                soundLevelAttachment = base64ProofPreviewTTCILSoundLevelInDb ?: "",
+                centerSoungProofed = spinnerTCILwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment = base64ProofPreviewTCILwhether_all_the_academic ?: "",
+                roomInfoBoard = spinnerTCILLAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment = base64ProofPreviewTCILAcademicRoomInformationBoard ?: "",
+                internalSignage = spinnerTCILInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofPreviewTCILInternalSignage ?: "",
+                audioCamera = spinnerTCILCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofPreviewTCILCctcCamerasWithAudioFacility ?: "",
+                lanEnabledComputers = TCILLanEnabledComputersInNo.toString(),
+                lanEnabledComputersAttachment = base64ProofPreviewTCILLanEnabledComputersInNo ?: "",
+                internetConnection = spinnerTCILInternetConnections.selectedItem.toString(),
+                internetConnectionAttachment = base64ProofPreviewTCILInternetConnections ?: "",
+                typingTuterComputers = spinnerTCILDLDoAllComputersHaveTypingTutor.selectedItem.toString(),
+                typingTuterComputersAttachment = base64ProofPreviewTCILDoAllComputersHaveTypingTutor
+                    ?: "",
+                tablets = TCILTablets.toString(),
+                tabletsAttachment = base64ProofPreviewTCILTablets ?: "",
+                candidatesChair = TCILStoolsChairs.toString(),
+                candidatesChairAttachment = base64ProofPreviewTCILStoolsChairs ?: "",
+                trainersChair = spinnerTCILTrainerChair.selectedItem.toString(),
+                trainersChairAttachment = base64ProofPreviewTCILTrainerChair ?: "",
+                trainersTable = spinnerTCILTrainerTable.selectedItem.toString(),
+                trainersTableAttachment = base64ProofPreviewTCILTrainerTable ?: "",
+                lightsAcademic = TCILLightsInNo.toString(),
+                lightsAttachment = base64ProofPreviewTCILLightsInNo ?: "",
+                fansAcademic = TCILFansInNo.toString(),
+                fansAttachment = base64ProofPreviewTCILFansInNo ?: "",
+                electricalPowerBackup = spinnerTCILElectricPowerBackup.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofPreviewTCILElectricaPowerBackUpForThRoom
+                    ?: "",
+                roomPhotograph = spinnerTCILTheoryCumItLabPhotogragh.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewTCILTheoryCumItLabPhotogragh ?: "",
+                domainRelatedEquipment = TCILListofDomain.toString(),
+                domainRelatedEquipmentAttachment = base64ProofPreviewTCILListofDomain ?: "",
+                airConditioningRoom = spinnerTCILDLDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment = base64ProofPreviewTCILDoes_the_room_has ?: ""
+            )
 
 
-        val request = TCITLDomainLabDetailsRequest(
-
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType=TCILTypeofRoofItLab.toString(),
-            roofTypeAttachment=base64ProofPreviewTCILTypeofRoofItLab?: ""
-            ,falseCeiling=TCILFalseCellingProvide.toString(),
-            falseCeilingAttachment=base64ProofPreviewTCILFalseCellingProvide?: "",
-            ceilingHeight=TCILHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofPreviewTCILHeightOfCelling?: "",
-            ventilationArea=TCILVentilationAreaInSqFt.toString(),
-            ventilationAreaAttachment=base64ProofPreviewTCILVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=TCILSoundLevelAsPerSpecifications.toString(),
-            soundLevel=TCILSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofPreviewTTCILSoundLevelInDb?: "",
-            centerSoungProofed=spinnerTCILwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofPreviewTCILwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerTCILLAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofPreviewTCILAcademicRoomInformationBoard?: "",
-            internalSignage = spinnerTCILInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofPreviewTCILInternalSignage?: "",
-            audioCamera = spinnerTCILCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment = base64ProofPreviewTCILCctcCamerasWithAudioFacility?: "",
-            lanEnabledComputers =TCILLanEnabledComputersInNo.toString(),
-            lanEnabledComputersAttachment = base64ProofPreviewTCILLanEnabledComputersInNo?: "",
-            internetConnection = spinnerTCILInternetConnections.selectedItem.toString(),
-            internetConnectionAttachment=base64ProofPreviewTCILInternetConnections?: "",
-            typingTuterComputers=spinnerTCILDLDoAllComputersHaveTypingTutor.selectedItem.toString(),
-            typingTuterComputersAttachment=base64ProofPreviewTCILDoAllComputersHaveTypingTutor?: "",
-            tablets = TCILTablets.toString(),
-            tabletsAttachment = base64ProofPreviewTCILTablets?: "",
-            candidatesChair=TCILStoolsChairs.toString(),
-            candidatesChairAttachment=base64ProofPreviewTCILStoolsChairs?: "",
-            trainersChair=TCILTrainerChair.toString(),
-            trainersChairAttachment=base64ProofPreviewTCILTrainerChair?: "",
-            trainersTable=TCILTrainerTable.toString(),
-            trainersTableAttachment=base64ProofPreviewTCILTrainerTable?: "",
-            lightsAcademic=TCILLightsInNo.toString(),
-            lightsAttachment=base64ProofPreviewTCILLightsInNo?: "",
-            fansAcademic=TCILFansInNo.toString(),
-            fansAttachment=base64ProofPreviewTCILFansInNo?: "",
-            electricalPowerBackup=spinnerTCILElectricPowerBackup.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofPreviewTCILElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=TCILTheoryCumItLabPhotogragh.toString(),
-            roomPhotographAttachment=base64ProofPreviewTCILTheoryCumItLabPhotogragh?: "",
-            domainRelatedEquipment=TCILListofDomain.toString(),
-            domainRelatedEquipmentAttachment=base64ProofPreviewTCILListofDomain?: "",
-            airConditioningRoom=spinnerTCILDLDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofPreviewTCILDoes_the_room_has?: "")
-
-
-        viewModel.SubmitTheoryComeItLabDataToServer(request, token)
+            viewModel.SubmitTheoryComeItLabDataToServer(request, token)
+        }
     }
 
 
@@ -7797,93 +7949,80 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-
-
-
-
-
-        val TCDLTypeofRoofItLab = etTCDLTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
-        val TCDLFalseCellingProvide = etTCDLFalseCellingProvide.text.toString().toIntOrNull() ?: 0
         val TCDLHeightOfCelling = etTCDLHeightOfCelling.text.toString().toIntOrNull() ?: 0
-        val TCDLVentilationAreaInSqFt = etTCDLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val TCDLSoundLevelAsPerSpecifications = etTCDLSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
+        val TCDLVentilationAreaInSqFt =
+            etTCDLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
         val TCDLSoundLevelInDb = etTCDLSoundLevelInDb.text.toString().toIntOrNull() ?: 0
-        val TCDLLcdDigitalProjector = etTCDLLcdDigitalProjector.text.toString()
         val TCDLChairForCandidatesInNo = etTCDLChairForCandidatesInNo.text.toString()
-        val TCDLTrainerChair = etTCDLTrainerChair.text.toString()
-        val TCDLTrainerTable = etTCDLTrainerTable.text.toString()
-        val TCDLWritingBoard = etTCDLWritingBoard.text.toString()
         val TCDLLightsInNo = etTCDLLightsInNo.text.toString()
         val TCDLFansInNo = etTCDLFansInNo.text.toString()
         val TCDLListofDomain = etTCDLListofDomain.text.toString()
-        val TCDLDomainLabPhotogragh = etTCDLDomainLabPhotogragh.text.toString()
 
 
 
-
-        val request = TCDLRequest(
+        lifecycleScope.launch(Dispatchers.IO) {
+            val request = TCDLRequest(
 
 
 //
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType=TCDLTypeofRoofItLab.toString(),
-            roofTypeAttachment=base64ProofPreviewTCDLTypeofRoofItLab?: "",
-            falseCeiling=TCDLFalseCellingProvide.toString(),
-            falseCeilingAttachment=base64ProofPreviewTCDLFalseCellingProvide?: "",
-            ceilingHeight=TCDLHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofPreviewTCDLHeightOfCelling?: "",
-            ventilationArea=TCDLVentilationAreaInSqFt.toString(),
-            ventilationAreaAttachment=base64ProofPreviewTCDLVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=TCDLSoundLevelAsPerSpecifications.toString(),
-            soundLevel=TCDLSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofPreviewTCDLSoundLevelInDb?: "",
-            centerSoungProofed=spinnerTCDLwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofPreviewTCDLwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerTCDLAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofPreviewTCDLAcademicRoomInformationBoard?: "",
-            internalSignage = spinnerTCDLInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofPreviewTCDLInternalSignage?: "",
-            audioCamera = spinnerTCDLCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment = base64ProofPreviewTCDLCctcCamerasWithAudioFacility?: "",
-            digitalProjector =TCDLLcdDigitalProjector.toString(),
-            digitalProjectorAttachment = base64ProofPreviewTCDLLcdDigitalProjector?: "",
-            candidatesChair=TCDLChairForCandidatesInNo.toString(),
-            candidatesChairAttachment=base64ProofPreviewTCDLChairForCandidatesInNo?: "",
-            trainersChair=TCDLTrainerChair.toString(),
-            trainersChairAttachment=base64ProofPreviewTCDLTrainerChair?: "",
-            trainersTable=TCDLTrainerTable.toString(),
-            trainersTableAttachment=base64ProofPreviewTCDLTrainerTable?: "",
-            lightsAcademic=TCDLLightsInNo.toString(),
-            lightsAttachment=base64ProofPreviewTCDLLightsInNo?: "",
-            fansAcademic=TCDLFansInNo.toString(),
-            fansAttachment=base64ProofPreviewTCDLFansInNo?: "",
-            electricalPowerBackup=spinnerTCDLPowerBackup.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofPreviewTCDLElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=TCDLDomainLabPhotogragh.toString(),
-            roomPhotographAttachment=base64ProofPreviewTCDLListofDomain?: "",
-            domainRelatedEquipment=TCDLListofDomain.toString(),
-            domainRelatedEquipmentAttachment=base64ProofPreviewTCDLDomainLabPhotogragh?: "",
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId,
+                sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length,
+                roomWidth = Width,
+                roomArea = Area,
+                roofType = spinnerTCDLTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment = base64ProofPreviewTCDLTypeofRoofItLab ?: "",
+                falseCeiling = spinnerTCDLFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment = base64ProofPreviewTCDLFalseCellingProvide ?: "",
+                ceilingHeight = TCDLHeightOfCelling.toString(),
+                ceilingHeightAttachment = base64ProofPreviewTCDLHeightOfCelling ?: "",
+                ventilationArea = TCDLVentilationAreaInSqFt.toString(),
+                ventilationAreaAttachment = base64ProofPreviewTCDLVentilationAreaInSqFt ?: "",
+                soundLevelSpecifications = spinnerTCDLSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel = TCDLSoundLevelInDb.toString(),
+                soundLevelAttachment = base64ProofPreviewTCDLSoundLevelInDb ?: "",
+                centerSoungProofed = spinnerTCDLwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment = base64ProofPreviewTCDLwhether_all_the_academic ?: "",
+                roomInfoBoard = spinnerTCDLAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment = base64ProofPreviewTCDLAcademicRoomInformationBoard ?: "",
+                internalSignage = spinnerTCDLInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofPreviewTCDLInternalSignage ?: "",
+                audioCamera = spinnerTCDLCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofPreviewTCDLCctcCamerasWithAudioFacility ?: "",
+                digitalProjector = spinnerTCDLLcdDigitalProjector.selectedItem.toString(),
+                digitalProjectorAttachment = base64ProofPreviewTCDLLcdDigitalProjector ?: "",
+                candidatesChair = TCDLChairForCandidatesInNo.toString(),
+                candidatesChairAttachment = base64ProofPreviewTCDLChairForCandidatesInNo ?: "",
+                trainersChair = spinnerTCDLTrainerChair.selectedItem.toString(),
+                trainersChairAttachment = base64ProofPreviewTCDLTrainerChair ?: "",
+                trainersTable = spinnerTCDLTrainerTable.selectedItem.toString(),
+                trainersTableAttachment = base64ProofPreviewTCDLTrainerTable ?: "",
+                lightsAcademic = TCDLLightsInNo.toString(),
+                lightsAttachment = base64ProofPreviewTCDLLightsInNo ?: "",
+                fansAcademic = TCDLFansInNo.toString(),
+                fansAttachment = base64ProofPreviewTCDLFansInNo ?: "",
+                electricalPowerBackup = spinnerTCDLPowerBackup.selectedItem.toString(),
+                electricalPowerBackupAttachment = base64ProofPreviewTCDLElectricaPowerBackUpForThRoom?: "",
+                roomPhotograph = spinnerTCDLDomainLabPhotogragh.selectedItem.toString(),
+                roomPhotographAttachment = base64ProofPreviewTCDLDomainLabPhotogragh ?: "",
+                domainRelatedEquipment = TCDLListofDomain.toString(),
+                domainRelatedEquipmentAttachment = base64ProofPreviewTCDLListofDomain ?: "",
 
-            airConditioningRoom=spinnerTCDLDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofPreviewTCDLDoes_the_room_has?: "",
-            writingBoard=TCDLWritingBoard.toString(),
-            writingBoardAttachment=base64ProofPreviewTCDLWritingBoard?: ""
-
-
+                airConditioningRoom = spinnerTCDLDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment = base64ProofPreviewTCDLDoes_the_room_has ?: "",
+                writingBoard = spinnerTCDLWritingBoard.selectedItem.toString(),
+                writingBoardAttachment = base64ProofPreviewTCDLWritingBoard ?: ""
 
 
-        )
+            )
 
 
-        viewModel.SubmitTCDLDataToServer(request, token)
+            viewModel.SubmitTCDLDataToServer(request, token)
+        }
     }
     private fun SubmitDL() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7895,89 +8034,80 @@ class TrainingFragment : Fragment() {
         val Area = tvArea.text.toString()
 
 
-
-
-
-        val DLTypeofRoofItLab = etDLTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
-        val DLFalseCellingProvide = etDLFalseCellingProvide.text.toString().toIntOrNull() ?: 0
         val DLHeightOfCelling = etDLHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val DLVentilationAreaInSqFt = etDLVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val DLSoundLevelAsPerSpecifications = etDLSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
         val DLSoundLevelInDb = etDLSoundLevelInDb.text.toString().toIntOrNull() ?: 0
-        val DLLcdDigitalProjector = etDLLcdDigitalProjector.text.toString()
         val DLChairForCandidatesInNo = etDLChairForCandidatesInNo.text.toString()
-        val DLTrainerChair = etDLTrainerChair.text.toString()
-        val DLTrainerTable = etDLTrainerTable.text.toString()
-        val DLWritingBoard = etDLWritingBoard.text.toString()
         val DLLightsInNo = etDLLightsInNo.text.toString()
         val DLFansInNo = etDLFansInNo.text.toString()
-        val DLListofDomain = etDLDomainLabPhotogragh.text.toString()
-        val DLDomainLabPhotogragh = etTCDLDomainLabPhotogragh.text.toString()
+        val ListOfDomainLab = etDLListOfDomainLab.text.toString()
 
 
 
+        lifecycleScope.launch(Dispatchers.IO) {
 
-        val request = DLRequest(
-
-
-//
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext()),
-            appVersion = BuildConfig.VERSION_NAME,
-            tcId = centerId,
-            sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
-            roomType = RoomType.toString(),
-            roomLength = Length,
-            roomWidth = Width,
-            roomArea = Area,
-            roofType=DLTypeofRoofItLab.toString(),
-            roofTypeAttachment=base64ProofPreviewDLTypeofRoofItLab?: "",
-            falseCeiling=DLFalseCellingProvide.toString(),
-            falseCeilingAttachment=base64ProofPreviewDLFalseCellingProvide?: "",
-            ceilingHeight=DLHeightOfCelling.toString(),
-            ceilingHeightAttachment=base64ProofPreviewDLHeightOfCelling?: "",
-            ventilationArea=DLVentilationAreaInSqFt.toString(),
-            ventilationAreaAttachment=base64ProofPreviewDLVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=DLSoundLevelAsPerSpecifications.toString(),
-            soundLevel=DLSoundLevelInDb.toString(),
-            soundLevelAttachment=base64ProofPreviewDLSoundLevelInDb?: "",
-            centerSoungProofed=spinnerDLwhether_all_the_academic.selectedItem.toString(),
-            centerSoungProofedAttachment=base64ProofPreviewDLwhether_all_the_academic?: "",
-            roomInfoBoard=spinnerDLAcademicRoomInformationBoard.selectedItem.toString(),
-            roomInfoBoardAttachment=base64ProofPreviewDLAcademicRoomInformationBoard?: "",
-            internalSignage = spinnerDLInternalSignage.selectedItem.toString(),
-            internalSignageAttachment = base64ProofPreviewDLInternalSignage?: "",
-            audioCamera = spinnerDLCctcCamerasWithAudioFacility.selectedItem.toString(),
-            audioCameraAttachment = base64ProofPreviewDLCctcCamerasWithAudioFacility?: "",
-            digitalProjector =DLLcdDigitalProjector.toString(),
-            digitalProjectorAttachment = base64ProofPreviewDLLcdDigitalProjector?: "",
-            candidatesChair=DLChairForCandidatesInNo.toString(),
-            candidatesChairAttachment=base64ProofPreviewDLChairForCandidatesInNo?: "",
-            trainersChair=DLTrainerChair.toString(),
-            trainersChairAttachment=base64ProofPreviewDLTrainerChair?: "",
-            trainersTable=DLTrainerTable.toString(),
-            trainersTableAttachment=base64ProofPreviewDLTrainerTable?: "",
-            lightsAcademic=DLLightsInNo.toString(),
-            lightsAttachment=base64ProofPreviewDLLightsInNo?: "",
-            fansAcademic=DLFansInNo.toString(),
-            fansAttachment=base64ProofPreviewDLFansInNo?: "",
-            electricalPowerBackup=spinnerDLElectricaPowerBackUp.selectedItem.toString(),
-            electricalPowerBackupAttachment=base64ProofPreviewDLElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=DLDomainLabPhotogragh.toString(),
-            roomPhotographAttachment=base64ProofPreviewDLDomainLabPhotogragh?: "",
-            domainRelatedEquipment=DLListofDomain.toString(),
-            domainRelatedEquipmentAttachment=base64ProofPreviewDLILListofDomain?: "",
-            airConditioningRoom=spinnerDLDoes_the_room_has.selectedItem.toString(),
-            airConditioningRoomAttachment=base64ProofPreviewDLDoes_the_room_has?: "",
-            writingBoard=DLWritingBoard.toString(),
-            writingBoardAttachment=base64ProofPreviewDLWritingBoard?: ""
+            val request = DLRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId.toString(),
+                sanctionOrder=AppUtil.getsanctionOrderPreference(requireContext()),
+                roomType = RoomType.toString(),
+                roomLength = Length.toString(),
+                roomWidth = Width.toString(),
+                roomArea = Area.toString(),
+                roofType=spinnerDLTypeofRoofItLab.selectedItem.toString(),
+                roofTypeAttachment=base64ProofPreviewDLTypeofRoofItLab?: "",
+                falseCeiling=spinnerDLFalseCellingProvide.selectedItem.toString(),
+                falseCeilingAttachment=base64ProofPreviewDLFalseCellingProvide?: "",
+                ceilingHeight=DLHeightOfCelling.toString(),
+                ceilingHeightAttachment=base64ProofPreviewDLHeightOfCelling?: "",
+                ventilationArea=DLVentilationAreaInSqFt.toString(),
+                ventilationAreaAttachment=base64ProofPreviewDLVentilationAreaInSqFt?: "",
+                soundLevelSpecifications=spinnerDDLSoundLevelAsPerSpecifications.selectedItem.toString(),
+                soundLevel=DLSoundLevelInDb.toString(),
+                soundLevelAttachment=base64ProofPreviewDLSoundLevelInDb?: "",
+                centerSoungProofed=spinnerDLwhether_all_the_academic.selectedItem.toString(),
+                centerSoungProofedAttachment=base64ProofPreviewDLwhether_all_the_academic?: "",
+                roomInfoBoard=spinnerDLAcademicRoomInformationBoard.selectedItem.toString(),
+                roomInfoBoardAttachment=base64ProofPreviewDLAcademicRoomInformationBoard?: "",
+                internalSignage = spinnerDLInternalSignage.selectedItem.toString(),
+                internalSignageAttachment = base64ProofPreviewDLInternalSignage?: "",
+                audioCamera = spinnerDLCctcCamerasWithAudioFacility.selectedItem.toString(),
+                audioCameraAttachment = base64ProofPreviewDLCctcCamerasWithAudioFacility?: "",
+                digitalProjector =spinnerDLLcdDigitalProjector.selectedItem.toString(),
+                digitalProjectorAttachment = base64ProofPreviewDLLcdDigitalProjector?: "",
+                candidatesChair=DLChairForCandidatesInNo.toString(),
+                candidatesChairAttachment=base64ProofPreviewDLChairForCandidatesInNo?: "",
+                trainersChair=spinnerDLTrainerChair.selectedItem.toString(),
+                trainersChairAttachment=base64ProofPreviewDLTrainerChair?: "",
+                trainersTable=spinnerDLTrainerTable.selectedItem.toString(),
+                trainersTableAttachment=base64ProofPreviewDLTrainerTable?: "",
+                lightsAcademic=DLLightsInNo.toString(),
+                lightsAttachment=base64ProofPreviewDLLightsInNo?: "",
+                fansAcademic=DLFansInNo.toString(),
+                fansAttachment=base64ProofPreviewDLFansInNo?: "",
+                electricalPowerBackup=spinnerDLElectricaPowerBackUp.selectedItem.toString(),
+                electricalPowerBackupAttachment=base64ProofPreviewDLElectricaPowerBackUpForThRoom?: "",
+                roomPhotograph=spinnerDLDomainLabPhotogragh.selectedItem.toString(),
+                roomPhotographAttachment=base64ProofPreviewDLDomainLabPhotogragh?: "",
+                domainRelatedEquipment=ListOfDomainLab.toString(),
+                domainRelatedEquipmentAttachment=base64ProofPreviewDLILListofDomain?: "",
+                airConditioningRoom=spinnerDLDoes_the_room_has.selectedItem.toString(),
+                airConditioningRoomAttachment=base64ProofPreviewDLDoes_the_room_has?: "",
+                writingBoard=spinnerDLWritingBoard.selectedItem.toString(),
+                writingBoardAttachment=base64ProofPreviewDLWritingBoard?: ""
 
 
 
-        )
+            )
 
 
-        viewModel.SubmitDLDataToServer(request, token)
+            viewModel.SubmitDLDataToServer(request, token)
+
+        }
+
+
     }
     private fun SubmitTCR() {
         ProgressDialogUtil.showProgressDialog(requireContext(), "Please Wait...")
@@ -7987,34 +8117,16 @@ class TrainingFragment : Fragment() {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-
-
-
-
-
-        val TCRTypeofRoofItLab = etTCRTypeofRoofItLab.text.toString().toIntOrNull() ?: 0
-        val TCRFalseCellingProvide = etTCRFalseCellingProvide.text.toString().toIntOrNull() ?: 0
         val TCRHeightOfCelling = etTCRHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val TCRVentilationAreaInSqFt = etTCRVentilationAreaInSqFt.text.toString().toIntOrNull() ?: 0
-        val TCRSoundLevelAsPerSpecifications = etTCRSoundLevelAsPerSpecifications.text.toString().toIntOrNull() ?: 0
         val TCRSoundLevelInDb = etTCRSoundLevelInDb.text.toString().toIntOrNull() ?: 0
-        val TCRLcdDigitalProjector = etTCRLcdDigitalProjector.text.toString()
         val TCRChairForCandidatesInNo = etTCRChairForCandidatesInNo.text.toString()
-        val TCRTrainerChair = etTCRTrainerChair.text.toString()
-        val TCRTrainerTable = etTCRTrainerTable.text.toString()
-        val TCRWritingBoard = etTCRWritingBoard.text.toString()
         val TCRLightsInNo = etTCRLightsInNo.text.toString()
         val TCRFansInNo = etTCRFansInNo.text.toString()
-//        val TCRListofDomain = etTCRDomainLabPhotogragh.text.toString()
-        val TCRDomainLabPhotogragh = etTCRDomainLabPhotogragh.text.toString()
 
-
-
-
+        lifecycleScope.launch(Dispatchers.IO) {
         val request = TCRRequest(
 
-
-//
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext()),
             appVersion = BuildConfig.VERSION_NAME,
@@ -8024,15 +8136,15 @@ class TrainingFragment : Fragment() {
             roomLength = Length,
             roomWidth = Width,
             roomArea = Area,
-            roofType=TCRTypeofRoofItLab.toString(),
+            roofType=spinnerTCRTypeofRoofItLab.selectedItem.toString(),
             roofTypeAttachment=base64ProofPreviewTCRTypeofRoofItLab?: "",
-            falseCeiling=TCRFalseCellingProvide.toString(),
+            falseCeiling=spinnerTCRFalseCellingProvide.selectedItem.toString(),
             falseCeilingAttachment=base64ProofPreviewTCRFalseCellingProvide?: "",
             ceilingHeight=TCRHeightOfCelling.toString(),
             ceilingHeightAttachment=base64ProofPreviewTCRHeightOfCelling?: "",
             ventilationArea=TCRVentilationAreaInSqFt.toString(),
             ventilationAreaAttachment=base64ProofPreviewTCRVentilationAreaInSqFt?: "",
-            soundLevelSpecifications=TCRSoundLevelAsPerSpecifications.toString(),
+            soundLevelSpecifications=spinnerTCRSoundLevelAsPerSpecifications.selectedItem.toString(),
             soundLevel=TCRSoundLevelInDb.toString(),
             soundLevelAttachment=base64ProofPreviewTCRSoundLevelInDb?: "",
             centerSoungProofed=spinnerTCRwhether_all_the_academic.selectedItem.toString(),
@@ -8043,13 +8155,13 @@ class TrainingFragment : Fragment() {
             internalSignageAttachment = base64ProofPreviewTCRInternalSignage?: "",
             audioCamera = spinnerTCRCctcCamerasWithAudioFacility.selectedItem.toString(),
             audioCameraAttachment = base64ProofPreviewTCRCctcCamerasWithAudioFacility?: "",
-            digitalProjector =TCRLcdDigitalProjector.toString(),
+            digitalProjector =spinnerTCRLcdDigitalProjector.selectedItem.toString(),
             digitalProjectorAttachment = base64ProofPreviewTCRLcdDigitalProjector?: "",
             candidatesChair=TCRChairForCandidatesInNo.toString(),
             candidatesChairAttachment=base64ProofPreviewTCRChairForCandidatesInNo?: "",
-            trainersChair=TCRTrainerChair.toString(),
+            trainersChair=spinnerTCRTrainerChair.selectedItem.toString(),
             trainersChairAttachment=base64ProofPreviewTCRTrainerChair?: "",
-            trainersTable=TCRTrainerTable.toString(),
+            trainersTable=spinnerTCRTrainerTable.selectedItem.toString(),
             trainersTableAttachment=base64ProofPreviewTCRTrainerTable?: "",
             lightsAcademic=TCRLightsInNo.toString(),
             lightsAttachment=base64ProofPreviewTCRLightsInNo?: "",
@@ -8057,11 +8169,11 @@ class TrainingFragment : Fragment() {
             fansAttachment=base64ProofPreviewTCRFansInNo?: "",
             electricalPowerBackup=spinnerTCRPowerBackup.selectedItem.toString(),
             electricalPowerBackupAttachment=base64ProofPreviewTCRElectricaPowerBackUpForThRoom?: "",
-            roomPhotograph=TCRDomainLabPhotogragh.toString(),
+            roomPhotograph=spinnerTCRDomainLabPhotogragh.selectedItem.toString(),
             roomPhotographAttachment=base64ProofPreviewTCRDomainLabPhotogragh?: "",
             airConditioningRoom=spinnerTCRDoes_the_room_has.selectedItem.toString(),
             airConditioningRoomAttachment=base64ProofPreviewTCRDoes_the_room_has?: "",
-            writingBoard=TCRWritingBoard.toString(),
+            writingBoard=spinnerTCRWritingBoard.selectedItem.toString(),
             writingBoardAttachment=base64ProofPreviewTCRWritingBoard?: ""
 
 
@@ -8070,6 +8182,7 @@ class TrainingFragment : Fragment() {
 
 
         viewModel.SubmitTheoryClassRoomDataToServer(request, token)
+    }
     }
 
     private fun RecyClerViewUI(){
@@ -8222,4 +8335,6 @@ class TrainingFragment : Fragment() {
     fun View.visible() {
         this.visibility = View.VISIBLE
     }
+
+
 }

@@ -36,6 +36,7 @@ class CenterAdapter(
         holder.district.text="District Name: ${center.districtName}"
         holder.itemView.setOnClickListener {
             AppUtil.savesanctionOrderPreference(holder.itemView.context, center.senctionOrder)
+            AppUtil.savecenterIdPreference(holder.itemView.context, center.trainingCenterId.toString())
             onItemClick(center)
         }
     }

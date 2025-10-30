@@ -24,9 +24,9 @@
             android:scaleType="fitCenter"
             android:src="@drawable/back_arrow"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
-            android:text="@string/training_list"
+            android:text="@string/residential_facility_q_team"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_16"/>
 

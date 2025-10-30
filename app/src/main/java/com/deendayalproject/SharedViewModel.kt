@@ -17,12 +17,13 @@ import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
+import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
-import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
+import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -35,6 +36,7 @@ import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDetailsRequest
+import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
@@ -56,6 +58,7 @@ import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRF
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
+import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -77,6 +80,8 @@ import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletResponse
+import com.deendayalproject.model.response.ToiletRoomInformationViewRes
+import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.VillageRes
 
@@ -1078,15 +1083,30 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
-//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
+//    Ajit Ranjan create 21/October/2025  CompliancesRFQTReqRFQT
 
     private val _CompliancesRFQTReqRFQT = MutableLiveData<Result<InfrastructureDetailsandCompliancesRFQT>>()
     val CompliancesRFQTReqRFQT: LiveData<Result<InfrastructureDetailsandCompliancesRFQT>> = _CompliancesRFQTReqRFQT
 
-
+    //    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
     private val _fLivingAreaInformation = MutableLiveData<Result<RfLivingAreaInformationResponse>>()
     val fLivingAreaInformation: LiveData<Result<RfLivingAreaInformationResponse>> = _fLivingAreaInformation
 
+
+    //    Ajit Ranjan create 27/October/2025  getlivingRoomListView
+    private val _livingRoomListView = MutableLiveData<Result<LivingRoomListViewRes>>()
+    val livingRoomListView: LiveData<Result<LivingRoomListViewRes>> = _livingRoomListView
+
+
+    //    Ajit Ranjan create 27/October/2025  getToiletRoomListView
+    private val _ToiletRoomListView = MutableLiveData<Result<ToiletViewRes>>()
+    val ToiletRoomListView: LiveData<Result<ToiletViewRes>> = _ToiletRoomListView
+
+
+
+    //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
+    private val _ToiletRoomInformationView = MutableLiveData<Result<ToiletRoomInformationViewRes>>()
+    val ToiletRoomInformationView: LiveData<Result<ToiletRoomInformationViewRes>> = _ToiletRoomInformationView
 
     fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) {
         _loading.postValue(true)
@@ -1099,8 +1119,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             _loading.postValue(false)
         }
     }
-//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
-fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) {
+//    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
+fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     _loading.postValue(true)
     viewModelScope.launch {
         val result = repository.getRfLivingAreaInformation(request)
@@ -1111,4 +1131,49 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) {
         _loading.postValue(false)
     }
 }
+
+    //    Ajit Ranjan create 27/October/2025 getlivingRoomListView
+
+    fun getlivingRoomListView(request: LivingRoomListViewRQ) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRflivingRoomListView(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _livingRoomListView.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    //    Ajit Ranjan create 27/October/2025  toiletRoomListView
+
+
+    fun getToiletRoomListView(request: LivingRoomListViewRQ) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getToiletRoomListView(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ToiletRoomListView.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
+    fun getRfToiletRoomInformation(request: ToiletRoomInformationReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getToiletRoomInformation(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ToiletRoomInformationView.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
 }

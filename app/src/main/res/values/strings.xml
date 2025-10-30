@@ -678,6 +678,7 @@
     <string name="indoor_game_details">Indoor Game Details</string>
     <string name="non_living_areas">Non-Living Areas</string>
     <string name="living_area_information">Living Area Information</string>
+    <string name="toilet_room_information">Toilet Room Information</string>
     <string name="area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc">Area of the Building (Sq. Ft.) (Include Corridors but Exclude Open to Sky Spaces Like Court Yards etc)</string>
     <string name="residential_areas">Residential Areas</string>
     <string name="type_of_roof_rcc_non_rcc">Type of Roof(RCC/Non RCC)</string>
@@ -689,7 +690,7 @@
     <string name="cupboard_almirah_trunk_with_locking_arrangements_in_no">Cupboard / Almirah / Trunk with Locking Arrangements (In No.)</string>
     <string name="living_area_information_board_as_per_sf_5_1_b4">Living Area Information Board as per SF 5.1 B4</string>
     <string name="number_of_students_permitted">Number of Students Permitted</string>
-    <string name="toilet_type">Toilet Type</string>
+
     <string name="connection_to_running_water">Connection To Running Water</string>
     <string name="female_urinals">Female Urinals</string>
     <string name="female_washbasins">Female Washbasins</string>
@@ -723,4 +724,7 @@
     <string name="add_living_area">+Add Living Area</string>
 
     <string name="training_center_id">Training Center ID</string>
+    <string name="toiletid">ToiletId</string>
+    <string name="toilet_type">Toilet Type</string>
+    <string name="proof_og_image_it_cum_domain_lab_photograph">Proof og Image IT cum Domain Lab Photograph</string>
 </resources>

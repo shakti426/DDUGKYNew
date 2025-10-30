@@ -3,43 +3,48 @@ package com.deendayalproject.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
-import com.deendayalproject.model.response.RoomItem
+import com.deendayalproject.model.request.TrainingCenter
+import com.deendayalproject.model.response.LivingAreaInformationRes
 
 class LivingAreaInformationAdapter(
-    private val rooms: MutableList<RoomItem>,
-    private val onViewClick: (RoomItem) -> Unit
-) : RecyclerView.Adapter<LivingAreaInformationAdapter.RoomViewHolder>() {
+    private var rooms: List<LivingAreaInformationRes>,
+    private var onItemClick:(LivingAreaInformationRes)-> Unit
+) : RecyclerView.Adapter<LivingAreaInformationAdapter.CenterViewHolder>() {
 
-    inner class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvMaxCandidate: TextView = itemView.findViewById(R.id.tvMaxCandidate)
-        val tvLength: TextView = itemView.findViewById(R.id.tvLength)
-        val tvWidth: TextView = itemView.findViewById(R.id.tvWidth)
-        val tvArea: TextView = itemView.findViewById(R.id.tvArea)
-        val tvRoomType: TextView = itemView.findViewById(R.id.tvRoomType)
+    inner class CenterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvRoomNumber: TextView = itemView.findViewById(R.id.tvRoomNumber)
+        val tvRoomLength: TextView = itemView.findViewById(R.id.tvRoomLength)
         val btnView: TextView = itemView.findViewById(R.id.btnView)
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.description_academia_layout, parent, false)
-        return RoomViewHolder(view)
+            .inflate(R.layout.living_aera_infomation_adapter_layout, parent, false)
+        return CenterViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RoomViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
         val room = rooms[position]
-        holder.tvMaxCandidate.text = room.maxPermissibleCandidate
-        holder.tvLength.text = room.roomLength
-        holder.tvWidth.text = room.roomWidth
-        holder.tvArea.text = room.roomArea
-        holder.tvRoomType.text = room.roomType
+        holder.tvRoomNumber.text=room.roomNo.toString()
+        holder.tvRoomLength.text=room.length
+
 
         holder.btnView.setOnClickListener {
-            onViewClick(room)
+            onItemClick(room)
         }
+
     }
 
+
     override fun getItemCount(): Int = rooms.size
+
+    fun updateData(newList: List<LivingAreaInformationRes>) {
+        rooms = newList
+        notifyDataSetChanged()
+    }
 }

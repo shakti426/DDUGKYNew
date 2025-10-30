@@ -105,7 +105,7 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:text="@string/electrica_power_back_up_for_the_room"
+                android:text="@string/reception_area_photogragh"
                 android:textStyle="bold" />
 
             <Spinner
@@ -121,7 +121,7 @@
                 android:layout_marginStart="@dimen/dp_4"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:text="@string/proof_of_electrical_power_backup_for_the_room"
+                android:text="@string/proof_of_reception_area"
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"

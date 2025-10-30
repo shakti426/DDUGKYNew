@@ -2,6 +2,7 @@ package com.deendayalproject.util
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -32,6 +33,7 @@ import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.Button
 import android.widget.CheckBox
@@ -126,6 +128,13 @@ object AppUtil {
 
 
 //    Ajit Ranjan
+
+
+    fun hideKeyboard(context: Context, view: View?) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val focusedView = view ?: (context as? Activity)?.currentFocus ?: View(context)
+        imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
+    }
 
     fun savetopValuePreference(context: Context, tokenCode: String) {
         val sharedPreferences =
@@ -482,6 +491,7 @@ object AppUtil {
     }
 
 
+/*
     fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 1024): String? {
         return try {
             val options = BitmapFactory.Options()
@@ -507,6 +517,73 @@ object AppUtil {
             null
         }
     }
+*/
+
+//    fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
+//        return try {
+//            val options = BitmapFactory.Options()
+//            options.inJustDecodeBounds = true
+//            context.contentResolver.openInputStream(uri).use { stream ->
+//                BitmapFactory.decodeStream(stream, null, options)
+//            }
+//
+//            options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
+//            options.inJustDecodeBounds = false
+//            options.inPreferredConfig = Bitmap.Config.RGB_565  // lower memory
+//
+//            val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
+//                BitmapFactory.decodeStream(stream, null, options)
+//
+//            } ?: return null
+//
+//            val outputStream = ByteArrayOutputStream()
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, outputStream)  // smaller size
+//
+//            bitmap.recycle()
+//
+//            val byteArray = outputStream.toByteArray()
+//            Base64.encodeToString(byteArray, Base64.NO_WRAP)
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
+fun imageUriToBase64(context: Context, uri: Uri, maxSize: Int = 800): String? {
+    return try {
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+
+        context.contentResolver.openInputStream(uri).use { stream ->
+            BitmapFactory.decodeStream(stream, null, options)
+        }
+
+        // Resize the image using inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, maxSize, maxSize)
+        options.inJustDecodeBounds = false
+        options.inPreferredConfig = Bitmap.Config.RGB_565 // Low memory
+
+        val bitmap = context.contentResolver.openInputStream(uri).use { stream ->
+            BitmapFactory.decodeStream(stream, null, options)
+        } ?: return null
+
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 60, outputStream)
+        bitmap.recycle()
+
+        val byteArray = outputStream.toByteArray()
+        val base64String = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+
+        if (!base64String.isNullOrEmpty()) {
+            AppUtil.hideKeyboard(context, (context as Activity).window.decorView)
+        }
+
+        base64String
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
 
     private fun calculateInSampleSize(
         options: BitmapFactory.Options,
