@@ -17,6 +17,7 @@ import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
+import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
@@ -24,7 +25,7 @@ import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
-import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
+import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -39,6 +40,7 @@ import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
+import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
@@ -61,6 +63,7 @@ import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
+import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -83,6 +86,8 @@ import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletResponse
+import com.deendayalproject.model.response.ToiletRoomInformationViewRes
+import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.VillageRes
 import com.deendayalproject.util.AppUtil
@@ -1159,8 +1164,8 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
-//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
-suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseRQ) : Result<RfLivingAreaInformationResponse>{
+//    Ajit Ranjan create 24/October/20256  getRfLivingAreaInformation
+suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Result<RfLivingAreaInformationResponse>{
     return try {
         // val bearerToken = "Bearer $token"
         val response = apiService.getRfLivingAreaInformation(request)
@@ -1174,6 +1179,63 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationResponseR
         Result.failure(e)
     }
 }
+
+
+    //    Ajit Ranjan create 27/October/2025 getlivingRoomListView
+
+
+    suspend fun getRflivingRoomListView(request: LivingRoomListViewRQ) : Result<LivingRoomListViewRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getlivingRoomListView(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+//    Ajit Ranjan create 27/October/2025  toiletRoomListView
+
+    suspend fun getToiletRoomListView(request: LivingRoomListViewRQ) : Result<ToiletViewRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getToiletRoomListView(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+    //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
+    suspend fun getToiletRoomInformation(request: ToiletRoomInformationReq) : Result<ToiletRoomInformationViewRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.ToiletRoomInformation(request)
+            if (response.isSuccessful){
+                response.body()?.let {
+                    Result.success(it)
+                }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
 
     suspend fun getRfLivingRoomListView(request: LivingRoomReq) : Result<LivingAreaListRes>{
         return try {

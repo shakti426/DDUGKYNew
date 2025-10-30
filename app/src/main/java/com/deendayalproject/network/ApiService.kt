@@ -17,12 +17,13 @@ import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
+import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
-import com.deendayalproject.model.request.RfLivingAreaInformationResponseRQ
+import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -36,6 +37,7 @@ import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
+import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
@@ -57,6 +59,7 @@ import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRF
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
+import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LoginResponse
@@ -79,7 +82,10 @@ import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
 import com.deendayalproject.model.response.ToiletListRes
+import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
+import com.deendayalproject.model.response.ToiletRoomInformationViewRes
+import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainingCenterInfoRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.VillageRes
@@ -341,16 +347,32 @@ interface ApiService {
     suspend fun getRfBasicInfoo(@Body request: TrainingCenterInfo) : Response<ResidentialFacilityQTeam>
 
 
-//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
+//    Ajit Ranjan create 21/October/2025  CompliancesRFQTReqRFQT
 
 
     @POST(value ="getRfInfraDetailsAndComliance")
     suspend fun getgetCompliancesRFQTReqRFQT(@Body request: CompliancesRFQTReq) : Response<InfrastructureDetailsandCompliancesRFQT>
 
-//    Ajit Ranjan create 24/October/2026  getRfLivingAreaInformation
+//    Ajit Ranjan create 24/October/2025  getRfLivingAreaInformation
     @POST(value ="getRfLivingAreaInformation")
-    suspend fun getRfLivingAreaInformation(@Body request: RfLivingAreaInformationResponseRQ) : Response<RfLivingAreaInformationResponse>
+    suspend fun getRfLivingAreaInformation(@Body request: RfLivingAreaInformationRQ) : Response<RfLivingAreaInformationResponse>
 
+    //    Ajit Ranjan create 27/October/2025  getRfLivingAreaInformation
+    @POST(value ="livingRoomListView")
+    suspend fun getlivingRoomListView(@Body request: LivingRoomListViewRQ) : Response<LivingRoomListViewRes>
+
+//    Ajit Ranjan create 27/October/2025  toiletRoomListView
+
+
+    @POST(value ="toiletRoomListView")
+    suspend fun getToiletRoomListView(@Body request: LivingRoomListViewRQ) : Response<ToiletViewRes>
+
+    //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
+
+    @POST(value ="getRfToiletRoomInformation")
+    suspend fun ToiletRoomInformation
+                (@Body request: ToiletRoomInformationReq) :
+            Response<ToiletRoomInformationViewRes>
 
     @POST(value ="livingRoomListView")
     suspend fun getRfLivingRoomListView(@Body request: LivingRoomReq) : Response<LivingAreaListRes>

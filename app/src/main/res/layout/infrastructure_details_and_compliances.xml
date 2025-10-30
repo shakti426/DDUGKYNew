@@ -591,6 +591,7 @@
         <TextView
             android:id="@+id/labelBasicInformationBoard"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:text="@string/basic_information_board"
             android:textColor="@color/color_dark_green"
@@ -628,6 +629,7 @@
         <TextView
             android:id="@+id/labelSecuringWiresDone"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:text="@string/basic_information_board"
             android:textColor="@color/color_dark_green"
@@ -660,12 +662,12 @@
 
 
 
-
+<!--        android:text="@string/lable_area"-->
         <TextView
             android:id="@+id/labelArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/lable_area"
+
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             android:layout_marginTop="@dimen/dp_15"

@@ -69,20 +69,24 @@
                 android:paddingTop="8dp"
                 android:text="@string/type_of_roof"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
+                android:id="@+id/spinnerITLTypeofRoofItLab"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/type_of_roof"
-                android:paddingTop="8dp">
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/type_of_roof"-->
+<!--                android:paddingTop="8dp">-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etITLTypeofRoofItLab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etITLTypeofRoofItLab"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of Male Toilets (Upload) -->
             <TextView
@@ -148,7 +152,7 @@
             <Spinner
                 android:id="@+id/spinnerITLFalseCellingProvide"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="57dp" />
 <!--            <com.google.android.material.textfield.TextInputLayout-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
@@ -172,7 +176,7 @@
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_marginEnd="@dimen/dp_4"
                 android:paddingTop="8dp"
-                android:visibility="gone"
+
                 android:text="@string/proof_of_false_celling"
                 android:textStyle="bold" />
             <LinearLayout
@@ -235,7 +239,7 @@
                     android:id="@+id/etITLHeightOfCelling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -308,7 +312,7 @@
                     android:id="@+id/etITLVentilationAreaInSqFt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -370,20 +374,28 @@
                 android:paddingTop="8dp"
                 android:text="@string/sound_level_as_per_specifications"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/sound_level_as_per_specifications"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etITLSoundLevelAsPerSpecifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerITLSoundLevelAsPerSpecifications"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/sound_level_as_per_specifications"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etITLSoundLevelAsPerSpecifications"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of HeightofCeiling  -->
             <TextView
@@ -455,7 +467,7 @@
                     android:id="@+id/etITLSoundLevelInDb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -823,7 +835,7 @@
                     android:id="@+id/etITLLanEnabledComputersInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of LanEnabledComputersInNo  -->
@@ -1058,7 +1070,7 @@
                     android:id="@+id/etITLTablets"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of Tablets  -->
@@ -1131,7 +1143,7 @@
                     android:id="@+id/etITLStoolsChairs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of StoolsChairs  -->
@@ -1361,7 +1373,7 @@
                     android:id="@+id/etITLLightsInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of LightsInNo  -->
@@ -1434,7 +1446,7 @@
                     android:id="@+id/etITLFansInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of FansInNo  -->

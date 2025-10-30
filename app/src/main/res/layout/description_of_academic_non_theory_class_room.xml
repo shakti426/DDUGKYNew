@@ -34,20 +34,25 @@
                 android:paddingTop="8dp"
                 android:text="@string/type_of_roof"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/type_of_roof"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRTypeofRoofItLab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerTCRTypeofRoofItLab"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/type_of_roof"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRTypeofRoofItLab"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of Male Toilets (Upload) -->
             <TextView
@@ -110,20 +115,25 @@
                 android:paddingTop="8dp"
                 android:text="@string/false_ceiling_label"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/false_ceiling_label"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRFalseCellingProvide"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerTCRFalseCellingProvide"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/false_ceiling_label"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRFalseCellingProvide"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of FalseCeilingProvided  -->
             <TextView
@@ -196,7 +206,7 @@
                     android:id="@+id/etTCRHeightOfCelling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -269,7 +279,7 @@
                     android:id="@+id/etTCRVentilationAreaInSqFt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -331,20 +341,29 @@
                 android:paddingTop="8dp"
                 android:text="@string/sound_level_as_per_specifications"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/sound_level_as_per_specifications"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRSoundLevelAsPerSpecifications"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerTCRSoundLevelAsPerSpecifications"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+
+
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/sound_level_as_per_specifications"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRSoundLevelAsPerSpecifications"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of HeightofCeiling  -->
             <TextView
@@ -418,7 +437,7 @@
                     android:id="@+id/etTCRSoundLevelInDb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -797,20 +816,26 @@
                 android:paddingTop="8dp"
                 android:text="@string/lcd_digital_projector"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/lcd_digital_projector"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRLcdDigitalProjector"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerTCRLcdDigitalProjector"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/lcd_digital_projector"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRLcdDigitalProjector"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of LanEnabledComputersInNo  -->
             <TextView
@@ -882,7 +907,7 @@
                     android:id="@+id/etTCRChairForCandidatesInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of InternetConnections  -->
@@ -945,20 +970,26 @@
                 android:paddingTop="8dp"
                 android:text="@string/trainer_chair"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/trainer_chair"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRTrainerChair"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerTCRTrainerChair"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/trainer_chair"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRTrainerChair"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of TrainerChair  -->
             <TextView
@@ -1018,20 +1049,25 @@
                 android:paddingTop="8dp"
                 android:text="@string/trainer_table"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/trainer_table"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRTrainerTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerTCRTrainerTable"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/trainer_table"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRTrainerTable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of TrainerTable  -->
             <TextView
@@ -1096,20 +1132,24 @@
                 android:paddingTop="8dp"
                 android:text="@string/writing_board"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
+                android:id="@+id/spinnerTCRWritingBoard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/writing_board"
-                android:paddingTop="8dp">
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/writing_board"-->
+<!--                android:paddingTop="8dp">-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRWritingBoard"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRWritingBoard"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of LightsInNo  -->
             <TextView
@@ -1191,7 +1231,7 @@
                     android:id="@+id/etTCRLightsInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of LightsInNo  -->
@@ -1264,7 +1304,7 @@
                     android:id="@+id/etTCRFansInNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of FansInNo  -->
@@ -1406,20 +1446,25 @@
                 android:paddingTop="8dp"
                 android:text="@string/theory_class_room_photograph"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/theory_class_room_photograph"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTCRDomainLabPhotogragh"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerTCRDomainLabPhotogragh"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/theory_class_room_photograph"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etTCRDomainLabPhotogragh"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of ItLabPhotograph  -->
             <TextView

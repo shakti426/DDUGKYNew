@@ -107,21 +107,11 @@
                 android:paddingTop="8dp"
                 android:text="@string/office_room_photograph"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
+
+            <Spinner
+                android:id="@+id/spinnerOCCRPhotograph"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/office_room_photograph"
-                android:paddingTop="8dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etOfficeRoomPhotograph"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
+                android:layout_height="57dp" />
             <!-- Proof of OfficeRoomPhotograph -->
             <TextView
                 android:layout_width="match_parent"
@@ -180,20 +170,25 @@
                 android:paddingTop="8dp"
                 android:text="@string/type_of_roof"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/type_of_roof"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etOfficeCumTypeofRoofItLab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerOfficeCumTypeofRoofItLab"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/type_of_roof"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etOfficeCumTypeofRoofItLab"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="text" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <!-- Proof of Male Toilets (Upload) -->
             <TextView
@@ -347,7 +342,7 @@
                     android:id="@+id/etOfficeCumHeightOfCelling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Proof of HeightofCeiling  -->
@@ -408,20 +403,11 @@
                 android:paddingTop="8dp"
                 android:text="@string/storage_place_for_securing_documents"
                 android:textStyle="bold" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/storage_place_for_securing_documents"
-                android:paddingTop="8dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etOfficeCumSplaceforSecuringDoc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spinnerOCCRCumSplaceforSecuringDoc"
+                android:layout_width="match_parent"
+                android:layout_height="57dp" />
 
             <!-- Proof of HeightofCeiling  -->
             <TextView
@@ -471,9 +457,87 @@
 
 
             </LinearLayout>
+<!--            table_for_office_computer-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:text="@string/table_for_office_computer"
+                android:textStyle="bold" />
+
+<!--            <Spinner-->
+<!--                android:id="@+id/spinnerOCCROfficeTable"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="57dp" />-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:hint="@string/an_office_table_in_no"
+                android:paddingTop="8dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOCCROfficeTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
 
+            <!-- Proof of table_for_office_computer -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:paddingTop="8dp"
+                android:visibility="gone"
+                android:text="@string/office_cum_proof_of_table_for_office_computer"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_4"
+                android:layout_marginEnd="@dimen/dp_4"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+
+                <Button
+                    android:id="@+id/btnUploadOCCROfficeTable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/dp_5"
+                    android:layout_marginEnd="@dimen/dp_5"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:drawableEnd="@drawable/ic_up"
+                    android:background="@drawable/bg_upload_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp" />
+
+
+
+                <ImageView
+                    android:id="@+id/ivPreviewOCCROfficeTable"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_image_preview"
+                    android:contentDescription="@string/office_cum_proof_of_office_room_photogragh"
+                    android:visibility="gone" />
+
+
+
+            </LinearLayout>
 
 
             <!-- OfficeCumAnOfficeTableNo-->
