@@ -6,6 +6,7 @@ import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
+import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
@@ -14,6 +15,7 @@ import com.deendayalproject.model.request.ITLabDetailsRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
+import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
@@ -56,6 +58,8 @@ import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
+import com.deendayalproject.model.response.LivingAreaDelete
+import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
@@ -366,5 +370,13 @@ interface ApiService {
     suspend fun ToiletRoomInformation
                 (@Body request: ToiletRoomInformationReq) :
             Response<ToiletRoomInformationViewRes>
+
+    @POST(value ="livingRoomListView")
+    suspend fun getRfLivingRoomListView(@Body request: LivingRoomReq) : Response<LivingAreaListRes>
+
+
+
+    @POST(value ="deleteLivingRoom")
+    suspend fun deleteLivingRoom(@Body request: DeleteLivingRoomList) : Response<LivingAreaDelete>
 
 }

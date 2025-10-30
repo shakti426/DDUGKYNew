@@ -1,4 +1,6 @@
 import android.content.Context
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
 import com.deendayalproject.model.request.AcademicNonAcademicArea
 import com.deendayalproject.model.request.AllRoomDetaisReques
@@ -6,6 +8,7 @@ import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
+import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
@@ -15,6 +18,7 @@ import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LivingRoomListViewRQ
+import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
@@ -55,6 +59,8 @@ import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRF
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
+import com.deendayalproject.model.response.LivingAreaDelete
+import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
@@ -81,6 +87,7 @@ import com.deendayalproject.model.response.ToiletRoomInformationViewRes
 import com.deendayalproject.model.response.ToiletViewRes
 import com.deendayalproject.model.response.TrainingCenterResponse
 import com.deendayalproject.model.response.VillageRes
+import com.deendayalproject.util.AppUtil
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -1113,7 +1120,7 @@ class CommonRepository(private val context: Context) {
     }
 
 
-//    Ajit Ranjan create 21/October/2025  CompliancesRFQTReqRFQT
+//    Ajit Ranjan create 21/October/2026  CompliancesRFQTReqRFQT
 
     suspend fun getCompliancesRFQTReqRFQT(request: CompliancesRFQTReq) : Result<InfrastructureDetailsandCompliancesRFQT>{
         return try {
@@ -1198,6 +1205,42 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
             Result.failure(e)
         }
     }
+
+
+
+
+    suspend fun getRfLivingRoomListView(request: LivingRoomReq) : Result<LivingAreaListRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRfLivingRoomListView(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun deleteLivingRoom(request: DeleteLivingRoomList) : Result<LivingAreaDelete>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.deleteLivingRoom(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
 
 
 

@@ -9,6 +9,7 @@ import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DLRequest
+import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
@@ -18,6 +19,7 @@ import com.deendayalproject.model.request.InsertLivingAreaReq
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LivingRoomListViewRQ
+import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
@@ -58,6 +60,8 @@ import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRF
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
 import com.deendayalproject.model.response.IpEnableRes
+import com.deendayalproject.model.response.LivingAreaDelete
+import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
@@ -1171,6 +1175,39 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _ToiletRoomInformationView.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    private val _getRfLivingRoomListView = MutableLiveData<Result<LivingAreaListRes>>()
+    val getRfLivingRoomListView: LiveData<Result<LivingAreaListRes>> = _getRfLivingRoomListView
+
+    fun getRfLivingRoomListView(request: LivingRoomReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRfLivingRoomListView(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getRfLivingRoomListView.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _deleteLivingRoom = MutableLiveData<Result<LivingAreaDelete>>()
+    val deleteLivingRoom: LiveData<Result<LivingAreaDelete>> = _deleteLivingRoom
+
+    fun deleteLivingRoom(request: DeleteLivingRoomList) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.deleteLivingRoom(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _deleteLivingRoom.postValue(result)
             _loading.postValue(false)
         }
     }

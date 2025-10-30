@@ -688,7 +688,7 @@
                             android:id="@+id/etDistanceFromBusStand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -714,7 +714,7 @@
                             android:id="@+id/etDistanceFromAutoStand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -741,7 +741,7 @@
                             android:id="@+id/etDistanceFromRailwayStand"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -768,7 +768,7 @@
                             android:id="@+id/etDistanceFromTrainingToResidentialCentre"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -2034,7 +2034,7 @@
                             android:id="@+id/etAreaForOutDoorGames"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
+                            android:inputType="number" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Submit Button -->
@@ -2100,7 +2100,9 @@
                         android:src="@drawable/ic_dropdown_arrow" />
                 </LinearLayout>
 
-            <LinearLayout
+
+
+                <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -2108,7 +2110,57 @@
                 android:visibility="gone"
                 android:layout_margin="@dimen/dp_10"
                 android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="8dp"
+                        android:background="@color/color_grey"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Room No"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Length"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Width"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/livingAreaRecycler"/>
@@ -2270,8 +2322,21 @@
                             android:id="@+id/etHeightOfCeiling"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnUploadLivingAreaHieghtOfCeiling"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivLivingAreaHieghtOfCeilingPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -2296,7 +2361,7 @@
                             android:id="@+id/etRoomLength"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -2323,7 +2388,7 @@
                             android:id="@+id/etRoomWidth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -2370,9 +2435,20 @@
                             android:id="@+id/etRoomWindowArea"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
-
+                    <Button
+                        android:id="@+id/btnUploadLivingWindowArea"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivLivingAreaWindowAreaPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
 
                         <TextView
@@ -2648,19 +2724,20 @@
                         android:textSize="@dimen/sp_16"
                         />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/number_of_students_permitted">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etStudentsPermitted"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/etStudentsPermitted"
+                        style="@style/EditText"
+                        android:text="@string/area_in_sq_ft"
+                        android:background="@drawable/edittext_background"
+                        android:padding="12dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"
+                        />
+
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -2876,7 +2953,7 @@
                             android:id="@+id/etLightsInToilet"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
                     <Button
                         android:id="@+id/btnUploadLightsInToilet"
@@ -3232,7 +3309,7 @@
                             android:id="@+id/etKitchenLength"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -3259,7 +3336,7 @@
                             android:id="@+id/etKitchenWidth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -3389,7 +3466,7 @@
                             android:id="@+id/etWashArea"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -3468,7 +3545,7 @@
                             android:id="@+id/etDiningLength"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -3495,7 +3572,7 @@
                             android:id="@+id/etDiningWidth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
@@ -3571,7 +3648,7 @@
                             android:id="@+id/etRecreationLength"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -3598,7 +3675,7 @@
                             android:id="@+id/etRecreationWidth"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number" />
+                            android:inputType="numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView

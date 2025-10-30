@@ -124,8 +124,12 @@ object AppUtil {
 
         isSessionDialogShown = false // Reset flag after navigation
     }
-
-
+    fun hideKeyboard(activity: Activity) {
+        val view = activity.currentFocus ?: View(activity)
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        view.clearFocus()
+    }
 
 //    Ajit Ranjan
 
