@@ -1489,7 +1489,6 @@ class TrainingFragment : Fragment() {
                         }
 
                         "stairs" -> {
-
                             ivStairsPreview.setImageURI(photoUri)
                             ivStairsPreview.visibility = View.VISIBLE
                             base64StairsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)

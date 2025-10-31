@@ -8,21 +8,21 @@
     <string name="hint_latitude">Latitude</string>
     <string name="hint_longitude">Longitude</string>
 
-        <string name="title_ip_enabled_camera">IP enabled camera</string>
-        <string name="label_ip_enabled">IP Enabled</string>
-        <string name="label_resolution">Resolution - 1080p HD @ 25 FPS or better</string>
-        <string name="label_video_stream">Video Stream - Dual H.264 or better</string>
-        <string name="label_remote_browser">Remote Access - Via web browser for Configuration, Viewing &amp; Control</string>
-        <string name="label_simultaneous_access">Remote Access - Minimum 10 users simultaneously</string>
-        <string name="label_supported_protocols">Supported Protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
-        <string name="label_color_video_audio">Color Video with Audio</string>
-        <string name="label_storage_facility">Storage Facility to keep recording till project closure</string>
-        <string name="label_monitor_accessible">Central Monitor accessible to Centre Incharge</string>
-        <string name="btn_click_photo">Click photo</string>
-        <string name="label_conformance">Conformance of CCTV to DDU-GKY as per Chapter 5 of SOP</string>
-        <string name="label_storage_recording">Storage of CCTV Recorded Material</string>
-        <string name="label_dvr_static_ip">DVR Connected to Working Static IP as per SF 5.2B</string>
-        <string name="btn_submit_cctv">Submit</string>
+    <string name="title_ip_enabled_camera">IP enabled camera</string>
+    <string name="label_ip_enabled">IP Enabled</string>
+    <string name="label_resolution">Resolution - 1080p HD @ 25 FPS or better</string>
+    <string name="label_video_stream">Video Stream - Dual H.264 or better</string>
+    <string name="label_remote_browser">Remote Access - Via web browser for Configuration, Viewing &amp; Control</string>
+    <string name="label_simultaneous_access">Remote Access - Minimum 10 users simultaneously</string>
+    <string name="label_supported_protocols">Supported Protocols - IPv4, HTTP, TCP, RTSP, RTP, ICMP, UDP, DNS, DHCP etc.</string>
+    <string name="label_color_video_audio">Color Video with Audio</string>
+    <string name="label_storage_facility">Storage Facility to keep recording till project closure</string>
+    <string name="label_monitor_accessible">Central Monitor accessible to Centre Incharge</string>
+    <string name="btn_click_photo">Click photo</string>
+    <string name="label_conformance">Conformance of CCTV to DDU-GKY as per Chapter 5 of SOP</string>
+    <string name="label_storage_recording">Storage of CCTV Recorded Material</string>
+    <string name="label_dvr_static_ip">DVR Connected to Working Static IP as per SF 5.2B</string>
+    <string name="btn_submit_cctv">Submit</string>
 
 
     <string name="toilets_wash_basins_section_title">Toilets &amp; Wash Basins</string>
@@ -44,36 +44,30 @@
     <string name="submit_toilet_wash_basin">Submit</string>
 
 
+    <!-- Section Header -->
 
-        <!-- Section Header -->
+    <!-- TextInput Hints -->
 
-        <!-- TextInput Hints -->
+    <string name="length">Length</string>
+    <string name="width">Width</string>
+    <string name="area">Area</string>
+    <string name="fans">Fans</string>
+    <string name="circulation_area_hint">Circulation Area (In Sq. Ft.)</string>
+    <string name="open_space_hint">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
+    <string name="exclusive_parking_space_hint">Exclusive Parking Space (No. of Bicycle Parking Slots)</string>
 
-        <string name="length">Length</string>
-        <string name="width">Width</string>
-        <string name="area">Area</string>
-        <string name="fans">Fans</string>
-        <string name="circulation_area_hint">Circulation Area (In Sq. Ft.)</string>
-        <string name="open_space_hint">Open Space for People to Gather and Interact (In Sq. Ft.)</string>
-        <string name="exclusive_parking_space_hint">Exclusive Parking Space (No. of Bicycle Parking Slots)</string>
+    <!-- Section Titles -->
+    <string name="proof_upload">Proof Upload</string>
+    <string name="circulation_area_title">Ener Circulation Area (In Sq. Ft.)</string>
+    <string name="circulation_proof_upload">Circulation Area Proof Upload</string>
+    <string name="open_space_proof_upload">Open Space Proof Upload</string>
+    <string name="parking_space_proof_upload">Parking Space Proof Upload</string>
 
-        <!-- Section Titles -->
-        <string name="proof_upload">Proof Upload</string>
-        <string name="circulation_area_title">Ener Circulation Area (In Sq. Ft.)</string>
-        <string name="circulation_proof_upload">Circulation Area Proof Upload</string>
-        <string name="open_space_proof_upload">Open Space Proof Upload</string>
-        <string name="parking_space_proof_upload">Parking Space Proof Upload</string>
-
-        <!-- Button Labels -->
-        <string name="upload_proof">Upload Proof</string>
-        <string name="upload_circulation_proof">Upload Circulation Proof</string>
-        <string name="upload_open_space_proof">Upload Open Space Proof</string>
-        <string name="upload_parking_proof">Upload Parking Proof</string>
-
-
-
-
-
+    <!-- Button Labels -->
+    <string name="upload_proof">Upload Proof</string>
+    <string name="upload_circulation_proof">Upload Circulation Proof</string>
+    <string name="upload_open_space_proof">Upload Open Space Proof</string>
+    <string name="upload_parking_proof">Upload Parking Proof</string>
 
 
     <string name="app_name">Ddugky</string>
@@ -203,15 +197,6 @@
     <string name="phone_std_code_hint">Training Centre Phone No. with STD Code</string>
     <string name="email_id_hint">Email Id</string>
     <string name="centre_incharge_details_label">Centre Incharge Details</string>
-
-
-
-
-
-
-
-
-
 
 
     <string-array name="academic_room_types">
@@ -529,19 +514,13 @@
     <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
     <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
-<!--    <string name="submit">Submit</string>-->
+    <!--    <string name="submit">Submit</string>-->
     <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
     <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
     <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
     <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
     <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
     <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
-
-
-
-
-
-
 
 
     <!--    AJIT RANJAN PMAY-G-->

@@ -2577,10 +2577,10 @@ class ResidentialFacilityFragment : Fragment() {
                 proofLight = base64LightsInToiletDocFile!!,
                 flooring = spinnerToiletFlooringType.selectedItem.toString(),
                 proofFloor = base64ToiletFlooringDocFile!!,
-                runningWater = spinnerConnectionToRunningWater.selectedItem.toString()
-                /*width = etRoomWidth.text.toString(),
-                area = etRoomArea.text.toString(),
-                windowArea = etRoomWindowArea.text.toString()*/
+                runningWater = spinnerConnectionToRunningWater.selectedItem.toString(),
+                femaleUrinal = etFemaleUrinal.text.toString().toIntOrNull() ?: 0,
+                femaleWashbasin = etFemaleWashbasins.text.toString().toIntOrNull() ?: 0,
+                overheadTank = spinnerOverheadTanks.selectedItem.toString()
 
             )
 
