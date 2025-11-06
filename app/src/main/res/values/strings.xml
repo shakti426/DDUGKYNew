@@ -199,6 +199,15 @@
     <string name="centre_incharge_details_label">Centre Incharge Details</string>
 
 
+
+
+
+
+
+
+
+
+
     <string-array name="academic_room_types">
         <item>Select Room Type</item>
         <item>IT Lab</item>
@@ -514,13 +523,19 @@
     <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
     <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
-    <!--    <string name="submit">Submit</string>-->
+<!--    <string name="submit">Submit</string>-->
     <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
     <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
     <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
     <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
     <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
     <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
+
+
+
+
+
+
 
 
     <!--    AJIT RANJAN PMAY-G-->
@@ -710,5 +725,17 @@
     <string name="toiletid">ToiletId</string>
     <string name="toilet_type">Toilet Type</string>
     <string name="proof_og_image_it_cum_domain_lab_photograph">Proof og Image IT cum Domain Lab Photograph</string>
+    <string name="kitchen_length">Kitchen Length</string>
+    <string name="prepared_food">Prepared Food</string>
+    <string name="recreation_width">Recreation Width</string>
+    <string name="kitchen_area">Kitchen Area</string>
+    <string name="kitchen_width">Kitchen Width</string>
+    <string name="inddor_game_id">Inddor Game Id</string>
+    <string name="male_doctor">Male Doctor</string>
+    <string name="female_doctor">Female Doctor</string>
+    <string name="warden_caretaker_female">Warden Caretaker Female</string>
+    <string name="warden_caretaker_male">Warden Caretaker Male</string>
+    <string name="hostels_separated">Hostels Separated</string>
+    <string name="security_guards">Security Guards</string>
     <string name="is_reception_area_available">Is reception area available?</string>
 </resources>

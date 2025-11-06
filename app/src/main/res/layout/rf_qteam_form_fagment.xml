@@ -166,6 +166,88 @@
 
 
 
+
+        <!--        RFNonLivingArea Ajit Ranjan 03/11/2025 -->
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvRFConstraintLayoutNonLivingArea"
+            style="@style/editTextHome"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRFTiolet">
+
+
+
+            <include
+                android:id="@+id/RFNonLivingAreaLayout"
+                layout="@layout/nonlivingarearoom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <!--        RFIndoorGame Ajit Ranjan 04/11/2025 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvRFConstraintLayoutIndoorGame"
+            style="@style/editTextHome"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRFConstraintLayoutNonLivingArea">
+
+
+
+            <include
+                android:id="@+id/RFIndoorGameLayout"
+                layout="@layout/rf_indoorgamelayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!--        RFResidentialFacilitiesAvailable Ajit Ranjan 04/11/2025 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/RFResidentialConstraintLayoutFacilitiesAvailable"
+            style="@style/editTextHome"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRFConstraintLayoutIndoorGame">
+
+
+
+            <include
+                android:id="@+id/RFResidentialFacilitiesAvailable"
+                layout="@layout/rf_esidential_facilities"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

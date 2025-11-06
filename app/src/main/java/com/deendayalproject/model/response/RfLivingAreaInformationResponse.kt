@@ -37,6 +37,8 @@ data class LivingAreaInformation(
     val bedSheet: String?,
     val width: String?,
     val sanctionOrder: String?,
-    val storagePdf: String?
+    val storagePdf: String?,
+
+
 )
 

@@ -28,6 +28,7 @@ import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -62,6 +63,7 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.IndoorRFGameResponse
 import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
@@ -71,6 +73,8 @@ import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.NonAreaInformationRoom
+import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -1359,5 +1363,68 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
             }
         }
     }
+
+
+    //    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
+
+
+//    LivingRoomListViewRQ
+    private val _NonAreaInformationRoom = MutableLiveData<Result<NonAreaInformationRoom>>()
+    val NonAreaInformationRoom: LiveData<Result<NonAreaInformationRoom>> = _NonAreaInformationRoom
+
+    fun getRfNonLivingAreaInformation(request: LivingRoomListViewRQ) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRfNonLivingAreaInformation(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _NonAreaInformationRoom.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+
+    //     Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
+
+    private val _RfIndoorGameDetails = MutableLiveData<Result<IndoorRFGameResponse>>()
+    val RfIndoorGameDetails: LiveData<Result<IndoorRFGameResponse>> = _RfIndoorGameDetails
+
+
+
+    fun getRfIndoorGameDetails(request: RFGameRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRfInGaDetails(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _RfIndoorGameDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+//    Ajit Ranjan create 06/Novmber/2025     getResidentialFacilitiesAvailable
+
+
+
+    private val _RFResidentialFacilitiesAvailable = MutableLiveData<Result<RFResidintialFacilityResponse>>()
+    val RFResidentialFacilitiesAvailable: LiveData<Result<RFResidintialFacilityResponse>> = _RFResidentialFacilitiesAvailable
+
+    fun getResidentialFacilitiesAvailable(request: TrainingCenterInfo) {
+        _loading.postValue(true)
+         viewModelScope.launch {
+          val result = repository.getResidentialFacilitiesAvailable(request)
+           result.onFailure {
+            _errorMessage.postValue(it.message ?: "Unknown error")
+           }
+             _RFResidentialFacilitiesAvailable.postValue(result)
+            _loading.postValue(false)
+    }
+}
+
 
 }

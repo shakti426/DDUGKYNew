@@ -468,25 +468,25 @@
                 android:text="@string/table_for_office_computer"
                 android:textStyle="bold" />
 
-<!--            <Spinner-->
-<!--                android:id="@+id/spinnerOCCROfficeTable"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="57dp" />-->
-
-            <com.google.android.material.textfield.TextInputLayout
+            <Spinner
+                android:id="@+id/spinnerOCCROfficeTable"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_4"
-                android:layout_marginEnd="@dimen/dp_4"
-                android:hint="@string/an_office_table_in_no"
-                android:paddingTop="8dp">
+                android:layout_height="57dp" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etOCCROfficeTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_4"-->
+<!--                android:layout_marginEnd="@dimen/dp_4"-->
+<!--                android:hint="@string/an_office_table_in_no"-->
+<!--                android:paddingTop="8dp">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/etOCCROfficeTable"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:inputType="number" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
 
 

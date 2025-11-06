@@ -27,6 +27,7 @@ import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -61,6 +62,7 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.IndoorRFGameResponse
 import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
@@ -70,6 +72,8 @@ import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.NonAreaInformationRoom
+import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -1309,8 +1313,6 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
     }
 
 
-
-
     suspend fun getRfLivingRoomListView(request: LivingRoomReq) : Result<LivingAreaListRes>{
         return try {
             // val bearerToken = "Bearer $token"
@@ -1361,6 +1363,63 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.deleteToiletRoom(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    //    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
+    suspend fun getRfNonLivingAreaInformation(request: LivingRoomListViewRQ) : Result<NonAreaInformationRoom>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRfNonLivingAreaInformation(request)
+            if (response.isSuccessful){
+                response.body()?.let {
+                    Result.success(it)
+                }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
+
+    //    Ajit Ranjan create 04/November/2025 getRfIndoorGameDetails
+
+
+    suspend fun getRfInGaDetails(request: RFGameRequest) : Result<IndoorRFGameResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRfIndoorGameDetails(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+//    Ajit Ranjan create 06/Novmber/2025     getResidentialFacilitiesAvailable
+
+    suspend fun getResidentialFacilitiesAvailable(request: TrainingCenterInfo) : Result<RFResidintialFacilityResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getResidentialFacilitiesAvailable(request)
             if (response.isSuccessful){
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))

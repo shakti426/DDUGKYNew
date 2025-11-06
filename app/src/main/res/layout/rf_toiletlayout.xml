@@ -20,7 +20,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tvLAI"
+            android:id="@+id/tvToilet"
             android:fontFamily="@font/avenir_next_semi_bold"
             android:text="@string/toilets"
             android:textColor="@color/color_dark_green"
@@ -34,7 +34,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/viewLAI"
+        android:id="@+id/viewToilet"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_1"
         android:layout_marginTop="@dimen/dp_8"
@@ -172,8 +172,9 @@
 
 
 
+
                 <AutoCompleteTextView
-                    android:id="@+id/SpinnerLivingAreaInformation"
+                    android:id="@+id/SpinnerToilet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:focusable="false"
@@ -188,7 +189,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/LivingAreaInformationRemarks"
+                android:id="@+id/LivingToiletRemarks"
                 android:visibility="gone"
                 android:text="@string/remarkss"
                 android:layout_marginTop="@dimen/dp_20"
@@ -197,7 +198,7 @@
                 />
 
             <EditText
-                android:id="@+id/etLivingAreaInformationRemarks"
+                android:id="@+id/etToiletRemarks"
                 style="@style/EditText"
                 android:visibility="gone"
                 android:hint="@string/remarks"
@@ -222,7 +223,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:id="@+id/btnLivingAreaInformationPrevious"
+                    android:id="@+id/btnToiletPrevious"
                     android:elevation="4dp"
                     android:text="@string/previous"
                     android:textColor="@color/color_dark_blue"
@@ -235,7 +236,7 @@
                     android:layout_weight="1"
                     android:text="@string/save_and_next"
                     android:gravity="center"
-                    android:id="@+id/btnLivingAreaInformationNext"
+                    android:id="@+id/btnToiletNext"
                     android:textColor="@color/white"
                     android:elevation="4dp"
                     android:textSize="@dimen/sp_16"
