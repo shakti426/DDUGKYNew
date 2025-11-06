@@ -28,6 +28,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Environment
 import android.util.Base64
 import android.widget.ImageView
 import androidx.core.content.FileProvider
@@ -50,6 +51,7 @@ import com.deendayalproject.model.response.RoomItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 
 class SrlmVerificationForm : Fragment() {
     private val progress: androidx.appcompat.app.AlertDialog? by lazy {
@@ -2945,7 +2947,11 @@ class SrlmVerificationForm : Fragment() {
 
         }
 
-
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
 
         binding.valueParking.setOnClickListener {
 
@@ -2955,29 +2961,35 @@ class SrlmVerificationForm : Fragment() {
 
 
         // Infra pdf set
+        // Infra pdf set
         binding.tvSelfDeclarationPdf.setOnClickListener {
 
-            openBase64Pdf(requireContext(), selfDeclarationPdf)
+
+            downloadAndOpenBase64Pdf(requireContext(), selfDeclarationPdf, "selfDeclarationPdf.pdf")
+
 
         }
 
 
         binding.tvPhotosOfBuildingPdf.setOnClickListener {
-            openBase64Pdf(requireContext(), buildingPdf)
+            downloadAndOpenBase64Pdf(requireContext(), buildingPdf, "buildingPdf.pdf")
+
 
         }
 
 
         binding.tvSchematicBuildingPlanPdf.setOnClickListener {
-            openBase64Pdf(requireContext(), schematicPdf)
+            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
 
         }
 
 
         binding.tvInternalExternalWallsPdf.setOnClickListener {
-            openBase64Pdf(requireContext(), internalExternalWallPdf)
+            downloadAndOpenBase64Pdf(requireContext(), schematicPdf, "schematicPdf.pdf")
 
         }
+
+
 
 
 
@@ -4999,6 +5011,44 @@ class SrlmVerificationForm : Fragment() {
 
 
 
+    @SuppressLint("Recycle")
+    private fun downloadAndOpenBase64Pdf(context: Context, base64: String, fileName: String = "document.pdf") {
+        try {
+            // 1️⃣ Clean the Base64 (remove prefix if present)
+            val cleanBase64 = base64
+                .replace("data:application/pdf;base64,", "")
+                .trim()
+
+            // 2️⃣ Decode Base64 into bytes
+            val pdfBytes = Base64.decode(cleanBase64, Base64.DEFAULT)
+            if (pdfBytes.isEmpty()) {
+                Toast.makeText(context, "Invalid PDF data", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // 3️⃣ Define destination (Downloads folder)
+            val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!downloadsDir.exists()) downloadsDir.mkdirs()
+
+            val file = File(downloadsDir, fileName)
+
+            // 4️⃣ Write PDF bytes to file
+            FileOutputStream(file).use { it.write(pdfBytes) }
+
+            // 5️⃣ Notify media scanner
+            val uri = Uri.fromFile(file)
+            context.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri))
+
+            Toast.makeText(context, "PDF downloaded to Downloads: ${file.name}", Toast.LENGTH_LONG).show()
+
+            // 6️⃣ Open the PDF after saving
+            openBase64Pdf(context, base64)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
     private fun openBase64Pdf(context: Context, base64: String) {
         try {
             // 1. Clean Base64 (remove header if present)

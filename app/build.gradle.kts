@@ -61,7 +61,6 @@ plugins {
         implementation("androidx.navigation:navigation-ui-ktx:2.7.1")
         implementation("androidx.core:core-splashscreen:1.0.1")
 
-
         // Lifecycle + ViewModel
         implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
         implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
@@ -74,6 +73,7 @@ plugins {
         implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
         implementation(libs.androidx.lifecycle.viewmodel.android)
         implementation(libs.play.services.location)
+        implementation(libs.androidx.activity)
 
         // Dagger Hilt
         val hiltVersion = "2.51"

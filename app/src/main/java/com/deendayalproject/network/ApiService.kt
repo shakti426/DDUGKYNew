@@ -12,8 +12,12 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.IndoorGamesRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
+import com.deendayalproject.model.request.InsertNonLivingReq
+import com.deendayalproject.model.request.InsertResidentialFacility
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
+import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
@@ -401,6 +405,22 @@ interface ApiService {
 
     @POST(value = "insertRfToiletRoomInformation")
     suspend fun insertRfToiletRoomInformation(@Body request: InsertToiletDataReq) : Response<ITLAbDetailsErrorResponse>
+
+    @POST(value = "insertRfNonLivingAreaInformation")
+    suspend fun insertRfNonLivingAreaInformation(@Body request: InsertNonLivingReq) : Response<ITLAbDetailsErrorResponse>
+
+    @POST(value = "insertRfIndoorGameDetails")
+    suspend fun insertRfIndoorGameDetails(@Body request: IndoorGamesRequest) : Response<ITLAbDetailsErrorResponse>
+
+
+    @POST(value = "insertResidentialFacilitiesAvailable")
+    suspend fun insertResidentialFacilitiesAvailable(@Body request: InsertResidentialFacility) : Response<ITLAbDetailsErrorResponse>
+
+
+
+    @POST(value = "insertRFSupportFacilitiesAvailable")
+    suspend fun insertRFSupportFacilitiesAvailable(@Body request: InsertSupportFacilitiesReq) : Response<ITLAbDetailsErrorResponse>
+
 
 
 

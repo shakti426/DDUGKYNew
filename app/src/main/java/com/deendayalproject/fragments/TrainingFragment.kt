@@ -1489,7 +1489,6 @@ class TrainingFragment : Fragment() {
                         }
 
                         "stairs" -> {
-
                             ivStairsPreview.setImageURI(photoUri)
                             ivStairsPreview.visibility = View.VISIBLE
                             base64StairsImage = AppUtil.imageUriToBase64(requireContext(), photoUri)
@@ -6338,6 +6337,7 @@ class TrainingFragment : Fragment() {
         }
 
         // ✅ Validate all spinner selections
+
         if (!checkSpinner(spinnerTcNameBoard, "Training Centre Name Board")) isValid = false
         if (!checkSpinner(spinnerActivityAchievementBoard, "Activity Summary Board")) isValid = false
         if (!checkSpinner(spinnerStudentEntitlementBoard, "Student Entitlement Board")) isValid = false

@@ -14,8 +14,12 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.IndoorGamesRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
+import com.deendayalproject.model.request.InsertNonLivingReq
+import com.deendayalproject.model.request.InsertResidentialFacility
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
+import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.InsertToiletDataReq
@@ -1075,6 +1079,76 @@ class CommonRepository(private val context: Context) {
         try {
             "Bearer $token"
             val response = apiService.insertRfToiletRoomInformation(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+    suspend fun insertRfNonLivingAreaInformation(
+        request: InsertNonLivingReq
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            val response = apiService.insertRfNonLivingAreaInformation(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+    suspend fun insertRfIndoorGameDetails(
+        request: IndoorGamesRequest
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            val response = apiService.insertRfIndoorGameDetails(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+    suspend fun insertResidentialFacilitiesAvailable(
+        request: InsertResidentialFacility
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            val response = apiService.insertResidentialFacilitiesAvailable(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
+    }
+
+
+    suspend fun insertRFSupportFacilitiesAvailable(
+        request: InsertSupportFacilitiesReq
+    ): Result<ITLAbDetailsErrorResponse> = withContext(Dispatchers.IO)  {
+        try {
+            val response = apiService.insertRFSupportFacilitiesAvailable(request)
             if (response.isSuccessful) {
                 response.body()?.let { Result.success(it) }
                     ?: Result.failure(Exception("Empty response"))
