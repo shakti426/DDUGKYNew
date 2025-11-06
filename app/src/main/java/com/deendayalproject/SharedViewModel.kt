@@ -15,8 +15,12 @@ import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
+import com.deendayalproject.model.request.IndoorGamesRequest
 import com.deendayalproject.model.request.InsertLivingAreaReq
+import com.deendayalproject.model.request.InsertNonLivingReq
+import com.deendayalproject.model.request.InsertResidentialFacility
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
+import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertTcGeneralDetailsRequest
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.InsertToiletDataReq
@@ -990,6 +994,84 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+    private val _insertRfNonLivingAreaInformation = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertRfNonLivingAreaInformation: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertRfNonLivingAreaInformation
+
+
+
+    fun SubmitRfNonLivingAreaDataToServer(request: InsertNonLivingReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfNonLivingAreaInformation(request )
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRfNonLivingAreaInformation.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
+    private val _insertRfIndoorGameDetails = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertRfIndoorGameDetails: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertRfIndoorGameDetails
+
+
+
+    fun SubmitRfIndoorGameDetails(request: IndoorGamesRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfIndoorGameDetails(request )
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRfIndoorGameDetails.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+
+
+    private val _insertResidentialFacilitiesAvailable = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertResidentialFacilitiesAvailable: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertResidentialFacilitiesAvailable
+
+
+
+    fun SubmitRfAvaibilityDetails(request: InsertResidentialFacility) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertResidentialFacilitiesAvailable(request )
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertResidentialFacilitiesAvailable.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
+
+    private val _insertRFSupportFacilitiesAvailable = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertRFSupportFacilitiesAvailable: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertRFSupportFacilitiesAvailable
+
+
+
+    fun SubmitRfSupportFacilitiesDetails(request: InsertSupportFacilitiesReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRFSupportFacilitiesAvailable(request )
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRFSupportFacilitiesAvailable.postValue(result)
+            _loading.postValue(false)
+        }
+
+    }
+
 
 
 

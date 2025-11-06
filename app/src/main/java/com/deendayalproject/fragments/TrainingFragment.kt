@@ -6309,6 +6309,7 @@ class TrainingFragment : Fragment() {
         }
 
         // ✅ Validate all spinner selections
+
         if (!checkSpinner(spinnerTcNameBoard, "Training Centre Name Board")) isValid = false
         if (!checkSpinner(spinnerActivityAchievementBoard, "Activity Summary Board")) isValid = false
         if (!checkSpinner(spinnerStudentEntitlementBoard, "Student Entitlement Board")) isValid = false

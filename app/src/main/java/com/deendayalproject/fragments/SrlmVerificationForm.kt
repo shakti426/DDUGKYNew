@@ -2947,7 +2947,11 @@ class SrlmVerificationForm : Fragment() {
 
         }
 
-
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
 
         binding.valueParking.setOnClickListener {
 

@@ -2478,7 +2478,11 @@ class QTeamFormFragment : Fragment() {
             }
 
         }
-
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
 
         //Adapter General
         tcGeneralAdapter = ArrayAdapter(
