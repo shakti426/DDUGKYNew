@@ -26,31 +26,24 @@ import androidx.recyclerview.widget.LinearLayoutManager
 //import com.bumptech.glide.Glide
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
+import com.deendayalproject.adapter.IndoorGameRFAdapter
 import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.RFToiletAdapter
-import com.deendayalproject.adapter.RfAdapterList
 import com.deendayalproject.databinding.RfQteamFormFagmentBinding
 import com.deendayalproject.databinding.RoominformationPopdialogBinding
 //import com.deendayalproject.databinding.RoominformationDialogboxLayoutBinding
-import com.deendayalproject.databinding.TheoryClassRoomBinding
 import com.deendayalproject.databinding.TriPopdialogBinding
 import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
+import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterInfo
-import com.deendayalproject.model.response.LivingAreaInformationRes
-import com.deendayalproject.model.response.RoomDetail
-import com.deendayalproject.model.response.Trainer
+import com.deendayalproject.model.response.IndoorRFGameResponseDetails
 import com.deendayalproject.util.AppUtil
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class RFQTeamFormFragment : Fragment() {
@@ -63,10 +56,16 @@ class RFQTeamFormFragment : Fragment() {
 
     private lateinit var adapter: LivingAreaInformationAdapter
     private lateinit var adapterToilet: RFToiletAdapter
+    private lateinit var adapterIndoorGame: IndoorGameRFAdapter
+    private val RFindoorGamesList = mutableListOf<IndoorRFGameResponseDetails>()
     private val approvalList = listOf("Approved", "Send for modification")
     private var selectedRFQTApproval = ""
     private var selectedRFLAIApproval = ""
+    private var selectedRFToiletApproval = ""
     private var selectedIDCApproval = ""
+    private var selectedIndoorGameApproval = ""
+    private var selectedResidintislFacilityApproval = ""
+    private var selectedNonAreaInfoApproval = ""
     private var RFQTresFacilityId = ""
     private var RFQInfraDetailsbuildingPlanFile = ""
     private var RFQInfraDetailprotectionStairsProofFile = ""
@@ -83,13 +82,31 @@ class RFQTeamFormFragment : Fragment() {
     private var RFQInfraDetailcontactDetailImportantPeopleproofFile= ""
     private var RFQInfraDetailstudentEntitlementBoardProofFile= ""
 
+//       Ajit Ranjan 03/11/2025 Non Room Information
+    private var PreparedFoodFile= ""
+    private var ReceptionAreaPdf= ""
+
+
+    //       Ajit Ranjan 06/11/2025 Residential Facilities
+    private var RFWardenCareFile= ""
+    private var RFMaleDoctorFile= ""
+    private var RFFemaleDoctorFile= ""
+    private var RFWardenCaretakerMaleFile= ""
+    private var RFHostelsSeparatedFile= ""
+    private var RFSecurityGuardsFile= ""
 
 
     private var selectedRFQTRemarks = ""
     private var selectedRFLAIRemarks = ""
+    private var selectedRFToiletRemarks = ""
     private var selectedIDCRemarks = ""
+    private var selectedResidintislFacilityApprovalRemark = ""
+    private var selectedIndoorGameApprovalRemark = ""
     private lateinit var tcElectricalAdapter: ArrayAdapter<String>
+    private lateinit var RFIndoorGameAdapter: ArrayAdapter<String>
     private lateinit var tvLivingAreaInformationAdapter: ArrayAdapter<String>
+    private lateinit var tvToiletAdapter: ArrayAdapter<String>
+    private lateinit var tvNonLivingAreaAdapter: ArrayAdapter<String>
 
     private var centerId = ""
     private var sanctionOrder = ""
@@ -178,6 +195,52 @@ class RFQTeamFormFragment : Fragment() {
 
 
         }
+//                  Non Room Information ImageView Click 03/11/2025
+
+
+
+        binding.RFNonLivingAreaLayout.ReceptionAreaFile.setOnClickListener {
+            openBase64Pdf(requireContext(), ReceptionAreaPdf)
+
+        }
+
+        binding.RFNonLivingAreaLayout.PreparedFoodFile.setOnClickListener {
+            openBase64Pdf(requireContext(), PreparedFoodFile)
+
+        }
+
+
+
+
+//       Ajit Ranjan 06/11/2025 Residential Facilities
+        binding.RFResidentialFacilitiesAvailable.WardenCareFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFWardenCareFile,"Warden Care")
+
+        }
+        binding.RFResidentialFacilitiesAvailable.MaleDoctorFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFMaleDoctorFile,"Male Doctor File")
+
+        }
+        binding.RFResidentialFacilitiesAvailable.FemaleDoctorFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFFemaleDoctorFile,"Female Doctor")
+
+        }
+        binding.RFResidentialFacilitiesAvailable.WardenCaretakerMaleFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFWardenCaretakerMaleFile,"Warden Caretaker Male")
+
+        }
+        binding.RFResidentialFacilitiesAvailable.HostelsSeparatedFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFHostelsSeparatedFile,"Hostels Separated")
+
+        }
+        binding.RFResidentialFacilitiesAvailable.SecurityGuardsFile.setOnClickListener {
+//            openBase64Pdf(requireContext(), RFSecurityGuardsFile)
+            showBase64ImageDialog(requireContext(), RFSecurityGuardsFile,"Security Guards")
+
+        }
+
+
+
 
 
 
@@ -401,7 +464,6 @@ class RFQTeamFormFragment : Fragment() {
             requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
         )
         binding.livingareainformationLayout.SpinnerLivingAreaInformation.setAdapter(tvLivingAreaInformationAdapter)
-
         binding.livingareainformationLayout.SpinnerLivingAreaInformation.setOnItemClickListener { parent, view, position, id ->
             selectedRFLAIApproval = parent.getItemAtPosition(position).toString()
             if (selectedRFLAIApproval == "Send for modification") {
@@ -420,7 +482,6 @@ class RFQTeamFormFragment : Fragment() {
             }
 
         }
-
         binding.livingareainformationLayout.btnLivingAreaInformationNext.setOnClickListener {
 
 
@@ -434,9 +495,11 @@ class RFQTeamFormFragment : Fragment() {
             binding.livingareainformationLayout.viewLAI.visibility = View.GONE
             binding.livingareainformationLayout.LivingAreaInformationExpand.visibility = View.GONE
 
+
+
             binding.RFTioletLayout.toiletsExpand.visibility = View.VISIBLE
             binding.tvRFTiolet.visibility = View.VISIBLE
-            binding.RFTioletLayout.viewLAI.visibility = View.VISIBLE
+
 //            binding.mainDescAcademia.visibility = View.GONE
 //            binding.viewDescAcademia.visibility = View.GONE
 //            viewIDC
@@ -500,9 +563,265 @@ class RFQTeamFormFragment : Fragment() {
         }
 //
 
+
+//        SpinnerToilet
+//        LivingToiletRemarks
+//        etToiletRemarks
+//        btnToiletPrevious, btnToiletNext
+        //Adapter   Ajit Ranjan Toilets 27/10/2025
+
+        tvToiletAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.RFTioletLayout.SpinnerToilet.setAdapter(tvToiletAdapter)
+        binding.RFTioletLayout.SpinnerToilet.setOnItemClickListener { parent, view, position, id ->
+            selectedRFToiletApproval = parent.getItemAtPosition(position).toString()
+            if (selectedRFToiletApproval == "Send for modification") {
+                binding.RFTioletLayout.LivingToiletRemarks.visibility =
+                    View.VISIBLE
+                binding.RFTioletLayout.etToiletRemarks.visibility =
+                    View.VISIBLE
+
+
+            } else {
+
+                binding.RFTioletLayout.etToiletRemarks.visibility = View.GONE
+                binding.RFTioletLayout.LivingToiletRemarks.visibility =
+                    View.GONE
+
+            }
+
+        }
+
+        binding.RFTioletLayout.btnToiletNext.setOnClickListener {
+
+
+            if (selectedRFToiletApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+            }
+//            return@setOnClickListener
+//            binding.RFTioletLayout.tvToilet.visibility = View.GONE
+            binding.RFTioletLayout.toiletsExpand.visibility = View.GONE
+            binding.RFTioletLayout.viewToilet.visibility = View.GONE
+            binding.tvRFConstraintLayoutNonLivingArea.visibility = View.VISIBLE
+
+
+
+
+
+//            tvRFNonLivingArea
+//            RFNonLivingAreaLayout
+
+
+
+            binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            binding.scroll.post {
+                binding.scroll.smoothScrollTo(0, 0)
+            }
+            if (selectedRFToiletApproval == "Send for modification") {
+                selectedRFToiletRemarks = binding.RFTioletLayout.etToiletRemarks.text.toString()
+                if (selectedRFToiletRemarks.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+//                return@setOnClickListener
+            } else selectedRFToiletRemarks = ""
+
+//            Ajit Ranjan create 03/Novmber/2025  NonRoomInformstion
+
+
+            val requestLRLVRQ = LivingRoomListViewRQ(
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder
+            )
+            viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
+
+            NonAreaInformation()
+
+
+
+
+
+
+        }
+
+        binding.RFTioletLayout.btnToiletPrevious.setOnClickListener {
+            binding.tvlivingareainformation.visibility= View.VISIBLE
+            binding.livingareainformationLayout.LivingAreaInformationExpand.visibility= View.VISIBLE
+            binding.tvRFTiolet.visibility= View.GONE
+
+        }
+
+
+
+
+
     }
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
+
+    private fun NonAreaInformation() {
+        viewModel.NonAreaInformationRoom.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+
+                            binding.RFNonLivingAreaLayout.kitchenLength.text=
+                            safeText(x.kitchenLength)
+                            binding.RFNonLivingAreaLayout.kitchenWidth.text=
+                                safeText(x.kitchenWidth)
+                            binding.RFNonLivingAreaLayout.KitchenArea.text=
+                                safeText(x.kitchenArea)
+                            binding.RFNonLivingAreaLayout.NumberOfSeats.text=
+                                safeText(x.noOfSeats)
+                            binding.RFNonLivingAreaLayout.PreparedFood.text=
+                                safeText(x.preparedFood)
+                            binding.RFNonLivingAreaLayout.RecreationLength.text=
+                                safeText(x.recreationLength)
+                            binding.RFNonLivingAreaLayout.RecreationArea.text=
+                                safeText(x.recreationArea)
+                            binding.RFNonLivingAreaLayout.RecreationWidth.text=
+                                safeText(x.recreationWidth)
+                            binding.RFNonLivingAreaLayout.DiningArea.text=
+                                safeText(x.diningArea)
+                            binding.RFNonLivingAreaLayout.DiningLength.text=
+                                safeText(x.diningLength)
+
+                            binding.RFNonLivingAreaLayout.DiningWidth.text=
+                                safeText(x.diningWidth)
+                            binding.RFNonLivingAreaLayout.ReceptionArea.text=
+                                safeText(x.recreationArea)
+
+                            PreparedFoodFile=x.preprationFoodPdf
+                            ReceptionAreaPdf= x.receptionAreaPdf.toString()
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+
+        //NonLiving Area Adapter
+        tvNonLivingAreaAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.RFNonLivingAreaLayout.SpinnerNonLivingAreaInformation.setAdapter(tvNonLivingAreaAdapter)
+
+        binding.RFNonLivingAreaLayout.SpinnerNonLivingAreaInformation.setOnItemClickListener { parent, view, position, id ->
+            selectedNonAreaInfoApproval = parent.getItemAtPosition(position).toString()
+            if (selectedNonAreaInfoApproval == "Send for modification") {
+                binding.RFNonLivingAreaLayout.tvNonLivingAreaInformationRemarks.visibility =
+                    View.VISIBLE
+                binding.RFNonLivingAreaLayout.etNonLivingAreaInformationRemarks.visibility =
+                    View.VISIBLE
+
+
+            } else {
+
+                binding.RFNonLivingAreaLayout.tvNonLivingAreaInformationRemarks.visibility = View.GONE
+                binding.RFNonLivingAreaLayout.etNonLivingAreaInformationRemarks.visibility =
+                    View.GONE
+
+            }
+//
+        }
+        binding.RFNonLivingAreaLayout.btnNonLivingAreaInformationPrevious.setOnClickListener {
+
+            binding.tvRFConstraintLayoutNonLivingArea.visibility= View.GONE
+            binding.RFTioletLayout.toiletsExpand.visibility = View.VISIBLE
+
+
+
+        }
+        binding.RFNonLivingAreaLayout.btnNonLivingAreaInformationNext.setOnClickListener {
+
+
+            if (selectedNonAreaInfoApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+            }
+
+            binding.RFNonLivingAreaLayout.viewNonLivingAreaInfor.visibility = View.GONE
+            binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility = View.GONE
+            binding.tvRFConstraintLayoutIndoorGame.visibility=View.VISIBLE
+            binding.RFNonLivingAreaLayout.tvNonLivingAreaInfor.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+//
+
+
+//            Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
+
+//            IndoorGameRFAdapter
+
+
+
+            adapterIndoorGame = IndoorGameRFAdapter(RFindoorGamesList) { game ->
+                removeGame(game)
+            }
+            binding.RFIndoorGameLayout.recyclerViewInddorGame.adapter = adapterIndoorGame
+            binding.RFIndoorGameLayout.recyclerViewInddorGame.layoutManager = LinearLayoutManager(requireContext())
+
+            val rfGameRequest = RFGameRequest(
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+                imeiNo=AppUtil.getAndroidId(requireContext())
+            )
+            viewModel.getRfIndoorGameDetails(rfGameRequest)
+
+            IndoorGameRecyclerView()
+
+        }
+
+
+    }
+
+
     private fun collectInsfrastructureDetailsAndComplains() {
         viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -597,8 +916,6 @@ class RFQTeamFormFragment : Fragment() {
             }
 //
         }
-//        binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.GONE
-
 
         binding.infrastructureDetailsAndCompliancesLayout.btnIDCPrevious.setOnClickListener {
             binding.tvinfrastructureDetailsAndCompliances.visibility= View.GONE
@@ -613,13 +930,6 @@ class RFQTeamFormFragment : Fragment() {
                 return@setOnClickListener
 
             }
-
-//            cons- LivingAreaInformationExpand
-//    lin llTopLAI
-//    textView tvLAI
-
-
-//            return@setOnClickListener
             binding.infrastructureDetailsAndCompliancesLayout.viewIDC.visibility = View.GONE
             binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.GONE
             binding.tvlivingareainformation.visibility=View.VISIBLE
@@ -698,6 +1008,9 @@ class RFQTeamFormFragment : Fragment() {
                                     binding.laiAirCondtion.text = safeText(x.airCondtion.toString())
                                     binding.laiLights.text = safeText(x.lights.toString())
                                     binding.laiStorage.text = safeText(x.storage.toString())
+                                    binding.LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
+                                    binding.LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
+                                    binding.LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
                                     binding.LiaBasicInformationBoard.text = safeText(x.infoBoard.toString())
 
                                     //open Image
@@ -829,10 +1142,423 @@ class RFQTeamFormFragment : Fragment() {
 
 
     }
+
+    @SuppressLint("SuspiciousIndentation")
+    private  fun IndoorGameRecyclerView(){
+        viewModel.RfIndoorGameDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+
+                when (it.responseCode) {
+                    200 -> {
+
+
+
+
+
+                        adapterIndoorGame.updateData(it.wrappedList ?: emptyList())
+//                        binding.RFIndoorGameLayout.SpinnerIndoorGame.visibility =
+//                            View.VISIBLE
+//                        binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                            View.VISIBLE
+//                        binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+//                            View.VISIBLE
+//
+//                        binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                            View.VISIBLE
+//                        binding.RFIndoorGameLayout.btnIndoorGameNext.visibility =
+//                            View.VISIBLE
+
+                    }
+
+                    202 ->
+                    {
+//
+//                        binding.RFIndoorGameLayout.SpinnerIndoorGame.visibility =
+//                            View.GONE
+//                    binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                        View.GONE
+//                                binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+//                                View.GONE
+//
+//                                binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                        View.GONE
+//                                binding.RFIndoorGameLayout.btnIndoorGameNext.visibility =
+//                                View.GONE
+
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+
+
+                    301 ->
+
+
+
+                    {
+//                        binding.RFIndoorGameLayout.SpinnerIndoorGame.visibility =
+//                        View.GONE
+////                        binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+////                            View.GONE
+////                        binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+////                            View.GONE
+//
+//                        binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                            View.GONE
+//                        binding.RFIndoorGameLayout.btnIndoorGameNext.visibility =
+//                            View.GONE
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+
+                result.onFailure {
+
+
+//                    binding.RFIndoorGameLayout.SpinnerIndoorGame.visibility =
+//                        View.GONE
+//                    binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                        View.GONE
+//                    binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+//                        View.GONE
+//
+//                    binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+//                        View.GONE
+//                    binding.RFIndoorGameLayout.btnIndoorGameNext.visibility =
+//                        View.GONE
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+
+        //Indoor Game Adapter
+        RFIndoorGameAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.RFIndoorGameLayout.SpinnerIndoorGame.setAdapter(RFIndoorGameAdapter)
+
+        binding.RFIndoorGameLayout.SpinnerIndoorGame.setOnItemClickListener { parent, view, position, id ->
+            selectedIndoorGameApproval = parent.getItemAtPosition(position).toString()
+            if (selectedIndoorGameApproval == "Send for modification") {
+                binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+                    View.VISIBLE
+                binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+                    View.VISIBLE
+
+
+            } else {
+
+                binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility = View.GONE
+                binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+                    View.GONE
+
+            }
+//
+        }
+
+//        RFResidentialFacilitiesAvailable
+//        RFResidentialConstraintLayoutFacilitiesAvailable
+//
+//tvRFResidentialFacality
+//viewRFResidentialFacality
+//SpinnerRFResidentialFacality
+//tvRFResidentialFacalityRemarks
+//etRFResidentialFacalityRemarks
+//btnRFResidentialFacalityPrevious
+//btnRFResidentialFacalityNext
+
+        binding.RFIndoorGameLayout.btnIndoorGamePrevious.setOnClickListener {
+            binding.tvRFConstraintLayoutIndoorGame.visibility= View.GONE
+            binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility= View.VISIBLE
+        }
+        binding.RFIndoorGameLayout.btnIndoorGameNext.setOnClickListener {
+
+
+            if (selectedIndoorGameApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+            }
+            binding.RFIndoorGameLayout.viewIndoorGame.visibility = View.GONE
+            binding.RFIndoorGameLayout.IndoorGameExpand.visibility = View.GONE
+
+
+
+            binding.RFResidentialConstraintLayoutFacilitiesAvailable.visibility=View.VISIBLE
+            binding.RFIndoorGameLayout.tvIndoorGame.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            binding.scroll.post {
+                binding.scroll.smoothScrollTo(0, 0)
+            }
+            if (selectedIndoorGameApproval == "Send for modification") {
+                selectedIndoorGameApprovalRemark = binding.RFIndoorGameLayout.etIndoorGameRemarks.text.toString()
+                if (selectedIndoorGameApprovalRemark.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+//                return@setOnClickListener
+            } else selectedIndoorGameApprovalRemark = ""
+
+//             Ajit Ranjan create 06/Novmber/2025     getResidentialFacilitiesAvailable
+
+
+// "loginId" : "CHANCHAL",
+//    "appVersion" : "1.0",
+//	"imeiNo" : "c3070eef6cb45171",
+//	"tcId":28,
+//	"sanctionOrder":"SO25D050003"
+
+
+
+
+            val requestTcInfo = TrainingCenterInfo(
+                appVersion = BuildConfig.VERSION_NAME,
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                tcId =centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+
+
+                viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
+
+            ResidentialFacilitiesForm()
+
+//            tcId = 30,
+//                sanctionOrder = "SO25D160044",
+//
+//
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+    private  fun ResidentialFacilitiesForm(){
+        viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            binding.RFResidentialFacilitiesAvailable.WardenCare.text=(x.wardenCaretakerFemale)
+                            binding.RFResidentialFacilitiesAvailable.MaleDoctor.text=(x.maleDoctor)
+                            binding.RFResidentialFacilitiesAvailable.WardenCaretakerMale.text=(x.wardenCaretakerMale)
+                            binding.RFResidentialFacilitiesAvailable.HostelsSeparated.text=(x.hostelsSeparated)
+                            binding.RFResidentialFacilitiesAvailable.FemaleDoctor.text=(x.femaleDoctor)
+                            binding.RFResidentialFacilitiesAvailable.SecurityGuards.text=(x.securityGuards)
+
+
+
+                            RFWardenCareFile=x.wardenCaretakerFemalePdf
+                            RFMaleDoctorFile=x.maleDoctorPdf
+                            RFFemaleDoctorFile=x.femaleDoctorPdf
+                            RFWardenCaretakerMaleFile=x.wardenCaretakerMalePdf
+                            RFHostelsSeparatedFile =x.hostelsSeparatedPdf
+                            RFSecurityGuardsFile=x.securityGuardsPdf
+
+
+
+
+
+
+
+                        }
+
+
+
+
+
+                    }
+
+                    202 ->
+                    {
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+
+
+                    301 ->
+
+
+
+                    {
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+
+                result.onFailure {
+
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+
+        //Indoor Game Adapter
+        RFIndoorGameAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.RFIndoorGameLayout.SpinnerIndoorGame.setAdapter(RFIndoorGameAdapter)
+
+        binding.RFIndoorGameLayout.SpinnerIndoorGame.setOnItemClickListener { parent, view, position, id ->
+            selectedIndoorGameApproval = parent.getItemAtPosition(position).toString()
+            if (selectedIndoorGameApproval == "Send for modification") {
+                binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+                    View.VISIBLE
+                binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility =
+                    View.VISIBLE
+
+
+            } else {
+
+                binding.RFIndoorGameLayout.etIndoorGameRemarks.visibility = View.GONE
+                binding.RFIndoorGameLayout.IndoorGameRemarks.visibility =
+                    View.GONE
+
+            }
+//
+        }
+
+        binding.RFIndoorGameLayout.btnIndoorGamePrevious.setOnClickListener {
+            binding.tvRFConstraintLayoutIndoorGame.visibility= View.GONE
+            binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility= View.VISIBLE
+        }
+        binding.RFIndoorGameLayout.btnIndoorGameNext.setOnClickListener {
+
+
+            if (selectedResidintislFacilityApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+
+            }
+            binding.RFResidentialFacilitiesAvailable.viewRFResidentialFacality.visibility = View.GONE
+            binding.RFResidentialFacilitiesAvailable.RFResidentialFacalityExpand.visibility = View.GONE
+
+
+
+            binding.RFResidentialConstraintLayoutFacilitiesAvailable.visibility=View.VISIBLE
+            binding.RFResidentialFacilitiesAvailable.tvRFResidentialFacality.setCompoundDrawablesWithIntrinsicBounds(
+                0,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            binding.scroll.post {
+                binding.scroll.smoothScrollTo(0, 0)
+            }
+            if (selectedResidintislFacilityApproval == "Send for modification") {
+                selectedResidintislFacilityApprovalRemark = binding.RFResidentialFacilitiesAvailable.etRFResidentialFacalityRemarks.text.toString()
+                if (selectedResidintislFacilityApprovalRemark.isEmpty()) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Kindly enter remarks first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+//                return@setOnClickListener
+            } else selectedResidintislFacilityApprovalRemark = ""
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
        private  fun RoomRecyclerView(){
            viewModel.livingRoomListView.observe(viewLifecycleOwner) { result ->
                result.onSuccess {
                    when (it.responseCode) {     200 -> adapter.updateData(it.wrappedList ?: emptyList())
+
+
+
+
+
+
+
+
                        202 -> Toast.makeText(
                            requireContext(),
                            "No data available.",
@@ -889,6 +1615,12 @@ class RFQTeamFormFragment : Fragment() {
                                 binding.ToiletType.text =
                                     safeText(x.type.toString())
                                 binding.TriLights.text = safeText(x.lights.toString())
+                                binding.FemaleUrinal.text = safeText(x.femaleUrinal.toString())
+                                binding.FemaleWashbasin.text = safeText(x.femaleWashbasin.toString())
+                                binding.OverheadTank.text = safeText(x.overheadTank.toString())
+
+
+
                                 //open Image
                                 binding.laiTypeOfFlooringFile.setOnClickListener {
                                     x.floorPdf?.let { it1 ->
@@ -1051,6 +1783,9 @@ class RFQTeamFormFragment : Fragment() {
                 context.startActivity(Intent.createChooser(intent, "Open PDF with"))
             } else {
                 Toast.makeText(context, "No PDF viewer installed", Toast.LENGTH_SHORT).show()
+//                openPdfFile(base64)
+
+
             }
 
         } catch (e: Exception) {
@@ -1058,6 +1793,10 @@ class RFQTeamFormFragment : Fragment() {
             Toast.makeText(context, "Failed to open PDF", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+
+
     private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {
         val imageView = ImageView(context)
 
@@ -1097,6 +1836,57 @@ class RFQTeamFormFragment : Fragment() {
             .setPositiveButton("Close") { dialog, _ -> dialog.dismiss() }
             .show()
     }
+
+
+
+
+
+    private fun removeGame(game: IndoorRFGameResponseDetails) {
+//
+    }
+
+
+//    private fun openPdfFile(filePath: String) {
+//        try {
+//            val file = File(filePath)
+//            val uri = FileProvider.getUriForFile(
+//                requireContext(),
+//                "${requireContext().packageName}.provider",
+//                file
+//            )
+//
+//            val intent = Intent(Intent.ACTION_VIEW)
+//            intent.setDataAndType(uri, "application/pdf")
+//            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NO_HISTORY
+//
+//            // Try to open with an installed PDF viewer
+//            startActivity(intent)
+//
+//        } catch (e: ActivityNotFoundException) {
+//            // No PDF viewer found, redirect to Play Store
+//            redirectToPlayStore("com.adobe.reader") // or any PDF app package name
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            Toast.makeText(requireContext(), "Error opening PDF", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    private fun redirectToPlayStore(packageName: String) {
+//        try {
+//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+//            startActivity(intent)
+//        } catch (e: Exception) {
+//            val intent = Intent(
+//                Intent.ACTION_VIEW,
+//                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+//            )
+//            startActivity(intent)
+//        }
+//    }
+
+
+
+
 }
 
 

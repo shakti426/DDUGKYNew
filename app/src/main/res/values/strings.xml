@@ -731,4 +731,16 @@
     <string name="toiletid">ToiletId</string>
     <string name="toilet_type">Toilet Type</string>
     <string name="proof_og_image_it_cum_domain_lab_photograph">Proof og Image IT cum Domain Lab Photograph</string>
+    <string name="kitchen_length">Kitchen Length</string>
+    <string name="prepared_food">Prepared Food</string>
+    <string name="recreation_width">Recreation Width</string>
+    <string name="kitchen_area">Kitchen Area</string>
+    <string name="kitchen_width">Kitchen Width</string>
+    <string name="inddor_game_id">Inddor Game Id</string>
+    <string name="male_doctor">Male Doctor</string>
+    <string name="female_doctor">Female Doctor</string>
+    <string name="warden_caretaker_female">Warden Caretaker Female</string>
+    <string name="warden_caretaker_male">Warden Caretaker Male</string>
+    <string name="hostels_separated">Hostels Separated</string>
+    <string name="security_guards">Security Guards</string>
 </resources>

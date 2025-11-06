@@ -21,6 +21,7 @@ import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
+import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -55,6 +56,7 @@ import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
+import com.deendayalproject.model.response.IndoorRFGameResponse
 import com.deendayalproject.model.response.InfrastructureDetailsandCompliancesRFQT
 import com.deendayalproject.model.response.InsertTcBasicInfoResponse
 import com.deendayalproject.model.response.InsertTcGeneralDetailsResponse
@@ -64,6 +66,8 @@ import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
+import com.deendayalproject.model.response.NonAreaInformationRoom
+import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -374,6 +378,8 @@ interface ApiService {
                 (@Body request: ToiletRoomInformationReq) :
             Response<ToiletRoomInformationViewRes>
 
+
+
     @POST(value ="livingRoomListView")
     suspend fun getRfLivingRoomListView(@Body request: LivingRoomReq) : Response<LivingAreaListRes>
 
@@ -397,4 +403,31 @@ interface ApiService {
     suspend fun insertRfToiletRoomInformation(@Body request: InsertToiletDataReq) : Response<ITLAbDetailsErrorResponse>
 
 
+
+
+//    Ajit Ranjan create 03/Novmber/2025  getRfNonLivingAreaInformation
+    @POST(value ="getRfNonLivingAreaInformation")
+    suspend fun getRfNonLivingAreaInformation
+                (@Body request: LivingRoomListViewRQ) :
+            Response<NonAreaInformationRoom>
+
+
+
+
+
+
+//    Ajit Ranjan create 04/Novmber/2025  getRfIndoorGameDetails
+    @POST(value ="getRfIndoorGameDetails")
+    suspend fun getRfIndoorGameDetails
+                (@Body request: RFGameRequest) :
+            Response<IndoorRFGameResponse>
+
+
+
+
+    //    Ajit Ranjan create 06/Novmber/2025  getResidentialFacilitiesAvailable
+    @POST(value ="getResidentialFacilitiesAvailable")
+    suspend fun getResidentialFacilitiesAvailable
+                (@Body request: TrainingCenterInfo) :
+            Response<RFResidintialFacilityResponse>
 }

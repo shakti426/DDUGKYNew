@@ -7,5 +7,8 @@ data class ToiletRoomInformationDataResponse(
     val runningWater: String,
     val lightPdf: String,
     val type: String,
-    val lights: String
+    val lights: String,
+    val overheadTank: String?,
+    val femaleUrinal: Int?,
+    val femaleWashbasin: Int?
 )

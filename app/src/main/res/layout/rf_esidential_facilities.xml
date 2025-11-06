@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       >
+
+<!--         android:paddingBottom="@dimen/dp_100"-->
+
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/llTopNonAreaInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_background_light_grey"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tvRFResidentialFacality"
+                android:fontFamily="@font/avenir_next_semi_bold"
+                android:text="@string/residential_facilities_available"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintEnd_toStartOf="@+id/ivSeccArrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/viewRFResidentialFacality"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_marginTop="@dimen/dp_8"
+            android:background="#F7F7F7"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llTopNonAreaInformation"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Content Fields -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/RFResidentialFacalityExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:elevation="@dimen/dp_2"
+            android:padding="@dimen/dp_10"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewRFResidentialFacality">
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/laiHeadingKitchen"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_15"-->
+<!--                android:drawablePadding="8dp"-->
+<!--                android:gravity="center"-->
+<!--                android:text="@string/kitchen"-->
+<!--                android:textColor="@color/color_green"-->
+<!--                android:textSize="@dimen/sp_18"-->
+<!--                android:textStyle="bold"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+            <TextView
+                android:id="@+id/labelwardencare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/warden_caretaker_female"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/flooring"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                 />
+
+            <TextView
+                android:id="@+id/WardenCare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:textColor="@color/color_follow_up_title"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelwardencare" />
+
+
+
+            <TextView
+                android:id="@+id/WardenCareFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WardenCare" />
+
+
+
+
+            <TextView
+                android:id="@+id/labelMaleDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+
+                android:drawablePadding="8dp"
+                android:text="@string/male_doctor"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/drinkin_water"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WardenCareFile" />
+
+
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/MaleDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelMaleDoctor" />
+
+            <TextView
+                android:id="@+id/MaleDoctorFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/MaleDoctor" />
+
+
+
+
+            <TextView
+                android:id="@+id/labelFemaleDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/female_doctor"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/toilet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/MaleDoctorFile" />
+
+            <TextView
+                android:id="@+id/FemaleDoctor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelFemaleDoctor" />
+
+            <TextView
+                android:id="@+id/FemaleDoctorFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/FemaleDoctor" />
+
+            <TextView
+                android:id="@+id/labelWardenCaretakerMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/warden_caretaker_male"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/toilet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/FemaleDoctorFile" />
+
+            <TextView
+                android:id="@+id/WardenCaretakerMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelWardenCaretakerMale" />
+
+            <TextView
+                android:id="@+id/WardenCaretakerMaleFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WardenCaretakerMale" />
+
+
+            <TextView
+                android:id="@+id/labelHostelsSeparated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/hostels_separated"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WardenCaretakerMaleFile" />
+
+            <TextView
+                android:id="@+id/HostelsSeparated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelHostelsSeparated" />
+
+            <TextView
+                android:id="@+id/HostelsSeparatedFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/HostelsSeparated" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/labelSecurityGuards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/security_guards"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/HostelsSeparatedFile" />
+
+            <TextView
+                android:id="@+id/SecurityGuards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelSecurityGuards" />
+
+            <TextView
+                android:id="@+id/SecurityGuardsFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/SecurityGuards" />
+
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/llNonAreaInformationApproval"
+                android:text="@string/select_approvals"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/SecurityGuardsFile"
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_next_demi_bold"
+                android:hint="@string/select_approval"
+                android:id="@+id/llNonLivingAreaInformation"
+                android:layout_marginStart="@dimen/dp_3"
+                android:textColorHint="@color/color_dark_green"
+                app:boxStrokeColor="@color/color_dark_green"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llNonAreaInformationApproval"
+                >
+
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/SpinnerRFResidentialFacality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="15sp"
+                    tools:ignore="LabelFor"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvRFResidentialFacalityRemarks"
+                android:visibility="gone"
+                android:text="@string/remarkss"
+                android:layout_marginTop="@dimen/dp_20"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llNonLivingAreaInformation"
+
+
+                />
+
+            <EditText
+                android:id="@+id/etRFResidentialFacalityRemarks"
+                style="@style/EditText"
+                android:visibility="gone"
+                android:hint="@string/remarks"
+                android:background="@drawable/edittext_background"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvRFResidentialFacalityRemarks"
+
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:id="@+id/llRFResidentialFacalityBtn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRFResidentialFacalityRemarks">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:id="@+id/btnRFResidentialFacalityPrevious"
+                    android:elevation="4dp"
+                    android:text="@string/previous"
+                    android:textColor="@color/color_dark_blue"
+                    android:textSize="@dimen/sp_16"
+                    android:background="@drawable/backgroung_overlay"
+                    android:layout_margin="8dp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:text="@string/save_and_next"
+                    android:gravity="center"
+                    android:id="@+id/btnRFResidentialFacalityNext"
+                    android:textColor="@color/white"
+                    android:elevation="4dp"
+                    android:textSize="@dimen/sp_16"
+                    android:background="@drawable/card_background"
+                    android:layout_margin="8dp" />
+
+
+            </LinearLayout>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

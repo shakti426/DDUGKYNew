@@ -33,6 +33,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -201,6 +202,8 @@ class TrainingFragment : Fragment() {
     //            Office Cum(Counselling room)
 ////    Spinner
 //    private lateinit var spinnerOCCROfficeTable: Spinner
+
+    private lateinit var spinnerOCCROfficeTable: Spinner
     private lateinit var spinnerOCCRCumSplaceforSecuringDoc: Spinner
     private lateinit var spinnerOCCRPhotograph: Spinner
     private lateinit var spinnerOfficeCumTypeofRoofItLab: Spinner
@@ -208,9 +211,6 @@ class TrainingFragment : Fragment() {
     private lateinit var spinnerOfficeCumLepbftr: Spinner
     private lateinit var spinnerOfficeCumTableOfofficeCumpter: Spinner
     //    //    TextInputEditText
-//    private lateinit var etOfficeRoomPhotograph: TextInputEditText
-//    private lateinit var etOfficeCumTypeofRoofItLab: TextInputEditText
-    private lateinit var etOCCROfficeTable: TextInputEditText
     private lateinit var etOfficeCumHeightOfCelling: TextInputEditText
 //    private lateinit var etOfficeCumSplaceforSecuringDoc: TextInputEditText
     private lateinit var etOfficeCumAnOfficeTableNo: TextInputEditText
@@ -2656,7 +2656,6 @@ class TrainingFragment : Fragment() {
 
 
         //         Office Cum(Counselling room)    Ajit Ranjan  EditText Id GET
-        etOCCROfficeTable = view.bindView(R.id.etOCCROfficeTable)
         etOfficeCumHeightOfCelling = view.bindView(R.id.etOfficeCumHeightOfCelling)
         etOfficeCumAnOfficeTableNo = view.bindView(R.id.etOfficeCumAnOfficeTableNo)
         etOfficeCumChairs = view.bindView(R.id.etOfficeCumChairs)
@@ -3178,7 +3177,7 @@ class TrainingFragment : Fragment() {
 
 //           OCCR
 
-            R.id.spinnerOCCRCumSplaceforSecuringDoc,R.id.spinnerOCCRPhotograph,R.id.spinnerOfficeCumTypeofRoofItLab,R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
+            R.id.spinnerOCCROfficeTable,R.id.spinnerOCCRCumSplaceforSecuringDoc,R.id.spinnerOCCRPhotograph,R.id.spinnerOfficeCumTypeofRoofItLab,R.id.spinnerOfficeCumFalseCellingProvide,R.id.spinnerOfficeCumLepbftr,R.id.spinnerOfficeCumTableOfofficeCumpter,
 
 //               OfficeCum
             R.id.spinnerReceptionAreaEPBR,
@@ -3357,6 +3356,7 @@ class TrainingFragment : Fragment() {
 //                    Office Cum(Counselling room)   Ajit Ranjan
 
 //            Pair(view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable), view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)),
+            Pair(view.findViewById<Spinner>(R.id.spinnerOCCROfficeTable), view.findViewById<Button>(R.id.btnUploadOCCROfficeTable)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOCCRCumSplaceforSecuringDoc), view.findViewById<Button>(R.id.btnOfficeCumSplaceforSecuringDoc)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOCCRPhotograph), view.findViewById<Button>(R.id.btnUploadOfficeRoomPhotograph)),
             Pair(view.findViewById<Spinner>(R.id.spinnerOfficeCumTypeofRoofItLab), view.findViewById<Button>(R.id.btnUploadOfficeCumTypeofRoofItLab)),
@@ -3556,7 +3556,7 @@ class TrainingFragment : Fragment() {
 
 
 //               Office Cum(Counselling room)    Spinner Id Ajit Ranjan
-//        spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
+        spinnerOCCROfficeTable = view.findViewById(R.id.spinnerOCCROfficeTable)
         spinnerOCCRCumSplaceforSecuringDoc = view.findViewById(R.id.spinnerOCCRCumSplaceforSecuringDoc)
         spinnerOCCRPhotograph = view.findViewById(R.id.spinnerOCCRPhotograph)
         spinnerOfficeCumTypeofRoofItLab = view.findViewById(R.id.spinnerOfficeCumTypeofRoofItLab)
@@ -3567,7 +3567,7 @@ class TrainingFragment : Fragment() {
         spinnerOfficeCumTypeofRoofItLab.setAdapter(RCCNONRCCAdapter)
         spinnerOfficeCumFalseCellingProvide.setAdapter(yesNoAdapter)
         spinnerOCCRPhotograph.setAdapter(yesNoAdapter)
-//        spinnerOCCROfficeTable.setAdapter(yesNoAdapter)
+        spinnerOCCROfficeTable.setAdapter(yesNoAdapter)
         spinnerOCCRCumSplaceforSecuringDoc.setAdapter(yesNoAdapter)
         spinnerOfficeCumLepbftr.setAdapter(yesNoAdapter)
         spinnerOfficeCumTableOfofficeCumpter.setAdapter(yesNoAdapter)
@@ -4457,6 +4457,34 @@ class TrainingFragment : Fragment() {
                 val gson = GsonBuilder().setPrettyPrinting().create()
                 val jsonResponse = gson.toJson(response)
                 Log.d("InsertITTabDetails", "✅ Success Response:\n$jsonResponse")
+                val Length = etLength.text.toString()
+                val Width = etWidth.text.toString()
+                val Area = tvArea.text.toString()
+                val request = ReceptionAreaRoomDetailsRequest(
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerId,
+//            sanctionOrder = sanctionOrder,
+                    sanctionOrder = AppUtil.getsanctionOrderPreference(requireContext()),
+                    roomType = RoomType.toString(),
+                    roomLength = Length,
+                    roomWidth = Width,
+                    roomArea = Area,
+
+                    roomPhotograph = spinnerReceptionAreaEPBR.selectedItem.toString(),
+                    roomPhotographAttachment = base64ProofPreviewReceptionAreaPhotogragh ?: "",
+
+                    )
+
+
+
+
+
+
+
+
+
 //                    val responseDesc = response.responseDesc
 //                    AlertDialog.Builder(context)
 //                        .setTitle("Success")
@@ -4838,7 +4866,7 @@ class TrainingFragment : Fragment() {
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                     tcId = centerId.toInt(),
                     sanctionOrder = sanctionOrder,
-                    imeiNo = AppUtil.getAndroidId(requireContext())
+                        imeiNo = AppUtil.getAndroidId(requireContext())
                 )
 
                 viewModel.getSectionsStatusData(requestTcInfraReq)
@@ -6864,7 +6892,6 @@ private fun validateItLAB(): Boolean {
         val editTextFields = mapOf(
             etLength to "Length is required",
             etWidth to "Width is required",
-            etOCCROfficeTable to "Office Table",
             etOfficeCumHeightOfCelling to "Height of Ceiling is required",
             etOfficeCumAnOfficeTableNo to "Office Table Number is required",
             etOfficeCumChairs to "Number of Chairs is required",
@@ -6899,7 +6926,7 @@ private fun validateItLAB(): Boolean {
 
         // --- 3️⃣ Validate All Spinners ---
         val spinnerList = listOf(
-//            spinnerOCCROfficeTable to "Office Table",
+            spinnerOCCROfficeTable to "Office Table",
             spinnerOCCRCumSplaceforSecuringDoc to "Space for Securing Documents",
             spinnerOCCRPhotograph to "Photograph",
             spinnerOfficeCumTypeofRoofItLab to "Type of Roof",
@@ -6914,7 +6941,7 @@ private fun validateItLAB(): Boolean {
 
         // --- 4️⃣ Spinner → Base64 Image Conditional Validation ---
         val spinnerToProofMap = listOf(
-//            Triple(spinnerOCCROfficeTable, base64ProofOCCROfficeTable, "Office Table proof"),
+            Triple(spinnerOCCROfficeTable, base64ProofOCCROfficeTable, "Office Table proof"),
             Triple(spinnerOCCRCumSplaceforSecuringDoc, base64ProofOfficeCumSplaceforSecuringDoc, "Securing Documents proof"),
             Triple(spinnerOCCRPhotograph, base64ProofPreviewOfficeRoomPhotograph, "Photograph proof"),
             Triple(spinnerOfficeCumTypeofRoofItLab, base64ProofOfficeCumTypeofRoofItLab, "Type of Roof proof"),
@@ -7093,7 +7120,7 @@ private fun validateItLAB(): Boolean {
 
         // --- 3️⃣ Validate All Spinners ---
         val spinnerList = listOf(
-            spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
+//            spinnerITCDLSoundLevelAsPerSpecifications to "Sound Level As Per Specifications",
             spinnerORTypeofRoofItLab to "Type of Roof",
             spinnerORSplaceforSecuringDoc to "Space for Securing Documents",
             spinnerROfficeRoomPhotograph to "Office Room Photograph",
@@ -7707,7 +7734,6 @@ private fun validateITComeDomainLab(): Boolean {
         val Length = etLength.text.toString()
         val Width = etWidth.text.toString()
         val Area = tvArea.text.toString()
-        val OfficeTable = etOCCROfficeTable.text.toString()
         val OfficeCumHeightOfCelling = etOfficeCumHeightOfCelling.text.toString().toIntOrNull() ?: 0
         val OfficeCumChairs = etOfficeCumChairs.text.toString().toIntOrNull() ?: 0
         val OfficeCumPrinterCumScannerInNo = etOfficeCumPrinterCumScannerInNo.text.toString()
@@ -7737,7 +7763,7 @@ private fun validateITComeDomainLab(): Boolean {
 
 
 
-                officeTable = OfficeTable.toString(),
+                officeTable = spinnerOCCROfficeTable.selectedItem.toString(),
                 officeTableAttachment = base64ProofOCCROfficeTable ?: "",
 
 
