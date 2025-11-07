@@ -29,6 +29,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
+import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -75,6 +76,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
+import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -1426,5 +1428,92 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     }
 }
 
+
+
+
+
+
+
+    //     Ajit Ranjan create 07/Novmber/2025  getRFSupportFacilitiesAvailable
+
+    private val _RFSupportFacilitiesAvailable = MutableLiveData<Result<RFSupportFacilitiesAvailableResponse>>()
+    val RFSupportFacilitiesAvailable: LiveData<Result<RFSupportFacilitiesAvailableResponse>> = _RFSupportFacilitiesAvailable
+
+
+
+    fun getRFSupportFacilitiesAvailable(request: RFGameRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRFSupportFacilitiesAvailable(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _RFSupportFacilitiesAvailable.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+//     Ajit Ranjan create 07/Novmber/2025    insertRFQteamVerificationRequest
+
+    private val _insertRFQteamVerification = MutableLiveData<Result<FinalSubmitRes>>()
+    val insertRFQteamVerification: LiveData<Result<FinalSubmitRes>> = _insertRFQteamVerification
+
+
+
+    fun getFinalSubmitinsertRFQteamVerificationRequestData(request: RFQteamVerificationRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFinalSubmitinsertRFQteamVerificationRequestData(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRFQteamVerification.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+
+
+
+
+//     Ajit Ranjan create 07/Novmber/2025    insertRFSrlmVerification
+
+    private val _insertRFSrlmVerification = MutableLiveData<Result<FinalSubmitRes>>()
+    val insertRFSrlmVerification: LiveData<Result<FinalSubmitRes>> = _insertRFSrlmVerification
+
+
+
+    fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: RFQteamVerificationRequest) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRFSrlmVerification.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+//    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
+    fun getRFSRLMVerification(request: TrainingCenterRequest, token: String) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.fetchRFSRLMVerificationList(request, token)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _trainingCenters.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
 }

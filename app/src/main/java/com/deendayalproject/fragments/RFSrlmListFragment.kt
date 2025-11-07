@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.adapter.RfSrlmAdapter
 import com.deendayalproject.databinding.RfSrlmListFragmentBinding
+import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 
@@ -21,6 +22,9 @@ class RFSrlmListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfSrlmAdapter
+    private var centerId = ""
+    private var sanctionOrder = ""
+    private var centerName = ""
 
 
     override fun onCreateView(
@@ -54,17 +58,23 @@ class RFSrlmListFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+
+
+        binding.recyclerViewSRLM.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewSRLM.adapter = adapter
 
         observeViewModel()
+
+
 
         val request = TrainingCenterRequest(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             imeiNo = AppUtil.getAndroidId(requireContext())
         )
-        viewModel.fetchSrlmTeamTrainingList(
+
+
+        viewModel.getRFSRLMVerification(
             request,
             AppUtil.getSavedTokenPreference(requireContext())
         )
@@ -78,7 +88,7 @@ class RFSrlmListFragment : Fragment() {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())
                     202 -> Toast.makeText(
                         requireContext(),
-                        "No data available.",
+                        "No data available. ",
                         Toast.LENGTH_SHORT
                     ).show()
 
