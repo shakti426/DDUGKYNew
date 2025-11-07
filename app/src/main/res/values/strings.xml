@@ -738,4 +738,5 @@
     <string name="hostels_separated">Hostels Separated</string>
     <string name="security_guards">Security Guards</string>
     <string name="is_reception_area_available">Is reception area available?</string>
+    <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
 </resources>

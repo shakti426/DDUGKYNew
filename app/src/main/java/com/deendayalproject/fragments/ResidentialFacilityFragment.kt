@@ -4,7 +4,9 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -20,6 +22,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import android.util.Base64
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
@@ -29,12 +33,14 @@ import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.IndoorGameAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
+import com.deendayalproject.adapter.RFToiletAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.ToiletAdapter
 import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentResidentialBinding
 import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
+import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.GpRequest
@@ -46,15 +52,21 @@ import com.deendayalproject.model.request.InsertResidentialFacility
 import com.deendayalproject.model.request.InsertRfInfraDetaiReq
 import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertToiletDataReq
+import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LivingRoomReq
+import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ToiletDeleteList
+import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.BlockModel
 import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.LivingRoomListItem
+import com.deendayalproject.model.response.SectionRFData
+import com.deendayalproject.model.response.SectionStatus
 import com.deendayalproject.model.response.StateModel
 import com.deendayalproject.model.response.ToiletItem
 import com.deendayalproject.model.response.TrainingCenterItem
@@ -63,7 +75,11 @@ import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -76,6 +92,8 @@ class ResidentialFacilityFragment : Fragment() {
 
     private var _binding: FragmentResidentialBinding? = null
     private val binding get() = _binding!!
+    private lateinit var sectionsStatus: SectionRFData
+
     private lateinit var viewModel: SharedViewModel
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
@@ -618,15 +636,44 @@ class ResidentialFacilityFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         findById(view)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-        observeViewModel()
+
+        centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
+
         observeViewModelLivingAreaList()
         observeViewModelToiletList()
         observeDeleteToiletResponse()
         setupToiletRecyclerView()
         setupReceptionAreaSpinner()
+        collectSectionStatus()
+        collectRFInfoResponse()
+        observeState()
+        observeDistrict()
+        observeBlock()
+        observeGp()
+        observeVillage()
 
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        val request = StateRequest(
+            appVersion = BuildConfig.VERSION_NAME,
+        )
+        viewModel.getStateList(request, AppUtil.getSavedTokenPreference(requireContext()))
+
+
+        val sectionReq =
+            SectionReq(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                tcId = centerItem!!.trainingCenterId.toString(),
+                sanctionOrder = centerItem!!.senctionOrder,
+
+            )
+
+        viewModel.getRFSectionStatus(sectionReq)
+        showProgressBar()
+
+
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         binding.backButton.setOnClickListener {
 
@@ -653,6 +700,11 @@ class ResidentialFacilityFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = livingRoomAdapter
         }
+        binding.root.setOnTouchListener { v, event ->
+            AppUtil.hideKeyboard(requireActivity())
+            v.performClick()
+            false
+        }
 
 
         // Expand all section
@@ -660,18 +712,39 @@ class ResidentialFacilityFragment : Fragment() {
 
         binding.headerTCBasicInfo.setOnClickListener {
 
+       if (sectionsStatus.basiInfoSection>0){
 
-            if (isBasicInfoVisible){
-                binding.layoutTCBasicInfoContent.visible()
-                binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+           showEditSectionDialog("Basic Info") {
 
-                isBasicInfoVisible= false
-            }
+               val requestTcInfo = TrainingCenterInfo(
+                   appVersion = BuildConfig.VERSION_NAME,
+                   loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                   tcId = centerItem!!.trainingCenterId,
+                   sanctionOrder = centerItem!!.senctionOrder,
+                   imeiNo = AppUtil.getAndroidId(requireContext())
+               )
+               viewModel.getRfBasicInformationrInfo(requestTcInfo)
+
+           }
+
+
+       }
+
             else{
-                binding.layoutTCBasicInfoContent.gone()
-                binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_dropdown_arrow)
-                isBasicInfoVisible= true
+
+           if (isBasicInfoVisible){
+               binding.layoutTCBasicInfoContent.visible()
+               binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+
+               isBasicInfoVisible= false
+           }
+           else{
+               binding.layoutTCBasicInfoContent.gone()
+               binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_dropdown_arrow)
+               isBasicInfoVisible= true
+           }
             }
+
 
         }
 
@@ -691,11 +764,6 @@ class ResidentialFacilityFragment : Fragment() {
                 isInfraVisible= true
             }
 
-        }
-        binding.root.setOnTouchListener { v, event ->
-            AppUtil.hideKeyboard(requireActivity())
-            v.performClick()
-            false
         }
 
         binding.headerLivingAreaInfo.setOnClickListener {
@@ -838,17 +906,6 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
-
-
-
-
-
-
-
-        centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
-
-
-
         adapterGame = IndoorGameAdapter(indoorGamesList) { game ->
             removeGame(game)
         }
@@ -917,6 +974,20 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.layoutTCBasicInfoContent.gone()
                         isBasicInfoVisible = true
 
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
+
+
                     }
 
 
@@ -952,6 +1023,18 @@ class ResidentialFacilityFragment : Fragment() {
                         ).show()
                         binding.layoutInfraDetailComplianceContent.gone()
                         isInfraVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -994,6 +1077,19 @@ class ResidentialFacilityFragment : Fragment() {
                         binding.layoutLivingAreaInfoContent.gone()
                         binding.hideRectcler.gone()
                         isLivingAreaVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
+
 
                     }
 
@@ -1035,6 +1131,18 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutToiletsContent.gone()
                         isLivingAreaVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -1075,6 +1183,18 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutNonLivingAreaContent.gone()
                         isNonLivingVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -1113,6 +1233,18 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutIndoorGameDetailContent.gone()
                         isIndoorGameVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -1151,6 +1283,18 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutRfAvailableContent.gone()
                         isResidentialFaVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -1189,6 +1333,18 @@ class ResidentialFacilityFragment : Fragment() {
 
                         binding.layoutSfAvailableContent.gone()
                         isSupportFaVisible = true
+                        val sectionReq =
+                            SectionReq(
+                                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                                appVersion = BuildConfig.VERSION_NAME,
+                                imeiNo = AppUtil.getAndroidId(requireContext()),
+                                tcId = centerItem!!.trainingCenterId.toString(),
+                                sanctionOrder = centerItem!!.senctionOrder,
+
+                                )
+
+                        viewModel.getRFSectionStatus(sectionReq)
+                        showProgressBar()
 
                     }
 
@@ -1210,46 +1366,53 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
 
-
-
-
-
-        val request = StateRequest(
-            appVersion = BuildConfig.VERSION_NAME,
-        )
-        viewModel.getStateList(request, AppUtil.getSavedTokenPreference(requireContext()))
-        spinnerState.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            @SuppressLint("SetTextI18n")
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+        spinnerState.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
                     selectedStateCode = "0"
                     selectedDistrictCode = "0"
                     selectedBlockCode = "0"
                     selectedGpCode = "0"
                     selectedVillageCode = "0"
-                    spinnerVillage.setSelection(0)
-                    spinnerDistrict.setSelection(0)
-                    spinnerBlock.setSelection(0)
-                    spinnerGp.setSelection(0)
+
+                    spinnerVillage.setSelection(0, false)
+                    spinnerDistrict.setSelection(0, false)
+                    spinnerBlock.setSelection(0, false)
+                    spinnerGp.setSelection(0, false)
 
                 } else {
-                    val stateModel = (spinnerState.getAdapter() as StateAdapter).getItem(position)
-                    selectedStateCode = stateModel!!.stateCode
+                    val adapter = spinnerState.adapter as? StateAdapter ?: return
+                    val stateModel = adapter.getItem(position) ?: return
+
+                    selectedStateCode = stateModel.stateCode
+
                     val request = DistrictRequest(
                         appVersion = BuildConfig.VERSION_NAME,
                         stateCode = selectedStateCode,
                     )
-                    viewModel.getDistrictList(request, AppUtil.getSavedTokenPreference(requireContext()))
-                    // Toast.makeText(applicationContext,""+selectedStateCode,Toast.LENGTH_LONG).show()
+                    viewModel.getDistrictList(
+                        request,
+                        AppUtil.getSavedTokenPreference(requireContext())
+                    )
                 }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
-        })
+        }
 
         spinnerDistrict.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
                     selectedDistrictCode = "0"
                     selectedBlockCode = "0"
@@ -1275,7 +1438,12 @@ class ResidentialFacilityFragment : Fragment() {
         })
         spinnerBlock.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
                     selectedBlockCode = "0"
                     selectedGpCode = "0"
@@ -1299,7 +1467,12 @@ class ResidentialFacilityFragment : Fragment() {
         })
         spinnerGp.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
                     selectedGpCode = "0"
                     selectedVillageCode = "0"
@@ -1321,10 +1494,14 @@ class ResidentialFacilityFragment : Fragment() {
             override fun onNothingSelected(parentView: AdapterView<*>?) {}
         })
 
-
         spinnerVillage.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             @SuppressLint("SetTextI18n")
-            override fun onItemSelected(parentView: AdapterView<*>?, selectedItemView: View, position: Int, id: Long) {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
 
                     selectedVillageCode = "0"
@@ -1752,12 +1929,105 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     }
+    private fun observeState() {
+        viewModel.stateList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                when (response.responseCode) {
+                    200 -> populateSpinnerState(
+                        (response.wrappedList ?: emptyList()) as ArrayList<StateModel?>,
+                        spinnerState
+                    )
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure { Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show() }
+        }
+    }
 
+
+    private fun observeDistrict() {
+        viewModel.districtList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                when (response.responseCode) {
+                    200 -> populateSpinnerDistrict(
+                        (response.wrappedList ?: emptyList()) as ArrayList<DistrictModel?>,
+                        spinnerDistrict
+                    )
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun observeBlock() {
+        viewModel.blockList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                when (response.responseCode) {
+                    200 -> populateSpinnerBlock(
+                        (response.wrappedList ?: emptyList()) as ArrayList<BlockModel?>,
+                        spinnerBlock
+                    )
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun observeGp() {
+        viewModel.gpList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                when (response.responseCode) {
+                    200 -> populateSpinnerGp(
+                        (response.wrappedList ?: emptyList()) as ArrayList<GpModel?>,
+                        spinnerGp
+                    )
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {  Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun observeVillage() {
+        viewModel.villageList.observe(viewLifecycleOwner) { result ->
+            result.onSuccess { response ->
+                when (response.responseCode) {
+                    200 -> populateSpinnerVillage(
+                        (response.wrappedList ?: emptyList()) as ArrayList<VillageModel?>,
+                        spinnerVillage
+                    )
+                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {  Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+/*
     private fun observeViewModel() {
         viewModel.stateList.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 ->populateSpinnerState((it.wrappedList ?: emptyList()) as ArrayList<StateModel?>,spinnerState) //adapter.updateData(it.wrappedList ?: emptyList())
+
+                    200 ->populateSpinnerState((it.wrappedList ?: emptyList()) as ArrayList<StateModel?>,spinnerState)
                     202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
                     301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -1768,7 +2038,6 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-           // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
 
@@ -1803,7 +2072,6 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
-            // binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
 
         viewModel.gpList.observe(viewLifecycleOwner) { result ->
@@ -1846,14 +2114,21 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     }
-    private fun populateSpinnerState(alStateModel: java.util.ArrayList<StateModel?>, sp: Spinner) {
-        if (!alStateModel.isEmpty() && alStateModel.size > 0) {
-            alStateModel!!.add(0, StateModel("--Select--","0"))
-            val dbAdapter = StateAdapter(requireContext(), android.R.layout.simple_spinner_item, alStateModel
-            )
-            dbAdapter.notifyDataSetChanged()
-            sp.adapter = dbAdapter
+*/
+
+    private fun populateSpinnerState(
+        alStateModel: ArrayList<StateModel?>,
+        sp: Spinner
+    ): StateAdapter? {
+
+        if (alStateModel.isNotEmpty()) {
+            alStateModel.add(0, StateModel("--Select--", "0"))
+            val adapter = StateAdapter(requireContext(), android.R.layout.simple_spinner_item, alStateModel)
+            sp.adapter = adapter
+            adapter.notifyDataSetChanged()
+            return adapter
         }
+        return null
     }
     private fun populateSpinnerDistrict(alStateModel: java.util.ArrayList<DistrictModel?>, sp: Spinner) {
         if (!alStateModel.isEmpty() && alStateModel.size > 0) {
@@ -3118,6 +3393,7 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
     }
+
     private fun observeDeleteToiletResponse() {
         viewModel.deleteToiletRoom.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -3159,7 +3435,6 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-
     private fun setupReceptionAreaSpinner() {
 
 
@@ -3175,12 +3450,268 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-
     private fun validateImageIfYes(spinner: Spinner, base64: String?, message: String): Boolean {
         return if (spinner.selectedItem.toString() == "Yes" && base64.isNullOrEmpty()) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             false
         } else true
+    }
+
+    private fun collectSectionStatus() {
+
+        viewModel.getRFSectionStatus.observe(viewLifecycleOwner) { result ->
+
+            result.onSuccess {
+                hideProgressBar()
+                when (it.responseCode) {
+                    200 -> {
+                        sectionsStatus = it.wrappedList.get(0)
+
+                        if (sectionsStatus.basiInfoSection > 0) {
+                            binding.ivToggleTCBasicInfo.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.infraDtlComplianceSection > 0) {
+                            binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.livingAreaInfoSection > 0) {
+                            binding.ivToggleLivingAreaInfo.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.toiletSection > 0) {
+                            binding.ivToggleToilets.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.nonLivingAreaSection > 0) {
+                            binding.ivToggleNonLivingArea.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.indoorGameDtlSection > 0) {
+                            binding.ivToggleIndoorGameDetail.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.rfAvailableSection > 0) {
+                            binding.ivToggleRfAvailable.setImageResource(R.drawable.ic_verified)
+                        }
+                        if (sectionsStatus.supportFacltySection > 0) {
+                            binding.ivToggleSfAvailable.setImageResource(R.drawable.ic_verified)
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        it.responseDesc,
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+
+        }
+    }
+
+
+    fun showEditSectionDialog(sectionName: String, onYesClicked: () -> Unit) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_section, null)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
+        val btnYes = dialogView.findViewById<MaterialButton>(R.id.btnYes)
+        val btnNo = dialogView.findViewById<MaterialButton>(R.id.btnNo)
+
+        tvMessage.text = "Do you want to edit the $sectionName section?"
+
+        btnYes.setOnClickListener {
+            dialog.dismiss()
+            onYesClicked.invoke()   // <-- Call respective API
+        }
+
+        btnNo.setOnClickListener {
+
+            binding.layoutTCBasicInfoContent.gone()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+    @SuppressLint("SetTextI18n")
+    private fun collectRFInfoResponse() {
+        viewModel.ResidentialFacilityQTeam.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        binding.layoutTCBasicInfoContent.visible()
+                        binding.ivToggleTCBasicInfo.setImageResource(R.drawable.outline_arrow_upward_24)
+                        isBasicInfoVisible= false
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            val request = StateRequest(
+                                appVersion = BuildConfig.VERSION_NAME,
+                            )
+                            viewModel.getStateList(request, AppUtil.getSavedTokenPreference(requireContext()))
+
+                            binding.etFacilityName.setText(x.residentialFacilityName)
+                            binding.etFacilityType.setText(x.residentialType)
+                            binding.etHouseNo.setText(x.houseNo)
+                            binding.etStreet.setText(x.streetNo1)
+                            binding.etLandmark.setText(x.landmark)
+                            setSpinnerValue(spinnerState, x.stateName!!)
+                            observeState()
+                            /*setSpinnerValue(spinnerDistrict, x.districtName!!)
+                            setSpinnerValue(spinnerBlock, x.blockName!!)
+                            setSpinnerValue(spinnerGp, x.gpName!!)
+                            setSpinnerValue(spinnerVillage, x.villageName!!)*/
+                            binding.etPoliceStation.setText(x.policeStation)
+                            binding.etPinCode.setText(x.pincode)
+                            binding.tvLatLang.setText(x.latitude+","+ x.longitude)
+                            binding.etMobile.setText(x.mobile)
+                            binding.etPhone.setText(x.residentialFacilitiesPhNo)
+                            binding.etEmail.setText(x.email)
+                            setSpinnerValue(spinnerTypeOfArea, x.typeOfArea!!)
+                            setSpinnerValue(spinnerCatOfTCLocation, x.categoryOfTc!!)
+                            setSpinnerValue(spinnerPickupAndDropFacility, x.pickUpDrop!!)
+                            setSpinnerValue(spinnerWardenGender, x.wardgender!!)
+                            binding.etDistanceFromBusStand.setText(x.distBusStand)
+                            binding.etDistanceFromAutoStand.setText(x.distAutoStand)
+                            binding.etDistanceFromRailwayStand.setText(x.distRailStand)
+                            binding.etDistanceFromTrainingToResidentialCentre.setText(x.distFromTc)
+                            binding.etWardenName.setText(x.wardName)
+                            binding.etWardenEmpID.setText(x.wardEmpId)
+                            binding.etWardenAddress.setText(x.wardAddress)
+                            binding.etWardenEmailId.setText(x.wardEmail)
+                            binding.etWardenMobile.setText(x.wardMobile)
+                            base64PVDocFile=x.policeVerfictnImage
+                            base64ALDocFile=x.empLetterImage
+
+                            setBase64ToImage(binding.ivPoliceVerificationDocPreview, x.policeVerfictnImage)
+                            setBase64ToImage(binding.ivAppointmentLetterDocPreview, base64ALDocFile)
+
+                            binding.ivPoliceVerificationDocPreview.visible()
+                            binding.ivAppointmentLetterDocPreview.visible()
+
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+    }
+
+    fun setSpinnerValues(spinner: Spinner, value: String?) {
+        val adapter = spinner.adapter ?: return
+        if (value.isNullOrBlank()) return
+
+        for (i in 0 until adapter.count) {
+            val item = adapter.getItem(i)
+
+            when (item) {
+                is StateModel -> {
+                    if (item.stateName.equals(value, ignoreCase = true)) {
+                        spinner.setSelection(i)
+                        break
+                    }
+                }
+
+                is DistrictModel -> {
+                    if (item.districtName.equals(value, ignoreCase = true)) {
+                        spinner.setSelection(i)
+                        break
+                    }
+                }
+
+                is BlockModel -> {
+                    if (item.blockName.equals(value, ignoreCase = true)) {
+                        spinner.setSelection(i)
+                        break
+                    }
+                }
+
+                is GpModel -> {
+                    if (item.gpName.equals(value, ignoreCase = true)) {
+                        spinner.setSelection(i)
+                        break
+                    }
+                }
+
+                is VillageModel -> {
+                    if (item.villageName.equals(value, ignoreCase = true)) {
+                        spinner.setSelection(i)
+                        break
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun setSpinnerValue(spinner: Spinner?, value: String?) {
+        if (spinner == null || value.isNullOrEmpty()) return
+
+        val adapter = spinner.adapter ?: return
+
+        for (i in 0 until adapter.count) {
+            if (adapter.getItem(i).toString().equals(value, ignoreCase = true)) {
+                spinner.setSelection(i)
+                return
+            }
+        }
+    }
+    fun setBase64ToImage(imageView: ImageView, base64String: String?) {
+        if (base64String.isNullOrEmpty() || base64String == "NA") {
+            imageView.setImageResource(R.drawable.no_image)
+            return
+        }
+
+        try {
+            val pureBase64 = base64String.substringAfter(",") // Removes header if exists
+            val decodedBytes = Base64.decode(pureBase64, Base64.DEFAULT)
+
+            val bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap)
+            } else {
+                imageView.setImageResource(R.drawable.no_image)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            imageView.setImageResource(R.drawable.no_image)
+        }
     }
 
 

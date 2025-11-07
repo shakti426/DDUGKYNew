@@ -45,10 +45,7 @@ class IndoorGameRFAdapter(
         games = newList as MutableList<IndoorRFGameResponseDetails>
         notifyDataSetChanged()
     }
-//    fun updateData(newList: List<IndoorRFGameResponseDetails>) {
-//        games = newList
-//        notifyDataSetChanged()
-//    }
+
 }
 
 

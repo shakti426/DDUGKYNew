@@ -29,6 +29,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -75,6 +76,7 @@ import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -450,4 +452,13 @@ interface ApiService {
     suspend fun getResidentialFacilitiesAvailable
                 (@Body request: TrainingCenterInfo) :
             Response<RFResidintialFacilityResponse>
+
+
+
+
+
+    @POST(value ="getRFSectionStatus")
+    suspend fun getRFSectionStatus
+                (@Body request: SectionReq) :
+            Response<SectionResponse>
 }

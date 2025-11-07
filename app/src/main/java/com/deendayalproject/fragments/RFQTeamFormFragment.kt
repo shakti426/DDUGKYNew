@@ -822,6 +822,7 @@ class RFQTeamFormFragment : Fragment() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     private fun collectInsfrastructureDetailsAndComplains() {
         viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -1367,9 +1368,6 @@ class RFQTeamFormFragment : Fragment() {
 
     }
 
-
-
-
     private  fun ResidentialFacilitiesForm(){
         viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
@@ -1535,15 +1533,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
     }
-
-
-
-
-
-
-
-
-
 
 
 

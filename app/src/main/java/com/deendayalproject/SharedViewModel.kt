@@ -32,6 +32,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -78,6 +79,7 @@ import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -1426,5 +1428,22 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     }
 }
 
+
+
+
+    private val _getRFSectionStatus = MutableLiveData<Result<SectionResponse>>()
+    val getRFSectionStatus: LiveData<Result<SectionResponse>> = _getRFSectionStatus
+
+    fun getRFSectionStatus(request: SectionReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getRFSectionStatus(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getRFSectionStatus.postValue(result)
+            _loading.postValue(false)
+        }
+    }
 
 }
