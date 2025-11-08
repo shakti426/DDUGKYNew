@@ -711,7 +711,7 @@ class RFQTeamFormFragment : Fragment() {
                                 safeText(x.recreationArea)
 
                             PreparedFoodFile=x.preprationFoodPdf
-                            ReceptionAreaPdf= x.receptionAreaPdf.toString()
+                            ReceptionAreaPdf= x.receptionAreaPdf
                         }
                     }
 

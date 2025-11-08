@@ -28,8 +28,8 @@
         android:roundIcon="@mipmap/ddy_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ddugky"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="false"
+        tools:targetApi="30">
 
 
         <provider

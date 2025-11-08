@@ -16,7 +16,7 @@ data class  NonArea(
     val diningWidth: String,
     val kitchenArea: String,
     val recreationArea: String,
-    val receptionAreaPdf: Int,
+    val receptionAreaPdf: String,
     val washArea: String,
     val noOfSeats: String,
     val preparedFood: String,

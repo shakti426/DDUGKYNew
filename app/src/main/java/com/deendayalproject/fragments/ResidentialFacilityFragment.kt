@@ -32,12 +32,15 @@ import com.deendayalproject.R
 import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.IndoorGameAdapter
+import com.deendayalproject.adapter.IndoorGameRFAdapter
+import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
 import com.deendayalproject.adapter.RFToiletAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.ToiletAdapter
 import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentResidentialBinding
+import com.deendayalproject.databinding.RoominformationPopdialogBinding
 import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
@@ -54,6 +57,8 @@ import com.deendayalproject.model.request.InsertSupportFacilitiesReq
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LivingRoomReq
+import com.deendayalproject.model.request.RFGameRequest
+import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ToiletDeleteList
@@ -632,6 +637,7 @@ class ResidentialFacilityFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findById(view)
@@ -646,6 +652,10 @@ class ResidentialFacilityFragment : Fragment() {
         setupReceptionAreaSpinner()
         collectSectionStatus()
         collectRFInfoResponse()
+        collectInsfrastructureDetailsAndComplains()
+        NonAreaInformation()
+        ResidentialFacilitiesAvailable()
+        ResidentialSupportFacilitiesAvailable()
         observeState()
         observeDistrict()
         observeBlock()
@@ -724,6 +734,8 @@ class ResidentialFacilityFragment : Fragment() {
                    imeiNo = AppUtil.getAndroidId(requireContext())
                )
                viewModel.getRfBasicInformationrInfo(requestTcInfo)
+               showProgressBar()
+
 
            }
 
@@ -752,17 +764,46 @@ class ResidentialFacilityFragment : Fragment() {
         binding.headerInfraDetailCompliance.setOnClickListener {
 
 
-            if (isInfraVisible){
-                binding.layoutInfraDetailComplianceContent.visible()
-                binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.outline_arrow_upward_24)
+            if (sectionsStatus.infraDtlComplianceSection >0){
 
-                isInfraVisible= false
+                showEditSectionDialog("Infra Basic") {
+
+                    val requestCompliancesRFQT = CompliancesRFQTReq(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        facilityId = "",
+                        imeiNo = AppUtil.getAndroidId(requireContext())
+                    )
+
+                    viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
+                    showProgressBar()
+
+
+
+                }
+
+
             }
+
+
+
             else{
-                binding.layoutInfraDetailComplianceContent.gone()
-                binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.ic_dropdown_arrow)
-                isInfraVisible= true
+
+                if (isInfraVisible){
+                    binding.layoutInfraDetailComplianceContent.visible()
+                    binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.outline_arrow_upward_24)
+
+                    isInfraVisible= false
+                }
+                else{
+                    binding.layoutInfraDetailComplianceContent.gone()
+                    binding.ivToggleInfraDetailCompliance.setImageResource(R.drawable.ic_dropdown_arrow)
+                    isInfraVisible= true
+                }
+
             }
+
+
 
         }
 
@@ -785,6 +826,18 @@ class ResidentialFacilityFragment : Fragment() {
 
             }
             else{
+                val sectionReq =
+                    SectionReq(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        tcId = centerItem!!.trainingCenterId.toString(),
+                        sanctionOrder = centerItem!!.senctionOrder,
+
+                        )
+
+                viewModel.getRFSectionStatus(sectionReq)
+                showProgressBar()
                 binding.hideRectcler.gone()
                 binding.layoutLivingAreaInfoContent.gone()
                 binding.ivToggleLivingAreaInfo.setImageResource(R.drawable.ic_dropdown_arrow)
@@ -824,6 +877,19 @@ class ResidentialFacilityFragment : Fragment() {
 
             }
             else{
+
+                val sectionReq =
+                    SectionReq(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        tcId = centerItem!!.trainingCenterId.toString(),
+                        sanctionOrder = centerItem!!.senctionOrder,
+
+                        )
+
+                viewModel.getRFSectionStatus(sectionReq)
+                showProgressBar()
                 binding.hideRecyclerToilet.gone()
                 binding.layoutToiletsContent.gone()
                 binding.ivToggleToilets.setImageResource(R.drawable.ic_dropdown_arrow)
@@ -840,16 +906,41 @@ class ResidentialFacilityFragment : Fragment() {
         binding.headerNonLivingArea.setOnClickListener {
 
 
-            if (isNonLivingVisible){
-                binding.layoutNonLivingAreaContent.visible()
-                binding.ivToggleNonLivingArea.setImageResource(R.drawable.outline_arrow_upward_24)
-                isNonLivingVisible= false
+            if (sectionsStatus.nonLivingAreaSection>0){
+
+                showEditSectionDialog("Non Living Area") {
+
+                    val requestLRLVRQ = LivingRoomListViewRQ(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerItem!!.trainingCenterId,
+                        sanctionOrder = centerItem!!.senctionOrder
+                    )
+                    viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
+
+                    showProgressBar()
+
+
+                }
+
+
             }
+
+
+
             else{
-                binding.layoutNonLivingAreaContent.gone()
-                binding.ivToggleNonLivingArea.setImageResource(R.drawable.ic_dropdown_arrow)
-                isNonLivingVisible= true
+                if (isNonLivingVisible){
+                    binding.layoutNonLivingAreaContent.visible()
+                    binding.ivToggleNonLivingArea.setImageResource(R.drawable.outline_arrow_upward_24)
+                    isNonLivingVisible= false
+                }
+                else{
+                    binding.layoutNonLivingAreaContent.gone()
+                    binding.ivToggleNonLivingArea.setImageResource(R.drawable.ic_dropdown_arrow)
+                    isNonLivingVisible= true
+                }
             }
+
+
 
         }
 
@@ -863,6 +954,18 @@ class ResidentialFacilityFragment : Fragment() {
                 isIndoorGameVisible= false
             }
             else{
+                val sectionReq =
+                    SectionReq(
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        appVersion = BuildConfig.VERSION_NAME,
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        tcId = centerItem!!.trainingCenterId.toString(),
+                        sanctionOrder = centerItem!!.senctionOrder,
+
+                        )
+
+                viewModel.getRFSectionStatus(sectionReq)
+                showProgressBar()
                 binding.layoutIndoorGameDetailContent.gone()
                 binding.ivToggleIndoorGameDetail.setImageResource(R.drawable.ic_dropdown_arrow)
                 isIndoorGameVisible= true
@@ -872,33 +975,86 @@ class ResidentialFacilityFragment : Fragment() {
 
         binding.headerRfAvailable.setOnClickListener {
 
+            if (sectionsStatus.rfAvailableSection>0){
 
-            if (isResidentialFaVisible){
-                binding.layoutRfAvailableContent.visible()
-                binding.ivToggleRfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
-                isResidentialFaVisible= false
+                showEditSectionDialog("Residential Facilities Available") {
+
+
+                    val requestTcInfo = TrainingCenterInfo(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        tcId = centerItem!!.trainingCenterId,
+                        sanctionOrder = centerItem!!.senctionOrder,
+                        imeiNo = AppUtil.getAndroidId(requireContext())
+                    )
+
+                    viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
+
+                    showProgressBar()
+
+                }
+
             }
             else{
-                binding.layoutRfAvailableContent.gone()
-                binding.ivToggleRfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
-                isResidentialFaVisible= true
+
+                if (isResidentialFaVisible){
+                    binding.layoutRfAvailableContent.visible()
+                    binding.ivToggleRfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
+                    isResidentialFaVisible= false
+                }
+                else{
+                    binding.layoutRfAvailableContent.gone()
+                    binding.ivToggleRfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
+                    isResidentialFaVisible= true
+                }
             }
+
+
+
 
         }
 
         binding.headerSfAvailable.setOnClickListener {
 
 
-            if (isSupportFaVisible){
-                binding.layoutSfAvailableContent.visible()
-                binding.ivToggleSfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
-                isSupportFaVisible= false
+            if (sectionsStatus.rfAvailableSection>0){
+
+                showEditSectionDialog("Support Facilities Available") {
+
+
+                    val requestTcInfo = TrainingCenterInfo(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                        tcId = centerItem!!.trainingCenterId,
+                        sanctionOrder = centerItem!!.senctionOrder,
+                        imeiNo = AppUtil.getAndroidId(requireContext())
+                    )
+
+                    viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
+
+                    showProgressBar()
+
+                }
+
             }
             else{
-                binding.layoutSfAvailableContent.gone()
-                binding.ivToggleSfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
-                isSupportFaVisible= true
+
+                if (isSupportFaVisible){
+                    binding.layoutSfAvailableContent.visible()
+                    binding.ivToggleSfAvailable.setImageResource(R.drawable.outline_arrow_upward_24)
+                    isSupportFaVisible= false
+                }
+                else{
+                    binding.layoutSfAvailableContent.gone()
+                    binding.ivToggleSfAvailable.setImageResource(R.drawable.ic_dropdown_arrow)
+                    isSupportFaVisible= true
+                }
+
             }
+
+
+
+
 
         }
 
@@ -3144,7 +3300,7 @@ class ResidentialFacilityFragment : Fragment() {
                 kitchenArea =  etKitchenArea.text.toString().toDoubleOrNull() ?: 0.0 ,
                 separateAreas = spinnerDiningRecreationAreaSeparate.selectedItem.toString(),
                 noOfSeats = etStoolsChairsBenches.text.toString().toIntOrNull() ?: 0,
-                washArea = etFemaleWashbasins.text.toString(),
+                washArea = etWashArea.text.toString(),
                 tvAvailable =  spinnerTvAvailable.selectedItem.toString(),
                 diningLength = binding.etDiningLength.text.toString().toDoubleOrNull() ?: 0.0,
                 diningArea = binding.etDiningArea.text.toString().toDoubleOrNull() ?: 0.0,
@@ -3540,8 +3696,27 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
         btnNo.setOnClickListener {
+            val sectionReq =
+                SectionReq(
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    appVersion = BuildConfig.VERSION_NAME,
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    tcId = centerItem!!.trainingCenterId.toString(),
+                    sanctionOrder = centerItem!!.senctionOrder,
+
+                    )
+
+            viewModel.getRFSectionStatus(sectionReq)
+            showProgressBar()
 
             binding.layoutTCBasicInfoContent.gone()
+            binding.layoutInfraDetailComplianceContent.gone()
+            binding.layoutLivingAreaInfoContent.gone()
+            binding.layoutToiletsContent.gone()
+            binding.layoutNonLivingAreaContent.gone()
+            binding.layoutIndoorGameDetailContent.gone()
+            binding.layoutRfAvailableContent.gone()
+            binding.layoutSfAvailableContent.gone()
             dialog.dismiss()
         }
 
@@ -3553,6 +3728,7 @@ class ResidentialFacilityFragment : Fragment() {
     private fun collectRFInfoResponse() {
         viewModel.ResidentialFacilityQTeam.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
+                hideProgressBar()
                 when (it.responseCode) {
                     200 -> {
                         binding.layoutTCBasicInfoContent.visible()
@@ -3625,6 +3801,7 @@ class ResidentialFacilityFragment : Fragment() {
                 }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -3633,51 +3810,412 @@ class ResidentialFacilityFragment : Fragment() {
 
     }
 
-    fun setSpinnerValues(spinner: Spinner, value: String?) {
-        val adapter = spinner.adapter ?: return
-        if (value.isNullOrBlank()) return
 
-        for (i in 0 until adapter.count) {
-            val item = adapter.getItem(i)
 
-            when (item) {
-                is StateModel -> {
-                    if (item.stateName.equals(value, ignoreCase = true)) {
-                        spinner.setSelection(i)
-                        break
+    @SuppressLint("SuspiciousIndentation")
+    private fun collectInsfrastructureDetailsAndComplains() {
+        viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                binding.layoutInfraDetailComplianceContent.visible()
+
+
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            setSpinnerValue(spinnerOwnerBuilding, x.ownership!!)
+                            setBase64ToImage(binding.ivOwnerBuildingDocPreview, x.selfDeclaration)
+                            base64OwnerBuildingDocFile = x.selfDeclaration
+
+
+                            binding.etAreaOfBuilding.setText(x.buildingArea)
+                            setBase64ToImage(
+                                binding.ivAreaOfBuildingDocPreview,
+                                x.buildingPhotosFile
+                            )
+                            base64BuildingAreaDocFile = x.buildingPhotosFile
+
+
+                            setSpinnerValue(spinnerRoofOfBuilding, x.roof!!)
+                            setBase64ToImage(
+                                binding.ivRoofOfBuildingPreview,
+                                x.buildingPlanFile
+                            )// missing
+                            base64RoofOfBuildingDocFile = x.buildingPlanFile
+
+                            setSpinnerValue(spinnerWhetherStructurallySound, x.wallPhotosFile!!)
+                            setBase64ToImage(
+                                binding.ivWhetherStructurallySoundPreview,
+                                x.wallPhotosFile
+                            )
+                            base64WhetherStructurallySoundDocFile = x.wallPhotosFile
+
+                            setSpinnerValue(spinnerVisibleSignOfLeakage, x.leakage!!)
+                            setBase64ToImage(binding.ivSignOfLeakagePreview, x.leakagesProofFile)
+                            base64SignOfLeakageDocFile = x.leakagesProofFile
+
+                            setSpinnerValue(spinnerConformanceDDUGKY, x.conformanceDdu!!)
+                            setBase64ToImage(
+                                binding.ivConformanceDDUGKYPreview,
+                                x.conformanceDduProofFile
+                            )
+                            base64ConformanceDDUGKYDocFile = x.conformanceDduProofFile
+
+                            setSpinnerValue(spinnerProtectionofStairs, x.protectionStairs!!)
+                            setBase64ToImage(
+                                binding.ivProtectionofStairsPreview,
+                                x.protectionStairsProofFile
+                            )
+                            base64ProtectionofStairsDocFile = x.protectionStairsProofFile
+
+
+                            binding.etCirculatingArea.setText(x.circulatingArea)
+                            setBase64ToImage(
+                                binding.ivCirculationAreaDocPreview,
+                                x.circulatingAreaProofFile
+                            )
+                            base64CirculatingAreaProof = x.circulatingAreaProofFile
+
+                            setSpinnerValue(spinnerCorridor, x.corridor!!)
+                            setBase64ToImage(binding.ivCorridorPreview, x.corridorProofFile)
+                            base64CorridorDocFile = x.corridorProofFile
+
+                            setSpinnerValue(spinnerSecuringWires, x.securingWiresDone!!)
+                            setBase64ToImage(
+                                binding.ivSecuringWiresPreview,
+                                x.securingWiresDoneProofFile
+                            )
+                            base64SecuringWiresDocFile = x.securingWiresDoneProofFile
+
+                            setSpinnerValue(spinnerSwitchBoards, x.switchBoardsPanelBoards!!)
+                            setBase64ToImage(
+                                binding.ivSwitchBoardsPreview,
+                                x.switchBoardsPanelBoardsProofFile
+                            )
+                            base64SwitchBoardsDocFile = x.switchBoardsPanelBoardsProofFile
+
+                            setSpinnerValue(spinnerHostelNameBoard, x.hostelNameBoard!!)
+                            setBase64ToImage(
+                                binding.ivHostelNameBoardPreview,
+                                x.hostelNameBoardProofFile
+                            )
+                            base64HostelNameBoardDocFile = x.hostelNameBoardProofFile
+
+                            setSpinnerValue(spinnerEntitlementBoard, x.studentEntitlementBoard!!)
+                            setBase64ToImage(
+                                binding.ivEntitlementBoardPreview,
+                                x.studentEntitlementBoardProofFile
+                            )
+                            base64EntitlementBoardDocFile = x.studentEntitlementBoardProofFile
+
+                            setSpinnerValue(spinnerContactDetail, x.contactDetailImportantPeople!!)
+                            setBase64ToImage(
+                                binding.ivContactDetailPreview,
+                                x.contactDetailImportantPeopleproofFile
+                            )
+                            base64ContactDetailDocFile = x.contactDetailImportantPeopleproofFile
+
+                            setSpinnerValue(spinnerBasicInfoBoard, x.basicInformationBoard!!)
+                            setBase64ToImage(
+                                binding.ivBasicInfoBoardPreview,
+                                x.basicInformationBoardproofFile
+                            )
+                            base64BasicInfoBoardDocFile = x.basicInformationBoardproofFile
+
+                            setSpinnerValue(
+                                spinnerFoodSpecificationBoard,
+                                x.foodSpecificationBoard!!
+                            )
+                            setBase64ToImage(
+                                binding.ivFoodSpecificationBoardPreview,
+                                x.foodSpecificationBoardFile
+                            )
+                            base64FoodSpecificationBoardDocFile = x.foodSpecificationBoardFile
+
+                            binding.etAreaForOutDoorGames.setText(x.openSpaceArea)
+
+
+                        }
                     }
-                }
 
-                is DistrictModel -> {
-                    if (item.districtName.equals(value, ignoreCase = true)) {
-                        spinner.setSelection(i)
-                        break
-                    }
-                }
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                is BlockModel -> {
-                    if (item.blockName.equals(value, ignoreCase = true)) {
-                        spinner.setSelection(i)
-                        break
-                    }
-                }
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-                is GpModel -> {
-                    if (item.gpName.equals(value, ignoreCase = true)) {
-                        spinner.setSelection(i)
-                        break
-                    }
-                }
-
-                is VillageModel -> {
-                    if (item.villageName.equals(value, ignoreCase = true)) {
-                        spinner.setSelection(i)
-                        break
-                    }
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
             }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+
+
+    private fun NonAreaInformation() {
+        viewModel.NonAreaInformationRoom.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                binding.layoutNonLivingAreaContent.visible()
+                when (it.responseCode) {
+                    200 -> {
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+
+                            setSpinnerValue(spinnerFoodPreparedTrainingCenter, x.preparedFood)
+                            setBase64ToImage(binding.ivFoodPreparedTrainingPreview, x.preprationFoodPdf)
+                            binding.ivFoodPreparedTrainingPreview.visible()
+                            base64FoodPreparedTrainingDocFile = x.preprationFoodPdf
+
+                            binding.etKitchenLength.setText(x.kitchenLength)
+                            binding.etKitchenWidth.setText(x.kitchenWidth)
+                            binding.etKitchenArea.setText(x.kitchenArea)
+
+                            setSpinnerValue(spinnerDiningRecreationAreaSeparate, x.separateAreas)
+
+                            binding.etStoolsChairsBenches.setText(x.noOfSeats)
+                            binding.etWashArea.setText(x.washArea)
+
+                            setSpinnerValue(spinnerTvAvailable, x.tvAvailable)
+                            binding.etDiningLength.setText(x.diningLength)
+                            binding.etDiningWidth.setText(x.diningWidth)
+                            binding.etDiningArea.setText(x.diningArea)
+
+                            binding.etRecreationLength.setText(x.recreationLength)
+                            binding.etRecreationWidth.setText(x.recreationWidth)
+                            binding.etRecreationArea.setText(x.recreationArea)
+                            setSpinnerValue(spinnerIsReceptionAreaAva, x.receptionArea) // selection of Yes No Showing area value
+                            setBase64ToImage(binding.ivReceptionAreaPreview, x.receptionAreaPdf)
+                            binding.etWashArea.setText(x.washArea) //  getting blank
+                            base64ReceptionAreaDocFile = x.receptionAreaPdf
+                            binding.ivReceptionAreaPreview.visible()
+
+
+
+                        }
+                    }
+
+                    202 -> Toast.makeText(
+                        requireContext(),
+                        "No data available.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    301 -> Toast.makeText(
+                        requireContext(),
+                        "Please upgrade your app.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+    }
+
+
+    private fun ResidentialFacilitiesAvailable() {
+        viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+
+                when (it.responseCode) {
+                    200 -> {
+                        binding.layoutRfAvailableContent.visible()
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            setSpinnerValue(spinnerWhetherHostelsSeparated, x.hostelsSeparated)
+                            setBase64ToImage(binding.ivWhetherHostelsSeparatedPreview, x.hostelsSeparatedPdf)
+                            binding.ivWhetherHostelsSeparatedPreview.visible()
+                            base64WhetherHostelsSeparatedDocFile = x.hostelsSeparatedPdf
+
+
+                            setSpinnerValue(spinnerWardenWhereMalesStay, x.wardenCaretakerMale)
+                            setBase64ToImage(binding.ivWardenWhereMalesStayPreview, x.wardenCaretakerMalePdf)
+                            binding.ivWardenWhereMalesStayPreview.visible()
+                            base64WardenWhereMalesStayDocFile = x.wardenCaretakerMalePdf
+
+
+                            setSpinnerValue(spinnerWardenWhereLadyStay, x.wardenCaretakerFemale)
+                            setBase64ToImage(binding.ivWardenWhereLadyStayPreview, x.wardenCaretakerFemalePdf)
+                            binding.ivWardenWhereLadyStayPreview.visible()
+                            base64WardenWhereLadyStayDocFile = x.wardenCaretakerFemalePdf
+
+
+                            setSpinnerValue(spinnerSecurityGaurdsAvailable, x.securityGuards)
+                            setBase64ToImage(binding.ivSecurityGaurdsPreview, x.securityGuardsPdf)
+                            binding.ivSecurityGaurdsPreview.visible()
+                            base64SecurityGaurdsDocFile = x.securityGuardsPdf
+
+
+                            setSpinnerValue(spinnerWhetherFemaleDoctorAvailable, x.femaleDoctor)
+                            setBase64ToImage(binding.ivWhetherFemaleDoctorPreview, x.femaleDoctorPdf)
+                            binding.ivWhetherFemaleDoctorPreview.visible()
+                            base64WhetherFemaleDoctorDocFile = x.femaleDoctorPdf
+
+                            setSpinnerValue(spinnerWhetherMaleDoctorAvailable, x.maleDoctor)
+                            setBase64ToImage(binding.ivMaleDoctorPreview, x.maleDoctorPdf)
+                            binding.ivMaleDoctorPreview.visible()
+                            base64WhetherMaleDoctorDocFile = x.maleDoctorPdf
+                        }
+
+
+                    }
+
+                    202 -> {
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+                    301 -> {
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> AppUtil.showSessionExpiredDialog(
+                        findNavController(),
+                        requireContext()
+                    )
+                }
+            }
+
+            result.onFailure {
+
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
         }
     }
+
+    private fun ResidentialSupportFacilitiesAvailable() {
+        viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+
+                when (it.responseCode) {
+                    200 -> {
+                        binding.layoutSfAvailableContent.visible()
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            setSpinnerValue(spinnerSafeDrinikingAvailable, x.hostelsSeparated)
+                            setBase64ToImage(binding.ivSafeDrinkingPreview, x.hostelsSeparatedPdf)
+                            binding.ivSafeDrinkingPreview.visible()
+                            base64SafeDrinkingDocFile = x.hostelsSeparatedPdf
+
+
+                            setSpinnerValue(spinnerFirstAidKitAvailable, x.wardenCaretakerMale)
+                            setBase64ToImage(binding.ivFirstAidKitPreview, x.wardenCaretakerMalePdf)
+                            binding.ivFirstAidKitPreview.visible()
+                            base64FirstAidKitDocFile = x.wardenCaretakerMalePdf
+
+
+                            setSpinnerValue(spinnerFireFightingEquipmentAvailable, x.wardenCaretakerFemale)
+                            setBase64ToImage(binding.ivFireFightingEquipmentPreview, x.wardenCaretakerFemalePdf)
+                            binding.ivFireFightingEquipmentPreview.visible()
+                            base64FireFightingEquipmentDocFile = x.wardenCaretakerFemalePdf
+
+
+                            setSpinnerValue(spinnerBiometricDeviceAvailable, x.securityGuards)
+                            setBase64ToImage(binding.ivBiometricDevicePreview, x.securityGuardsPdf)
+                            binding.ivBiometricDevicePreview.visible()
+                            base64BiometricDeviceDocFile = x.securityGuardsPdf
+
+
+                            setSpinnerValue(spinnerElectricalPowerBackupAvailable, x.femaleDoctor)
+                            setBase64ToImage(binding.ivElectricalPowerPreview, x.femaleDoctorPdf)
+                            binding.ivElectricalPowerPreview.visible()
+                            base64ElectricalPowerDocFile = x.femaleDoctorPdf
+
+                            setSpinnerValue(spinnerGrievanceRegisterAvailable, x.maleDoctor)
+                            setBase64ToImage(binding.ivGrievanceRegisterPreview, x.maleDoctorPdf)
+                            binding.ivGrievanceRegisterPreview.visible()
+                            base64GrievanceRegisterDocFile = x.maleDoctorPdf
+                        }
+
+
+                    }
+
+                    202 -> {
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+                    301 -> {
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> AppUtil.showSessionExpiredDialog(
+                        findNavController(),
+                        requireContext()
+                    )
+                }
+            }
+
+            result.onFailure {
+
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        }
+    }
+
+
+
 
 
     fun setSpinnerValue(spinner: Spinner?, value: String?) {

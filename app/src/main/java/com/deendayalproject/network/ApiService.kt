@@ -445,8 +445,6 @@ interface ApiService {
             Response<IndoorRFGameResponse>
 
 
-
-
     //    Ajit Ranjan create 06/Novmber/2025  getResidentialFacilitiesAvailable
     @POST(value ="getResidentialFacilitiesAvailable")
     suspend fun getResidentialFacilitiesAvailable
