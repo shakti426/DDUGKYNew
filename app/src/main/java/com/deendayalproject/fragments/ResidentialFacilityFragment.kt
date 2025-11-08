@@ -1017,7 +1017,7 @@ class ResidentialFacilityFragment : Fragment() {
         binding.headerSfAvailable.setOnClickListener {
 
 
-            if (sectionsStatus.rfAvailableSection>0){
+            if (sectionsStatus.supportFacltySection>0){
 
                 showEditSectionDialog("Support Facilities Available") {
 
