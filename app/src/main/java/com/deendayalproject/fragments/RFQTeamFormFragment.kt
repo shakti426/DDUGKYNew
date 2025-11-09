@@ -320,48 +320,55 @@ class RFQTeamFormFragment : Fragment() {
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
-                            binding.residentialfacilityqteamInfoLayout.tvSchemeName.text =
-                                x.schemeName
-                            binding.residentialfacilityqteamInfoLayout.tvtraningCentreName.text =
-                                x.trainingCenterName
+                            binding.residentialfacilityqteamInfoLayout.ResidentialFacilityName.text =
+                                safeText(x.residentialFacilityName)
+                            binding.residentialfacilityqteamInfoLayout.ResidentialFacilityType.text =
+                                safeText(x.residentialType)
 //                            binding.residentialfacilityqteamInfoLayout.tvProjectState.text = x.stateName
 //                            binding.residentialfacilityqteamInfoLayout.tvblock.text = x.blockName
-                            binding.residentialfacilityqteamInfoLayout.tvssanctionNumbere.text =
-                                x.senctionOrder
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilitytype.text =
-                                x.residentialType
-                            binding.residentialfacilityqteamInfoLayout.tvllocationOfRc.text =
-                                x.residentialCenterLocation
-                            binding.residentialfacilityqteamInfoLayout.tvhouseNo.text = x.houseNo
-                            binding.residentialfacilityqteamInfoLayout.tvStreet.text = x.streetNo1
-                            binding.residentialfacilityqteamInfoLayout.tvstateUi.text = x.stateName
-                            binding.residentialfacilityqteamInfoLayout.tvblock.text = x.blockName
-                            binding.residentialfacilityqteamInfoLayout.tvVillageWardNo.text =
-                                x.villageName
-                            binding.residentialfacilityqteamInfoLayout.tvpincode.text = x.pincode
+                            binding.residentialfacilityqteamInfoLayout.HouseNo.text =
+                                safeText(x.houseNo)
+                            binding.residentialfacilityqteamInfoLayout.Street.text =
+                                safeText(x.streetNo1)
+                            binding.residentialfacilityqteamInfoLayout.Landmark.text =
+                                safeText(x.landmark)
+                            binding.residentialfacilityqteamInfoLayout.StateUtTc.text =   safeText(x.stateName)
+                            binding.residentialfacilityqteamInfoLayout.DistrictTc.text =   safeText(x.districtName)
+                            binding.residentialfacilityqteamInfoLayout.Block.text =   safeText(x.blockName)
+                            binding.residentialfacilityqteamInfoLayout.GramPanchayat.text =   safeText(x.gpName)
+                            binding.residentialfacilityqteamInfoLayout.VillageWardNo.text =
+                                safeText(x.villageName)
+                            binding.residentialfacilityqteamInfoLayout.PoliceStation.text = x.policeStation
 //                            binding.residentialfacilityqteamInfoLayout.tvpincode.text = x.pincode
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilityPhone.text =
-                                x.residentialFacilitiesPhNo
-                            binding.residentialfacilityqteamInfoLayout.tvEmail.text = x.email
-                            binding.residentialfacilityqteamInfoLayout.tvTrainingCenterAddress.text =
-                                x.geoAddress
-                            binding.residentialfacilityqteamInfoLayout.tvLongitude.text =
-                                x.longitude
-                            binding.residentialfacilityqteamInfoLayout.tvGeoAddress.text =
-                                x.geoAddress
-                            binding.residentialfacilityqteamInfoLayout.tvCategoryofTClocation.text =
-                                x.categoryOfTc
-                            binding.residentialfacilityqteamInfoLayout.tvApproximateDistancefroma.text =
-                                x.longitude
-                            binding.residentialfacilityqteamInfoLayout.tvParliamentaryConstituency.text =
-                                x.residentialFacilitiesPhNo
-                            binding.residentialfacilityqteamInfoLayout.CentretoResidential.text =
-                                x.residentialCenterLocation
-                            binding.residentialfacilityqteamInfoLayout.tvEmployeeID.text = x.wardEmpId
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilitytype.text =
-                                x.resFacilityId
+                            binding.residentialfacilityqteamInfoLayout.LatitudeLongitude.text =
+                                safeText(x.latitude)
+                            binding.residentialfacilityqteamInfoLayout.Pincode.text = x.pincode
+                            binding.residentialfacilityqteamInfoLayout.WardenMobileNo.text =
+                                safeText(x.geoAddress)
+                            binding.residentialfacilityqteamInfoLayout.Mobile.text =
+                                safeText(x.mobile)
+                            binding.residentialfacilityqteamInfoLayout.RFPNoWSC.text =
+                                safeText(x.residentialFacilitiesPhNo)
+                            binding.residentialfacilityqteamInfoLayout.Email.text =
+                                safeText(x.email)
+                            binding.residentialfacilityqteamInfoLayout.TypeofArea.text =
+                                safeText(x.typeOfArea)
+                            binding.residentialfacilityqteamInfoLayout.categoryOfTCLocaXYZanyOtherArea.text =
+                                safeText(x.categoryOfTc)
+                            binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
+                                safeText(x.distBusStand)
+                            binding.residentialfacilityqteamInfoLayout.levelDistanceFromTheAutoStand.text = safeText(x.distAutoStand)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text =
+                                safeText(x.distRailStand)
 
-                            binding.residentialfacilityqteamInfoLayout.tvMobileNo.text = x.mobile
+                            binding.residentialfacilityqteamInfoLayout.DistanceFromTheTraining.text = safeText(x.distFromTc)
+                            binding.residentialfacilityqteamInfoLayout.WadrenName.text = safeText(x.wardName)
+                            binding.residentialfacilityqteamInfoLayout.WardenGender.text = safeText(x.wardgender)
+                            binding.residentialfacilityqteamInfoLayout.WardenAddress.text = safeText(x.wardAddress)
+                            binding.residentialfacilityqteamInfoLayout.levelWardenEmailId.text = safeText(x.wardEmail)
+                            binding.residentialfacilityqteamInfoLayout.WardenMobileNo.text = safeText(x.wardMobile)
+//                            binding.residentialfacilityqteamInfoLayout.PoliceStation.text = safeText(x.policeStation)
+//                            binding.residentialfacilityqteamInfoLayout.AppointmentLetter.text = safeText(x.policeStation)
 
                             RFQTresFacilityId=x.resFacilityId.toString()
 
@@ -376,14 +383,14 @@ class RFQTeamFormFragment : Fragment() {
                             RFQTBasicInfoPdf= x.policeVerfictnImage.toString()
 
 
-                            binding.residentialfacilityqteamInfoLayout.valueRFQTInfoPhoto.setOnClickListener {
-
-
-//                                showBase64ImageDialog(requireContext(), x.policeVerfictnImage, "RFQTeam Basic Info Appointment Letter Photo")
-                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-                            }
-                            binding.residentialfacilityqteamInfoLayout.tvStreet2.text =
-                                x.streetNo2
+//                            binding.residentialfacilityqteamInfoLayout.valueRFQTInfoPhoto.setOnClickListener {
+//
+//
+////                                showBase64ImageDialog(requireContext(), x.policeVerfictnImage, "RFQTeam Basic Info Appointment Letter Photo")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+//                            }
+//                            binding.residentialfacilityqteamInfoLayout.tvStreet2.text =
+//                                x.streetNo2
 
                         }
                     }
@@ -701,8 +708,8 @@ class RFQTeamFormFragment : Fragment() {
                         for (x in tcInfoData) {
 
 
-                            binding.RFNonLivingAreaLayout.kitchenLength.text=
-                            safeText(x.kitchenLength)
+                            binding.RFNonLivingAreaLayout.kitchenLength.text= safeText(x.kitchenLength)
+                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text= safeText(x.kitchenLength)
                             binding.RFNonLivingAreaLayout.kitchenWidth.text=
                                 safeText(x.kitchenWidth)
                             binding.RFNonLivingAreaLayout.KitchenArea.text=
@@ -1853,11 +1860,7 @@ class RFQTeamFormFragment : Fragment() {
         }
     }
 
-           fun safeText(value: String?): String {
-               return if (value.isNullOrBlank() || value.equals("null", ignoreCase = true)) {
-                   "N/A"
-               } else value
-           }
+
     private fun openBase64Pdf(context: Context, base64: String) {
         try {
             // 1. Clean Base64 (remove header if present)
@@ -1907,7 +1910,11 @@ class RFQTeamFormFragment : Fragment() {
         }
     }
 
-
+    fun safeText(value: String?): String {
+        return if (value.isNullOrBlank() || value.equals("null", ignoreCase = true)) {
+            "N/A"
+        } else value
+    }
 
 
     private fun showBase64ImageDialog(context: Context, base64ImageString: String?, title: String = "Image") {

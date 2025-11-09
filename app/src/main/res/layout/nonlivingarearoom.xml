@@ -108,6 +108,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+
+            <TextView
+                android:id="@+id/labelWhetherFoodFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/flooring"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeadingKitchen"
+
+                />
+
+            <TextView
+                android:id="@+id/WhetherFoodFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:textColor="@color/color_follow_up_title"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelWhetherFoodFor" />
+
+
+
+
+
+
+
+
+
+
+
+
             <TextView
                 android:id="@+id/labelkitchenLength"
                 android:layout_width="wrap_content"
@@ -119,8 +157,7 @@
                 android:textSize="@dimen/sp_18"
                 app:drawableStartCompat="@drawable/flooring"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingKitchen"
-
+                app:layout_constraintTop_toBottomOf="@id/WhetherFoodFor"
                  />
 
             <TextView

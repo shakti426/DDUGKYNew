@@ -352,6 +352,7 @@ class RFSRLMFormFragment : Fragment() {
     }
 
 
+
     @SuppressLint("SetTextI18n")
     private fun collectTCInfoResponse() {
         viewModel.ResidentialFacilityQTeam.observe(viewLifecycleOwner) { result ->
@@ -362,51 +363,59 @@ class RFSRLMFormFragment : Fragment() {
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
-                            binding.residentialfacilityqteamInfoLayout.tvSchemeName.text =
-                                x.schemeName
-                            binding.residentialfacilityqteamInfoLayout.tvtraningCentreName.text =
-                                x.trainingCenterName
+                            binding.residentialfacilityqteamInfoLayout.ResidentialFacilityName.text =
+                                safeText(x.residentialFacilityName)
+                            binding.residentialfacilityqteamInfoLayout.ResidentialFacilityType.text =
+                                safeText(x.residentialType)
 //                            binding.residentialfacilityqteamInfoLayout.tvProjectState.text = x.stateName
 //                            binding.residentialfacilityqteamInfoLayout.tvblock.text = x.blockName
-                            binding.residentialfacilityqteamInfoLayout.tvssanctionNumbere.text =
-                                x.senctionOrder
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilitytype.text =
-                                x.residentialType
-                            binding.residentialfacilityqteamInfoLayout.tvllocationOfRc.text =
-                                x.residentialCenterLocation
-                            binding.residentialfacilityqteamInfoLayout.tvhouseNo.text = x.houseNo
-                            binding.residentialfacilityqteamInfoLayout.tvStreet.text = x.streetNo1
-                            binding.residentialfacilityqteamInfoLayout.tvstateUi.text = x.stateName
-                            binding.residentialfacilityqteamInfoLayout.tvblock.text = x.blockName
-                            binding.residentialfacilityqteamInfoLayout.tvVillageWardNo.text =
-                                x.villageName
-                            binding.residentialfacilityqteamInfoLayout.tvpincode.text = x.pincode
+                            binding.residentialfacilityqteamInfoLayout.HouseNo.text =
+                                safeText(x.houseNo)
+                            binding.residentialfacilityqteamInfoLayout.Street.text =
+                                safeText(x.streetNo1)
+                            binding.residentialfacilityqteamInfoLayout.Landmark.text =
+                                safeText(x.landmark)
+                            binding.residentialfacilityqteamInfoLayout.StateUtTc.text =   safeText(x.stateName)
+                            binding.residentialfacilityqteamInfoLayout.DistrictTc.text =   safeText(x.districtName)
+                            binding.residentialfacilityqteamInfoLayout.Block.text =   safeText(x.blockName)
+                            binding.residentialfacilityqteamInfoLayout.GramPanchayat.text =   safeText(x.gpName)
+                            binding.residentialfacilityqteamInfoLayout.VillageWardNo.text =
+                                safeText(x.villageName)
+                            binding.residentialfacilityqteamInfoLayout.PoliceStation.text = x.policeStation
 //                            binding.residentialfacilityqteamInfoLayout.tvpincode.text = x.pincode
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilityPhone.text =
-                                x.residentialFacilitiesPhNo
-                            binding.residentialfacilityqteamInfoLayout.tvEmail.text = x.email
-                            binding.residentialfacilityqteamInfoLayout.tvTrainingCenterAddress.text =
-                                x.geoAddress
-                            binding.residentialfacilityqteamInfoLayout.tvLongitude.text =
-                                x.longitude
-                            binding.residentialfacilityqteamInfoLayout.tvGeoAddress.text =
-                                x.geoAddress
-                            binding.residentialfacilityqteamInfoLayout.tvCategoryofTClocation.text =
-                                x.categoryOfTc
-                            binding.residentialfacilityqteamInfoLayout.tvApproximateDistancefroma.text =
-                                x.longitude
-                            binding.residentialfacilityqteamInfoLayout.tvParliamentaryConstituency.text =
-                                x.residentialFacilitiesPhNo
-                            binding.residentialfacilityqteamInfoLayout.CentretoResidential.text =
-                                x.residentialCenterLocation
-                            binding.residentialfacilityqteamInfoLayout.tvEmployeeID.text =
-                                x.wardEmpId
-                            binding.residentialfacilityqteamInfoLayout.tvresidentialFacilitytype.text =
-                                x.resFacilityId
+                            binding.residentialfacilityqteamInfoLayout.LatitudeLongitude.text =
+                                safeText(x.latitude)
+                            binding.residentialfacilityqteamInfoLayout.Pincode.text = x.pincode
+                            binding.residentialfacilityqteamInfoLayout.WardenMobileNo.text =
+                                safeText(x.geoAddress)
+                            binding.residentialfacilityqteamInfoLayout.Mobile.text =
+                                safeText(x.mobile)
+                            binding.residentialfacilityqteamInfoLayout.RFPNoWSC.text =
+                                safeText(x.residentialFacilitiesPhNo)
+                            binding.residentialfacilityqteamInfoLayout.Email.text =
+                                safeText(x.email)
+                            binding.residentialfacilityqteamInfoLayout.TypeofArea.text =
+                                safeText(x.typeOfArea)
+                            binding.residentialfacilityqteamInfoLayout.categoryOfTCLocaXYZanyOtherArea.text =
+                                safeText(x.categoryOfTc)
+                            binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
+                                safeText(x.distBusStand)
+                            binding.residentialfacilityqteamInfoLayout.levelDistanceFromTheAutoStand.text = safeText(x.distAutoStand)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text =
+                                safeText(x.distRailStand)
 
-                            binding.residentialfacilityqteamInfoLayout.tvMobileNo.text = x.mobile
+                            binding.residentialfacilityqteamInfoLayout.DistanceFromTheTraining.text = safeText(x.distFromTc)
+                            binding.residentialfacilityqteamInfoLayout.WadrenName.text = safeText(x.wardName)
+                            binding.residentialfacilityqteamInfoLayout.WardenGender.text = safeText(x.wardgender)
+                            binding.residentialfacilityqteamInfoLayout.WardenAddress.text = safeText(x.wardAddress)
+                            binding.residentialfacilityqteamInfoLayout.levelWardenEmailId.text = safeText(x.wardEmail)
+                            binding.residentialfacilityqteamInfoLayout.WardenMobileNo.text = safeText(x.wardMobile)
+//                            binding.residentialfacilityqteamInfoLayout.PoliceStation.text = safeText(x.policeStation)
+//                            binding.residentialfacilityqteamInfoLayout.AppointmentLetter.text = safeText(x.policeStation)
 
-                            RFQTresFacilityId = x.resFacilityId.toString()
+                            RFQTresFacilityId=x.resFacilityId.toString()
+
+
 
 
 //                            binding.residentialfacilityqteamInfoLayout.tvPoliceVerificationStatus.text = x.policeVerfictnImage
@@ -414,17 +423,17 @@ class RFSRLMFormFragment : Fragment() {
                             // ✅ Load image using Glide and ViewBinding
                             // Load image
 
-                            RFQTBasicInfoPdf = x.policeVerfictnImage.toString()
+                            RFQTBasicInfoPdf= x.policeVerfictnImage.toString()
 
 
-                            binding.residentialfacilityqteamInfoLayout.valueRFQTInfoPhoto.setOnClickListener {
-
-
-//                                showBase64ImageDialog(requireContext(), x.policeVerfictnImage, "RFQTeam Basic Info Appointment Letter Photo")
-                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-                            }
-                            binding.residentialfacilityqteamInfoLayout.tvStreet2.text =
-                                x.streetNo2
+//                            binding.residentialfacilityqteamInfoLayout.valueRFQTInfoPhoto.setOnClickListener {
+//
+//
+////                                showBase64ImageDialog(requireContext(), x.policeVerfictnImage, "RFQTeam Basic Info Appointment Letter Photo")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+//                            }
+//                            binding.residentialfacilityqteamInfoLayout.tvStreet2.text =
+//                                x.streetNo2
 
                         }
                     }
@@ -473,10 +482,10 @@ class RFSRLMFormFragment : Fragment() {
                 binding.residentialfacilityqteamInfoLayout.textViewRFQTInfoRemarks.visibility =
                     View.VISIBLE
 
-                selectedRFBasicInformationApproval = "M"
+                selectedRFBasicInformationApproval="M"
 
             } else {
-                selectedRFBasicInformationApproval = "A"
+                selectedRFBasicInformationApproval="A"
                 binding.residentialfacilityqteamInfoLayout.etRFQTInfoRemarks.visibility = View.GONE
                 binding.residentialfacilityqteamInfoLayout.textViewRFQTInfoRemarks.visibility =
                     View.GONE
@@ -496,8 +505,7 @@ class RFSRLMFormFragment : Fragment() {
             }
             binding.residentialfacilityqteamInfoLayout.viewRFQTInfo.visibility = View.GONE
             binding.residentialfacilityqteamInfoLayout.RFQTInfoExpand.visibility = View.GONE
-            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility =
-                View.VISIBLE
+            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility = View.VISIBLE
             binding.tvinfrastructureDetailsAndCompliances.visibility = View.VISIBLE
             binding.infrastructureDetailsAndCompliancesLayout.viewIDC.visibility = View.VISIBLE
 
@@ -514,8 +522,7 @@ class RFSRLMFormFragment : Fragment() {
 
 
             if (selectedRFBasicInformationApproval == "M") {
-                selectedRFBasicInformationRemarks =
-                    binding.residentialfacilityqteamInfoLayout.etRFQTInfoRemarks.text.toString()
+                selectedRFBasicInformationRemarks = binding.residentialfacilityqteamInfoLayout.etRFQTInfoRemarks.text.toString()
                 if (selectedRFBasicInformationRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -540,13 +547,14 @@ class RFSRLMFormFragment : Fragment() {
         }
 
 
+
+
+
         //Adapter Living Area Information 27/10/2025
         tvLivingAreaInformationAdapter = ArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
         )
-        binding.livingareainformationLayout.SpinnerLivingAreaInformation.setAdapter(
-            tvLivingAreaInformationAdapter
-        )
+        binding.livingareainformationLayout.SpinnerLivingAreaInformation.setAdapter(tvLivingAreaInformationAdapter)
         binding.livingareainformationLayout.SpinnerLivingAreaInformation.setOnItemClickListener { parent, view, position, id ->
             selectedRFLevingAreaInformationApproval = parent.getItemAtPosition(position).toString()
             if (selectedRFLevingAreaInformationApproval == "Send for modification") {
@@ -555,11 +563,10 @@ class RFSRLMFormFragment : Fragment() {
                 binding.livingareainformationLayout.etLivingAreaInformationRemarks.visibility =
                     View.VISIBLE
 
-                selectedRFLevingAreaInformationApproval = "M"
+                selectedRFLevingAreaInformationApproval="M"
             } else {
-                selectedRFLevingAreaInformationApproval = "A"
-                binding.livingareainformationLayout.etLivingAreaInformationRemarks.visibility =
-                    View.GONE
+                selectedRFLevingAreaInformationApproval="A"
+                binding.livingareainformationLayout.etLivingAreaInformationRemarks.visibility = View.GONE
                 binding.livingareainformationLayout.LivingAreaInformationRemarks.visibility =
                     View.GONE
 
@@ -575,7 +582,6 @@ class RFSRLMFormFragment : Fragment() {
                 return@setOnClickListener
 
             }
-//            return@setOnClickListener
             binding.livingareainformationLayout.viewLAI.visibility = View.GONE
             binding.livingareainformationLayout.LivingAreaInformationExpand.visibility = View.GONE
 
@@ -583,14 +589,6 @@ class RFSRLMFormFragment : Fragment() {
 
             binding.RFTioletLayout.toiletsExpand.visibility = View.VISIBLE
             binding.tvRFTiolet.visibility = View.VISIBLE
-
-//            binding.mainDescAcademia.visibility = View.GONE
-//            binding.viewDescAcademia.visibility = View.GONE
-//            viewIDC
-//    IDetailsComplainExpand
-//    llTopIDC
-//    tvIDC
-
 
             binding.livingareainformationLayout.tvLAI.setCompoundDrawablesWithIntrinsicBounds(
                 0,
@@ -604,8 +602,7 @@ class RFSRLMFormFragment : Fragment() {
             }
 
             if (selectedRFLevingAreaInformationApproval == "M") {
-                selectedRFLevingAreaInformationRemarks =
-                    binding.livingareainformationLayout.etLivingAreaInformationRemarks.text.toString()
+                selectedRFLevingAreaInformationRemarks = binding.livingareainformationLayout.etLivingAreaInformationRemarks.text.toString()
                 if (selectedRFLevingAreaInformationRemarks.isEmpty()) {
                     Toast.makeText(
                         requireContext(),
@@ -630,20 +627,22 @@ class RFSRLMFormFragment : Fragment() {
                         rfToiletId = data.toString(),
                     )
                     viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
-                }
-            }
+                }}
             ToiletRecyclerView()
+
+
+
+
 
 
         }
 
         binding.livingareainformationLayout.btnLivingAreaInformationPrevious.setOnClickListener {
-            binding.tvlivingareainformation.visibility = View.GONE
-            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility =
-                View.VISIBLE
-            binding.livingareainformationLayout.LivingAreaInformationExpand.visibility = View.GONE
+            binding.tvlivingareainformation.visibility= View.GONE
+            binding.infrastructureDetailsAndCompliancesLayout.IDetailsComplainExpand.visibility= View.VISIBLE
+            binding.livingareainformationLayout.LivingAreaInformationExpand.visibility= View.GONE
 
-//            tvinfrastructure_details_and_compliances
+
         }
         //Adapter   Ajit Ranjan Toilets 27/10/2025
 
@@ -659,9 +658,9 @@ class RFSRLMFormFragment : Fragment() {
                 binding.RFTioletLayout.etToiletRemarks.visibility =
                     View.VISIBLE
 
-                selectedRFToiletApproval = "M"
+                selectedRFToiletApproval="M"
             } else {
-                selectedRFToiletApproval = "A"
+                selectedRFToiletApproval="A"
                 binding.RFTioletLayout.etToiletRemarks.visibility = View.GONE
                 binding.RFTioletLayout.LivingToiletRemarks.visibility =
                     View.GONE
@@ -679,15 +678,10 @@ class RFSRLMFormFragment : Fragment() {
                 return@setOnClickListener
 
             }
-//            return@setOnClickListener
-//            binding.RFTioletLayout.tvToilet.visibility = View.GONE
             binding.RFTioletLayout.toiletsExpand.visibility = View.GONE
             binding.RFTioletLayout.viewToilet.visibility = View.GONE
             binding.tvRFConstraintLayoutNonLivingArea.visibility = View.VISIBLE
 
-
-//            tvRFNonLivingArea
-//            RFNonLivingAreaLayout
 
 
             binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
@@ -726,18 +720,25 @@ class RFSRLMFormFragment : Fragment() {
             NonAreaInformation()
 
 
+
+
+
+
         }
 
         binding.RFTioletLayout.btnToiletPrevious.setOnClickListener {
-            binding.tvlivingareainformation.visibility = View.VISIBLE
-            binding.livingareainformationLayout.LivingAreaInformationExpand.visibility =
-                View.VISIBLE
-            binding.tvRFTiolet.visibility = View.GONE
+            binding.tvlivingareainformation.visibility= View.VISIBLE
+            binding.livingareainformationLayout.LivingAreaInformationExpand.visibility= View.VISIBLE
+            binding.tvRFTiolet.visibility= View.GONE
 
         }
 
 
+
+
+
     }
+
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
 
