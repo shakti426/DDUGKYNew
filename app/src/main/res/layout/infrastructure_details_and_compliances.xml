@@ -26,9 +26,20 @@
             android:text="@string/infrastructure_details_and_compliances"
             android:textColor="@color/light_blue"
             android:textSize="@dimen/sp_16"
+            app:drawableStartCompat="@drawable/infrastructure"
             app:layout_constraintEnd_toStartOf="@+id/ivSeccArrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+<!--        <TextView-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center"-->
+<!--            android:text="@string/infrastructure_details_and_compliances"-->
+<!--            android:textColor="?attr/colorPrimary"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:drawableStartCompat="@drawable/infrastructure" />-->
 
 
 

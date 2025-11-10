@@ -510,7 +510,7 @@ class RFSRLMFormFragment : Fragment() {
             binding.infrastructureDetailsAndCompliancesLayout.viewIDC.visibility = View.VISIBLE
 
             binding.residentialfacilityqteamInfoLayout.tvTrainInfo.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.baseline_info_24,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -591,7 +591,7 @@ class RFSRLMFormFragment : Fragment() {
             binding.tvRFTiolet.visibility = View.VISIBLE
 
             binding.livingareainformationLayout.tvLAI.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.ic_property,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -685,7 +685,7 @@ class RFSRLMFormFragment : Fragment() {
 
 
             binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.toilet,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -866,7 +866,7 @@ class RFSRLMFormFragment : Fragment() {
             binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility = View.GONE
             binding.tvRFConstraintLayoutIndoorGame.visibility = View.VISIBLE
             binding.RFNonLivingAreaLayout.tvNonLivingAreaInfor.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable. ic_class,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -1060,7 +1060,7 @@ class RFSRLMFormFragment : Fragment() {
                 View.GONE
             binding.tvlivingareainformation.visibility = View.VISIBLE
             binding.infrastructureDetailsAndCompliancesLayout.tvIDC.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.infrastructure,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -1379,7 +1379,7 @@ class RFSRLMFormFragment : Fragment() {
 
             binding.RFResidentialConstraintLayoutFacilitiesAvailable.visibility = View.VISIBLE
             binding.RFIndoorGameLayout.tvIndoorGame.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.tabletennis,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -1525,7 +1525,7 @@ class RFSRLMFormFragment : Fragment() {
 
             binding.btnSubmitFinal.visibility = View.VISIBLE
             binding.rfSupportFacilitiesAvailableLayout.tvRFResidentialSupportFacality.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.ic_signage,
                 0,
                 R.drawable.ic_verified,
                 0
@@ -1721,7 +1721,7 @@ class RFSRLMFormFragment : Fragment() {
 
             binding.RFRFSupportFacilitiesAvailable.visibility = View.VISIBLE
             binding.RFResidentialFacilitiesAvailable.tvRFResidentialFacality.setCompoundDrawablesWithIntrinsicBounds(
-                0,
+                R.drawable.ic_equipment,
                 0,
                 R.drawable.ic_verified,
                 0
