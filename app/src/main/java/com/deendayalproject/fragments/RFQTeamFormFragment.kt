@@ -308,6 +308,15 @@ class RFQTeamFormFragment : Fragment() {
 
     }
 
+    private fun init() {
+
+        listener()
+    }
+
+    private fun listener() {
+
+
+    }
 
 
     @SuppressLint("SetTextI18n")

@@ -1,13 +1,13 @@
 package com.deendayalproject.model.response
 
 data class SectionResponse(
-    val wrappedList: List<SectionData>,
+    val wrappedList: List<SectionRFData>,
     val errorsMap: Map<String, Any>,
     val responseCode: Int,
     val responseDesc: String
 )
 
-data class SectionData(
+data class SectionRFData(
     val livingAreaInfoSection: Int,
     val toiletSection: Int,
     val basiInfoSection: Int,

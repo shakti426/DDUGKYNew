@@ -32,6 +32,7 @@ import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.SubmitOfficeCumCounsellingRoomDetailsRequest
 import com.deendayalproject.model.request.TCDLRequest
@@ -79,6 +80,7 @@ import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
 import com.deendayalproject.model.response.StandardFormResponse
@@ -692,10 +694,6 @@ class CommonRepository(private val context: Context) {
             Result.failure(e)
         }
     }
-
-
-
-
 
     suspend fun getSectionsStatus(request: TrainingCenterInfo) : Result<SectionStatusRes>{
         return try {
@@ -1510,6 +1508,26 @@ suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: R
             Result.failure(e)
         }
     }
+
+
+
+
+    suspend fun getRFSectionStatus(request: SectionReq) : Result<SectionResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRFSectionStatus(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
 
 
 }

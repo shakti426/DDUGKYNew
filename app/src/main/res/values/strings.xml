@@ -743,4 +743,5 @@
     <string name="residential_facility_srlm">Residential Facility SRLM</string>
     <string name="warden_details">Warden Details</string>
     <string name="conformance_to_standards">Conformance to Standards</string>
+    <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
 </resources>
