@@ -871,6 +871,7 @@ class RFQTeamFormFragment : Fragment() {
     }
 
 
+    @SuppressLint("SuspiciousIndentation")
     private fun collectInsfrastructureDetailsAndComplains() {
         viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
