@@ -4423,7 +4423,7 @@
                         android:layout_weight="1"
                         android:drawableStart="@drawable/ic_signage"
                         android:gravity="center"
-                        android:text="Support Facilities Available"
+                        android:text="@string/support_facilities_available"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="18sp"
                         android:textStyle="bold" />

@@ -656,6 +656,7 @@
     <string name="warden_mobile_no">Warden Mobile No.</string>
     <string name="police_verification_status">Police Verification Status</string>
     <string name="appointment_letter">Appointment Letter</string>
+
     <string name="whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling">Whether it is Structurally Sound on Visual Inspection Plastering and Painting of Internal and External Walls and Ceiling</string>
     <string name="conformance_to_ddu_gky_look_and_feel_standards_as_per_sub_section_5_1_1">Conformance to DDU-GKY look and feel Standards as per sub section 5.1.1</string>
     <string name="corridor">Corridor</string>
@@ -738,5 +739,9 @@
     <string name="hostels_separated">Hostels Separated</string>
     <string name="security_guards">Security Guards</string>
     <string name="is_reception_area_available">Is reception area available?</string>
+    <string name="support_facilities_available">Support Facilities Available</string>
+    <string name="residential_facility_srlm">Residential Facility SRLM</string>
+    <string name="warden_details">Warden Details</string>
+    <string name="conformance_to_standards">Conformance to Standards</string>
     <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
 </resources>

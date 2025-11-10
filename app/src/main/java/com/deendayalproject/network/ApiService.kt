@@ -26,6 +26,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
+import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -73,6 +74,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
+import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -117,20 +119,16 @@ interface ApiService {
     suspend fun getTrainingCenterList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
 
-
-    @POST(value ="getTrainingCenterVerificationList")
-    suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
-
-
-    @POST(value ="getTrainingCenterVerificationSRLM")
-    suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest) : Response<TrainingCenterResponse>
+    @POST(value = "getTrainingCenterVerificationList")
+    suspend fun getQTeamTrainingList(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
 
+    @POST(value = "getTrainingCenterVerificationSRLM")
+    suspend fun getTrainingCenterVerificationSRLM(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
 
-    @POST(value ="getResidentialFacilitiesList")
-    suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest) : Response<RfListResponse>
 
-
+    @POST(value = "getResidentialFacilitiesList")
+    suspend fun getResidentialFacilitiesList(@Body request: TrainingCenterRequest): Response<RfListResponse>
 
 
     @POST(value = "insertCCTVCompliance")
@@ -138,82 +136,72 @@ interface ApiService {
 
 
     @POST(value = "insertTcElectricWiringStandard")
-    suspend fun insertTcElectricWiringStandard(@Body request : ElectricalWiringRequest) : Response<ElectircalWiringReponse>
+    suspend fun insertTcElectricWiringStandard(@Body request: ElectricalWiringRequest): Response<ElectircalWiringReponse>
 
 
-    @POST(value ="insertTcGeneralDetails")
-    suspend fun insertTcGeneralDetails(@Body request: InsertTcGeneralDetailsRequest) : Response<InsertTcGeneralDetailsResponse>
+    @POST(value = "insertTcGeneralDetails")
+    suspend fun insertTcGeneralDetails(@Body request: InsertTcGeneralDetailsRequest): Response<InsertTcGeneralDetailsResponse>
 
 
     @POST(value = "insertTcBasicInfo")
-    suspend fun insertTcBasicInfo(@Body request: TcBasicInfoRequest) : Response<InsertTcBasicInfoResponse>
+    suspend fun insertTcBasicInfo(@Body request: TcBasicInfoRequest): Response<InsertTcBasicInfoResponse>
 
 
     @POST(value = "insertTcSignagesInfoBoard")
-    suspend fun insertTcSignagesInfoBoard(@Body request: TcSignagesInfoBoardRequest) : Response<TcSignagesInfoBoardResponse>
+    suspend fun insertTcSignagesInfoBoard(@Body request: TcSignagesInfoBoardRequest): Response<TcSignagesInfoBoardResponse>
 
     @POST(value = "insertTcAvailabilitySupportInfra")
-    suspend fun insertTcAvailabilitySupportInfra(@Body request: TcAvailabilitySupportInfraRequest) : Response<TcAvailabilitySupportInfraResponse>
+    suspend fun insertTcAvailabilitySupportInfra(@Body request: TcAvailabilitySupportInfraRequest): Response<TcAvailabilitySupportInfraResponse>
 
     @POST(value = "insertTcCommonEquipment")
-    suspend fun  insertTcCommonEquipment(@Body request : TcCommonEquipmentRequest) : Response<TcCommonEquipmentResponse>
+    suspend fun insertTcCommonEquipment(@Body request: TcCommonEquipmentRequest): Response<TcCommonEquipmentResponse>
 
     @POST(value = "insertTcDescriptionOtherAreas")
-    suspend fun  insertTcDescriptionOtherAreas(@Body request: TcDescriptionOtherAreasRequest) : Response<TcDescriptionOtherAreasResponse>
+    suspend fun insertTcDescriptionOtherAreas(@Body request: TcDescriptionOtherAreasRequest): Response<TcDescriptionOtherAreasResponse>
 
 
-
-    @POST(value ="getTrainerCenterInfo")
-    suspend fun getTrainerCenterInfo(@Body request: TrainingCenterInfo) : Response<TrainingCenterInfoRes>
-
+    @POST(value = "getTrainerCenterInfo")
+    suspend fun getTrainerCenterInfo(@Body request: TrainingCenterInfo): Response<TrainingCenterInfoRes>
 
 
-
-    @POST(value ="getTCTrainerAndOtherStaffsList")
-    suspend fun getTcStaffDetails(@Body request: TrainingCenterInfo) : Response<TcStaffAndTrainerResponse>
-
+    @POST(value = "getTCTrainerAndOtherStaffsList")
+    suspend fun getTcStaffDetails(@Body request: TrainingCenterInfo): Response<TcStaffAndTrainerResponse>
 
 
-    @POST(value ="getTrainerCenterInfra")
-    suspend fun getTrainerCenterInfra(@Body request: TrainingCenterInfo) : Response<TcInfraResponse>
+    @POST(value = "getTrainerCenterInfra")
+    suspend fun getTrainerCenterInfra(@Body request: TrainingCenterInfo): Response<TcInfraResponse>
 
 
-    @POST(value ="insertTcToiletsWashBasins")
-    suspend fun insertTcToiletsWashBasins(@Body request: ToiletDetailsRequest) : Response<ToiletDetailsErrorResponse>
+    @POST(value = "insertTcToiletsWashBasins")
+    suspend fun insertTcToiletsWashBasins(@Body request: ToiletDetailsRequest): Response<ToiletDetailsErrorResponse>
 
 
+    @POST(value = "getTcAcademicNonAcademicArea")
+    suspend fun getTcAcademicNonAcademicArea(@Body request: TrainingCenterInfo): Response<TcAcademiaNonAcademiaRes>
 
 
-    @POST(value ="getTcAcademicNonAcademicArea")
-    suspend fun getTcAcademicNonAcademicArea(@Body request: TrainingCenterInfo) : Response<TcAcademiaNonAcademiaRes>
+    @POST(value = "getTcToiletWashBasin")
+    suspend fun getTcToiletWashBasin(@Body request: TrainingCenterInfo): Response<ToiletResponse>
 
 
-
-    @POST(value ="getTcToiletWashBasin")
-    suspend fun getTcToiletWashBasin(@Body request: TrainingCenterInfo) : Response<ToiletResponse>
-
+    @POST(value = "getDescriptionOtherArea")
+    suspend fun getDescriptionOtherArea(@Body request: TrainingCenterInfo): Response<DescOtherAreaRes>
 
 
-    @POST(value ="getDescriptionOtherArea")
-    suspend fun getDescriptionOtherArea(@Body request: TrainingCenterInfo) : Response<DescOtherAreaRes>
+    @POST(value = "getTeachingLearningMaterial")
+    suspend fun getTeachingLearningMaterial(@Body request: TrainingCenterInfo): Response<TeachingLearningRes>
 
 
-    @POST(value ="getTeachingLearningMaterial")
-    suspend fun getTeachingLearningMaterial(@Body request: TrainingCenterInfo) : Response<TeachingLearningRes>
+    @POST(value = "getGeneralDetails")
+    suspend fun getGeneralDetails(@Body request: TrainingCenterInfo): Response<GeneralDetails>
 
 
-    @POST(value ="getGeneralDetails")
-    suspend fun getGeneralDetails(@Body request: TrainingCenterInfo) : Response<GeneralDetails>
+    @POST(value = "getElectricalWiringStandard")
+    suspend fun getElectricalWiringStandard(@Body request: TrainingCenterInfo): Response<ElectricalWireRes>
 
 
-
-
-    @POST(value ="getElectricalWiringStandard")
-    suspend fun getElectricalWiringStandard(@Body request: TrainingCenterInfo) : Response<ElectricalWireRes>
-
-
-    @POST(value ="getSignagesAndInfoBoard")
-    suspend fun getSignagesAndInfoBoard(@Body request: TrainingCenterInfo) : Response<SignageInfo>
+    @POST(value = "getSignagesAndInfoBoard")
+    suspend fun getSignagesAndInfoBoard(@Body request: TrainingCenterInfo): Response<SignageInfo>
 
 
     @POST(value ="getIpEnabledcamera")
@@ -332,10 +320,8 @@ interface ApiService {
     suspend fun inserttheoryClassroomBasicInfo(@Body request: TCRRequest) : Response<ITLAbDetailsErrorResponse>
 
 
-
-
     @POST(value = "insertRfBasicInformation")
-    suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq) : Response<ITLAbDetailsErrorResponse>
+    suspend fun insertRfBasicInformation(@Body request: insertRfBasicInfoReq): Response<ITLAbDetailsErrorResponse>
 
 
 
@@ -445,11 +431,38 @@ interface ApiService {
             Response<IndoorRFGameResponse>
 
 
+
+
     //    Ajit Ranjan create 06/Novmber/2025  getResidentialFacilitiesAvailable
     @POST(value ="getResidentialFacilitiesAvailable")
     suspend fun getResidentialFacilitiesAvailable
                 (@Body request: TrainingCenterInfo) :
             Response<RFResidintialFacilityResponse>
+
+
+//    Ajit Ranjan create 07/Novmber/2025  getRFSupportFacilitiesAvailable
+
+    @POST(value = "getRFSupportFacilitiesAvailable")
+    suspend fun getRFSupportFacilitiesAvailable(@Body request: RFGameRequest):
+            Response<RFSupportFacilitiesAvailableResponse>
+
+    //    Ajit Ranjan create 07/Novmber/2025  getRFSupportFacilitiesAvailable
+    @POST(value = "insertRFQteamVerification")
+    suspend fun getFinalSubmitInsertRFQteamVerificationData(@Body request: RFQteamVerificationRequest): Response<FinalSubmitRes>
+
+//    Ajit Ranjan create 07/Novmber/2025    insertRFSrlmVerification
+
+    @POST(value = "insertRFSrlmVerification")
+    suspend fun getFinalSubmitInsertRFinsertRFSrlmVerificationData(@Body request: RFQteamVerificationRequest): Response<FinalSubmitRes>
+
+
+
+
+//    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
+
+    @POST(value = "getRFSRLMVerification")
+    suspend fun getRFSRLMVerification(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
+
 
 
 

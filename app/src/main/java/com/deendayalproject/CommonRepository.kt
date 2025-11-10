@@ -28,6 +28,7 @@ import com.deendayalproject.model.request.LoginRequest
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
+import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
@@ -75,6 +76,7 @@ import com.deendayalproject.model.response.LoginResponse
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
+import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
@@ -1432,6 +1434,81 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
             Result.failure(e)
         }
     }
+
+
+
+//       Ajit Ranjan create 07/Novmber/2025  getRFSupportFacilitiesAvailable
+
+
+
+    suspend fun getRFSupportFacilitiesAvailable(request: RFGameRequest) : Result<RFSupportFacilitiesAvailableResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getRFSupportFacilitiesAvailable(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+//    Ajit Ranjan create 07/Novmber/2025    insertRFQteamVerificationRequest
+
+    suspend fun getFinalSubmitinsertRFQteamVerificationRequestData(request: RFQteamVerificationRequest) : Result<FinalSubmitRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getFinalSubmitInsertRFQteamVerificationData(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+//    Ajit Ranjan create 07/Novmber/2025    insertRFSrlmVerification
+suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: RFQteamVerificationRequest) : Result<FinalSubmitRes>{
+    return try {
+        // val bearerToken = "Bearer $token"
+        val response = apiService.getFinalSubmitInsertRFinsertRFSrlmVerificationData(request)
+        if (response.isSuccessful){
+            response.body()?.let { Result.success(it) }
+                ?: Result.failure(Exception("Empty response"))
+        } else {
+            Result.failure(Exception("Error code: ${response.code()}"))
+        }
+    } catch (e: Exception) {
+        Result.failure(e)
+    }
+}
+
+//    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
+    suspend fun fetchRFSRLMVerificationList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
+        return try {
+            val response = apiService.getRFSRLMVerification(request)
+            if (response.isSuccessful) {
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                if (response.code() == 202) {
+                    Result.failure(HttpException(response))
+                } else {
+                    Result.failure(HttpException(response))
+                }
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
 
 

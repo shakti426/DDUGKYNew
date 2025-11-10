@@ -37,7 +37,10 @@
                 android:id="@+id/tvRFResidentialFacality"
                 android:fontFamily="@font/avenir_next_semi_bold"
                 android:text="@string/residential_facilities_available"
-                android:textColor="@color/color_dark_green"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:drawableStart="@drawable/ic_equipment"
+                android:textColor="@color/light_blue"
                 android:textSize="@dimen/sp_16"
                 app:layout_constraintEnd_toStartOf="@+id/ivSeccArrow"
                 app:layout_constraintStart_toStartOf="parent"
@@ -424,7 +427,7 @@
                 android:id="@+id/llRFResidentialFacalityBtn"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRFResidentialFacalityRemarks">
+                app:layout_constraintTop_toBottomOf="@+id/etRFResidentialFacalityRemarks">
 
                 <TextView
                     android:layout_width="0dp"
