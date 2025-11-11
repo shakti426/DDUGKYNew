@@ -39,5 +39,5 @@ data class InsertRfInfraDetaiReq(
     val studentEntitlementBoardProof: String,
     val contactDetailImportantPeopleproof: String,
     val basicInformationBoardproof: String,
-    val foodSpecificationBoardproof: String
+    val foodSpecificationBoardproof: String,
 )

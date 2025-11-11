@@ -174,12 +174,40 @@ object AppUtil {
     }
 
 
+    fun savesanctionOrderRFPreference(context: Context, sanctionOrder: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("sanctionOrderRF", sanctionOrder).apply()
+    }
+    fun savecenterIdRFPreference(context: Context, sanctionOrder: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("centerIdRF", sanctionOrder).apply()
+    }
+
+    fun getcenterIdRFPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("centerIdRF", "") ?: ""
+    }
+    fun getsanctionOrderRFPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("sanctionOrderRF", "") ?: ""
+    }
 
 
+    fun saveFacilityIdRFPreference(context: Context, sanctionOrder: String) {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("facilityId", sanctionOrder).apply()
+    }
 
-
-
-
+    fun getFacilityIdRFPreference(context: Context): String {
+        val sharedPreferences =
+            context.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("facilityId", "") ?: ""
+    }
 
 
 

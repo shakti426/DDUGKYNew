@@ -4,7 +4,6 @@ import SharedViewModel
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -22,7 +21,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import android.util.Base64
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,15 +30,11 @@ import com.deendayalproject.R
 import com.deendayalproject.adapter.BlockAdapter
 import com.deendayalproject.adapter.DistrictAdapter
 import com.deendayalproject.adapter.IndoorGameAdapter
-import com.deendayalproject.adapter.IndoorGameRFAdapter
-import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.PanchayatAdapter
-import com.deendayalproject.adapter.RFToiletAdapter
 import com.deendayalproject.adapter.StateAdapter
 import com.deendayalproject.adapter.ToiletAdapter
 import com.deendayalproject.adapter.VillageAdapter
 import com.deendayalproject.databinding.FragmentResidentialBinding
-import com.deendayalproject.databinding.RoominformationPopdialogBinding
 import com.deendayalproject.model.IndoorGame
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CompliancesRFQTReq
@@ -58,11 +52,10 @@ import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.RFGameRequest
-import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
 import com.deendayalproject.model.request.ToiletDeleteList
-import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
@@ -71,10 +64,8 @@ import com.deendayalproject.model.response.DistrictModel
 import com.deendayalproject.model.response.GpModel
 import com.deendayalproject.model.response.LivingRoomListItem
 import com.deendayalproject.model.response.SectionRFData
-import com.deendayalproject.model.response.SectionStatus
 import com.deendayalproject.model.response.StateModel
 import com.deendayalproject.model.response.ToiletItem
-import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.model.response.VillageModel
 import com.deendayalproject.util.AppUtil
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -83,8 +74,7 @@ import com.google.android.gms.location.Priority
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -324,12 +314,15 @@ class ResidentialFacilityFragment : Fragment() {
     private lateinit var adapterGame: IndoorGameAdapter
     private val indoorGamesList = mutableListOf<IndoorGame>()
     private var gameCounter = 1
-    var selectedStateCode ="0";
-    var selectedDistrictCode ="0";
-    var selectedBlockCode ="0";
-    var selectedGpCode ="0";
-    var selectedVillageCode ="0";
-    private var centerItem: TrainingCenterItem? = null
+    var selectedStateCode ="0"
+    var selectedDistrictCode ="0"
+    var selectedBlockCode ="0"
+    var selectedGpCode ="0"
+    var selectedVillageCode ="0"
+    var centerId =""
+    var sanctionOrder =""
+    var facilityId =""
+
 
 
     private val requestPermissionLauncher =
@@ -643,7 +636,10 @@ class ResidentialFacilityFragment : Fragment() {
         findById(view)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
-        centerItem = arguments?.getSerializable("centerItem") as? TrainingCenterItem
+
+        centerId =   AppUtil.getcenterIdRFPreference(requireContext())
+        sanctionOrder = AppUtil.getsanctionOrderRFPreference(requireContext())
+        facilityId = AppUtil.getFacilityIdRFPreference(requireContext())
 
         observeViewModelLivingAreaList()
         observeViewModelToiletList()
@@ -655,6 +651,7 @@ class ResidentialFacilityFragment : Fragment() {
         collectInsfrastructureDetailsAndComplains()
         NonAreaInformation()
         ResidentialFacilitiesAvailable()
+        observeFinalSubmissionResponse()
         ResidentialSupportFacilitiesAvailable()
         observeState()
         observeDistrict()
@@ -674,8 +671,9 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                tcId = centerItem!!.trainingCenterId.toString(),
-                sanctionOrder = centerItem!!.senctionOrder,
+                tcId = centerId,
+                sanctionOrder = sanctionOrder,
+                facilityId = facilityId
 
             )
 
@@ -688,6 +686,25 @@ class ResidentialFacilityFragment : Fragment() {
         binding.backButton.setOnClickListener {
 
             findNavController().navigateUp()
+        }
+
+
+        binding.btnFinalSubmi.setOnClickListener {
+
+            val finalSubmitReq =
+                RfFinalSubmitReq(
+                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                    appVersion = BuildConfig.VERSION_NAME,
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    trainingCentre = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    facilityId = facilityId
+
+                    )
+
+            viewModel.insertRFFinalSubmission(finalSubmitReq)
+            showProgressBar()
+
         }
 
 
@@ -729,8 +746,8 @@ class ResidentialFacilityFragment : Fragment() {
                val requestTcInfo = TrainingCenterInfo(
                    appVersion = BuildConfig.VERSION_NAME,
                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                   tcId = centerItem!!.trainingCenterId,
-                   sanctionOrder = centerItem!!.senctionOrder,
+                   tcId = centerId.toInt(),
+                   sanctionOrder = sanctionOrder,
                    imeiNo = AppUtil.getAndroidId(requireContext())
                )
                viewModel.getRfBasicInformationrInfo(requestTcInfo)
@@ -778,14 +795,9 @@ class ResidentialFacilityFragment : Fragment() {
                     viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
                     showProgressBar()
 
-
-
                 }
 
-
             }
-
-
 
             else{
 
@@ -817,8 +829,8 @@ class ResidentialFacilityFragment : Fragment() {
 
                 val rfLAreaListReq = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
-                    tcId = centerItem!!.trainingCenterId,
-                    sanctionOrder = centerItem!!.senctionOrder,
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder
                 )
 
                 viewModel.getRfLivingRoomListView(rfLAreaListReq)
@@ -831,8 +843,9 @@ class ResidentialFacilityFragment : Fragment() {
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                         appVersion = BuildConfig.VERSION_NAME,
                         imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerItem!!.trainingCenterId.toString(),
-                        sanctionOrder = centerItem!!.senctionOrder,
+                        tcId = centerId,
+                        sanctionOrder = sanctionOrder,
+                        facilityId = facilityId
 
                         )
 
@@ -868,8 +881,8 @@ class ResidentialFacilityFragment : Fragment() {
 
                 val rfLAreaListReq = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
-                    tcId = centerItem!!.trainingCenterId,
-                    sanctionOrder = centerItem!!.senctionOrder,
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder
                 )
 
                 viewModel.getRfToiletListView(rfLAreaListReq)
@@ -883,8 +896,9 @@ class ResidentialFacilityFragment : Fragment() {
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                         appVersion = BuildConfig.VERSION_NAME,
                         imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerItem!!.trainingCenterId.toString(),
-                        sanctionOrder = centerItem!!.senctionOrder,
+                        tcId = centerId,
+                        sanctionOrder = sanctionOrder,
+                        facilityId = facilityId
 
                         )
 
@@ -895,11 +909,6 @@ class ResidentialFacilityFragment : Fragment() {
                 binding.ivToggleToilets.setImageResource(R.drawable.ic_dropdown_arrow)
                 isToiletsVisible= true
             }
-
-
-
-
-
 
         }
 
@@ -912,8 +921,8 @@ class ResidentialFacilityFragment : Fragment() {
 
                     val requestLRLVRQ = LivingRoomListViewRQ(
                         appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerItem!!.trainingCenterId,
-                        sanctionOrder = centerItem!!.senctionOrder
+                        tcId = centerId.toInt(),
+                        sanctionOrder = sanctionOrder
                     )
                     viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
 
@@ -959,8 +968,9 @@ class ResidentialFacilityFragment : Fragment() {
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                         appVersion = BuildConfig.VERSION_NAME,
                         imeiNo = AppUtil.getAndroidId(requireContext()),
-                        tcId = centerItem!!.trainingCenterId.toString(),
-                        sanctionOrder = centerItem!!.senctionOrder,
+                        tcId = centerId,
+                        sanctionOrder = sanctionOrder,
+                        facilityId = facilityId
 
                         )
 
@@ -983,8 +993,8 @@ class ResidentialFacilityFragment : Fragment() {
                     val requestTcInfo = TrainingCenterInfo(
                         appVersion = BuildConfig.VERSION_NAME,
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        tcId = centerItem!!.trainingCenterId,
-                        sanctionOrder = centerItem!!.senctionOrder,
+                        tcId = centerId.toInt(),
+                        sanctionOrder = sanctionOrder,
                         imeiNo = AppUtil.getAndroidId(requireContext())
                     )
 
@@ -1022,15 +1032,15 @@ class ResidentialFacilityFragment : Fragment() {
                 showEditSectionDialog("Support Facilities Available") {
 
 
-                    val requestTcInfo = TrainingCenterInfo(
-                        appVersion = BuildConfig.VERSION_NAME,
-                        loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        tcId = centerItem!!.trainingCenterId,
-                        sanctionOrder = centerItem!!.senctionOrder,
-                        imeiNo = AppUtil.getAndroidId(requireContext())
-                    )
 
-                    viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
+                    val rfGameRequest = RFGameRequest(
+                        appVersion = BuildConfig.VERSION_NAME,
+                        tcId = centerId.toInt(),
+                        sanctionOrder = sanctionOrder,
+                        imeiNo=AppUtil.getAndroidId(requireContext())
+                    )
+                    viewModel.getRFSupportFacilitiesAvailable(rfGameRequest)
+
 
                     showProgressBar()
 
@@ -1052,13 +1062,7 @@ class ResidentialFacilityFragment : Fragment() {
 
             }
 
-
-
-
-
         }
-
-
 
 
 
@@ -1101,7 +1105,8 @@ class ResidentialFacilityFragment : Fragment() {
 
         if (hasLocationPermission()) {
             getCurrentLocation()
-        } else {
+        }
+        else {
             requestLocationPermission()
         }
 
@@ -1135,8 +1140,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1184,8 +1190,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1238,8 +1245,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1292,8 +1300,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1344,8 +1353,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1394,8 +1404,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1444,8 +1455,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -1494,8 +1506,9 @@ class ResidentialFacilityFragment : Fragment() {
                                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                                 appVersion = BuildConfig.VERSION_NAME,
                                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                                tcId = centerItem!!.trainingCenterId.toString(),
-                                sanctionOrder = centerItem!!.senctionOrder,
+                                tcId = centerId,
+                                sanctionOrder = sanctionOrder,
+                                facilityId = facilityId
 
                                 )
 
@@ -3099,12 +3112,12 @@ class ResidentialFacilityFragment : Fragment() {
 
           val request =
               insertRfBasicInfoReq(
-                  sanctionOrder = centerItem!!.senctionOrder,
-                  schemeName = centerItem!!.schemeName,
-                  trainingCentre = centerItem!!.trainingCenterId,
+                  sanctionOrder = sanctionOrder,
+                  trainingCentre = centerId.toInt(),
+                  schemeName = "DDUGKY",
                   residentialFacilityName = etFacilityName.text.toString(),
                   residentialType = etFacilityType.text.toString(),
-                  residentialCenterLocation = centerItem!!.stateName,
+                  residentialCenterLocation = "",
                   houseNo = etHouseNo.text.toString(),
                   streetNo1 = etStreet.text.toString(),
                   streetNo2 = "",
@@ -3140,7 +3153,7 @@ class ResidentialFacilityFragment : Fragment() {
                   loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                   appVersion = BuildConfig.VERSION_NAME,
                   imeiNo = AppUtil.getAndroidId(requireContext()),
-                  resFacilityId = 0
+                  resFacilityId = facilityId.toInt()
                   )
 
           viewModel.SubmitRfBasicInformationToServer(request, token)
@@ -3157,9 +3170,9 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
-                facilityId = 0,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
+                facilityId = facilityId.toInt(),
                 ownership = spinnerOwnerBuilding.selectedItem.toString(),
                 buildingArea = etAreaOfBuilding.text.toString(),
                 roof = spinnerRoofOfBuilding.selectedItem.toString(),
@@ -3213,9 +3226,9 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
-                facilityId = 0,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
+                facilityId = facilityId.toInt(),
                 roofType = spinnerTypeLivingRoof.selectedItem.toString(),
                 typeOfRoofFilePath = base64TypeLivingRoofDocFile!!,
                 falseCeiling = spinnerCeiling.selectedItem.toString(),
@@ -3257,16 +3270,14 @@ class ResidentialFacilityFragment : Fragment() {
             .getString("ACCESS_TOKEN", "") ?: ""
 
 
-
-
         val request =
             InsertToiletDataReq(
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
-                facilityId = 0,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
+                facilityId = facilityId.toInt(),
                 type = spinnerToiletType.selectedItem.toString(),
                 lights =  binding.etLightsInToilet.text.toString().toIntOrNull() ?: 0,
                 proofLight = base64LightsInToiletDocFile!!,
@@ -3290,9 +3301,9 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
-                facilityId = 0,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
+                facilityId = facilityId.toInt(),
                 preparedFood = spinnerFoodPreparedTrainingCenter.selectedItem.toString(),
                 preparedFoodFile =  base64FoodPreparedTrainingDocFile!!,
                 kitchenLength =etKitchenLength.text.toString().toDoubleOrNull() ?: 0.0 ,
@@ -3308,7 +3319,7 @@ class ResidentialFacilityFragment : Fragment() {
                 recreationLength = binding.etRecreationLength.text.toString().toDoubleOrNull() ?: 0.0,
                 recreationWidth = binding.etRecreationWidth.text.toString().toDoubleOrNull() ?: 0.0,
                 recreationArea = binding.etRecreationArea.text.toString().toDoubleOrNull() ?: 0.0,
-                receptionArea = binding.etRecreationArea.text.toString(),
+                receptionArea = binding.spinnerReceptionArea.selectedItem.toString(),
                 receptionAreaFile =  base64ReceptionAreaDocFile!!
 
 
@@ -3333,8 +3344,8 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
                 finalArray = finalArray
             )
 
@@ -3349,8 +3360,8 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
                 hostelsSeparated = spinnerWhetherHostelsSeparated.selectedItem.toString(),
                 hostelsSeparatedFile = base64WhetherHostelsSeparatedDocFile!!,
                 wardenCaretakerMale = spinnerWardenWhereMalesStay.selectedItem.toString() ,
@@ -3362,7 +3373,8 @@ class ResidentialFacilityFragment : Fragment() {
                 femaleDoctor =spinnerWhetherFemaleDoctorAvailable.selectedItem.toString(),
                 femaleDoctorFile =  base64WhetherFemaleDoctorDocFile!!,
                 maleDoctor = spinnerWhetherMaleDoctorAvailable.selectedItem.toString(),
-                maleDoctorFile = base64WhetherMaleDoctorDocFile!!
+                maleDoctorFile = base64WhetherMaleDoctorDocFile!!,
+                facilityId = facilityId
             )
 
         viewModel.SubmitRfAvaibilityDetails(request)
@@ -3377,8 +3389,8 @@ class ResidentialFacilityFragment : Fragment() {
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 appVersion = BuildConfig.VERSION_NAME,
                 imeiNo = AppUtil.getAndroidId(requireContext()),
-                trainingCentre = centerItem!!.trainingCenterId,
-                sanctionOrder = centerItem!!.senctionOrder,
+                sanctionOrder = sanctionOrder,
+                trainingCentre = centerId.toInt(),
                 safeDrinking = spinnerSafeDrinikingAvailable.selectedItem.toString(),
                 safeDrinkingFile = base64SafeDrinkingDocFile!!,
                 firstAidKit = spinnerFirstAidKitAvailable.selectedItem.toString() ,
@@ -3390,7 +3402,8 @@ class ResidentialFacilityFragment : Fragment() {
                 powerBackup =spinnerElectricalPowerBackupAvailable.selectedItem.toString(),
                 powerBackupFile =  base64ElectricalPowerDocFile!!,
                 grievanceRegister = spinnerGrievanceRegisterAvailable.selectedItem.toString(),
-                grievanceRegisterFile = base64GrievanceRegisterDocFile!!
+                grievanceRegisterFile = base64GrievanceRegisterDocFile!!,
+                facilityId = facilityId
             )
 
         viewModel.SubmitRfSupportFacilitiesDetails(request)
@@ -3483,8 +3496,8 @@ class ResidentialFacilityFragment : Fragment() {
 
                 val rfLAreaListReq = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
-                    tcId = centerItem!!.trainingCenterId,
-                    sanctionOrder = centerItem!!.senctionOrder,
+                    sanctionOrder = sanctionOrder,
+                    tcId = centerId.toInt(),
                 )
 
                 viewModel.getRfLivingRoomListView(rfLAreaListReq)
@@ -3568,8 +3581,8 @@ class ResidentialFacilityFragment : Fragment() {
                 // ✅ Re-fetch and immediately observe the updated list
                 val request = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
-                    tcId = centerItem!!.trainingCenterId,
-                    sanctionOrder = centerItem!!.senctionOrder,
+                    sanctionOrder = sanctionOrder,
+                    tcId = centerId.toInt()
                 )
 
                 viewModel.getRfToiletListView(request)
@@ -3701,8 +3714,9 @@ class ResidentialFacilityFragment : Fragment() {
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                     appVersion = BuildConfig.VERSION_NAME,
                     imeiNo = AppUtil.getAndroidId(requireContext()),
-                    tcId = centerItem!!.trainingCenterId.toString(),
-                    sanctionOrder = centerItem!!.senctionOrder,
+                    sanctionOrder = sanctionOrder,
+                    tcId = centerId,
+                    facilityId = facilityId
 
                     )
 
@@ -4126,7 +4140,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun ResidentialSupportFacilitiesAvailable() {
-        viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
+        viewModel.RFSupportFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 hideProgressBar()
 
@@ -4137,39 +4151,39 @@ class ResidentialFacilityFragment : Fragment() {
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
-                            setSpinnerValue(spinnerSafeDrinikingAvailable, x.hostelsSeparated)
-                            setBase64ToImage(binding.ivSafeDrinkingPreview, x.hostelsSeparatedPdf)
+                            setSpinnerValue(spinnerSafeDrinikingAvailable, x.safeDrinking)
+                            setBase64ToImage(binding.ivSafeDrinkingPreview, x.safeDrinkingPdf)
                             binding.ivSafeDrinkingPreview.visible()
-                            base64SafeDrinkingDocFile = x.hostelsSeparatedPdf
+                            base64SafeDrinkingDocFile = x.safeDrinkingPdf
 
 
-                            setSpinnerValue(spinnerFirstAidKitAvailable, x.wardenCaretakerMale)
-                            setBase64ToImage(binding.ivFirstAidKitPreview, x.wardenCaretakerMalePdf)
+                            setSpinnerValue(spinnerFirstAidKitAvailable, x.firstAidKit)
+                            setBase64ToImage(binding.ivFirstAidKitPreview, x.firstAidKitPdf)
                             binding.ivFirstAidKitPreview.visible()
-                            base64FirstAidKitDocFile = x.wardenCaretakerMalePdf
+                            base64FirstAidKitDocFile = x.firstAidKitPdf
 
 
-                            setSpinnerValue(spinnerFireFightingEquipmentAvailable, x.wardenCaretakerFemale)
-                            setBase64ToImage(binding.ivFireFightingEquipmentPreview, x.wardenCaretakerFemalePdf)
+                            setSpinnerValue(spinnerFireFightingEquipmentAvailable, x.fireFighting)
+                            setBase64ToImage(binding.ivFireFightingEquipmentPreview, x.fireFightingPdf)
                             binding.ivFireFightingEquipmentPreview.visible()
-                            base64FireFightingEquipmentDocFile = x.wardenCaretakerFemalePdf
+                            base64FireFightingEquipmentDocFile = x.fireFightingPdf
 
 
-                            setSpinnerValue(spinnerBiometricDeviceAvailable, x.securityGuards)
-                            setBase64ToImage(binding.ivBiometricDevicePreview, x.securityGuardsPdf)
+                            setSpinnerValue(spinnerBiometricDeviceAvailable, x.biometricDevice)
+                            setBase64ToImage(binding.ivBiometricDevicePreview, x.biometricDevicePdf)
                             binding.ivBiometricDevicePreview.visible()
-                            base64BiometricDeviceDocFile = x.securityGuardsPdf
+                            base64BiometricDeviceDocFile = x.biometricDevicePdf
 
 
-                            setSpinnerValue(spinnerElectricalPowerBackupAvailable, x.femaleDoctor)
-                            setBase64ToImage(binding.ivElectricalPowerPreview, x.femaleDoctorPdf)
+                            setSpinnerValue(spinnerElectricalPowerBackupAvailable, x.powerBackup)
+                            setBase64ToImage(binding.ivElectricalPowerPreview, x.powerBackupPdf)
                             binding.ivElectricalPowerPreview.visible()
-                            base64ElectricalPowerDocFile = x.femaleDoctorPdf
+                            base64ElectricalPowerDocFile = x.powerBackupPdf
 
-                            setSpinnerValue(spinnerGrievanceRegisterAvailable, x.maleDoctor)
-                            setBase64ToImage(binding.ivGrievanceRegisterPreview, x.maleDoctorPdf)
+                            setSpinnerValue(spinnerGrievanceRegisterAvailable, x.grievanceRegister)
+                            setBase64ToImage(binding.ivGrievanceRegisterPreview, x.grievanceRegisterPdf)
                             binding.ivGrievanceRegisterPreview.visible()
-                            base64GrievanceRegisterDocFile = x.maleDoctorPdf
+                            base64GrievanceRegisterDocFile = x.grievanceRegisterPdf
                         }
 
 
@@ -4216,6 +4230,20 @@ class ResidentialFacilityFragment : Fragment() {
 
 
 
+    private fun observeFinalSubmissionResponse() {
+        viewModel.insertRFFinalSubmission.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Data sent to the QTeam for verification", Toast.LENGTH_SHORT).show()
+
+            }
+
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "failed: ${it.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
 
     fun setSpinnerValue(spinner: Spinner?, value: String?) {

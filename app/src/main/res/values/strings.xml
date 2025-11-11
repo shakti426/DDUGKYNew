@@ -199,15 +199,6 @@
     <string name="centre_incharge_details_label">Centre Incharge Details</string>
 
 
-
-
-
-
-
-
-
-
-
     <string-array name="academic_room_types">
         <item>Select Room Type</item>
         <item>IT Lab</item>
@@ -523,19 +514,13 @@
     <string name="sf_62b_list_final_batch">SF 6.2B : List of Candidates in the Final Batch</string>
     <string name="sf_63a6_candidates_after_freezing">SF 6.3A6 : List of Candidates After Freezing of the Batch</string>
     <string name="sf_63a7_candidates_after_completion">SF 6.3A7 : List of Candidates After Completion of Training of the Batch</string>
-<!--    <string name="submit">Submit</string>-->
+    <!--    <string name="submit">Submit</string>-->
     <string name="switch_boards_and_panel_boards">Switch Boards and Panel Boards</string>
     <string name="storage_facility_to_keep_recording_till_project_closure">Storage Facility to keep recording till project closure</string>
     <string name="central_monitor_accessible_to_centre_incharge">Central Monitor accessible to Centre Incharge</string>
     <string name="sf_4_3n_performance_evaluation_plan_for_candidates">SF 4.3N Performance Evaluation Plan for Candidates</string>
     <string name="sf_4_3o_performance_evaluation_plan_for_trainers">SF 4.3O Performance Evaluation Plan for Trainers</string>
     <string name="sf_4_3d_list_of_candidates_after_freezing_of_the_batch">SF 4.3D List of candidates after freezing of the batch</string>
-
-
-
-
-
-
 
 
     <!--    AJIT RANJAN PMAY-G-->
@@ -744,4 +729,5 @@
     <string name="warden_details">Warden Details</string>
     <string name="conformance_to_standards">Conformance to Standards</string>
     <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
+    <string name="add_new_residential_facility">Add New Residential Facility</string>
 </resources>

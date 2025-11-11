@@ -1,6 +1,7 @@
 package com.deendayalproject.network
 
 import com.deendayalproject.model.request.AcademicNonAcademicArea
+import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
@@ -23,12 +24,14 @@ import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LoginRequest
+import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
@@ -50,6 +53,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
+import com.deendayalproject.model.response.AddNewRFRes
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -71,11 +75,13 @@ import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LoginResponse
+import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionResponse
@@ -472,4 +478,24 @@ interface ApiService {
     suspend fun getRFSectionStatus
                 (@Body request: SectionReq) :
             Response<SectionResponse>
+
+
+
+
+    @POST(value ="insertRFFinalSubmission")
+    suspend fun insertRFFinalSubmission
+                (@Body request: RfFinalSubmitReq) :
+            Response<RfFinalSubmitRes>
+
+
+    @POST(value ="saveInitialResidentialFacility")
+    suspend fun saveInitialResidentialFacility
+                (@Body request: AddNewRFReq) :
+            Response<AddNewRFRes>
+
+    @POST(value ="getResidentialList")
+    suspend fun getResidentialList
+                (@Body request: ModifyRfList) :
+            Response<ModifyRFRes>
+
 }

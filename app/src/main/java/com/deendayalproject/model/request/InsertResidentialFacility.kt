@@ -19,5 +19,6 @@ data class InsertResidentialFacility(
     val securityGuardsFile: String,
     val maleDoctorFile: String,
     val femaleDoctorFile: String,
+    val facilityId: String
 )
 

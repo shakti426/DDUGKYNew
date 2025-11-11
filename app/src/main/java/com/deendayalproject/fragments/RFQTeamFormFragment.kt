@@ -1479,7 +1479,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
     private fun collectFinalSubmitData() {
 
         viewModel.insertRFQteamVerification.observe(viewLifecycleOwner) { result ->
@@ -1972,7 +1971,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
     private fun removeGame(game: IndoorRFGameResponseDetails) {
-//
+
     }
 
 

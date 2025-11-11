@@ -15,8 +15,7 @@ data class TrainingCenterItem(
     val schemeName: String,
     val stateCode: String,
     val trainingCenterName: String,
-    val remarks: String,
-    val status: String
+    val facilityStatus: String
 
 ) : java.io.Serializable
 

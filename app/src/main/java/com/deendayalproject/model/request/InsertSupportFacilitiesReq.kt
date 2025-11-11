@@ -18,5 +18,7 @@ data class InsertSupportFacilitiesReq(
     val firstAidKitFile: String,
     val fireFightingFile: String,
     val biometricDeviceFile: String,
-    val grievanceRegisterFile: String
-)
+    val grievanceRegisterFile: String,
+    val facilityId: String
+
+    )

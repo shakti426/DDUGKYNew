@@ -4763,7 +4763,16 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-
+        <Button
+            android:id="@+id/btnFinalSubmi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/dp_15"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="Submit"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

@@ -3,6 +3,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.deendayalproject.model.LoginErrorResponse
 import com.deendayalproject.model.request.AcademicNonAcademicArea
+import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
@@ -25,12 +26,14 @@ import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
+import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
@@ -52,6 +55,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
+import com.deendayalproject.model.response.AddNewRFRes
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -73,11 +77,13 @@ import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
+import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionResponse
@@ -1528,6 +1534,54 @@ suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: R
     }
 
 
+
+    suspend fun insertRFFinalSubmission(request: RfFinalSubmitReq) : Result<RfFinalSubmitRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.insertRFFinalSubmission(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun saveInitialResidentialFacility(request: AddNewRFReq) : Result<AddNewRFRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.saveInitialResidentialFacility(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+        suspend fun getResidentialList(request: ModifyRfList) : Result<ModifyRFRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getResidentialList(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
 
 }

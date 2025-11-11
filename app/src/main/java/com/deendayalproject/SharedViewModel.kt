@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.deendayalproject.model.request.AcademicNonAcademicArea
+import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.AllRoomDetaisReques
 import com.deendayalproject.model.request.BlockRequest
 import com.deendayalproject.model.request.CCTVComplianceRequest
@@ -26,12 +27,14 @@ import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.LoginRequest
+import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.ModulesRequest
 import com.deendayalproject.model.request.OfficeRoomDetailsRequest
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
@@ -53,6 +56,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
+import com.deendayalproject.model.response.AddNewRFRes
 import com.deendayalproject.model.response.AllRoomDetailResponse
 import com.deendayalproject.model.response.BlockResponse
 import com.deendayalproject.model.response.CCTVComplianceResponse
@@ -74,11 +78,13 @@ import com.deendayalproject.model.response.LivingAreaDelete
 import com.deendayalproject.model.response.LivingAreaListRes
 import com.deendayalproject.model.response.LivingRoomListViewRes
 import com.deendayalproject.model.response.LoginResponse
+import com.deendayalproject.model.response.ModifyRFRes
 import com.deendayalproject.model.response.ModuleResponse
 import com.deendayalproject.model.response.NonAreaInformationRoom
 import com.deendayalproject.model.response.RFResidintialFacilityResponse
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableResponse
 import com.deendayalproject.model.response.ResidentialFacilityQTeam
+import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
 import com.deendayalproject.model.response.SectionResponse
@@ -1534,5 +1540,58 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
             _loading.postValue(false)
         }
     }
+
+
+    private val _insertRFFinalSubmission = MutableLiveData<Result<RfFinalSubmitRes>>()
+    val insertRFFinalSubmission: LiveData<Result<RfFinalSubmitRes>> = _insertRFFinalSubmission
+
+    fun insertRFFinalSubmission(request: RfFinalSubmitReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRFFinalSubmission(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRFFinalSubmission.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    private val _saveInitialResidentialFacility = MutableLiveData<Result<AddNewRFRes>>()
+    val saveInitialResidentialFacility: LiveData<Result<AddNewRFRes>> = _saveInitialResidentialFacility
+
+    fun saveInitialResidentialFacility(request: AddNewRFReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.saveInitialResidentialFacility(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _saveInitialResidentialFacility.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+    private val _getResidentialList = MutableLiveData<Result<ModifyRFRes>>()
+    val getResidentialList: LiveData<Result<ModifyRFRes>> = _getResidentialList
+
+    fun getResidentialList(request: ModifyRfList) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getResidentialList(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getResidentialList.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
 
 }

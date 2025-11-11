@@ -1,77 +1,85 @@
 package com.deendayalproject.fragments
 
-import CenterAdapter
 import SharedViewModel
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
-import com.deendayalproject.adapter.RfAdapterList
-import com.deendayalproject.databinding.FragmentCenterBinding
+import com.deendayalproject.adapter.RfModifyListAdapter
+import com.deendayalproject.databinding.FragmentRfMultipleListBinding
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.ModifyRfList
-import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.response.TrainingCenterItem
 import com.deendayalproject.util.AppUtil
 
-class RfCenterFragment : Fragment() {
+class RfMultipleListFragment : Fragment() {
 
-    private var _binding: FragmentCenterBinding? = null
+    private var _binding: FragmentRfMultipleListBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: SharedViewModel
-    private lateinit var adapter: RfAdapterList
+    private lateinit var adapter: RfModifyListAdapter
+    var centerId =""
+    var sanctionOrder =""
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentCenterBinding.inflate(inflater, container, false)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentRfMultipleListBinding.inflate(inflater, container, false)
+
         return binding.root
+
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-
-        adapter = RfAdapterList(emptyList()) { selectedItem ->
-
-            AppUtil.savesanctionOrderRFPreference(requireContext(), selectedItem.senctionOrder)
-            AppUtil.savecenterIdRFPreference(requireContext(),
-                selectedItem.trainingCenterId.toString(),
-
-                )
-
-          val facilityStatus = selectedItem.facilityStatus
-
-
-            if (facilityStatus =="N"){
-
-                val request = AddNewRFReq(
-                    appVersion = BuildConfig.VERSION_NAME,
-                    trainingCentre = selectedItem.trainingCenterId.toString(),
-                    sanctionOrder = selectedItem.senctionOrder
-                )
-                viewModel.saveInitialResidentialFacility(request)
-                observeViewAddNewRF()
+        centerId =   AppUtil.getcenterIdRFPreference(requireContext())
+        sanctionOrder = AppUtil.getsanctionOrderRFPreference(requireContext())
 
 
 
+        adapter = RfModifyListAdapter(emptyList()) { selectedItem ->
 
-            }
 
-            else
-            {
 
-                findNavController().navigate(R.id.action_rfCenterFragment_to_rfMultipleListFragment)
+            AppUtil.savesanctionOrderRFPreference(requireContext(),
+                selectedItem.facilityId.toString()
+            )
 
-            }
+
+
+            findNavController().navigate(
+                R.id.action_rfMultipleListFragment_to_fragment_residential_facility
+            )
+
+
+        }
+
+        binding.btnAddResidentialFacility.setOnClickListener {
+
+
+            val request = AddNewRFReq(
+                appVersion = BuildConfig.VERSION_NAME,
+                trainingCentre = centerId,
+                sanctionOrder = sanctionOrder
+            )
+            viewModel.saveInitialResidentialFacility(request)
+
+            observeViewAddNewRF()
+
+
         }
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -84,16 +92,19 @@ class RfCenterFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        val request = TrainingCenterRequest(
+
+        val request = ModifyRfList(
             appVersion = BuildConfig.VERSION_NAME,
-            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-            imeiNo = AppUtil.getAndroidId(requireContext())
+            tcId = centerId,
+            sanctionOrder = sanctionOrder
         )
-        viewModel.fetchRfList(request, AppUtil.getSavedTokenPreference(requireContext()))
+        viewModel.getResidentialList(request)
+
+
     }
 
     private fun observeViewModel() {
-        viewModel.rfTrainingCenters.observe(viewLifecycleOwner) { result ->
+        viewModel.getResidentialList.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())
@@ -116,18 +127,17 @@ class RfCenterFragment : Fragment() {
         _binding = null
     }
 
-
     private fun observeViewAddNewRF() {
         viewModel.saveInitialResidentialFacility.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
                     200 ->  {
 
-                      AppUtil.saveFacilityIdRFPreference(requireContext(), it.facilityId.toString())
+                        AppUtil.saveFacilityIdRFPreference(requireContext(), it.facilityId.toString())
 
                         Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(
-                            R.id.action_rfcenterFragment_to_fragment_residential_facility
+                            R.id.action_rfMultipleListFragment_to_fragment_residential_facility
                         )
                     }
                     202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()

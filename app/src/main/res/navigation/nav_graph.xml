@@ -199,9 +199,13 @@
             app:destination="@id/fragment_residential_facility" >
 
 
-            <argument
-                android:name="centerItem"
-                app:argType="com.deendayalproject.model.response.TrainingCenterItem" />
+
+
+        </action>
+        <action
+            android:id="@+id/action_rfCenterFragment_to_rfMultipleListFragment"
+            app:destination="@id/rfMultipleListFragment" >
+
 
         </action>
     </fragment>
@@ -211,6 +215,18 @@
         android:name="com.deendayalproject.fragments.ResidentialFacilityFragment"
         android:label="Residential Facility"
         tools:layout="@layout/fragment_residential" />
+    <fragment
+        android:id="@+id/rfMultipleListFragment"
+        android:name="com.deendayalproject.fragments.RfMultipleListFragment"
+        android:label="fragment_rf_multiple_list"
+        tools:layout="@layout/fragment_rf_multiple_list" >
+        <action
+            android:id="@+id/action_rfMultipleListFragment_to_fragment_residential_facility"
+            app:destination="@id/fragment_residential_facility" >
+
+
+        </action>
+    </fragment>
 
 
 </navigation>
