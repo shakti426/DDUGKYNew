@@ -46,523 +46,469 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llTopInfo"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/RFQTInfoExpand"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:elevation="@dimen/dp_2"
+        android:padding="@dimen/dp_10"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@+id/llTopInfo"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTopInfo">
 
 
         <TextView
             android:id="@+id/lebelResidentialFacilityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/residential_facility_name"
             android:layout_marginTop="@dimen/dp_12"
-            android:textColor="@color/color_dark_green"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/residential_facility_name"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/sanction"
+            app:drawableStartCompat="@drawable/facilitytype"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/ResidentialFacilityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lebelResidentialFacilityName"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/lebelResidentialFacilityName" />
 
         <TextView
             android:id="@+id/levelResidentialFacilityType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/residential_facility_type"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/residential_facility_type"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_scheme"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/facilitytype"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ResidentialFacilityName"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/ResidentialFacilityName" />
+
         <TextView
             android:id="@+id/ResidentialFacilityType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelResidentialFacilityType"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelResidentialFacilityType" />
+
         <TextView
             android:id="@+id/levelHouseNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/house_no"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/house_no"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/training_center"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/house"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ResidentialFacilityType"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/ResidentialFacilityType" />
 
         <TextView
             android:id="@+id/HouseNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelHouseNo"
-            />
-
-
+            app:layout_constraintTop_toBottomOf="@+id/levelHouseNo" />
 
 
         <TextView
             android:id="@+id/levelStreet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/street"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/street"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_residential"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/street"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/HouseNo"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/HouseNo" />
 
         <TextView
             android:id="@+id/Street"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelStreet"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelStreet" />
 
 
         <TextView
             android:id="@+id/levelLandmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/landmark"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/landmark"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/landmark"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Street"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Street" />
 
         <TextView
             android:id="@+id/Landmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelLandmark"
-            />
-
-
-
-
-
-
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/levelLandmark" />
 
 
         <TextView
             android:id="@+id/levelStateUtTc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/state_ut_tc_label"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/state_ut_tc_label"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/state"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Landmark"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Landmark" />
 
         <TextView
             android:id="@+id/StateUtTc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelStateUtTc"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelStateUtTc" />
 
 
         <TextView
             android:id="@+id/levelDistrictTc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/district_tc"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/district_tc"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/StateUtTc"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/StateUtTc" />
 
         <TextView
             android:id="@+id/DistrictTc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelDistrictTc"
-            />
-
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/levelDistrictTc" />
 
 
         <TextView
             android:id="@+id/levelBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text= "@string/block"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/block"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DistrictTc"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/DistrictTc" />
 
         <TextView
             android:id="@+id/Block"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelBlock"
-            />
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/levelBlock" />
 
 
         <TextView
             android:id="@+id/levelGramPanchayat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gram_panchayat"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/gram_panchayat"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Block"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Block" />
 
         <TextView
             android:id="@+id/GramPanchayat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelGramPanchayat"
-            />
-
+            app:layout_constraintTop_toBottomOf="@+id/levelGramPanchayat" />
 
 
         <TextView
             android:id="@+id/levelVillageWardNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/village_ward_no"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/village_ward_no"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/sanction"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/sanction"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/GramPanchayat"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/GramPanchayat" />
 
         <TextView
             android:id="@+id/VillageWardNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelVillageWardNo"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelVillageWardNo" />
 
         <TextView
             android:id="@+id/levelLatitude_Longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/latitude_and_longitude"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/latitude_and_longitude"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/training_center"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/latitude_longitude"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/VillageWardNo"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/VillageWardNo" />
 
         <TextView
             android:id="@+id/Latitude_Longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelLatitude_Longitude"
-            />
-
+            app:layout_constraintTop_toBottomOf="@+id/levelLatitude_Longitude" />
 
 
         <TextView
             android:id="@+id/levelPincode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pincode"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/pincode"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/nature_of_tr"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/pincode"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Latitude_Longitude"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Latitude_Longitude" />
 
         <TextView
             android:id="@+id/Pincode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelPincode"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelPincode" />
 
 
         <TextView
             android:id="@+id/levelMobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/mobile_no"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/mobile_no"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/nature_of_tr"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/mobile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Pincode"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Pincode" />
 
         <TextView
             android:id="@+id/Mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelMobile"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelMobile" />
 
 
         <TextView
             android:id="@+id/levelPoliceStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/police_station"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/police_station"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_special"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/police_station"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Mobile"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Mobile" />
 
         <TextView
             android:id="@+id/PoliceStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelPoliceStation"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelPoliceStation" />
 
 
         <TextView
             android:id="@+id/levelEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email_id"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/email_id"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/email"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/PoliceStation"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/PoliceStation" />
 
         <TextView
             android:id="@+id/Email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelEmail"
-            />
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/levelEmail" />
 
 
         <TextView
             android:id="@+id/levelTypeofArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/type_of_area"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/type_of_area"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_location"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ddress_book"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Email"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/Email" />
 
         <TextView
             android:id="@+id/TypeofArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelTypeofArea"
-            />
-
+            app:layout_constraintTop_toBottomOf="@+id/levelTypeofArea" />
 
 
         <TextView
             android:id="@+id/levelRFPNoWSC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/residential_facility_phone_no_with_std_code"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/residential_facility_phone_no_with_std_code"
             android:textColor="@color/color_dark_green"
-            app:drawableStartCompat="@drawable/ic_email"
             android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/mobile"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TypeofArea"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/TypeofArea" />
 
         <TextView
             android:id="@+id/RFPNoWSC"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/levelRFPNoWSC"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/levelRFPNoWSC" />
 
 
-<!--        Geo Address:-->
+        <!--        Geo Address:-->
         <TextView
             android:id="@+id/levelcategoryOfTCLocaXYZanyOtherArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/category_of_tc_location_x_y_z_any_other_area"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/category_of_tc_location_x_y_z_any_other_area"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/ic_phone"
+            app:drawableStartCompat="@drawable/ic_location"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/RFPNoWSC" />
 
@@ -571,16 +517,13 @@
             android:id="@+id/categoryOfTCLocaXYZanyOtherArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelcategoryOfTCLocaXYZanyOtherArea" />
-
-
-
 
 
         <!-- Label: Training Center Mobile Number -->
@@ -588,9 +531,9 @@
             android:id="@+id/LevelApproximateDistanceFrom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/approximate_distance_from_a_prominent_bus_stand_in_mtrs"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/approximate_distance_from_a_prominent_bus_stand_in_mtrs"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/ic_phone"
@@ -602,10 +545,10 @@
             android:id="@+id/ApproximateDistanceFrom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LevelApproximateDistanceFrom" />
@@ -615,9 +558,9 @@
             android:id="@+id/levelDistanceFromTheAutoStand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/approximate_distance_from_an_auto_stand_in_mtrs"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/approximate_distance_from_an_auto_stand_in_mtrs"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/baseline_local_phone_24"
@@ -625,19 +568,18 @@
             app:layout_constraintTop_toBottomOf="@+id/ApproximateDistanceFrom" />
 
         <!-- Value: Landline Number -->
+
         <TextView
             android:id="@+id/DistanceFromTheTraining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelDistanceFromTheAutoStand" />
-
-
 
 
         <!-- Label: Parliamentary Constituency -->
@@ -645,8 +587,8 @@
             android:id="@+id/levelAvailabilityOfPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/availability_of_pick_up_and_drop_facility"
             android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/availability_of_pick_up_and_drop_facility"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/ic_constituency_new"
@@ -658,41 +600,36 @@
             android:id="@+id/AvailabilityOfPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelAvailabilityOfPick" />
 
 
-
         <TextView
+            android:id="@+id/HeadingWardenDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/HeadingWardenDetails"
             android:fontFamily="@font/avenir_next_semi_bold"
-            android:text="@string/warden_details"
             android:gravity="center"
+            android:text="@string/warden_details"
             android:textColor="@color/light_blue"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AvailabilityOfPick" />
 
-<!--        app:layout_constraintEnd_toStartOf="@+id/AvailabilityOfPick"-->
-
-
-
-
+        <!--        app:layout_constraintEnd_toStartOf="@+id/AvailabilityOfPick"-->
 
 
         <TextView
             android:id="@+id/levelwadrenName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warden_s_name"
             android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/warden_s_name"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/ic_constituency_new"
@@ -704,10 +641,10 @@
             android:id="@+id/WadrenName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelwadrenName" />
@@ -717,12 +654,12 @@
             android:id="@+id/levelWardenGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warden_gender"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/warden_gender"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_person_2_24"
+            app:drawableStartCompat="@drawable/gender"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/WadrenName" />
 
@@ -731,10 +668,10 @@
             android:id="@+id/WardenGender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelWardenGender" />
@@ -744,79 +681,95 @@
             android:id="@+id/levelWardenEmployeeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warden_employee_id"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/warden_employee_id"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/ic_phone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/WardenGender"/>
+            app:layout_constraintTop_toBottomOf="@+id/WardenGender" />
 
         <!-- Value: Center Incharge Mobile No -->
         <TextView
             android:id="@+id/WardenEmployeeId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelWardenEmployeeId" />
+
+
+<!--        android:id="@+id/levelWardenAddress"-->
+
+
 
 
         <TextView
             android:id="@+id/levelWardenAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warden_address"
-            android:textColor="@color/color_dark_green"
-            android:layout_marginStart="@dimen/dp_35"
-            android:fontFamily="@font/avenir_next_semi_bold"
-            android:textSize="@dimen/sp_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/WardenEmployeeId" />
-        <TextView
-            android:id="@+id/WardenAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/n_a"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/warden_address"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/baseline_person_24"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/WardenEmployeeId" />
+
+        <TextView
+            android:id="@+id/WardenAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelWardenAddress" />
-
-
-
-
 
 
         <TextView
             android:id="@+id/levelWardenEmailId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
             android:text="@string/warden_email_id"
             android:textColor="@color/color_dark_green"
-            android:layout_marginStart="@dimen/dp_35"
-            android:fontFamily="@font/avenir_next_semi_bold"
-            android:textSize="@dimen/sp_16"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/WardenAddress" />
+
+<!--        <TextView-->
+<!--            android:id="@+id/levelWardenEmailId"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            android:fontFamily="@font/avenir_next_semi_bold"-->
+<!--            android:text="@string/warden_email_id"-->
+<!--            android:textColor="@color/color_dark_green"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            app:drawableStartCompat="@drawable/baseline_person_24"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/WardenAddress" />-->
+
         <TextView
             android:id="@+id/WardenEmailId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
             android:text="@string/n_a"
-            android:layout_marginTop="@dimen/dp_20"
-            android:drawablePadding="@dimen/dp_10"
             android:textColor="@color/color_dark_green"
-            android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_person_24"
+            android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelWardenEmailId" />
 
@@ -829,42 +782,39 @@
             android:id="@+id/levelWardenMobileNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/warden_mobile_no"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/warden_mobile_no"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/ic_email"
+            app:drawableStartCompat="@drawable/mobile"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/WardenEmailId" />
-
-
-
-
-
 
 
         <TextView
             android:id="@+id/WardenMobileNo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_green"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelWardenMobileNo" />
+
         <TextView
             android:id="@+id/levelPoliceVerificationStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/police_verification_status"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+
+            android:text="@string/police_verification_status"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:drawableStartCompat="@drawable/police_station"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/WardenMobileNo" />
 
@@ -872,10 +822,10 @@
             android:id="@+id/PoliceVerificationStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_blue"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelPoliceVerificationStatus" />
@@ -885,12 +835,12 @@
             android:id="@+id/levelAppointmentLetter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/appointment_letter"
             android:layout_marginTop="@dimen/dp_20"
             android:drawablePadding="@dimen/dp_10"
+            android:text="@string/appointment_letter"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_person_24"
+            app:drawableStartCompat="@drawable/appointment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/PoliceVerificationStatus" />
 
@@ -898,71 +848,57 @@
             android:id="@+id/AppointmentLetter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/n_a"
-            android:textColor="@color/color_dark_blue"
             android:layout_marginStart="@dimen/dp_35"
             android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelAppointmentLetter" />
 
 
+        <!--        <TextView-->
+        <!--            android:id="@+id/tvAppointmentLetter"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Appointment Letter"-->
+        <!--            android:textColor="@color/color_dark_blue"-->
+        <!--            android:layout_marginStart="@dimen/dp_35"-->
+        <!--            android:fontFamily="@font/avenir_next_semi_bold"-->
+        <!--            android:textSize="@dimen/sp_16"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter" />-->
 
 
-
-
-
-<!--        <TextView-->
-<!--            android:id="@+id/tvAppointmentLetter"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Appointment Letter"-->
-<!--            android:textColor="@color/color_dark_blue"-->
-<!--            android:layout_marginStart="@dimen/dp_35"-->
-<!--            android:fontFamily="@font/avenir_next_semi_bold"-->
-<!--            android:textSize="@dimen/sp_16"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter" />-->
-
-
-<!--        <ImageView-->
-<!--            android:id="@+id/imageViewppointmentLetter"-->
-<!--            android:layout_width="200dp"-->
-<!--            android:layout_height="200dp"-->
-<!--            android:scaleType="centerCrop"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter"/>-->
-        <TextView
-            android:id="@+id/valueRFQTInfoPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/view"
-            android:textColor="@color/color_dark_blue"
-            android:layout_marginStart="@dimen/dp_35"
-            app:layout_constraintTop_toBottomOf="@id/AppointmentLetter"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="2dp"/>
+        <!--        <ImageView-->
+        <!--            android:id="@+id/imageViewppointmentLetter"-->
+        <!--            android:layout_width="200dp"-->
+        <!--            android:layout_height="200dp"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--        app:layout_constraintStart_toStartOf="parent"-->
+        <!--        app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter"/>-->
 
 
 
         <TextView
+            android:id="@+id/llApproval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/llApproval"
-            android:text="@string/select_approvals"
             android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/select_approvals"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter"/>
+            app:layout_constraintTop_toBottomOf="@+id/AppointmentLetter" />
+
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/llTcInfo"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_3"
             android:fontFamily="@font/avenir_next_demi_bold"
             android:hint="@string/select_approval"
-            android:id="@+id/llTcInfo"
-            android:layout_marginStart="@dimen/dp_3"
             android:textColorHint="@color/color_dark_green"
             app:boxStrokeColor="@color/color_dark_green"
             app:layout_constraintStart_toStartOf="parent"
@@ -977,50 +913,47 @@
                 android:inputType="none"
                 android:textColor="@color/color_dark_green"
                 android:textSize="15sp"
-                tools:ignore="LabelFor"
-                />
+                tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
+            android:id="@+id/textViewRFQTInfoRemarks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewRFQTInfoRemarks"
-            android:visibility="gone"
-            android:text="@string/remarkss"
             android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/remarkss"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_16"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/llTcInfo"/>
+            app:layout_constraintTop_toBottomOf="@+id/llTcInfo" />
 
         <EditText
             android:id="@+id/etRFQTInfoRemarks"
-            android:visibility="gone"
             style="@style/EditText"
-            android:hint="@string/remarks"
             android:background="@drawable/edittext_background"
+            android:hint="@string/remarks"
             android:padding="12dp"
             android:textColor="@android:color/black"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewRFQTInfoRemarks"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/textViewRFQTInfoRemarks" />
 
         <TextView
+            android:id="@+id/btnRFQTInfoNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/card_background"
+            android:elevation="4dp"
             android:padding="@dimen/dp_10"
             android:text="@string/save_and_next"
-            android:id="@+id/btnRFQTInfoNext"
             android:textColor="@color/white"
-            android:elevation="4dp"
             android:textSize="@dimen/sp_16"
-            android:background="@drawable/card_background"
-            android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/etRFQTInfoRemarks" />
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

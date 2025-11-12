@@ -76,7 +76,7 @@
             android:text="@string/ownership_of_building"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_monitor_24"
+            app:drawableStartCompat="@drawable/bulding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,7 +108,7 @@
             android:text="@string/area_of_the_building_sq_ft_include_corridors_but_exclude_open_to_sky_spaces_like_court_yards_etc"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/cctv"
+            app:drawableStartCompat="@drawable/bulding"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/OnwershipOfBuldingFile" />
 
@@ -132,37 +132,37 @@
             app:layout_constraintTop_toBottomOf="@id/area_of_the_building" />
 
 
-        <TextView
-            android:id="@+id/labehostelNameBoard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_15"
-            android:drawablePadding="8dp"
-            android:text="@string/hostel_name_board"
-            android:textColor="@color/color_dark_green"
-            android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/cctv"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BuildingPlanFile" />
+<!--        <TextView-->
+<!--            android:id="@+id/labehostelNameBoard"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dp_15"-->
+<!--            android:drawablePadding="8dp"-->
+<!--            android:text="@string/hostel_name_board"-->
+<!--            android:textColor="@color/color_dark_green"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            app:drawableStartCompat="@drawable/hostal"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/BuildingPlanFile" />-->
 
-        <TextView
-            android:id="@+id/HostelNameBoard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_35"
-            android:text="@string/n_a"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labehostelNameBoard" />
+<!--        <TextView-->
+<!--            android:id="@+id/HostelNameBoard"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            android:text="@string/n_a"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/labehostelNameBoard" />-->
 
-        <TextView
-            android:id="@+id/HostelNameBoardFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_35"
-            android:text="@string/view"
-            android:textColor="@color/color_dark_blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HostelNameBoard" />
+<!--        <TextView-->
+<!--            android:id="@+id/HostelNameBoardFile"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            android:text="@string/view"-->
+<!--            android:textColor="@color/color_dark_blue"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/HostelNameBoard" />-->
 
 
         <!--        <TextView-->
@@ -184,9 +184,9 @@
             android:text="@string/roof_building_label"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/cctv"
+            app:drawableStartCompat="@drawable/roof"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HostelNameBoardFile" />
+            app:layout_constraintTop_toBottomOf="@id/BuildingPlanFile" />
 
         <TextView
             android:id="@+id/roof_building_label"
@@ -216,7 +216,7 @@
             android:text="@string/whether_it_is_structurally_sound_on_visual_inspection_plastering_and_painting_of_internal_and_external_walls_and_ceiling"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/lan"
+            app:drawableStartCompat="@drawable/paint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/roof_building_label" />
 
@@ -265,7 +265,7 @@
             android:text="@string/visible_signs_of_leakages_from_walls_and_roof_applicable_for_both_rcc_and_non_rcc_structures"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/lan"
+            app:drawableStartCompat="@drawable/roof"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvHeadingConformance" />
 
@@ -335,7 +335,7 @@
             android:text="@string/protection_of_stairs_balconies_and_other_locations"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/baseline_videostream"
+            app:drawableStartCompat="@drawable/stairs"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ConformanceToDduGkyFile" />
 
@@ -369,7 +369,7 @@
             android:text="@string/circulating_area"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/internet"
+            app:drawableStartCompat="@drawable/area"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ProtectionOfStairsFile" />
 
@@ -456,14 +456,14 @@
         <!--            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards"-->
         <!--            app:layout_constraintStart_toStartOf="parent"/>-->
 
-        <TextView
-            android:id="@+id/ElectricalWiringAndStandards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_35"
-            android:text="@string/n_a"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards" />
+<!--        <TextView-->
+<!--            android:id="@+id/ElectricalWiringAndStandards"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/dp_35"-->
+<!--            android:text="@string/n_a"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards" />-->
 
 
         <!-- 7. Color video with audio -->
@@ -476,9 +476,9 @@
             android:text="@string/switch_boards_and_panel_boards"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/audio"
+            app:drawableStartCompat="@drawable/shape_rectangle_white"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ElectricalWiringAndStandards" />
+            app:layout_constraintTop_toBottomOf="@id/labelElectricalWiringAndStandards" />
 
         <TextView
             android:id="@+id/SwitchBoardsAndPanelBoards"
@@ -515,8 +515,48 @@
 
 
         <!-- 8. Storage Facility -->
+
+
+
+
+
+
         <TextView
-            android:id="@+id/StudentEntitlementBoard"
+            android:id="@+id/labehostelNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            android:text="@string/hostel_name_board"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/hostal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ResidentialSignages_Title" />
+
+        <TextView
+            android:id="@+id/HostelNameBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="@string/n_a"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labehostelNameBoard" />
+
+        <TextView
+            android:id="@+id/HostelNameBoardFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/HostelNameBoard" />
+
+
+
+        <TextView
+            android:id="@+id/lebelStudentEntitlementBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
@@ -524,9 +564,9 @@
             android:text="@string/student_entitlement_board_and_responsibilities_board"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/backup"
+            app:drawableStartCompat="@drawable/student"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ResidentialSignages_Title" />
+            app:layout_constraintTop_toBottomOf="@id/HostelNameBoardFile" />
 
         <TextView
             android:id="@+id/StudentEntitlement"
@@ -535,7 +575,7 @@
             android:layout_marginStart="@dimen/dp_35"
             android:text="@string/n_a"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/StudentEntitlementBoard" />
+            app:layout_constraintTop_toBottomOf="@id/lebelStudentEntitlementBoard" />
 
 
         <TextView
@@ -549,6 +589,64 @@
             app:layout_constraintTop_toBottomOf="@id/StudentEntitlement" />
 
 
+
+
+
+
+        <TextView
+            android:id="@+id/labelContactDetailOfImportantPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_15"
+            android:drawablePadding="8dp"
+            android:text="@string/contact_detail_of_important_people"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/contact"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/StudentEntitlementFile" />
+
+        <TextView
+            android:id="@+id/ContactDetailOfImportantPeople"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="@string/n_a"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelContactDetailOfImportantPeople" />
+
+
+        <TextView
+            android:id="@+id/ContactDetailOfImportantPeopleFile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:text="@string/view"
+            android:textColor="@color/color_dark_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ContactDetailOfImportantPeople" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <TextView
             android:id="@+id/labelFoodSpecificationBoard"
             android:layout_width="wrap_content"
@@ -558,9 +656,9 @@
             android:text="@string/food_specification_board"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/backup"
+            app:drawableStartCompat="@drawable/food"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/StudentEntitlementFile" />
+            app:layout_constraintTop_toBottomOf="@id/ContactDetailOfImportantPeopleFile" />
 
         <TextView
             android:id="@+id/FoodSpecificationBoard"
@@ -593,7 +691,7 @@
             android:text="@string/basic_information_board"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/backup"
+            app:drawableStartCompat="@drawable/baseline_info_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/SpecificationBoardFile" />
 
@@ -625,10 +723,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_15"
             android:drawablePadding="8dp"
-            android:text="@string/basic_information_board"
+            android:text="@string/securing_of_wires"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/backup"
+            app:drawableStartCompat="@drawable/wire"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/BasicInformationBoardFile" />
 
@@ -650,7 +748,7 @@
             android:text="@string/view"
             android:textColor="@color/color_dark_blue"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BasicInformationBoard" />
+            app:layout_constraintTop_toBottomOf="@id/SecuringWiresDone" />
 
 
         <!--        android:text="@string/lable_area"-->
@@ -658,12 +756,12 @@
             android:id="@+id/labelArea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:text="@string/open_space_area"
             android:layout_marginTop="@dimen/dp_15"
             android:drawablePadding="8dp"
             android:textColor="@color/color_dark_green"
             android:textSize="@dimen/sp_18"
-            app:drawableStartCompat="@drawable/backup"
+            app:drawableStartCompat="@drawable/area"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/SecuringWiresDoneFile" />
 

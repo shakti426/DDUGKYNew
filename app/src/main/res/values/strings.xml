@@ -730,4 +730,7 @@
     <string name="conformance_to_standards">Conformance to Standards</string>
     <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
     <string name="add_new_residential_facility">Add New Residential Facility</string>
+    <string name="number_of_seats">Number Of Seats</string>
+    <string name="dining_length">Dining Length</string>
+    <string name="dining_width">Dining Width</string>
 </resources>

@@ -122,7 +122,7 @@
                 android:text="@string/whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/flooring"
+                app:drawableStartCompat="@drawable/food"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeadingKitchen"
 
@@ -158,7 +158,7 @@
                 android:text="@string/kitchen_length"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/flooring"
+                app:drawableStartCompat="@drawable/kitchen"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/WhetherFoodFor"
                  />
@@ -209,7 +209,7 @@
                 android:text="@string/kitchen_area"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/toilet"
+                app:drawableStartCompat="@drawable/area"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/kitchenWidth" />
 
@@ -230,7 +230,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:drawablePadding="8dp"
-                android:text="Number Of Seats"
+                android:text="@string/number_of_seats"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
                 app:drawableStartCompat="@drawable/toilet"
@@ -258,7 +258,7 @@
                 android:text="@string/prepared_food"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/food"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/NumberOfSeats" />
 
@@ -320,7 +320,7 @@
                 android:text="Recreation Length"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/length"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeadingRDA" />
 
@@ -351,7 +351,7 @@
                 android:text="@string/recreation_area"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/area"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/RecreationLength" />
 
@@ -378,7 +378,7 @@
                 android:text="@string/recreation_width"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/width"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/RecreationArea" />
 
@@ -420,7 +420,7 @@
                 android:text="@string/dining_area"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/drinkin_water"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeadingDiningArea" />
 
@@ -444,10 +444,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:drawablePadding="8dp"
-                android:text="Dining Length"
+                android:text="@string/dining_length"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/length"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/DiningArea" />
 
@@ -469,10 +469,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:drawablePadding="8dp"
-                android:text="Dining Width"
+                android:text="@string/dining_width"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/width"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/DiningLength" />
 
@@ -517,7 +517,7 @@
                 android:text="@string/reception_area"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
+                app:drawableStartCompat="@drawable/area"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeadingReceptionArea" />
 

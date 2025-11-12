@@ -45,6 +45,7 @@ import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.IndoorRFGameResponseDetails
 import com.deendayalproject.model.response.RFSupportFacilitiesAvailableDetails
 import com.deendayalproject.util.AppUtil
+import com.deendayalproject.util.ProgressDialogUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -53,7 +54,9 @@ class RFQTeamFormFragment : Fragment() {
 
     private var _binding: RfQteamFormFagmentBinding? = null
     private val binding get() = _binding!!
-
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     private lateinit var viewModel: SharedViewModel
 
@@ -75,6 +78,7 @@ class RFQTeamFormFragment : Fragment() {
     private var RFQInfraDetailprotectionStairsProofFile = ""
     private var RFQInfraDetailhostelNameBoardProofFile = ""
     private var RFQInfraDetailfoodSpecificationBoardFile = ""
+    private var RFQInfraContactDetailOfImportantPeopleFile = ""
     private var RFQInfraDetailbasicInformationBoardproofFile = ""
     private var RFQInfraDetailbasicsecuringWiresDoneProofFile = ""
     private var RFQInfraDetailcorridorProofFile = ""
@@ -89,6 +93,18 @@ class RFQTeamFormFragment : Fragment() {
 //       Ajit Ranjan 03/11/2025 Non Room Information
     private var PreparedFoodFile= ""
     private var ReceptionAreaPdf= ""
+
+
+
+    private var  RFsafeDrinkingeFile =  ""
+    private var  RFfirstAidKitFile =  ""
+    private var RFfireFightingFile =  ""
+    private var RFbiometricDeviceFile =  ""
+    private var RFpowerBackupFile =  ""
+    private var RFgrievanceRegisterFile =  ""
+
+
+
 
 
     //       Ajit Ranjan 06/11/2025 Residential Facilities
@@ -122,6 +138,7 @@ class RFQTeamFormFragment : Fragment() {
     private var facilityId = 0
     private var centerName = ""
     private var RFQTBasicInfoPdf = ""
+    private var RFQTBasicInfoAppointMent = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,7 +164,15 @@ class RFQTeamFormFragment : Fragment() {
         val TokeValue=token
 //
 //
+        binding.residentialfacilityqteamInfoLayout.PoliceVerificationStatus.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQTBasicInfoPdf, "police verification ")
+//
+        }
 
+        binding.residentialfacilityqteamInfoLayout.AppointmentLetter.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQTBasicInfoAppointMent, "police verification ")
+//
+        }
 
 //        ImageView Click View file all use in Infrastcture Details and Complains
         binding.infrastructureDetailsAndCompliancesLayout.BuildingPlanFile.setOnClickListener {
@@ -163,6 +188,13 @@ class RFQTeamFormFragment : Fragment() {
 
         binding.infrastructureDetailsAndCompliancesLayout.HostelNameBoardFile.setOnClickListener {
             showBase64ImageDialog(requireContext(), RFQInfraDetailhostelNameBoardProofFile, "RFQInfraDetailhostelNameBoardProofFile")
+//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
+        }
+
+
+
+        binding.infrastructureDetailsAndCompliancesLayout.ContactDetailOfImportantPeopleFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraContactDetailOfImportantPeopleFile, "Contact Detail Of Important People")
 //                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
         }
         binding.infrastructureDetailsAndCompliancesLayout.SpecificationBoardFile.setOnClickListener {
@@ -201,11 +233,14 @@ class RFQTeamFormFragment : Fragment() {
         }
         binding.infrastructureDetailsAndCompliancesLayout.SwitchBoardsAndPanelBoards.setOnClickListener {
             showBase64ImageDialog(requireContext(), RFQInfraDetailswitchBoardsPanelBoardsProofFile, "RFQInfraDetailswitchBoardsPanelBoardsProofFile")
-//                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-
-
 
         }
+
+        binding.infrastructureDetailsAndCompliancesLayout.StudentEntitlementFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFQInfraDetailstudentEntitlementBoardProofFile, "Detail student Entitlement")
+
+        }
+
 
 
 //                  Non Room Information ImageView Click 03/11/2025
@@ -213,12 +248,18 @@ class RFQTeamFormFragment : Fragment() {
 
 
         binding.RFNonLivingAreaLayout.ReceptionAreaFile.setOnClickListener {
-            openBase64Pdf(requireContext(), ReceptionAreaPdf)
+
+
+            showBase64ImageDialog(requireContext(), ReceptionAreaPdf, "Preview")
+
+
 
         }
 
         binding.RFNonLivingAreaLayout.PreparedFoodFile.setOnClickListener {
-            openBase64Pdf(requireContext(), PreparedFoodFile)
+
+            showBase64ImageDialog(requireContext(), PreparedFoodFile, "Preview")
+
 
         }
 
@@ -251,6 +292,39 @@ class RFQTeamFormFragment : Fragment() {
             showBase64ImageDialog(requireContext(), RFSecurityGuardsFile,"Security Guards")
 
         }
+
+
+
+        binding.rfSupportFacilitiesAvailableLayout.SafeDrinikingAavailableFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFsafeDrinkingeFile,"Preview")
+
+        }
+        binding.rfSupportFacilitiesAvailableLayout.FirstAidKitFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFfirstAidKitFile,"Preview")
+
+        }
+        binding.rfSupportFacilitiesAvailableLayout.FireFightingEquipmentrFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFfireFightingFile,"Preview")
+
+        }
+        binding.rfSupportFacilitiesAvailableLayout.BiometricDeviceFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFbiometricDeviceFile,"Preview")
+
+        }
+        binding.rfSupportFacilitiesAvailableLayout.ElectricalPowerBackupFile.setOnClickListener {
+            showBase64ImageDialog(requireContext(), RFpowerBackupFile,"Preview")
+
+        }
+        binding.rfSupportFacilitiesAvailableLayout.GrievanceRegisterFile.setOnClickListener {
+//            openBase64Pdf(requireContext(), RFSecurityGuardsFile)
+            showBase64ImageDialog(requireContext(), RFgrievanceRegisterFile,"Preview")
+
+        }
+
+
+
+
+
 
 
 
@@ -288,6 +362,7 @@ class RFQTeamFormFragment : Fragment() {
 
             viewModel.getFinalSubmitinsertRFQteamVerificationRequestData(requestTcInfraReq)
             collectFinalSubmitData()
+            showProgressBar()
 
         }
 
@@ -305,6 +380,8 @@ class RFQTeamFormFragment : Fragment() {
         )
         viewModel.getRfBasicInformationrInfo(requestTcInfo)
         collectTCInfoResponse()
+        showProgressBar()
+
 
         binding.backButton.setOnClickListener {
 
@@ -321,7 +398,7 @@ class RFQTeamFormFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
-
+                        hideProgressBar()
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
@@ -329,8 +406,6 @@ class RFQTeamFormFragment : Fragment() {
                                 safeText(x.residentialFacilityName)
                             binding.residentialfacilityqteamInfoLayout.ResidentialFacilityType.text =
                                 safeText(x.residentialType)
-//                            binding.residentialfacilityqteamInfoLayout.tvProjectState.text = x.stateName
-//                            binding.residentialfacilityqteamInfoLayout.tvblock.text = x.blockName
                             binding.residentialfacilityqteamInfoLayout.HouseNo.text =
                                 safeText(x.houseNo)
                             binding.residentialfacilityqteamInfoLayout.Street.text =
@@ -362,7 +437,7 @@ class RFQTeamFormFragment : Fragment() {
                                 safeText(x.categoryOfTc)
                             binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
                                 safeText(x.distBusStand)
-                            binding.residentialfacilityqteamInfoLayout.levelDistanceFromTheAutoStand.text = safeText(x.distAutoStand)
+                            binding.residentialfacilityqteamInfoLayout.DistanceFromTheTraining.text = safeText(x.distAutoStand)
                             binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text =
                                 safeText(x.distRailStand)
 
@@ -370,7 +445,8 @@ class RFQTeamFormFragment : Fragment() {
                             binding.residentialfacilityqteamInfoLayout.WadrenName.text = safeText(x.wardName)
                             binding.residentialfacilityqteamInfoLayout.WardenGender.text = safeText(x.wardgender)
                             binding.residentialfacilityqteamInfoLayout.WardenAddress.text = safeText(x.wardAddress)
-                            binding.residentialfacilityqteamInfoLayout.levelWardenEmailId.text = safeText(x.wardEmail)
+                            binding.residentialfacilityqteamInfoLayout.WardenEmployeeId.text = safeText(x.wardEmpId)
+                            binding.residentialfacilityqteamInfoLayout.WardenEmailId.text = safeText(x.wardEmail)
                             binding.residentialfacilityqteamInfoLayout.WardenMobileNo.text = safeText(x.wardMobile)
 //                            binding.residentialfacilityqteamInfoLayout.PoliceStation.text = safeText(x.policeStation)
 //                            binding.residentialfacilityqteamInfoLayout.AppointmentLetter.text = safeText(x.policeStation)
@@ -386,6 +462,7 @@ class RFQTeamFormFragment : Fragment() {
                             // Load image
 
                             RFQTBasicInfoPdf= x.policeVerfictnImage.toString()
+                            RFQTBasicInfoAppointMent= x.empLetterImage.toString()
 
 
 //                            binding.residentialfacilityqteamInfoLayout.valueRFQTInfoPhoto.setOnClickListener {
@@ -400,17 +477,25 @@ class RFQTeamFormFragment : Fragment() {
                         }
                     }
 
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    202 ->
+                    {
+                        hideProgressBar()
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
 
-                    301 -> Toast.makeText(
+
+                    301 ->
+
+                    {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "Please upgrade your app.",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -508,6 +593,7 @@ class RFQTeamFormFragment : Fragment() {
 
             viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
             collectInsfrastructureDetailsAndComplains()
+            showProgressBar()
         }
 
 
@@ -594,7 +680,7 @@ class RFQTeamFormFragment : Fragment() {
                 viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
             }}
             ToiletRecyclerView()
-
+              showProgressBar()
 
 
 
@@ -849,22 +935,44 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-            adapterIndoorGame = IndoorGameRFAdapter(RFindoorGamesList) { game ->
-                removeGame(game)
+//            adapterIndoorGame = IndoorGameRFAdapter(RFindoorGamesList) { game ->
+            adapterIndoorGame = IndoorGameRFAdapter(emptyList()) { center ->
+
+                showBase64ImageDialog(requireContext(), center.indoorGamePdf,"Preview")
             }
             binding.RFIndoorGameLayout.recyclerViewInddorGame.adapter = adapterIndoorGame
             binding.RFIndoorGameLayout.recyclerViewInddorGame.layoutManager = LinearLayoutManager(requireContext())
-
-            val rfGameRequest = RFGameRequest(
-                appVersion = BuildConfig.VERSION_NAME,
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                imeiNo=AppUtil.getAndroidId(requireContext()),
-                facilityId = facilityId
-            )
-            viewModel.getRfIndoorGameDetails(rfGameRequest)
-
+           // lifecycleScope.launch(Dispatchers.IO) {
+                val rfGameRequest = RFGameRequest(
+                    appVersion = BuildConfig.VERSION_NAME,
+                    tcId = centerId.toInt(),
+                    sanctionOrder = sanctionOrder,
+                    imeiNo = AppUtil.getAndroidId(requireContext()),
+                    facilityId = facilityId
+                )
+                viewModel.getRfIndoorGameDetails(rfGameRequest)
+                 showProgressBar()
+           // }
             IndoorGameRecyclerView()
+
+
+
+
+
+
+//              adapterToilet = RFToiletAdapter(emptyList()) { selectedItem ->
+//                val data = selectedItem.rfToiletId
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                val requestToiletRoomInformationReq = ToiletRoomInformationReq(
+//                    appVersion = BuildConfig.VERSION_NAME,
+//                    tcId = centerId.toInt(),
+//                    sanctionOrder = sanctionOrder,
+//                    rfToiletId = data.toString(),
+//                    facilityId = facilityId
+//                )
+//                viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
+//            }}
+//            ToiletRecyclerView()
 
         }
 
@@ -878,7 +986,7 @@ class RFQTeamFormFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
-
+                          hideProgressBar()
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
                             binding.infrastructureDetailsAndCompliancesLayout.onwershipOfBulding.text=x.ownership
@@ -895,7 +1003,8 @@ class RFQTeamFormFragment : Fragment() {
                             binding.infrastructureDetailsAndCompliancesLayout.Corridor.text = x.corridor
 //                            binding.infrastructureDetailsAndCompliancesLayout.ElectricalWiringAndStandards.text = x.corridor
                             binding.infrastructureDetailsAndCompliancesLayout.SwitchBoardsAndPanelBoards.text = x.switchBoardsPanelBoards
-                            binding.infrastructureDetailsAndCompliancesLayout.StudentEntitlementBoard.text = x.studentEntitlementBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.StudentEntitlement.text = x.studentEntitlementBoard
+                            binding.infrastructureDetailsAndCompliancesLayout.ContactDetailOfImportantPeople.text = x.contactDetailImportantPeople
                             binding.infrastructureDetailsAndCompliancesLayout.FoodSpecificationBoard.text = x.foodSpecificationBoard
                             binding.infrastructureDetailsAndCompliancesLayout.Area.text = x.openSpaceArea
 
@@ -905,6 +1014,7 @@ class RFQTeamFormFragment : Fragment() {
                             RFQInfraDetailprotectionStairsProofFile =x.protectionStairsProofFile.toString()
                             RFQInfraDetailhostelNameBoardProofFile = x.hostelNameBoardProofFile.toString()
                              RFQInfraDetailfoodSpecificationBoardFile = x.foodSpecificationBoardFile.toString()
+                             RFQInfraContactDetailOfImportantPeopleFile = x.contactDetailImportantPeopleproofFile.toString()
                              RFQInfraDetailbasicInformationBoardproofFile = x.basicInformationBoardproofFile.toString()
                              RFQInfraDetailbasicsecuringWiresDoneProofFile = x.securingWiresDoneProofFile.toString()
                             RFQInfraDetailcorridorProofFile =x.corridorProofFile.toString()
@@ -920,17 +1030,21 @@ class RFQTeamFormFragment : Fragment() {
                         }
                     }
 
-                    202 -> Toast.makeText(
+                    202 -> {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "No data available.",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
-                    301 -> Toast.makeText(
+                    301 -> {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "Please upgrade your app.",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -1068,78 +1182,67 @@ class RFQTeamFormFragment : Fragment() {
                                     //open Image
 
                                     binding.laiTypeOfRoofFile.setOnClickListener {
-                                        x.roofTypePdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+//                                        x.roofTypePdf?.let { it1 ->
+                                            showBase64ImageDialog(requireContext(), x.roofTypePdf, "Room Preview")
+
+
+
+//                                            openBase64Pdf(requireContext(),
+//                                                it1
+//                                            )
+//                                        }
                                     }
                                     binding.laiFalseCellingFile.setOnClickListener {
-                                        x.falseCeilingPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+//                                        x.falseCeilingPdf?.let { it1 ->
+                                            showBase64ImageDialog(requireContext(), x.falseCeilingPdf, "False Celling Preview")
+
+//                                        }
                                     }
 
 
                                     binding.laiHeightofCellingFile.setOnClickListener {
-                                        x.ceilingHeightPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.ceilingHeightPdf, "Celling Height Preview")
+
+//
                                     }
                                     binding.laiwindowsAreaFile.setOnClickListener {
-                                        x.windowAreaPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+
+                                        showBase64ImageDialog(requireContext(), x.windowAreaPdf, "Window Area Preview")
+
                                     }
                                     binding.laiCotInNoFile.setOnClickListener {
-                                        x.cotPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.cotPdf, "Cot Preview")
+
+
                                     }
                                     binding.laiMattersInNoFile.setOnClickListener {
-                                        x.mattressPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.mattressPdf, "Mattress Preview")
+
+//
                                     }
                                     binding.laiBedSheetInNoFile.setOnClickListener {
-                                        x.bedSheetPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.bedSheetPdf, "Bed Sheet Preview")
+
+
                                     }
                                     binding.laiAirCondtionFile.setOnClickListener {
-                                        x.airConditionPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.airConditionPdf, "AirCondition Preview")
+
+//
                                     }
 
                                     binding.laiLightsFile.setOnClickListener {
-                                        x.lightPdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+
+                                        showBase64ImageDialog(requireContext(), x.lightPdf, "Light Preview")
+
+
+
                                     }
 
                                     binding.laiStorageFile.setOnClickListener {
-                                        x.storagePdf?.let { it1 ->
-                                            openBase64Pdf(requireContext(),
-                                                it1
-                                            )
-                                        }
+                                        showBase64ImageDialog(requireContext(), x.storagePdf, "Storage Preview")
+
+
                                     }
 
                                     binding.backButton.setOnClickListener { dialog.dismiss() }
@@ -1188,7 +1291,7 @@ class RFQTeamFormFragment : Fragment() {
             )
 
             viewModel.getlivingRoomListView(livingRoomlistViewReq)
-
+              showProgressBar()
             RoomRecyclerView()
 
         }
@@ -1203,12 +1306,14 @@ class RFQTeamFormFragment : Fragment() {
 
                 when (it.responseCode) {
                     200 -> {
+                        hideProgressBar()
                         adapterIndoorGame.updateData(it.wrappedList ?: emptyList())
 
                     }
 
                     202 ->
                     {
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "No data available.",
@@ -1225,6 +1330,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                     {
+                        hideProgressBar()
 
                         Toast.makeText(
                             requireContext(),
@@ -1330,6 +1436,7 @@ class RFQTeamFormFragment : Fragment() {
                 viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
 
             ResidentialFacilitiesForm()
+            showProgressBar()
 
         }
 
@@ -1342,14 +1449,36 @@ class RFQTeamFormFragment : Fragment() {
 
                 when (it.responseCode) {
                     200 -> {
+                        hideProgressBar()
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+                            binding.rfSupportFacilitiesAvailableLayout.SafeDrinikingAavailable.text =
+                                (x.safeDrinking)
+                            binding.rfSupportFacilitiesAvailableLayout.FirstAidKit.text =
+                                (x.firstAidKit)
+                            binding.rfSupportFacilitiesAvailableLayout.FireFightingEquipmentr.text =
+                                (x.fireFighting)
+                            binding.rfSupportFacilitiesAvailableLayout.BiometricDevice.text =
+                                (x.biometricDevice)
+                            binding.rfSupportFacilitiesAvailableLayout.ElectricalPowerBackup.text =
+                                (x.powerBackup)
+                            binding.rfSupportFacilitiesAvailableLayout.GrievanceRegister.text =
+                                (x.grievanceRegister)
+//                               ImageData Store in Variable
 
-
-
+                            RFsafeDrinkingeFile = x.safeDrinkingPdf
+                            RFfirstAidKitFile = x.firstAidKitPdf
+                            RFfireFightingFile = x.fireFightingPdf
+                            RFbiometricDeviceFile = x.biometricDevicePdf
+                            RFpowerBackupFile = x.powerBackupPdf
+                            RFgrievanceRegisterFile = x.biometricDevicePdf
+                        }
 
                     }
 
                     202 ->
                     {
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "No data available.",
@@ -1366,7 +1495,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                     {
-
+                         hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "Please upgrade your app.",
@@ -1481,6 +1610,8 @@ class RFQTeamFormFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
+
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "Details sent successfully to"+getString(R.string.residential_facility_q_team),
@@ -1489,17 +1620,23 @@ class RFQTeamFormFragment : Fragment() {
                         findNavController().navigateUp()
                     }
 
-                    202 -> Toast.makeText(
+                    202 ->
+
+                    {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         it.responseDesc,
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
-                    301 -> Toast.makeText(
+                    301 -> {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "Please upgrade your app.",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -1519,7 +1656,7 @@ class RFQTeamFormFragment : Fragment() {
 
                 when (it.responseCode) {
                     200 -> {
-
+                             hideProgressBar()
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
@@ -1550,7 +1687,7 @@ class RFQTeamFormFragment : Fragment() {
 
                     202 ->
                     {
-
+                         hideProgressBar()
 
                         Toast.makeText(
                             requireContext(),
@@ -1568,7 +1705,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                     {
-
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "Please upgrade your app.",
@@ -1670,12 +1807,22 @@ class RFQTeamFormFragment : Fragment() {
             )
             viewModel.getRFSupportFacilitiesAvailable(rfGameRequest)
             RFSupportFacilitiesRecyclerView()
+                 showProgressBar()
 
         } }
        private  fun RoomRecyclerView(){
            viewModel.livingRoomListView.observe(viewLifecycleOwner) { result ->
                result.onSuccess {
-                   when (it.responseCode) {     200 -> adapter.updateData(it.wrappedList ?: emptyList())
+                   when (it.responseCode) {
+
+                       200 ->{
+
+
+                           hideProgressBar()
+                           adapter.updateData(it.wrappedList ?: emptyList())
+
+
+                       }
 
 
 
@@ -1684,17 +1831,28 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-                       202 -> Toast.makeText(
-                           requireContext(),
-                           "No data available.",
-                           Toast.LENGTH_SHORT
-                       ).show()
+                       202 -> {
+                           hideProgressBar()
+                           Toast.makeText(
+                               requireContext(),
+                               "No data available.",
+                               Toast.LENGTH_SHORT
+                           ).show()
+                       }
 
-                       301 -> Toast.makeText(
-                           requireContext(),
-                           "Please upgrade your app.",
-                           Toast.LENGTH_SHORT
-                       ).show()
+                       301 ->
+                       {
+
+                         hideProgressBar()
+
+                           Toast.makeText(
+                               requireContext(),
+                               "Please upgrade your app.",
+                               Toast.LENGTH_SHORT
+                           ).show()
+                       }
+
+
 
                        401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                    }
@@ -1716,7 +1874,7 @@ class RFQTeamFormFragment : Fragment() {
                 result.onSuccess {
                     when (it.responseCode) {
                         200 -> {
-
+                              hideProgressBar()
                             val tcInfoData = it.wrappedList
                             for (x in tcInfoData) {
                                 // Wait for 2 seconds
@@ -1748,20 +1906,15 @@ class RFQTeamFormFragment : Fragment() {
 
                                 //open Image
                                 binding.laiTypeOfFlooringFile.setOnClickListener {
-                                    x.floorPdf?.let { it1 ->
-                                        openBase64Pdf(
-                                            requireContext(),
-                                            it1
-                                        )
-                                    }
+
+                                    showBase64ImageDialog(requireContext(), x.floorPdf, "Floor Preview")
+
+
                                 }
                                 binding.TriLightsFile.setOnClickListener {
-                                    x.lightPdf?.let { it1 ->
-                                        openBase64Pdf(
-                                            requireContext(),
-                                            it1
-                                        )
-                                    }
+                                    showBase64ImageDialog(requireContext(), x.lightPdf, "Light Preview")
+
+
                                 }
 
 
@@ -1776,17 +1929,28 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-                        202 -> Toast.makeText(
+                        202 -> {
+                            hideProgressBar()
+                            Toast.makeText(
                             requireContext(),
                             "No data available.",
                             Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()}
 
-                        301 -> Toast.makeText(
+                        301 ->
+
+
+
+                        {
+
+                            hideProgressBar()
+
+
+                            Toast.makeText(
                             requireContext(),
                             "Please upgrade your app.",
                             Toast.LENGTH_SHORT
-                        ).show()
+                        ).show()}
 
                         401 -> AppUtil.showSessionExpiredDialog(
                             findNavController(),
@@ -1821,14 +1985,25 @@ class RFQTeamFormFragment : Fragment() {
 
         viewModel.getToiletRoomListView(livingRoomlistViewReq)
 
-
+               showProgressBar()
 
 
 
 
         viewModel.ToiletRoomListView.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                when (it.responseCode) {     200 -> adapterToilet.updateData(it.wrappedList ?: emptyList())
+                when (it.responseCode) {
+
+
+                    200 ->
+
+                    {
+
+
+                        hideProgressBar()
+
+                        adapterToilet.updateData(it.wrappedList ?: emptyList())
+                    }
 
 
 
@@ -1842,17 +2017,28 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-                    202 -> Toast.makeText(
+
+
+                    202 ->
+
+
+                    {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "No data available.",
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    301 -> Toast.makeText(
+                    }
+
+                    301 -> {
+                        hideProgressBar()
+                        Toast.makeText(
                         requireContext(),
                         "Please upgrade your app.",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()}
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -1965,11 +2151,19 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
-
-    private fun removeGame(game: IndoorRFGameResponseDetails) {
-
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
     }
+//
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+    }
+
+
 
 
 

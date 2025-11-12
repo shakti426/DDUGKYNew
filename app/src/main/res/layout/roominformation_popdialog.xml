@@ -96,7 +96,7 @@
                 android:text="@string/type_of_roof_rcc_non_rcc"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/baseline_monitor_24"
+                app:drawableStartCompat="@drawable/roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeading" />
 
@@ -128,7 +128,7 @@
                 android:text="@string/false_ceiling_label"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiTypeOfRoofFile" />
 
@@ -161,7 +161,7 @@
                 android:text="@string/height_of_ceiling"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiFalseCellingFile" />
 
@@ -204,7 +204,7 @@
                 android:text="@string/roof_building_label"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeightofCelling" />
 
@@ -306,7 +306,7 @@
                 android:text="@string/area_in_sq_ft"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/area"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiWidthFile" />
 
