@@ -34,6 +34,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
@@ -87,6 +88,7 @@ import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.RfQTeamListRes
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
@@ -138,7 +140,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _trainingCenters = MutableLiveData<Result<TrainingCenterResponse>>()
     val trainingCenters: LiveData<Result<TrainingCenterResponse>> = _trainingCenters
 
-
+    private val _trainingRfCenters = MutableLiveData<Result<RfQTeamListRes>>()
+    val trainingRfCenters: LiveData<Result<RfQTeamListRes>> = _trainingRfCenters
 
     private val _rfTrainingCenters = MutableLiveData<Result<RfListResponse>>()
     val rfTrainingCenters: LiveData<Result<RfListResponse>> = _rfTrainingCenters
@@ -1176,7 +1179,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
-            _trainingCenters.postValue(result)
+            _trainingRfCenters.postValue(result)
             _loading.postValue(false)
         }
     }
@@ -1191,7 +1194,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _ResidentialFacilityQTeam = MutableLiveData<Result<ResidentialFacilityQTeam>>()
     val ResidentialFacilityQTeam: LiveData<Result<ResidentialFacilityQTeam>> = _ResidentialFacilityQTeam
 
-    fun getRfBasicInformationrInfo(request: TrainingCenterInfo) {
+    fun getRfBasicInformationrInfo(request: RfCommonReq) {
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repository.getTRfBasicInfo(request)
@@ -1424,7 +1427,7 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     private val _RFResidentialFacilitiesAvailable = MutableLiveData<Result<RFResidintialFacilityResponse>>()
     val RFResidentialFacilitiesAvailable: LiveData<Result<RFResidintialFacilityResponse>> = _RFResidentialFacilitiesAvailable
 
-    fun getResidentialFacilitiesAvailable(request: TrainingCenterInfo) {
+    fun getResidentialFacilitiesAvailable(request: RfCommonReq) {
         _loading.postValue(true)
          viewModelScope.launch {
           val result = repository.getResidentialFacilitiesAvailable(request)
@@ -1519,7 +1522,7 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
-            _trainingCenters.postValue(result)
+            _trainingRfCenters.postValue(result)
             _loading.postValue(false)
         }
     }

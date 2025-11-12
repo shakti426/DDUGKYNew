@@ -33,6 +33,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
@@ -86,6 +87,7 @@ import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.RfQTeamListRes
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
@@ -1200,7 +1202,7 @@ class CommonRepository(private val context: Context) {
 
 
     //    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
-    suspend fun fetchResidentialFacilityQTeamist(request: ResidentialFacilityQTeamRequest, token: String): Result<TrainingCenterResponse> {
+    suspend fun fetchResidentialFacilityQTeamist(request: ResidentialFacilityQTeamRequest, token: String): Result<RfQTeamListRes> {
         return try {
             val response = apiService.getRFQteamVerificationList(request)
             if (response.isSuccessful) {
@@ -1220,7 +1222,7 @@ class CommonRepository(private val context: Context) {
 
 //    GetRfBasicInformation AjitRanjan 17/10/2025
 
-    suspend fun getTRfBasicInfo(request: TrainingCenterInfo) : Result<ResidentialFacilityQTeam>{
+    suspend fun getTRfBasicInfo(request: RfCommonReq) : Result<ResidentialFacilityQTeam>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getRfBasicInfoo(request)
@@ -1426,7 +1428,7 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
     }
 //    Ajit Ranjan create 06/Novmber/2025     getResidentialFacilitiesAvailable
 
-    suspend fun getResidentialFacilitiesAvailable(request: TrainingCenterInfo) : Result<RFResidintialFacilityResponse>{
+    suspend fun getResidentialFacilitiesAvailable(request: RfCommonReq) : Result<RFResidintialFacilityResponse>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getResidentialFacilitiesAvailable(request)
@@ -1497,7 +1499,7 @@ suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: R
 }
 
 //    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
-    suspend fun fetchRFSRLMVerificationList(request: TrainingCenterRequest, token: String): Result<TrainingCenterResponse> {
+    suspend fun fetchRFSRLMVerificationList(request: TrainingCenterRequest, token: String): Result<RfQTeamListRes> {
         return try {
             val response = apiService.getRFSRLMVerification(request)
             if (response.isSuccessful) {

@@ -6,6 +6,7 @@ data class IndoorGamesRequest(
     val imeiNo: String,
     val trainingCentre: Int,
     val sanctionOrder: String,
+    val facilityId: Int,
     val finalArray: List<IndoorGameItem>
 )
 

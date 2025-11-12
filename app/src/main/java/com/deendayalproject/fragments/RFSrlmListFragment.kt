@@ -48,7 +48,8 @@ class RFSrlmListFragment : Fragment() {
                 RFSrlmListFragmentDirections.actionRFSrlmListFragmentToRFSRLMFormFragment(
                     center.trainingCenterId.toString(),
                     center.trainingCenterName,
-                    center.senctionOrder
+                    center.senctionOrder,
+                    center.facilityId
                 )
             findNavController().navigate(action)
         }
@@ -82,7 +83,7 @@ class RFSrlmListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
+        viewModel.trainingRfCenters.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())

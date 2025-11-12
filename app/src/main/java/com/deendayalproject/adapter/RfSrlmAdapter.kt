@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deendayalproject.R
 import com.deendayalproject.model.request.TrainingCenter
+import com.deendayalproject.model.response.RfCenter
 
 class RfSrlmAdapter(
-    private var centers: List<TrainingCenter>,
-    private var onItemClick:(TrainingCenter)-> Unit
+    private var centers: List<RfCenter>,
+    private var onItemClick:(RfCenter)-> Unit
 ) : RecyclerView.Adapter<RfSrlmAdapter.CenterViewHolder>() {
 
     inner class CenterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -41,7 +42,7 @@ class RfSrlmAdapter(
 
     override fun getItemCount(): Int = centers.size
 
-    fun updateData(newList: List<TrainingCenter>) {
+    fun updateData(newList: List<RfCenter>) {
         centers = newList
         notifyDataSetChanged()
     }

@@ -5,7 +5,7 @@ data class RfFinalSubmitReq(
     val loginId: String,
     val appVersion: String,
     val imeiNo: String,
-    val trainingCentre: Int,
+    val tcId: String,
     val sanctionOrder: String,
     val facilityId: String
 

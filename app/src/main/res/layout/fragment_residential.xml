@@ -47,10 +47,7 @@
                 app:shapeAppearanceOverlay="@style/CustomRectangleShape" />
 
 
-
         </androidx.appcompat.widget.Toolbar>
-
-
 
 
         <!--  BASIC INFORMATION 1-->
@@ -69,8 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white"
-                >
+                android:background="@color/white">
                 <LinearLayout
                     android:id="@+id/headerTCBasicInfo"
                     android:layout_width="match_parent"
@@ -465,8 +461,7 @@
                             android:id="@+id/etPoliceStation"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:maxLength="6"
-                            android:inputType="number" />
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
 
 

@@ -31,6 +31,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.ReceptionAreaRoomDetailsRequest
 import com.deendayalproject.model.request.ResidentialFacilityQTeamRequest
+import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.SectionReq
@@ -84,6 +85,7 @@ import com.deendayalproject.model.response.ResidentialFacilityQTeam
 import com.deendayalproject.model.response.RfFinalSubmitRes
 import com.deendayalproject.model.response.RfListResponse
 import com.deendayalproject.model.response.RfLivingAreaInformationResponse
+import com.deendayalproject.model.response.RfQTeamListRes
 import com.deendayalproject.model.response.SectionResponse
 import com.deendayalproject.model.response.SectionStatusRes
 import com.deendayalproject.model.response.SignageInfo
@@ -340,13 +342,13 @@ interface ApiService {
 
     //    ResidentialFacilityQTeamRequest Ajit Ranjan  16/10/2025
     @POST(value ="getRFQteamVerificationList")
-    suspend fun getRFQteamVerificationList(@Body request: ResidentialFacilityQTeamRequest) : Response<TrainingCenterResponse>
+    suspend fun getRFQteamVerificationList(@Body request: ResidentialFacilityQTeamRequest) : Response<RfQTeamListRes>
 
 
 
     //    GetRfBasicInformation AjitRanjan 17/10/2025
     @POST(value ="getRfBasicInformation")
-    suspend fun getRfBasicInfoo(@Body request: TrainingCenterInfo) : Response<ResidentialFacilityQTeam>
+    suspend fun getRfBasicInfoo(@Body request: RfCommonReq) : Response<ResidentialFacilityQTeam>
 
 
 //    Ajit Ranjan create 21/October/2025  CompliancesRFQTReqRFQT
@@ -442,7 +444,7 @@ interface ApiService {
     //    Ajit Ranjan create 06/Novmber/2025  getResidentialFacilitiesAvailable
     @POST(value ="getResidentialFacilitiesAvailable")
     suspend fun getResidentialFacilitiesAvailable
-                (@Body request: TrainingCenterInfo) :
+                (@Body request: RfCommonReq) :
             Response<RFResidintialFacilityResponse>
 
 
@@ -467,7 +469,7 @@ interface ApiService {
 //    Ajit Ranjan create 07/Novmber/2025  getRFSRLMVerification
 
     @POST(value = "getRFSRLMVerification")
-    suspend fun getRFSRLMVerification(@Body request: TrainingCenterRequest): Response<TrainingCenterResponse>
+    suspend fun getRFSRLMVerification(@Body request: TrainingCenterRequest): Response<RfQTeamListRes>
 
 
 
@@ -497,5 +499,11 @@ interface ApiService {
     suspend fun getResidentialList
                 (@Body request: ModifyRfList) :
             Response<ModifyRFRes>
+
+
+
+
+
+
 
 }

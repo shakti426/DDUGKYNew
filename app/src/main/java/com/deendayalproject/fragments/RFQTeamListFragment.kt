@@ -50,7 +50,8 @@ class RFQTeamListFragment : Fragment() {
                 RFQTeamListFragmentDirections.actionRFQTeamListFragmentToRFQTeamFormFragment(
                     center.trainingCenterId.toString(),
                     center.trainingCenterName,
-                    center.senctionOrder
+                    center.senctionOrder,
+                    center.facilityId
                 )
             findNavController().navigate(action)
         }
@@ -77,7 +78,7 @@ class RFQTeamListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        viewModel.trainingCenters.observe(viewLifecycleOwner) { result ->
+        viewModel.trainingRfCenters.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())

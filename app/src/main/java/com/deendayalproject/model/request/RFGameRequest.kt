@@ -4,5 +4,6 @@ data class RFGameRequest(
     val appVersion: String,
     val imeiNo: String,
     val tcId: Int,
-    val sanctionOrder: String
+    val sanctionOrder: String,
+    val facilityId:Int
 )

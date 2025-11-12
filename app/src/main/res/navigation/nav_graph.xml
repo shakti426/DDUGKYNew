@@ -153,6 +153,11 @@
                 android:name="sanctionOrder"
                 app:argType="string"/>
 
+            <argument
+                android:name="facilityId"
+                app:argType="integer"
+                android:defaultValue="0"/>
+
         </action>
     </fragment>
     <fragment
@@ -173,6 +178,10 @@
             <argument
                 android:name="sanctionOrder"
                 app:argType="string"/>
+            <argument
+                android:name="facilityId"
+                app:argType="integer"/>
+
 
         </action>
     </fragment>
@@ -198,14 +207,29 @@
             android:id="@+id/action_rfcenterFragment_to_fragment_residential_facility"
             app:destination="@id/fragment_residential_facility" >
 
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
 
-
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+            <argument
+                android:name="facilityId"
+                app:argType="string"/>
 
         </action>
         <action
             android:id="@+id/action_rfCenterFragment_to_rfMultipleListFragment"
             app:destination="@id/rfMultipleListFragment" >
 
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
+
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
 
         </action>
     </fragment>
@@ -223,6 +247,21 @@
         <action
             android:id="@+id/action_rfMultipleListFragment_to_fragment_residential_facility"
             app:destination="@id/fragment_residential_facility" >
+            <argument
+                android:name="centerId"
+                app:argType="string"/>
+            <argument
+                android:name="sanctionOrder"
+                app:argType="string"/>
+            <argument
+                android:name="facilityId"
+                app:argType="string"/>
+            <argument
+                android:name="remarks"
+                app:argType="string"/>
+            <argument
+                android:name="status"
+                app:argType="string"/>
 
 
         </action>

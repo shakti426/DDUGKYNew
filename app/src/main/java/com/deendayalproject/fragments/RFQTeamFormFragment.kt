@@ -37,6 +37,7 @@ import com.deendayalproject.model.request.CompliancesRFQTReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
+import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenter
@@ -118,6 +119,7 @@ class RFQTeamFormFragment : Fragment() {
 
     private var centerId = ""
     private var sanctionOrder = ""
+    private var facilityId = 0
     private var centerName = ""
     private var RFQTBasicInfoPdf = ""
 
@@ -138,6 +140,7 @@ class RFQTeamFormFragment : Fragment() {
         centerId = arguments?.getString("centerId").toString()
         centerName = arguments?.getString("centerName").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        facilityId = arguments?.getInt("facilityId",0)!!
         val token = AppUtil.getSavedTokenPreference(requireContext())
 //
 //
@@ -277,7 +280,8 @@ class RFQTeamFormFragment : Fragment() {
                 rfAvailableStatus=selectedResidintislFacilityApproval,
                 rfAvailableRemark=selectedResidintislFacilityApprovalRemark.toString(),
                 supportFacilityAvailableStatus=selectedResidintislSupportFacilityApproval,
-                supportFacilityAvailableRemark=selectedResidintislSupportFacilityApprovalRemark.toString()
+                supportFacilityAvailableRemark=selectedResidintislSupportFacilityApprovalRemark.toString(),
+                facilityId = facilityId
                 )
 //            selectedNonAreaInfoApproval
 //            selectedRFNonLivingAreaRemarks
@@ -291,12 +295,13 @@ class RFQTeamFormFragment : Fragment() {
 
 
         // TrainingCenterInfo API
-        val requestTcInfo = TrainingCenterInfo(
+        val requestTcInfo = RfCommonReq(
             appVersion = BuildConfig.VERSION_NAME,
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
             tcId = centerId.toInt(),
             sanctionOrder = sanctionOrder,
-            imeiNo = AppUtil.getAndroidId(requireContext())
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            facilityId = facilityId
         )
         viewModel.getRfBasicInformationrInfo(requestTcInfo)
         collectTCInfoResponse()
@@ -308,15 +313,6 @@ class RFQTeamFormFragment : Fragment() {
 
     }
 
-    private fun init() {
-
-        listener()
-    }
-
-    private fun listener() {
-
-
-    }
 
 
     @SuppressLint("SetTextI18n")
@@ -505,7 +501,9 @@ class RFQTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 facilityId = RFQTresFacilityId,
-                imeiNo = AppUtil.getAndroidId(requireContext())
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                 tcId = centerId,
+                sanctionOrder = sanctionOrder
             )
 
             viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
@@ -591,6 +589,7 @@ class RFQTeamFormFragment : Fragment() {
                     tcId = centerId.toInt(),
                     sanctionOrder = sanctionOrder,
                     rfToiletId = data.toString(),
+                    facilityId = facilityId
                 )
                 viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
             }}
@@ -679,7 +678,8 @@ class RFQTeamFormFragment : Fragment() {
             val requestLRLVRQ = LivingRoomListViewRQ(
                 appVersion = BuildConfig.VERSION_NAME,
                 tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder
+                sanctionOrder = sanctionOrder,
+                facilityId = facilityId
             )
             viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
 
@@ -816,15 +816,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
-
-
-
-
-
-
-
-
             binding.RFNonLivingAreaLayout.viewNonLivingAreaInfor.visibility = View.GONE
             binding.RFNonLivingAreaLayout.NonLivingAreaInfoExpand.visibility = View.GONE
             binding.tvRFConstraintLayoutIndoorGame.visibility=View.VISIBLE
@@ -868,7 +859,8 @@ class RFQTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 tcId = centerId.toInt(),
                 sanctionOrder = sanctionOrder,
-                imeiNo=AppUtil.getAndroidId(requireContext())
+                imeiNo=AppUtil.getAndroidId(requireContext()),
+                facilityId = facilityId
             )
             viewModel.getRfIndoorGameDetails(rfGameRequest)
 
@@ -1024,6 +1016,7 @@ class RFQTeamFormFragment : Fragment() {
                     tcId = centerId.toInt(),
                     sanctionOrder = sanctionOrder,
                     roomNo = center.roomNo.toInt(),
+                    facilityId = facilityId
                 )
 
                     viewModel.getRfLivingAreaInformation(requestTcRoomDetails)
@@ -1191,6 +1184,7 @@ class RFQTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 tcId = centerId.toInt(),
                 sanctionOrder = sanctionOrder,
+                facilityId = facilityId
             )
 
             viewModel.getlivingRoomListView(livingRoomlistViewReq)
@@ -1323,12 +1317,13 @@ class RFQTeamFormFragment : Fragment() {
 
 //             Ajit Ranjan create 06/Novmber/2025     getResidentialFacilitiesAvailable
 
-            val requestTcInfo = TrainingCenterInfo(
+            val requestTcInfo = RfCommonReq(
                 appVersion = BuildConfig.VERSION_NAME,
                 loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                 tcId =centerId.toInt(),
                 sanctionOrder = sanctionOrder,
-                imeiNo = AppUtil.getAndroidId(requireContext())
+                imeiNo = AppUtil.getAndroidId(requireContext()),
+                facilityId = facilityId
             )
 
 
@@ -1670,7 +1665,8 @@ class RFQTeamFormFragment : Fragment() {
                 appVersion = BuildConfig.VERSION_NAME,
                 tcId = centerId.toInt(),
                 sanctionOrder = sanctionOrder,
-                imeiNo=AppUtil.getAndroidId(requireContext())
+                imeiNo=AppUtil.getAndroidId(requireContext()),
+                facilityId = facilityId
             )
             viewModel.getRFSupportFacilitiesAvailable(rfGameRequest)
             RFSupportFacilitiesRecyclerView()
@@ -1777,7 +1773,7 @@ class RFQTeamFormFragment : Fragment() {
                         }
 
 
-//
+
 
 
                         202 -> Toast.makeText(
@@ -1820,7 +1816,8 @@ class RFQTeamFormFragment : Fragment() {
         val livingRoomlistViewReq = LivingRoomListViewRQ(
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId.toInt(),
-            sanctionOrder = sanctionOrder,)
+            sanctionOrder = sanctionOrder,
+            facilityId = facilityId)
 
         viewModel.getToiletRoomListView(livingRoomlistViewReq)
 
@@ -1974,44 +1971,6 @@ class RFQTeamFormFragment : Fragment() {
 
     }
 
-
-//    private fun openPdfFile(filePath: String) {
-//        try {
-//            val file = File(filePath)
-//            val uri = FileProvider.getUriForFile(
-//                requireContext(),
-//                "${requireContext().packageName}.provider",
-//                file
-//            )
-//
-//            val intent = Intent(Intent.ACTION_VIEW)
-//            intent.setDataAndType(uri, "application/pdf")
-//            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NO_HISTORY
-//
-//            // Try to open with an installed PDF viewer
-//            startActivity(intent)
-//
-//        } catch (e: ActivityNotFoundException) {
-//            // No PDF viewer found, redirect to Play Store
-//            redirectToPlayStore("com.adobe.reader") // or any PDF app package name
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//            Toast.makeText(requireContext(), "Error opening PDF", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    private fun redirectToPlayStore(packageName: String) {
-//        try {
-//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
-//            startActivity(intent)
-//        } catch (e: Exception) {
-//            val intent = Intent(
-//                Intent.ACTION_VIEW,
-//                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-//            )
-//            startActivity(intent)
-//        }
-//    }
 
 
 

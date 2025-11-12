@@ -29,6 +29,8 @@ class RfCenterFragment : Fragment() {
 
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfAdapterList
+    var centerId =""
+    var sanctionOrder =""
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -42,11 +44,8 @@ class RfCenterFragment : Fragment() {
 
         adapter = RfAdapterList(emptyList()) { selectedItem ->
 
-            AppUtil.savesanctionOrderRFPreference(requireContext(), selectedItem.senctionOrder)
-            AppUtil.savecenterIdRFPreference(requireContext(),
-                selectedItem.trainingCenterId.toString(),
-
-                )
+        centerId= selectedItem.trainingCenterId.toString()
+        sanctionOrder= selectedItem.senctionOrder
 
           val facilityStatus = selectedItem.facilityStatus
 
@@ -69,7 +68,11 @@ class RfCenterFragment : Fragment() {
             else
             {
 
-                findNavController().navigate(R.id.action_rfCenterFragment_to_rfMultipleListFragment)
+
+                val action =
+                    RfCenterFragmentDirections.actionRfCenterFragmentToRfMultipleListFragment(centerId,sanctionOrder
+                    )
+                findNavController().navigate(action)
 
             }
         }
@@ -123,12 +126,18 @@ class RfCenterFragment : Fragment() {
                 when (it.responseCode) {
                     200 ->  {
 
-                      AppUtil.saveFacilityIdRFPreference(requireContext(), it.facilityId.toString())
+                        val facilityId = it.facilityId.toString()
 
                         Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(
-                            R.id.action_rfcenterFragment_to_fragment_residential_facility
-                        )
+
+
+                        val action =
+                            RfCenterFragmentDirections.actionRfcenterFragmentToFragmentResidentialFacility(centerId,sanctionOrder,
+                                facilityId
+                            )
+                        findNavController().navigate(action)
+
+
                     }
                     202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
                     301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()

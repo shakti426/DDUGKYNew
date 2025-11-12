@@ -6,4 +6,5 @@ data class LivingRoomListViewRQ(
 val appVersion: String,
 val tcId: Int,
 val sanctionOrder: String,
+val facilityId:Int
 )

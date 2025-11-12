@@ -27,6 +27,7 @@ class RfMultipleListFragment : Fragment() {
     private lateinit var adapter: RfModifyListAdapter
     var centerId =""
     var sanctionOrder =""
+    var facilityId =""
 
 
 
@@ -45,24 +46,21 @@ class RfMultipleListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
-        centerId =   AppUtil.getcenterIdRFPreference(requireContext())
-        sanctionOrder = AppUtil.getsanctionOrderRFPreference(requireContext())
 
 
+        centerId = arguments?.getString("centerId").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
 
         adapter = RfModifyListAdapter(emptyList()) { selectedItem ->
 
 
 
-            AppUtil.savesanctionOrderRFPreference(requireContext(),
-                selectedItem.facilityId.toString()
-            )
+            val action =
+                RfMultipleListFragmentDirections.actionRfMultipleListFragmentToFragmentResidentialFacility(
+                    selectedItem.trainingCenterId.toString(),selectedItem.senctionOrder.toString(),selectedItem.facilityId.toString(),selectedItem.remarks.toString(),selectedItem.status.toString()
+                )
+            findNavController().navigate(action)
 
-
-
-            findNavController().navigate(
-                R.id.action_rfMultipleListFragment_to_fragment_residential_facility
-            )
 
 
         }
@@ -133,12 +131,14 @@ class RfMultipleListFragment : Fragment() {
                 when (it.responseCode) {
                     200 ->  {
 
-                        AppUtil.saveFacilityIdRFPreference(requireContext(), it.facilityId.toString())
 
                         Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(
-                            R.id.action_rfMultipleListFragment_to_fragment_residential_facility
-                        )
+                        val action =
+                            RfMultipleListFragmentDirections.actionRfMultipleListFragmentToFragmentResidentialFacility(
+                               centerId,sanctionOrder, it.facilityId.toString(),"",""
+                            )
+                        findNavController().navigate(action)
+
                     }
                     202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
                     301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()

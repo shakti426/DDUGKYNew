@@ -52,6 +52,7 @@ import com.deendayalproject.model.request.InsertToiletDataReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.LivingRoomReq
 import com.deendayalproject.model.request.RFGameRequest
+import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfFinalSubmitReq
 import com.deendayalproject.model.request.SectionReq
 import com.deendayalproject.model.request.StateRequest
@@ -322,6 +323,8 @@ class ResidentialFacilityFragment : Fragment() {
     var centerId =""
     var sanctionOrder =""
     var facilityId =""
+    var status =""
+    var remarks =""
 
 
 
@@ -637,9 +640,13 @@ class ResidentialFacilityFragment : Fragment() {
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
 
-        centerId =   AppUtil.getcenterIdRFPreference(requireContext())
-        sanctionOrder = AppUtil.getsanctionOrderRFPreference(requireContext())
-        facilityId = AppUtil.getFacilityIdRFPreference(requireContext())
+
+
+        centerId = arguments?.getString("centerId").toString()
+        sanctionOrder = arguments?.getString("sanctionOrder").toString()
+        facilityId = arguments?.getString("facilityId").toString()
+        remarks = arguments?.getString("remarks").toString()
+        status = arguments?.getString("status").toString()
 
         observeViewModelLivingAreaList()
         observeViewModelToiletList()
@@ -658,6 +665,15 @@ class ResidentialFacilityFragment : Fragment() {
         observeBlock()
         observeGp()
         observeVillage()
+
+
+        if (status=="QM" || status =="SM"){
+
+            showEditRemarksDialog()
+
+        }
+
+
 
 
         val request = StateRequest(
@@ -696,7 +712,7 @@ class ResidentialFacilityFragment : Fragment() {
                     loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                     appVersion = BuildConfig.VERSION_NAME,
                     imeiNo = AppUtil.getAndroidId(requireContext()),
-                    trainingCentre = centerId.toInt(),
+                    tcId = centerId,
                     sanctionOrder = sanctionOrder,
                     facilityId = facilityId
 
@@ -743,12 +759,13 @@ class ResidentialFacilityFragment : Fragment() {
 
            showEditSectionDialog("Basic Info") {
 
-               val requestTcInfo = TrainingCenterInfo(
+               val requestTcInfo = RfCommonReq(
                    appVersion = BuildConfig.VERSION_NAME,
                    loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                    tcId = centerId.toInt(),
                    sanctionOrder = sanctionOrder,
-                   imeiNo = AppUtil.getAndroidId(requireContext())
+                   imeiNo = AppUtil.getAndroidId(requireContext()),
+                   facilityId = facilityId.toInt()
                )
                viewModel.getRfBasicInformationrInfo(requestTcInfo)
                showProgressBar()
@@ -777,7 +794,6 @@ class ResidentialFacilityFragment : Fragment() {
 
         }
 
-
         binding.headerInfraDetailCompliance.setOnClickListener {
 
 
@@ -788,8 +804,10 @@ class ResidentialFacilityFragment : Fragment() {
                     val requestCompliancesRFQT = CompliancesRFQTReq(
                         appVersion = BuildConfig.VERSION_NAME,
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                        facilityId = "",
-                        imeiNo = AppUtil.getAndroidId(requireContext())
+                        facilityId = facilityId,
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        tcId = centerId,
+                        sanctionOrder = sanctionOrder
                     )
 
                     viewModel.getCompliancesRFQTReqRFQT(requestCompliancesRFQT)
@@ -830,7 +848,9 @@ class ResidentialFacilityFragment : Fragment() {
                 val rfLAreaListReq = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
                     tcId = centerId.toInt(),
-                    sanctionOrder = sanctionOrder
+                    sanctionOrder = sanctionOrder,
+                    facilityId = facilityId.toInt()
+
                 )
 
                 viewModel.getRfLivingRoomListView(rfLAreaListReq)
@@ -882,7 +902,9 @@ class ResidentialFacilityFragment : Fragment() {
                 val rfLAreaListReq = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
                     tcId = centerId.toInt(),
-                    sanctionOrder = sanctionOrder
+                    sanctionOrder = sanctionOrder,
+                    facilityId = facilityId.toInt()
+
                 )
 
                 viewModel.getRfToiletListView(rfLAreaListReq)
@@ -922,7 +944,9 @@ class ResidentialFacilityFragment : Fragment() {
                     val requestLRLVRQ = LivingRoomListViewRQ(
                         appVersion = BuildConfig.VERSION_NAME,
                         tcId = centerId.toInt(),
-                        sanctionOrder = sanctionOrder
+                        sanctionOrder = sanctionOrder,
+                        facilityId = facilityId.toInt()
+
                     )
                     viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
 
@@ -990,12 +1014,14 @@ class ResidentialFacilityFragment : Fragment() {
                 showEditSectionDialog("Residential Facilities Available") {
 
 
-                    val requestTcInfo = TrainingCenterInfo(
+                    val requestTcInfo = RfCommonReq(
                         appVersion = BuildConfig.VERSION_NAME,
                         loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
                         tcId = centerId.toInt(),
                         sanctionOrder = sanctionOrder,
-                        imeiNo = AppUtil.getAndroidId(requireContext())
+                        imeiNo = AppUtil.getAndroidId(requireContext()),
+                        facilityId = facilityId.toInt()
+
                     )
 
                     viewModel.getResidentialFacilitiesAvailable(requestTcInfo)
@@ -1037,7 +1063,9 @@ class ResidentialFacilityFragment : Fragment() {
                         appVersion = BuildConfig.VERSION_NAME,
                         tcId = centerId.toInt(),
                         sanctionOrder = sanctionOrder,
-                        imeiNo=AppUtil.getAndroidId(requireContext())
+                        imeiNo=AppUtil.getAndroidId(requireContext()),
+                        facilityId = facilityId.toInt()
+
                     )
                     viewModel.getRFSupportFacilitiesAvailable(rfGameRequest)
 
@@ -1231,8 +1259,10 @@ class ResidentialFacilityFragment : Fragment() {
 
 
                     200 ->{
+                        clearAllFields()
                         Toast.makeText(
                             requireContext(),
+
                             "Living Area submitted successfully!",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -1248,22 +1278,11 @@ class ResidentialFacilityFragment : Fragment() {
                                 tcId = centerId,
                                 sanctionOrder = sanctionOrder,
                                 facilityId = facilityId
-
                                 )
-
                         viewModel.getRFSectionStatus(sectionReq)
                         showProgressBar()
-
-
                     }
-
-
-
                 }
-
-
-
-
 
             }
             result.onFailure {
@@ -1364,10 +1383,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                     }
 
-
-
                 }
-
 
             }
             result.onFailure {
@@ -2050,7 +2066,7 @@ class ResidentialFacilityFragment : Fragment() {
             if (validateInfraInfoForm(view)) submitRFInfraForm(view)
             else Toast.makeText(
                 requireContext(),
-                "Complete all Infrastructure Details and Compliances  fields and photos.",
+                "Complete all Infrastructure Details and Compliance's  fields and photos.",
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -3346,6 +3362,7 @@ class ResidentialFacilityFragment : Fragment() {
                 imeiNo = AppUtil.getAndroidId(requireContext()),
                 sanctionOrder = sanctionOrder,
                 trainingCentre = centerId.toInt(),
+                facilityId = facilityId.toInt(),
                 finalArray = finalArray
             )
 
@@ -3498,6 +3515,8 @@ class ResidentialFacilityFragment : Fragment() {
                     appVersion = BuildConfig.VERSION_NAME,
                     sanctionOrder = sanctionOrder,
                     tcId = centerId.toInt(),
+                    facilityId = facilityId.toInt()
+
                 )
 
                 viewModel.getRfLivingRoomListView(rfLAreaListReq)
@@ -3582,7 +3601,9 @@ class ResidentialFacilityFragment : Fragment() {
                 val request = LivingRoomReq(
                     appVersion = BuildConfig.VERSION_NAME,
                     sanctionOrder = sanctionOrder,
-                    tcId = centerId.toInt()
+                    tcId = centerId.toInt(),
+                    facilityId = facilityId.toInt()
+
                 )
 
                 viewModel.getRfToiletListView(request)
@@ -3688,7 +3709,6 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-
     fun showEditSectionDialog(sectionName: String, onYesClicked: () -> Unit) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_section, null)
 
@@ -3731,6 +3751,34 @@ class ResidentialFacilityFragment : Fragment() {
             binding.layoutIndoorGameDetailContent.gone()
             binding.layoutRfAvailableContent.gone()
             binding.layoutSfAvailableContent.gone()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+    fun showEditRemarksDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_section, null)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        val tvMessage = dialogView.findViewById<TextView>(R.id.tvMessage)
+        val btnYes = dialogView.findViewById<MaterialButton>(R.id.btnYes)
+        val btnNo = dialogView.findViewById<MaterialButton>(R.id.btnNo)
+
+        tvMessage.text = remarks
+
+        btnYes.setOnClickListener {
+            dialog.dismiss()
+
+        }
+
+        btnNo.setOnClickListener {
+
             dialog.dismiss()
         }
 
@@ -3824,8 +3872,6 @@ class ResidentialFacilityFragment : Fragment() {
 
     }
 
-
-
     @SuppressLint("SuspiciousIndentation")
     private fun collectInsfrastructureDetailsAndComplains() {
         viewModel.CompliancesRFQTReqRFQT.observe(viewLifecycleOwner) { result ->
@@ -3843,6 +3889,7 @@ class ResidentialFacilityFragment : Fragment() {
                             setSpinnerValue(spinnerOwnerBuilding, x.ownership!!)
                             setBase64ToImage(binding.ivOwnerBuildingDocPreview, x.selfDeclaration)
                             base64OwnerBuildingDocFile = x.selfDeclaration
+                            binding.ivOwnerBuildingDocPreview.visible()
 
 
                             binding.etAreaOfBuilding.setText(x.buildingArea)
@@ -3851,6 +3898,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.buildingPhotosFile
                             )
                             base64BuildingAreaDocFile = x.buildingPhotosFile
+                            binding.ivAreaOfBuildingDocPreview.visible()
 
 
                             setSpinnerValue(spinnerRoofOfBuilding, x.roof!!)
@@ -3859,17 +3907,23 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.buildingPlanFile
                             )// missing
                             base64RoofOfBuildingDocFile = x.buildingPlanFile
+                            binding.ivRoofOfBuildingPreview.visible()
 
-                            setSpinnerValue(spinnerWhetherStructurallySound, x.wallPhotosFile!!)
+
+                            setSpinnerValue(spinnerWhetherStructurallySound, x.plastring!!)
                             setBase64ToImage(
                                 binding.ivWhetherStructurallySoundPreview,
                                 x.wallPhotosFile
                             )
                             base64WhetherStructurallySoundDocFile = x.wallPhotosFile
+                            binding.ivWhetherStructurallySoundPreview.visible()
+
 
                             setSpinnerValue(spinnerVisibleSignOfLeakage, x.leakage!!)
                             setBase64ToImage(binding.ivSignOfLeakagePreview, x.leakagesProofFile)
                             base64SignOfLeakageDocFile = x.leakagesProofFile
+                            binding.ivSignOfLeakagePreview.visible()
+
 
                             setSpinnerValue(spinnerConformanceDDUGKY, x.conformanceDdu!!)
                             setBase64ToImage(
@@ -3877,6 +3931,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.conformanceDduProofFile
                             )
                             base64ConformanceDDUGKYDocFile = x.conformanceDduProofFile
+                            binding.ivConformanceDDUGKYPreview.visible()
 
                             setSpinnerValue(spinnerProtectionofStairs, x.protectionStairs!!)
                             setBase64ToImage(
@@ -3884,6 +3939,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.protectionStairsProofFile
                             )
                             base64ProtectionofStairsDocFile = x.protectionStairsProofFile
+                            binding.ivProtectionofStairsPreview.visible()
 
 
                             binding.etCirculatingArea.setText(x.circulatingArea)
@@ -3892,10 +3948,14 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.circulatingAreaProofFile
                             )
                             base64CirculatingAreaProof = x.circulatingAreaProofFile
+                            binding.ivCirculationAreaDocPreview.visible()
+
 
                             setSpinnerValue(spinnerCorridor, x.corridor!!)
                             setBase64ToImage(binding.ivCorridorPreview, x.corridorProofFile)
                             base64CorridorDocFile = x.corridorProofFile
+                            binding.ivCorridorPreview.visible()
+
 
                             setSpinnerValue(spinnerSecuringWires, x.securingWiresDone!!)
                             setBase64ToImage(
@@ -3903,6 +3963,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.securingWiresDoneProofFile
                             )
                             base64SecuringWiresDocFile = x.securingWiresDoneProofFile
+                            binding.ivSecuringWiresPreview.visible()
+
 
                             setSpinnerValue(spinnerSwitchBoards, x.switchBoardsPanelBoards!!)
                             setBase64ToImage(
@@ -3910,6 +3972,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.switchBoardsPanelBoardsProofFile
                             )
                             base64SwitchBoardsDocFile = x.switchBoardsPanelBoardsProofFile
+                            binding.ivSwitchBoardsPreview.visible()
+
 
                             setSpinnerValue(spinnerHostelNameBoard, x.hostelNameBoard!!)
                             setBase64ToImage(
@@ -3917,6 +3981,7 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.hostelNameBoardProofFile
                             )
                             base64HostelNameBoardDocFile = x.hostelNameBoardProofFile
+                            binding.ivHostelNameBoardPreview.visible()
 
                             setSpinnerValue(spinnerEntitlementBoard, x.studentEntitlementBoard!!)
                             setBase64ToImage(
@@ -3924,6 +3989,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.studentEntitlementBoardProofFile
                             )
                             base64EntitlementBoardDocFile = x.studentEntitlementBoardProofFile
+                            binding.ivEntitlementBoardPreview.visible()
+
 
                             setSpinnerValue(spinnerContactDetail, x.contactDetailImportantPeople!!)
                             setBase64ToImage(
@@ -3931,6 +3998,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.contactDetailImportantPeopleproofFile
                             )
                             base64ContactDetailDocFile = x.contactDetailImportantPeopleproofFile
+                            binding.ivContactDetailPreview.visible()
+
 
                             setSpinnerValue(spinnerBasicInfoBoard, x.basicInformationBoard!!)
                             setBase64ToImage(
@@ -3938,6 +4007,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.basicInformationBoardproofFile
                             )
                             base64BasicInfoBoardDocFile = x.basicInformationBoardproofFile
+                            binding.ivBasicInfoBoardPreview.visible()
+
 
                             setSpinnerValue(
                                 spinnerFoodSpecificationBoard,
@@ -3948,6 +4019,8 @@ class ResidentialFacilityFragment : Fragment() {
                                 x.foodSpecificationBoardFile
                             )
                             base64FoodSpecificationBoardDocFile = x.foodSpecificationBoardFile
+                            binding.ivFoodSpecificationBoardPreview.visible()
+
 
                             binding.etAreaForOutDoorGames.setText(x.openSpaceArea)
 
@@ -3977,8 +4050,6 @@ class ResidentialFacilityFragment : Fragment() {
         }
 
     }
-
-
 
     private fun NonAreaInformation() {
         viewModel.NonAreaInformationRoom.observe(viewLifecycleOwner) { result ->
@@ -4048,7 +4119,6 @@ class ResidentialFacilityFragment : Fragment() {
 
 
     }
-
 
     private fun ResidentialFacilitiesAvailable() {
         viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
@@ -4228,13 +4298,48 @@ class ResidentialFacilityFragment : Fragment() {
         }
     }
 
-
-
     private fun observeFinalSubmissionResponse() {
         viewModel.insertRFFinalSubmission.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Data sent to the QTeam for verification", Toast.LENGTH_SHORT).show()
+                when (it.responseCode) {
+                    200 -> {
+
+                        Toast.makeText(requireContext(), "Data sent to the QTeam for verification", Toast.LENGTH_SHORT).show()
+                        findNavController().navigateUp()
+
+                    }
+                    202 -> {
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            it.responseDesc,
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+                    301 -> {
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> AppUtil.showSessionExpiredDialog(
+                        findNavController(),
+                        requireContext()
+                    )
+                }
+
+
+
+
 
             }
 
@@ -4244,7 +4349,6 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
     }
-
 
     fun setSpinnerValue(spinner: Spinner?, value: String?) {
         if (spinner == null || value.isNullOrEmpty()) return
@@ -4258,6 +4362,7 @@ class ResidentialFacilityFragment : Fragment() {
             }
         }
     }
+
     fun setBase64ToImage(imageView: ImageView, base64String: String?) {
         if (base64String.isNullOrEmpty() || base64String == "NA") {
             imageView.setImageResource(R.drawable.no_image)
@@ -4278,6 +4383,56 @@ class ResidentialFacilityFragment : Fragment() {
             e.printStackTrace()
             imageView.setImageResource(R.drawable.no_image)
         }
+    }
+    private fun clearAllFields() {
+        // EditTexts
+        binding.etHeightOfCeiling.text?.clear()
+        binding.etRoomLength.text?.clear()
+        binding.etRoomWidth.text?.clear()
+        binding.etRoomArea.text=""
+        binding.etRoomWindowArea.text?.clear()
+        binding.etCot.text?.clear()
+        binding.etMattress.text?.clear()
+        binding.etBedSheet.text?.clear()
+        binding.etCupboard.text?.clear()
+        binding.etLivingAreaLights.text?.clear()
+        binding.etLivingAreaFans.text?.clear()
+
+        binding.spinnerTypeLivingRoof.setSelection(0)
+        binding.spinnerCeiling.setSelection(0)
+        binding.spinnerAirConditioning.setSelection(0)
+        binding.spinnerLivingAreaInfoBoard.setSelection(0)
+
+        base64TypeLivingRoofDocFile = null
+        base64CeilingDocFile = null
+        base64AirConditioningDocFile = null
+        base64CotDocFile = null
+        base64MattressDocFile = null
+        base64BedSheetDocFile = null
+        base64CupBoardDocFile = null
+        base64LivingAreaInfoBoardDocFile = null
+        base64LightsDocFile = null
+        base64FansDocFile = null
+        base64AirHieghtOfCelingDocFile = null
+        base64WindowAreaDocFile = null
+
+        // Reset custom variables
+        selectedRoomPermitted = 0
+
+
+        binding.ivTypeLivingRoofPreview.gone()
+        binding.ivCeilingPreview.gone()
+        binding.ivLivingAreaHieghtOfCeilingPreview.gone()
+        binding.ivLivingAreaWindowAreaPreview.gone()
+        binding.ivAirConditioningPreview.gone()
+        binding.ivCotPreview.gone()
+        binding.ivMattressPreview.gone()
+        binding.ivBedSheetPreview.gone()
+        binding.ivCupboardPreview.gone()
+        binding.ivLivingAreaInfoBoardPreview.gone()
+        binding.ivLivingAreaLightsPreview.gone()
+        binding.ivLivingAreaFansPreview.gone()
+
     }
 
 
