@@ -171,7 +171,6 @@
 
 
 
-
             <TextView
                 android:id="@+id/FirstAidKit"
                 android:layout_width="wrap_content"

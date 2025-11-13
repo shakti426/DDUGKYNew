@@ -96,7 +96,7 @@
                 android:text="@string/type_of_roof_rcc_non_rcc"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/baseline_monitor_24"
+                app:drawableStartCompat="@drawable/roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeading" />
 
@@ -128,7 +128,7 @@
                 android:text="@string/false_ceiling_label"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiTypeOfRoofFile" />
 
@@ -161,7 +161,7 @@
                 android:text="@string/height_of_ceiling"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiFalseCellingFile" />
 
@@ -204,7 +204,7 @@
                 android:text="@string/roof_building_label"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/ic_roof"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiHeightofCelling" />
 
@@ -306,7 +306,7 @@
                 android:text="@string/area_in_sq_ft"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/cctv"
+                app:drawableStartCompat="@drawable/area"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiWidthFile" />
 
@@ -364,6 +364,15 @@
                 android:textColor="@color/color_dark_blue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiwindowsArea" />
+
+
+
+
+
+
+
+
+
 
 
             <TextView
@@ -483,6 +492,26 @@
 
 
             <!-- 7. Color video with audio -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <TextView
                 android:id="@+id/labellaiAirCondtion"
                 android:layout_width="wrap_content"
@@ -560,7 +589,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:drawablePadding="8dp"
-                android:text="@string/storage_place_for_securing_documents"
+                android:text="@string/cupboard_almirah_trunk_with_locking_arrangements_in_no"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
                 app:drawableStartCompat="@drawable/backup"
@@ -588,13 +617,27 @@
                 app:layout_constraintTop_toBottomOf="@id/laiStorage" />
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <TextView
                 android:id="@+id/labellaiBasicInformationBoard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_15"
                 android:drawablePadding="8dp"
-                android:text="@string/basic_information_board"
+                android:text="@string/living_area_information_board_as_per_sf_5_1_b4"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
                 app:drawableStartCompat="@drawable/backup"
@@ -610,11 +653,65 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/labellaiBasicInformationBoard" />
 
+            <TextView
+                android:id="@+id/LiaBasicInformationBoardFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/color_dark_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoard" />
 
 
 
+
+
+            <TextView
+                android:id="@+id/labellaiNoOfStudentPermitted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/number_of_students_permitted"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/backup"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoardFile" />
+
+            <TextView
+                android:id="@+id/NoOfStudentPermitted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labellaiNoOfStudentPermitted" />
 
 <!--            <TextView-->
+<!--                android:id="@+id/NoOfStudentPermittedFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/color_dark_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/NoOfStudentPermitted" />-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!--            <TextView-->
 <!--                android:id="@+id/labelliaTrainingCenterId"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="wrap_content"-->

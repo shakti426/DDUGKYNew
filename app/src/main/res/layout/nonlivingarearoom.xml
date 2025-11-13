@@ -16,10 +16,969 @@
 <!--         android:paddingBottom="@dimen/dp_100"-->
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/NonLivingAreaInfoExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:elevation="@dimen/dp_2"
+            android:padding="@dimen/dp_10"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewNonLivingAreaInfor">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/laiHeadingKitchen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/kitchen"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
+            <TextView
+                android:id="@+id/labelWhetherFoodFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/food"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeadingKitchen"
+
+                />
+
+            <TextView
+                android:id="@+id/WhetherFoodFor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelWhetherFoodFor" />
+
+            <TextView
+                android:id="@+id/WhetherFoodForFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/soft_navy_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WhetherFoodFor" />
 
 
+            <TextView
+                android:id="@+id/laiHeadingRDA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/recreation_and_dining_areas"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WhetherFoodForFile" />
+
+
+            <TextView
+                android:id="@+id/labelAreTheDiningAndRecreationAreaSeparate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/are_the_dining_and_recreation_area_separate"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/length"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeadingRDA" />
+
+            <TextView
+                android:id="@+id/reTheDiningAndRecreationAreaSeparate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelAreTheDiningAndRecreationAreaSeparate" />
+
+
+            <TextView
+                android:id="@+id/labelNoOfStoolsChairsBenches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/no_of_stools_chairs_benches"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/reTheDiningAndRecreationAreaSeparate" />
+
+            <TextView
+                android:id="@+id/NoOfStoolsChairsBenches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelNoOfStoolsChairsBenches" />
+
+
+            <TextView
+                android:id="@+id/labelWashArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/wash_area"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/NoOfStoolsChairsBenches" />
+
+            <TextView
+                android:id="@+id/WashArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelWashArea" />
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/levelWhetherTv"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                app:drawableStartCompat="@drawable/width"-->
+            <!--                android:text="@string/whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/WashArea" />-->
+
+
+            <TextView
+                android:id="@+id/levelWhetherTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/whether_tv_with_a_cable_or_satellite_connection_is_available_for_viewing"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/drinkin_water"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WashArea" />
+
+            <TextView
+                android:id="@+id/WhetherTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/levelWhetherTv" />
+
+
+            <TextView
+                android:id="@+id/levelDiningArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/dining_area"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
+
+
+            <TextView
+                android:id="@+id/labelDiningLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/length_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/length"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/levelDiningArea" />
+
+            <TextView
+                android:id="@+id/DiningLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelDiningLength" />
+
+
+            <TextView
+                android:id="@+id/labelDiningWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/width_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DiningLength" />
+
+            <TextView
+                android:id="@+id/DiningWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelDiningWidth" />
+
+
+            <TextView
+                android:id="@+id/labelsDiningArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/area_in_sq_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/width"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DiningWidth" />
+
+            <TextView
+                android:id="@+id/DiningArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelsDiningArea" />
+
+
+            <TextView
+                android:id="@+id/laiHeadingRecreationArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/recreation_area"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/DiningArea" />
+
+
+            <TextView
+                android:id="@+id/labelRecreationLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/length_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeadingRecreationArea" />
+
+            <TextView
+                android:id="@+id/RecreationLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelRecreationLength" />
+
+            <TextView
+                android:id="@+id/labelRecreationWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/width_in_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/RecreationLength" />
+
+            <TextView
+                android:id="@+id/RecreationWidth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelRecreationWidth" />
+
+
+            <TextView
+                android:id="@+id/labelRecreationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/area_in_sq_ft"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/RecreationWidth" />
+
+            <TextView
+                android:id="@+id/RecreationArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelRecreationArea" />
+
+            <TextView
+                android:id="@+id/laiHeadingReceptionArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="@string/reception_area"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/sp_18"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/RecreationArea" />
+
+
+            <TextView
+                android:id="@+id/labelReceptionArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:drawablePadding="8dp"
+                android:text="@string/is_reception_area_available"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_18"
+                app:drawableStartCompat="@drawable/area"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/laiHeadingReceptionArea" />
+
+            <TextView
+                android:id="@+id/ReceptionArea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/n_a"
+                android:textColor="@color/color_follow_up_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/labelReceptionArea" />
+
+            <TextView
+                android:id="@+id/ReceptionAreaFile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_35"
+                android:text="@string/view"
+                android:textColor="@color/soft_navy_blue"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ReceptionArea" />
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/ReceptionAreaFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/ReceptionLength" />-->
+
+
+            <TextView
+                android:id="@+id/llNonAreaInformationApproval"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="@string/select_approvals"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ReceptionAreaFile" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/llNonLivingAreaInformation"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_3"
+                android:fontFamily="@font/avenir_next_demi_bold"
+                android:hint="@string/select_approval"
+                android:textColorHint="@color/color_dark_green"
+                app:boxStrokeColor="@color/color_dark_green"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llNonAreaInformationApproval">
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/SpinnerNonLivingAreaInformation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="none"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="15sp"
+                    tools:ignore="LabelFor" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvNonLivingAreaInformationRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:text="@string/remarkss"
+                android:textColor="@color/color_dark_green"
+                android:textSize="@dimen/sp_16"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/llNonLivingAreaInformation"
+
+
+                />
+
+            <EditText
+                android:id="@+id/etNonLivingAreaInformationRemarks"
+                style="@style/EditText"
+                android:background="@drawable/edittext_background"
+                android:hint="@string/remarks"
+                android:padding="12dp"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:visibility="gone"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNonLivingAreaInformationRemarks"
+
+                />
+
+            <LinearLayout
+                android:id="@+id/llLivingAreaInformationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etNonLivingAreaInformationRemarks">
+
+                <TextView
+                    android:id="@+id/btnNonLivingAreaInformationPrevious"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/backgroung_overlay"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:text="@string/previous"
+                    android:textColor="@color/color_dark_blue"
+                    android:textSize="@dimen/sp_16" />
+
+                <TextView
+                    android:id="@+id/btnNonLivingAreaInformationNext"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_background"
+                    android:elevation="4dp"
+                    android:gravity="center"
+                    android:text="@string/save_and_next"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_16" />
+
+
+            </LinearLayout>
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/labelrecreationWidth"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="Reception Length"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/light"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/ReceptionLength" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/ReceptionLength"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labelReceptionArea" />-->
+
+            <!--                    <TextView-->
+            <!--                        android:id="@+id/TriLightsFile"-->
+            <!--                        android:layout_width="wrap_content"-->
+            <!--                        android:layout_height="wrap_content"-->
+            <!--                        android:text="@string/view"-->
+            <!--                        android:textColor="@color/color_dark_blue"-->
+            <!--                        android:layout_marginStart="@dimen/dp_35"-->
+            <!--                        app:layout_constraintTop_toBottomOf="@id/TriLights"-->
+            <!--                        app:layout_constraintStart_toStartOf="parent"/>-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiLength"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:visibility=""-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/length_in_ft"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/lan"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/roof_building_label" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiLength"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiLength" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiLengthFile"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiLength" />-->
+
+
+            <!--            &lt;!&ndash; 1. IP Enabled &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiWidth"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/width_in_ft"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/lan"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiLengthFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiWidth"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiWidth" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiWidthFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiWidth" />-->
+
+
+            <!--            &lt;!&ndash; 2. Resolution &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiArea"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/area_in_sq_ft"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/cctv"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiWidthFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiArea"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiArea" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiAreaFile"-->
+            <!--                android:visibility="gone"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiArea" />-->
+
+
+            <!--            &lt;!&ndash; 3. Video Stream &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiwindowsArea"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/window_area_in_sq_ft"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/baseline_videostream"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiAreaFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiwindowsArea"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiwindowsArea" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiwindowsAreaFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsArea" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiSleepingAndStoringMaterialHeading"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="@string/sleeping_and_storing_material"-->
+            <!--                android:textColor="@color/color_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                android:textStyle="bold"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsAreaFile" />-->
+
+            <!--            &lt;!&ndash; 4. Remote Access (Web) &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiCotInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/cot_in_no"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/internet"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiSleepingAndStoringMaterialHeading" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiCotInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiCotInNo" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiCotInNoFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNo" />-->
+
+
+            <!--            &lt;!&ndash; 5. Remote Access (10 users) &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiMattersInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/mattress_in_no"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/office_room"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNoFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiMattersInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiMattersInNo" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiMattersInNoFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNo" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiBedSheetInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:gravity="center"-->
+            <!--                app:drawableStartCompat="@drawable/office_room"-->
+            <!--                android:text="@string/bed_sheet_in_no"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNoFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiBedSheetInNo"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiBedSheetInNo" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiBedSheetInNoFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNo" />-->
+
+
+            <!--            &lt;!&ndash; 7. Color video with audio &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiAirCondtion"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/does_the_room_has_air_conditioning"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/audio"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNoFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiAirCondtion"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiAirCondtion" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiAirCondtionFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtion" />-->
+
+
+            <!--            &lt;!&ndash; 8. Storage Facility &ndash;&gt;-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/LabellaiLights"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/lights_in_no"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/backup"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtionFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiLights"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/LabellaiLights" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiLightsFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiLights" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiStorage"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/storage_place_for_securing_documents"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/backup"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiLightsFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiStorage"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiStorage" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/laiStorageFile"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/view"-->
+            <!--                android:textColor="@color/color_dark_blue"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiStorage" />-->
+
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/labellaiBasicInformationBoard"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/dp_15"-->
+            <!--                android:drawablePadding="8dp"-->
+            <!--                android:text="@string/basic_information_board"-->
+            <!--                android:textColor="@color/color_dark_green"-->
+            <!--                android:textSize="@dimen/sp_18"-->
+            <!--                app:drawableStartCompat="@drawable/backup"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/laiStorageFile" />-->
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/LiaBasicInformationBoard"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/dp_35"-->
+            <!--                android:text="@string/n_a"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@id/labellaiBasicInformationBoard" />-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:id="@+id/llTopNonAreaInformation"
@@ -73,1015 +1032,6 @@
 
 
         <!-- Content Fields -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/NonLivingAreaInfoExpand"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-
-            android:elevation="@dimen/dp_2"
-            android:padding="@dimen/dp_10"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewNonLivingAreaInfor">
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/laiHeadingKitchen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/kitchen"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-
-            <TextView
-                android:id="@+id/labelWhetherFoodFor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/whether_food_for_the_candidates_is_being_prepared_in_the_premises_of_the_training_center"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/flooring"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingKitchen"
-
-                />
-
-            <TextView
-                android:id="@+id/WhetherFoodFor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:textColor="@color/color_follow_up_title"
-                android:text="@string/n_a"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelWhetherFoodFor" />
-
-
-
-
-
-
-
-
-
-
-
-
-            <TextView
-                android:id="@+id/labelkitchenLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/kitchen_length"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/flooring"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/WhetherFoodFor"
-                 />
-
-            <TextView
-                android:id="@+id/kitchenLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:textColor="@color/color_follow_up_title"
-                android:text="@string/n_a"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelkitchenLength" />
-
-            <TextView
-                android:id="@+id/labelkitchenWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-
-                android:drawablePadding="8dp"
-                android:text="@string/kitchen_width"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/drinkin_water"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kitchenLength" />
-
-            <TextView
-                android:id="@+id/kitchenWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelkitchenWidth" />
-
-
-
-
-            <TextView
-                android:id="@+id/labelkitchenArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/kitchen_area"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/toilet"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kitchenWidth" />
-
-            <TextView
-                android:id="@+id/KitchenArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelkitchenArea" />
-
-
-            <TextView
-                android:id="@+id/labelkitchennoOfSeats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="Number Of Seats"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/toilet"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/KitchenArea" />
-
-            <TextView
-                android:id="@+id/NumberOfSeats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelkitchennoOfSeats" />
-
-
-
-            <TextView
-                android:id="@+id/labelkitchenPreparedFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/prepared_food"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/NumberOfSeats" />
-
-            <TextView
-                android:id="@+id/PreparedFood"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelkitchenPreparedFood" />
-
-            <TextView
-                android:id="@+id/PreparedFoodFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/view"
-                android:textColor="@color/color_dark_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PreparedFood" />
-
-
-
-
-
-
-
-
-
-            <TextView
-                android:id="@+id/laiHeadingRDA"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/recreation_and_dining_areas"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/PreparedFoodFile" />
-
-
-
-
-
-
-
-            <TextView
-                android:id="@+id/labelRecreationLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="Recreation Length"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingRDA" />
-
-            <TextView
-                android:id="@+id/RecreationLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationLength" />
-
-
-
-
-
-
-
-
-
-            <TextView
-                android:id="@+id/labelRecreationArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/recreation_area"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationLength" />
-
-            <TextView
-                android:id="@+id/RecreationArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationArea" />
-
-
-
-
-
-            <TextView
-                android:id="@+id/labelRecreationWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/recreation_width"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationArea" />
-
-            <TextView
-                android:id="@+id/RecreationWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationWidth" />
-
-
-
-
-            <TextView
-                android:id="@+id/laiHeadingDiningArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/dining_area"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationWidth" />
-
-
-            <TextView
-                android:id="@+id/labelDiningArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/dining_area"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingDiningArea" />
-
-            <TextView
-                android:id="@+id/DiningArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelDiningArea" />
-
-
-
-
-
-            <TextView
-                android:id="@+id/labelDiningLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="Dining Length"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningArea" />
-
-            <TextView
-                android:id="@+id/DiningLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelDiningLength" />
-
-
-
-            <TextView
-                android:id="@+id/labelDiningWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="Dining Width"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningLength" />
-
-            <TextView
-                android:id="@+id/DiningWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelDiningWidth" />
-
-
-
-
-
-            <TextView
-                android:id="@+id/laiHeadingReceptionArea"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/reception_area"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningWidth" />
-
-
-
-
-            <TextView
-                android:id="@+id/labelReceptionArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/reception_area"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingReceptionArea" />
-
-            <TextView
-                android:id="@+id/ReceptionArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelReceptionArea" />
-
-            <TextView
-                android:id="@+id/ReceptionAreaFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/view"
-                android:textColor="@color/color_dark_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ReceptionArea" />
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/llNonAreaInformationApproval"
-                android:text="@string/select_approvals"
-                android:layout_marginTop="@dimen/dp_20"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ReceptionAreaFile"
-                />
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_next_demi_bold"
-                android:hint="@string/select_approval"
-                android:id="@+id/llNonLivingAreaInformation"
-                android:layout_marginStart="@dimen/dp_3"
-                android:textColorHint="@color/color_dark_green"
-                app:boxStrokeColor="@color/color_dark_green"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llNonAreaInformationApproval"
-                >
-
-
-
-                <AutoCompleteTextView
-                    android:id="@+id/SpinnerNonLivingAreaInformation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:inputType="none"
-                    android:textColor="@color/color_dark_green"
-                    android:textSize="15sp"
-                    tools:ignore="LabelFor"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tvNonLivingAreaInformationRemarks"
-                android:visibility="gone"
-                android:text="@string/remarkss"
-                android:layout_marginTop="@dimen/dp_20"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_16"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/llNonLivingAreaInformation"
-
-
-                />
-
-            <EditText
-                android:id="@+id/etNonLivingAreaInformationRemarks"
-                style="@style/EditText"
-                android:visibility="gone"
-                android:hint="@string/remarks"
-                android:background="@drawable/edittext_background"
-                android:padding="12dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvNonLivingAreaInformationRemarks"
-
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:id="@+id/llLivingAreaInformationBtn"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNonLivingAreaInformationRemarks">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:id="@+id/btnNonLivingAreaInformationPrevious"
-                    android:elevation="4dp"
-                    android:text="@string/previous"
-                    android:textColor="@color/color_dark_blue"
-                    android:textSize="@dimen/sp_16"
-                    android:background="@drawable/backgroung_overlay"
-                    android:layout_margin="8dp" />
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:text="@string/save_and_next"
-                    android:gravity="center"
-                    android:id="@+id/btnNonLivingAreaInformationNext"
-                    android:textColor="@color/white"
-                    android:elevation="4dp"
-                    android:textSize="@dimen/sp_16"
-                    android:background="@drawable/card_background"
-                    android:layout_margin="8dp" />
-
-
-            </LinearLayout>
-
-
-
-
-
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/labelrecreationWidth"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="Reception Length"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/light"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/ReceptionLength" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/ReceptionLength"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labelReceptionArea" />-->
-
-            <!--                    <TextView-->
-<!--                        android:id="@+id/TriLightsFile"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="@string/view"-->
-<!--                        android:textColor="@color/color_dark_blue"-->
-<!--                        android:layout_marginStart="@dimen/dp_35"-->
-<!--                        app:layout_constraintTop_toBottomOf="@id/TriLights"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"/>-->
-
-
-
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiLength"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:visibility=""-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/length_in_ft"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/lan"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/roof_building_label" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiLength"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiLength" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiLengthFile"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiLength" />-->
-
-
-<!--            &lt;!&ndash; 1. IP Enabled &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiWidth"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/width_in_ft"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/lan"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiLengthFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiWidth"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiWidth" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiWidthFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:visibility="gone"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiWidth" />-->
-
-
-<!--            &lt;!&ndash; 2. Resolution &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiArea"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/area_in_sq_ft"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/cctv"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiWidthFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiArea"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiArea" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiAreaFile"-->
-<!--                android:visibility="gone"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiArea" />-->
-
-
-<!--            &lt;!&ndash; 3. Video Stream &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiwindowsArea"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/window_area_in_sq_ft"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/baseline_videostream"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiAreaFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiwindowsArea"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiwindowsArea" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiwindowsAreaFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsArea" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiSleepingAndStoringMaterialHeading"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/sleeping_and_storing_material"-->
-<!--                android:textColor="@color/color_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                android:textStyle="bold"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiwindowsAreaFile" />-->
-
-<!--            &lt;!&ndash; 4. Remote Access (Web) &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiCotInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/cot_in_no"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/internet"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiSleepingAndStoringMaterialHeading" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiCotInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiCotInNo" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiCotInNoFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNo" />-->
-
-
-<!--            &lt;!&ndash; 5. Remote Access (10 users) &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiMattersInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/mattress_in_no"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/office_room"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiCotInNoFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiMattersInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiMattersInNo" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiMattersInNoFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNo" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiBedSheetInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:gravity="center"-->
-<!--                app:drawableStartCompat="@drawable/office_room"-->
-<!--                android:text="@string/bed_sheet_in_no"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiMattersInNoFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiBedSheetInNo"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiBedSheetInNo" />-->
-<!--            <TextView-->
-<!--                android:id="@+id/laiBedSheetInNoFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNo" />-->
-
-
-<!--            &lt;!&ndash; 7. Color video with audio &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiAirCondtion"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/does_the_room_has_air_conditioning"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/audio"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiBedSheetInNoFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiAirCondtion"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiAirCondtion" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiAirCondtionFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtion" />-->
-
-
-
-
-<!--            &lt;!&ndash; 8. Storage Facility &ndash;&gt;-->
-<!--            <TextView-->
-<!--                android:id="@+id/LabellaiLights"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/lights_in_no"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/backup"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiAirCondtionFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiLights"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/LabellaiLights" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiLightsFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiLights" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiStorage"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/storage_place_for_securing_documents"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/backup"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiLightsFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiStorage"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiStorage" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/laiStorageFile"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/view"-->
-<!--                android:textColor="@color/color_dark_blue"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiStorage" />-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/labellaiBasicInformationBoard"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/dp_15"-->
-<!--                android:drawablePadding="8dp"-->
-<!--                android:text="@string/basic_information_board"-->
-<!--                android:textColor="@color/color_dark_green"-->
-<!--                android:textSize="@dimen/sp_18"-->
-<!--                app:drawableStartCompat="@drawable/backup"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/laiStorageFile" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/LiaBasicInformationBoard"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/dp_35"-->
-<!--                android:text="@string/n_a"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@id/labellaiBasicInformationBoard" />-->
-
-
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
