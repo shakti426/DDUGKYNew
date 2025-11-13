@@ -6,6 +6,9 @@ data class TrainingCenter(
     val trainingCenterAddress: String,
     val trainingCenterName: String,
     val districtName: String,
+    val tcMaleCapacity: String,
+    val tcFemaleCapacity: String,
+    val tcCapacity: String,
     val status: String,
     val remarks: String
 )

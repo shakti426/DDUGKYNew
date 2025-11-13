@@ -730,4 +730,7 @@
     <string name="conformance_to_standards">Conformance to Standards</string>
     <string name="do_you_want_to_edit_this_section">Do you want to edit this section?</string>
     <string name="add_new_residential_facility">Add New Residential Facility</string>
+    <string name="tc_female_capacity_12">Tc Female Capacity : 12</string>
+    <string name="tc_male_capacity_12">Tc Male Capacity : 12</string>
+    <string name="tc_total_capacity_24">Tc Total Capacity: 24</string>
 </resources>

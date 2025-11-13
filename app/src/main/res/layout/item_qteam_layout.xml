@@ -114,6 +114,78 @@
                 android:maxLines="2"
                 android:ellipsize="end"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:src="@drawable/baseline_girl_24"
+                android:layout_marginTop="@dimen/dp_5" />
+
+            <TextView
+                android:id="@+id/tcFemaleCap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:text="@string/tc_female_capacity_12"
+                android:fontFamily="@font/avenir_next_semi_bold"
+                android:textSize="@dimen/sp_16"
+                android:padding="@dimen/dp_4"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:src="@drawable/baseline_boy_24"
+                android:layout_marginTop="@dimen/dp_5" />
+
+            <TextView
+                android:id="@+id/tcBoyCap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:text="@string/tc_male_capacity_12"
+                android:fontFamily="@font/avenir_next_semi_bold"
+                android:textSize="@dimen/sp_16"
+                android:padding="@dimen/dp_4"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/dp_25"
+                android:layout_height="@dimen/dp_25"
+                android:src="@drawable/total_capacity_24"
+                android:layout_marginTop="@dimen/dp_5" />
+
+            <TextView
+                android:id="@+id/tcTotalCap"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_15"
+                android:text="@string/tc_total_capacity_24"
+                android:fontFamily="@font/avenir_next_semi_bold"
+                android:textSize="@dimen/sp_16"
+                android:padding="@dimen/dp_4"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
