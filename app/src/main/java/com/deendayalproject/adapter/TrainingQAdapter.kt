@@ -19,6 +19,9 @@ class TrainingQAdapter(
         val order: TextView = view.findViewById(R.id.senctionOrder)
         val address: TextView = view.findViewById(R.id.trainingCenterAddress)
         val district: TextView =view.findViewById(R.id.districtName)
+        val tcBoyCap: TextView =view.findViewById(R.id.tcBoyCap)
+        val tcFemaleCap: TextView =view.findViewById(R.id.tcFemaleCap)
+        val tcTotalCap: TextView =view.findViewById(R.id.tcTotalCap)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
@@ -34,6 +37,9 @@ class TrainingQAdapter(
         holder.address.text = "Training Center Address: ${center.trainingCenterAddress}"
         holder.order.text = "Sanction Order: ${center.senctionOrder}"
         holder.district.text="District Name: ${center.districtName}"
+        holder.tcBoyCap.text="Tc Male Capacity: ${center.tcMaleCapacity}"
+        holder.tcFemaleCap.text="Tc Female Capacity: ${center.tcFemaleCapacity}"
+        holder.tcTotalCap.text="Training Center Total Capacity: ${center.tcCapacity}"
         holder.itemView.setOnClickListener {
             onItemClick(center)
         }
