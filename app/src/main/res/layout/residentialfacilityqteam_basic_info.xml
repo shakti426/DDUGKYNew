@@ -553,6 +553,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/LevelApproximateDistanceFrom" />
 
+
+
+
+        <TextView
+            android:id="@+id/LevelDistanceFromTheTrainingCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:text="@string/distance_from_the_training_centre_to_residential_centre_in_kms"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/ic_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ApproximateDistanceFrom" />
+
+        <!-- Value: Mobile Number -->
+        <TextView
+            android:id="@+id/DistanceFromTheTrainingCenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LevelDistanceFromTheTrainingCenter" />
+
         <!-- Label: Training Center Landline Number -->
         <TextView
             android:id="@+id/levelDistanceFromTheAutoStand"
@@ -565,12 +594,12 @@
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/baseline_local_phone_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ApproximateDistanceFrom" />
+            app:layout_constraintTop_toBottomOf="@+id/DistanceFromTheTrainingCenter" />
 
         <!-- Value: Landline Number -->
 
         <TextView
-            android:id="@+id/DistanceFromTheTraining"
+            android:id="@+id/DistanceFromAutoTraining"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
@@ -580,6 +609,39 @@
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/levelDistanceFromTheAutoStand" />
+
+
+
+        <TextView
+            android:id="@+id/levelDistanceFromRailwayStand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:drawablePadding="@dimen/dp_10"
+            android:text="@string/approximate_distance_from_a_prominent_railway_station_in_mtrs"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_18"
+            app:drawableStartCompat="@drawable/baseline_local_phone_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DistanceFromAutoTraining" />
+
+        <!-- Value: Landline Number -->
+
+        <TextView
+            android:id="@+id/DistanceFromRailwayStand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_35"
+            android:fontFamily="@font/avenir_next_semi_bold"
+            android:text="@string/n_a"
+            android:textColor="@color/color_dark_green"
+            android:textSize="@dimen/sp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/levelDistanceFromRailwayStand" />
+
+
+
+
 
 
         <!-- Label: Parliamentary Constituency -->
@@ -593,7 +655,7 @@
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/ic_constituency_new"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/DistanceFromTheTraining" />
+            app:layout_constraintTop_toBottomOf="@+id/DistanceFromRailwayStand" />
 
 
         <TextView

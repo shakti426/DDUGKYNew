@@ -41,4 +41,4 @@ data class LivingAreaInformation(
 
 
 )
-
+//val studentPermitted: String?,

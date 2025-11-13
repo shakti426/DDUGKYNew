@@ -122,7 +122,7 @@
             app:layout_constraintTop_toBottomOf="@id/labelarea_of_the_building" />
 
         <TextView
-            android:id="@+id/BuildingPlanFile"
+            android:id="@+id/BuildingAreaSQFPlanFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
@@ -186,10 +186,10 @@
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/roof"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/BuildingPlanFile" />
+            app:layout_constraintTop_toBottomOf="@id/BuildingAreaSQFPlanFile" />
 
         <TextView
-            android:id="@+id/roof_building_label"
+            android:id="@+id/RoofofBulding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_35"
@@ -197,15 +197,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelroof_building_label" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/valueStorageCCTV"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="@string/view"-->
-        <!--            android:textColor="@color/color_dark_blue"-->
-        <!--            android:layout_marginStart="@dimen/dp_35"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/roof_building_label"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"/>-->
+                <TextView
+                    android:id="@+id/RoofLavelFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/RoofofBulding"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/labelwhether_it_is_structurally"
@@ -218,7 +218,7 @@
             android:textSize="@dimen/sp_18"
             app:drawableStartCompat="@drawable/paint"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/roof_building_label" />
+            app:layout_constraintTop_toBottomOf="@id/RoofLavelFile" />
 
         <TextView
             android:id="@+id/WhetherItIsStructurally"
@@ -229,15 +229,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/labelwhether_it_is_structurally" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/valueDvrStaticIP"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="@string/view"-->
-        <!--            android:textColor="@color/color_dark_blue"-->
-        <!--            android:layout_marginStart="@dimen/dp_35"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/yesNoDvrStaticIP"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"/>-->
+                <TextView
+                    android:id="@+id/WhetherItIsStructurallyFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view"
+                    android:textColor="@color/color_dark_blue"
+                    android:layout_marginStart="@dimen/dp_35"
+                    app:layout_constraintTop_toBottomOf="@id/WhetherItIsStructurally"
+                    app:layout_constraintStart_toStartOf="parent"/>
 
 
         <!-- 1. IP Enabled -->
@@ -254,7 +254,7 @@
             android:textColor="@color/light_blue"
             android:textSize="@dimen/sp_16"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/WhetherItIsStructurally" />
+            app:layout_constraintTop_toBottomOf="@id/WhetherItIsStructurallyFile" />
 
         <TextView
             android:id="@+id/labelvisible_signs_of_leakages"
