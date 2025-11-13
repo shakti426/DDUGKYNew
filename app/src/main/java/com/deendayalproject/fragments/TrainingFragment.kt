@@ -7763,7 +7763,7 @@ private fun validateITComeDomainLab(): Boolean {
 
 
 
-                officeTable = spinnerOCCROfficeTable.selectedItem.toString(),
+                officeTable = etOfficeCumAnOfficeTableNo.text.toString(),
                 officeTableAttachment = base64ProofOCCROfficeTable ?: "",
 
 

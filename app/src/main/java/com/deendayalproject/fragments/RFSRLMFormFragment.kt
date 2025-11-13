@@ -1581,13 +1581,7 @@ class RFSRLMFormFragment : Fragment() {
             binding.btnSubmitFinal.visibility= View.GONE
             binding.RFResidentialFacilitiesAvailable.RFResidentialFacalityExpand.visibility= View.VISIBLE
         }
-
-
-
-
-
     }
-// new changes here
 
 
     private fun collectFinalSubmitData() {
