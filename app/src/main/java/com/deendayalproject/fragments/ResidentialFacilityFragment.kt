@@ -89,7 +89,6 @@ class ResidentialFacilityFragment : Fragment() {
     private var _binding: FragmentResidentialBinding? = null
     private val binding get() = _binding!!
     private lateinit var sectionsStatus: SectionRFData
-
     private lateinit var viewModel: SharedViewModel
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
@@ -191,7 +190,6 @@ class ResidentialFacilityFragment : Fragment() {
 
     /////////////////////////Basic Info Section////////////
     private lateinit var etFacilityName: TextInputEditText
-    private lateinit var etFacilityType: TextInputEditText
     private lateinit var etHouseNo: TextInputEditText
     private lateinit var etStreet: TextInputEditText
     private lateinit var etPoliceStation: TextInputEditText
@@ -329,6 +327,7 @@ class ResidentialFacilityFragment : Fragment() {
     var facilityId = ""
     var status = ""
     var remarks = ""
+    val yesNoList = listOf("--Select--", "Yes", "No")
 
 
     private val requestPermissionLauncher =
@@ -746,6 +745,32 @@ class ResidentialFacilityFragment : Fragment() {
         observeBlock()
         observeGp()
         observeVillage()
+
+
+
+
+
+        binding.spinnerDiningRecreationAreaSeparate.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val selected = yesNoList[position]
+
+                    if (selected == "Yes") {
+                        binding.llForSeperateHide.visible()
+                        binding.llForNotSeperateHide.gone()
+                    } else {
+                        binding.llForSeperateHide.gone()
+                        binding.llForNotSeperateHide.visible()                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
 
 
         if (status == "QM" || status == "SM") {
@@ -1895,6 +1920,18 @@ class ResidentialFacilityFragment : Fragment() {
         }
         spinnerWardenGender.adapter = genderAdapter
 
+
+        val facilityTypeAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            listOf("--Select--", "Male", "Female")
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        binding.spinnerFacilityType.adapter = facilityTypeAdapter
+
+
+
         val ownershipOfBuildingAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -2461,7 +2498,6 @@ class ResidentialFacilityFragment : Fragment() {
     private fun findById(view: View) {
         /////////////////////////Basic Info Section////////////
         etFacilityName = view.findViewById(R.id.etFacilityName)
-        etFacilityType = view.findViewById(R.id.etFacilityType)
         etHouseNo = view.findViewById(R.id.etHouseNo)
         etStreet = view.findViewById(R.id.etStreet)
         etPoliceStation = view.findViewById(R.id.etPoliceStation)
@@ -2686,10 +2722,10 @@ class ResidentialFacilityFragment : Fragment() {
         if (!checkSpinner(spinnerCatOfTCLocation, "Category Of Location")) isValid = false
         if (!checkSpinner(spinnerPickupAndDropFacility, "PickupAndDropFacility")) isValid = false
         if (!checkSpinner(spinnerWardenGender, "Warden Gender")) isValid = false
+        if (!checkSpinner(binding.spinnerFacilityType, "Residential Facility type")) isValid = false
 
         // Validate required TextInputEditTexts
         if (!checkTextInput(etFacilityName, "Residential Facility Name")) isValid = false
-        if (!checkTextInput(etFacilityType, "Residential Facility type")) isValid = false
         if (!checkTextInput(etHouseNo, "House No.")) isValid = false
         if (!checkTextInput(etStreet, "Street")) isValid = false
         if (!checkTextInput(etPoliceStation, "PoliceStation")) isValid = false
@@ -3400,7 +3436,7 @@ class ResidentialFacilityFragment : Fragment() {
                 trainingCentre = centerId.toInt(),
                 schemeName = "DDUGKY",
                 residentialFacilityName = etFacilityName.text.toString(),
-                residentialType = etFacilityType.text.toString(),
+                residentialType =binding.spinnerFacilityType.selectedItem.toString(),
                 residentialCenterLocation = "",
                 houseNo = etHouseNo.text.toString(),
                 streetNo1 = etStreet.text.toString(),
@@ -4090,7 +4126,7 @@ class ResidentialFacilityFragment : Fragment() {
                             )
 
                             binding.etFacilityName.setText(x.residentialFacilityName)
-                            binding.etFacilityType.setText(x.residentialType)
+                            setSpinnerValue(spinnerWardenGender, x.residentialType!!)
                             binding.etHouseNo.setText(x.houseNo)
                             binding.etStreet.setText(x.streetNo1)
                             binding.etLandmark.setText(x.landmark)

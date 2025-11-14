@@ -147,20 +147,29 @@
                         />
 
 
-
-                    <com.google.android.material.textfield.TextInputLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/residential_facility_type">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFacilityType"
+                        android:layout_height="55dp">
+                        <Spinner
+                            android:id="@+id/spinnerFacilityType"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="text" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="match_parent"
+                            android:background="@drawable/edittext_background"
+                            android:paddingStart="12dp"
+                            android:spinnerMode="dropdown"
+                            android:popupBackground="@color/white"
+                            android:textColor="@color/color_dark_green" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="12dp"
+                            android:src="@drawable/ic_dropdown_arrow"
+                            app:tint="@color/color_dark_green"
+                            tools:ignore="UseAppTint" />
+                    </RelativeLayout>
 
 
                     <TextView
@@ -2510,12 +2519,21 @@
                         android:textColor="@color/teal" />
 
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/cot_in_no"
+                        android:gravity="center_horizontal"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/teal" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/cot_in_no"
+                        android:text="@string/cot_in_no_hint"
                         android:layout_marginTop="@dimen/dp_10"
                         android:layout_marginStart="@dimen/dp_4"
                         android:textColor="@color/color_dark_green"
@@ -2526,7 +2544,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/dp_4"
                         android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/cot_in_no">
+                        android:hint="@string/cot_in_no_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/etCot"
@@ -3282,7 +3300,7 @@
                     android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
 
 
@@ -3582,185 +3600,316 @@
                     </RelativeLayout>
 
 
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/dining_area"
-                        android:gravity="center_horizontal"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/teal" />
-
-
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/length_in_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/length_in_ft"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDiningLength"
+                        android:id="@+id/llForSeperateHide"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:text="@string/dining_area"
+                            android:gravity="center_horizontal"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/teal" />
 
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/length_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/width_in_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/width_in_ft"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etDiningWidth"
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/length_in_ft"
+                            android:paddingTop="8dp">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/area_in_sq_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDiningLength"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                        android:id="@+id/etDiningArea"
-                        style="@style/EditText"
-                        android:text="@string/area_in_sq_ft"
-                        android:background="@drawable/edittext_background"
-                        android:padding="12dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/width_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
 
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/recreation_area"
-                        android:gravity="center_horizontal"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/teal" />
-
-
-
-
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/length_in_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/length_in_ft"
-                        android:paddingTop="8dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etRecreationLength"
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/width_in_ft"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDiningWidth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/area_in_sq_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/width_in_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
+                        <TextView
+                            android:id="@+id/etDiningArea"
+                            style="@style/EditText"
+                            android:text="@string/area_in_sq_ft"
+                            android:background="@drawable/edittext_background"
+                            android:padding="12dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/width_in_ft"
-                        android:paddingTop="8dp">
+                        <Button
+                            android:id="@+id/btnUploadDining"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload " />
+                        <ImageView
+                            android:id="@+id/ivDiningPreview"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etRecreationWidth"
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:text="@string/recreation_area"
+                            android:gravity="center_horizontal"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/teal" />
 
-                    <TextView
+
+
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/length_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/length_in_ft"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etRecreationLength"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/width_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/width_in_ft"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etRecreationWidth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/area_in_sq_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/etRecreationArea"
+                            style="@style/EditText"
+                            android:text="@string/area_in_sq_ft"
+                            android:background="@drawable/edittext_background"
+                            android:padding="12dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            />
+                        <Button
+                            android:id="@+id/btnUploadRecreactionArea"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload " />
+                        <ImageView
+                            android:id="@+id/ivRecreactionAreaPreview"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/area_in_sq_ft"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
+                        android:layout_height="wrap_content"
+                        android:id="@+id/llForNotSeperateHide"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/common_dining_and_recreation"
+                            android:gravity="center_horizontal"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/teal" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/length_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/length_in_ft"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDiningAndRecreactionLength"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                        android:id="@+id/etRecreationArea"
-                        style="@style/EditText"
-                        android:text="@string/area_in_sq_ft"
-                        android:background="@drawable/edittext_background"
-                        android:padding="12dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/width_in_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:layout_marginEnd="@dimen/dp_4"
+                            android:hint="@string/width_in_ft"
+                            android:paddingTop="8dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etDiningAndRecreactionWidth"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/avenir_next_semi_bold"
+                            android:text="@string/area_in_sq_ft"
+                            android:layout_marginTop="@dimen/dp_10"
+                            android:layout_marginStart="@dimen/dp_4"
+                            android:textColor="@color/color_dark_green"
+                            android:textSize="@dimen/sp_16"
+                            />
+
+
+                        <TextView
+                            android:id="@+id/etDiningAndRecreactionArea"
+                            style="@style/EditText"
+                            android:text="@string/area_in_sq_ft"
+                            android:background="@drawable/edittext_background"
+                            android:padding="12dp"
+                            android:textColor="@android:color/black"
+                            android:textSize="16sp"
+                            />
+
+                        <Button
+                            android:id="@+id/btnUploadDiningAndRecreactionArea"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Upload " />
+                        <ImageView
+                            android:id="@+id/ivDiningAndRecreactionAreaPreview"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="8dp"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"

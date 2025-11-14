@@ -664,7 +664,8 @@
     <string name="type_of_roof_rcc_non_rcc">Type of Roof(RCC/Non RCC)</string>
     <string name="window_area_in_sq_ft">Window Area (In Sq. ft)</string>
     <string name="sleeping_and_storing_material">Sleeping and Storing Material</string>
-    <string name="cot_in_no">Cot (In No.)</string>
+    <string name="cot_in_no"> <font color='#FF0000'><u>Note: 1 bunk bed = 2 Cot</u></font> </string>
+    <string name="cot_in_no_hint">Cot (In No.)</string>
     <string name="mattress_in_no">Mattress (In No.)</string>
     <string name="bed_sheet_in_no">Bed Sheet (In No.)</string>
     <string name="cupboard_almirah_trunk_with_locking_arrangements_in_no">Cupboard / Almirah / Trunk with Locking Arrangements (In No.)</string>
@@ -738,4 +739,5 @@
     <string name="dining_width">Dining Width</string>
     <string name="max_candidate">Max Candidate</string>
     <string name="residential_multiple_list">Residential Multiple List</string>
+    <string name="common_dining_and_recreation">Common Dining and Recreation</string>
 </resources>
