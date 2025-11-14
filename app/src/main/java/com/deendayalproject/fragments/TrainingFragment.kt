@@ -766,6 +766,7 @@ class TrainingFragment : Fragment() {
     private var centerId: String = ""
     private var sanctionOrder: String = ""
     private var status: String? = ""
+    private var TrainingCenterName: String? = ""
     private var remarks: String? = ""
 
     private lateinit var sectionsStatus: SectionStatus
@@ -2598,9 +2599,12 @@ class TrainingFragment : Fragment() {
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         status = arguments?.getString("status")
         remarks = arguments?.getString("remarks")
+
+        TrainingCenterName = arguments?.getString("TrainingCenterName")
+        binding.tvTrainingCenterName.text=TrainingCenterName
+
+
         RecyClerViewUI()
-
-
         binding.root.setOnTouchListener { v, event ->
             AppUtil.hideKeyboard(requireActivity())
             v.performClick()

@@ -807,10 +807,11 @@ class RFQTeamFormFragment : Fragment() {
 
                             binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
                             binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
-                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
                             binding.RFNonLivingAreaLayout.WashArea.text = safeText(x.washArea)
-                            binding.RFNonLivingAreaLayout.levelWhetherTv.text = safeText(x.noOfSeats)
+
+                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
                             binding.RFNonLivingAreaLayout.WhetherTv.text = safeText(x.tvAvailable)
+
                             binding.RFNonLivingAreaLayout.DiningLength.text = safeText(x.diningLength)
                             binding.RFNonLivingAreaLayout.DiningWidth.text = safeText(x.diningWidth)
                             binding.RFNonLivingAreaLayout.DiningArea.text = safeText(x.diningArea)

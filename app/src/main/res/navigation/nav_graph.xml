@@ -74,6 +74,9 @@
             <argument
                 android:name="remarks"
                 app:argType="string" />
+            <argument
+                android:name="trainingCenterName"
+                app:argType="string" />
         </action>
 
 

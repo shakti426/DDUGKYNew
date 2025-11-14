@@ -31,6 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvTrainingCenterName"
                 android:text="@string/training_center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16"/>
@@ -112,6 +113,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone"
+                    android:padding="10dp"
                     android:paddingTop="8dp">
 
                     <!-- Your existing fields here ... -->
@@ -280,6 +282,7 @@
                     android:orientation="vertical"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
+                    android:padding="10dp"
                     android:visibility="gone">
 
                     <!-- IP Enabled -->
@@ -577,6 +580,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:visibility="gone">
 
                     <!-- Male Toilets (In No.) -->
@@ -1138,6 +1142,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -1650,6 +1655,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -1998,6 +2004,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2189,6 +2196,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2337,6 +2345,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="10dp"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2512,6 +2521,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:padding="10dp"
                     android:paddingTop="8dp"
                     android:visibility="gone">
 
