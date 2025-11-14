@@ -23,13 +23,14 @@ class RFQTeamListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfQAdapter
-
+    private var isApiCalled = false
 
     private var centerId: String = ""
     private var sanctionOrder: String = ""
 
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -42,6 +43,7 @@ class RFQTeamListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         viewModel = ViewModelProvider(this)[SharedViewModel::class.java]
 
@@ -65,7 +67,6 @@ class RFQTeamListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         centerId = arguments?.getString("centerId").toString()
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
-        observeViewModel()
 
         val request = ResidentialFacilityQTeamRequest(
             loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
@@ -74,8 +75,18 @@ class RFQTeamListFragment : Fragment() {
         )
         viewModel.fetchResidentialFacilityQTeamList(request,AppUtil.getSavedTokenPreference(requireContext())
         )
+        observeViewModel()
+
+
+
+
+
 
     }
+
+
+
+
 
     private fun observeViewModel() {
         viewModel.trainingRfCenters.observe(viewLifecycleOwner) { result ->
@@ -106,8 +117,29 @@ class RFQTeamListFragment : Fragment() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!isApiCalled) {
+            isApiCalled = true
+
+            val request = ResidentialFacilityQTeamRequest(
+                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+                appVersion = BuildConfig.VERSION_NAME,
+                imeiNo = AppUtil.getAndroidId(requireContext())
+            )
+
+            viewModel.fetchResidentialFacilityQTeamList(
+                request,
+                AppUtil.getSavedTokenPreference(requireContext())
+            )
+            observeViewModel()
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
+
         _binding = null
     }
 }

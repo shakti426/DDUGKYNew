@@ -365,6 +365,8 @@ class RFSRLMFormFragment : Fragment() {
 //            selectedNonAreaInfoApproval
 //            selectedRFNonLivingAreaRemarks
 
+
+
             viewModel.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(requestTcInfraReq)
             showProgressBar()
 
@@ -508,7 +510,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -837,7 +843,11 @@ class RFSRLMFormFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1106,7 +1116,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1261,9 +1275,25 @@ class RFSRLMFormFragment : Fragment() {
                                 }
                             }
 
-                            202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                            301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                            401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            202 ->
+
+                        {
+
+                            hideProgressBar()
+                            Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                        }
+
+                            301 ->
+                            {
+
+                                hideProgressBar()
+                                Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                            }
+                            401 -> {
+                                hideProgressBar()
+
+                                AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            }
                         }
                     }
                     result.onFailure {
@@ -1340,7 +1370,11 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1499,7 +1533,11 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1591,23 +1629,24 @@ class RFSRLMFormFragment : Fragment() {
 
     private fun collectFinalSubmitData() {
 
-        viewModel.insertRFQteamVerification.observe(viewLifecycleOwner) { result ->
+        viewModel.insertRFSrlmVerification.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
 
                         hideProgressBar()
-                        if (selectedRFBasicInformationApproval == "M" &&
-                            selectedInfrastctureDetailsComplainsApproval == "M" &&
-                            selectedRFLevingAreaInformationApproval == "M" &&
-                            selectedRFToiletApproval == "M" &&
-                            selectedNonAreaInfoApproval == "M" &&
-                            selectedIndoorGameApproval == "M" &&
-                            selectedResidintislFacilityApproval == "M" &&
+                        if (selectedRFBasicInformationApproval == "M" ||
+                            selectedInfrastctureDetailsComplainsApproval == "M" ||
+                            selectedRFLevingAreaInformationApproval == "M" ||
+                            selectedRFToiletApproval == "M" ||
+                            selectedNonAreaInfoApproval == "M" ||
+                            selectedIndoorGameApproval == "M" ||
+                            selectedResidintislFacilityApproval == "M" ||
                             selectedResidintislSupportFacilityApproval == "M"
                         )
                         {
+                            hideProgressBar()
                             // ✅ All approvals are "M"
                             Toast.makeText(
                                 requireContext(),
@@ -1620,6 +1659,7 @@ class RFSRLMFormFragment : Fragment() {
                             // findNavController().navigate(R.id.nextScreen)
 
                         } else {
+                            hideProgressBar()
                             // ❌ Some or all approvals are not "M"
                             Toast.makeText(
                                 requireContext(),
@@ -1648,7 +1688,13 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1725,7 +1771,16 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
+
+
                 }
 
                 result.onFailure {
@@ -1937,7 +1992,12 @@ class RFSRLMFormFragment : Fragment() {
 
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -2036,10 +2096,12 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
-                    )
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
                 }
             }
             result.onFailure {
@@ -2125,7 +2187,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {

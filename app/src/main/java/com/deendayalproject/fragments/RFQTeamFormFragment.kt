@@ -1568,15 +1568,16 @@ class RFQTeamFormFragment : Fragment() {
 
                         hideProgressBar()
 
-                        if (selectedRFBasicInformationApproval == "M" &&
-                            selectedInfrastctureDetailsComplainsApproval == "M" &&
-                            selectedRFLevingAreaInformationApproval == "M" &&
-                            selectedRFToiletApproval == "M" &&
-                            selectedNonAreaInfoApproval == "M" &&
-                            selectedIndoorGameApproval == "M" &&
-                            selectedResidintislFacilityApproval == "M" &&
+                        if (selectedRFBasicInformationApproval == "M" ||
+                            selectedInfrastctureDetailsComplainsApproval == "M" ||
+                            selectedRFLevingAreaInformationApproval == "M" ||
+                            selectedRFToiletApproval == "M" ||
+                            selectedNonAreaInfoApproval == "M" ||
+                            selectedIndoorGameApproval == "M" ||
+                            selectedResidintislFacilityApproval == "M" ||
                             selectedResidintislSupportFacilityApproval == "M"
-                        ) {
+                        )
+                        {
                             // ✅ All approvals are "M"
                             Toast.makeText(
                                 requireContext(),
@@ -1596,11 +1597,6 @@ class RFQTeamFormFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-
-
-
-
-
                     Toast.makeText(
                             requireContext(),
                             "Details sent successfully to"+getString(R.string.residential_facility_q_team),
