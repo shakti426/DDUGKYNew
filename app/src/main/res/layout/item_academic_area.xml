@@ -5,8 +5,7 @@
     android:orientation="horizontal"
     android:gravity="center"
     android:background="@drawable/border_gray"
-
-    android:weightSum="4">
+    android:weightSum="5">
     <!-- Panchayat Name -->
    <TextView
         android:id="@+id/roomtype"
@@ -64,6 +63,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/roomarea"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_weight="1" />
+
+
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#DCDCDC" />
+    <!--                                            android:background="?android:attr/dividerHorizontal"-->
+
+    <!-- Priority -->
+    <TextView
+        android:id="@+id/maxCandidate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/max_candidate"
         android:textColor="@color/black"
         android:gravity="center"
         android:layout_weight="1" />

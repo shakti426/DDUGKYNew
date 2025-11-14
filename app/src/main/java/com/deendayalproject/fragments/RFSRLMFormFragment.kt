@@ -365,6 +365,8 @@ class RFSRLMFormFragment : Fragment() {
 //            selectedNonAreaInfoApproval
 //            selectedRFNonLivingAreaRemarks
 
+
+
             viewModel.getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(requestTcInfraReq)
             showProgressBar()
 
@@ -508,7 +510,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -787,6 +793,23 @@ class RFSRLMFormFragment : Fragment() {
                         for (x in tcInfoData) {
 
 
+
+                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
+                            binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
+                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
+                            binding.RFNonLivingAreaLayout.WashArea.text = safeText(x.washArea)
+                            binding.RFNonLivingAreaLayout.WhetherTv.text = safeText(x.noOfSeats)
+                            binding.RFNonLivingAreaLayout.DiningLength.text = safeText(x.diningLength)
+                            binding.RFNonLivingAreaLayout.DiningWidth.text = safeText(x.diningWidth)
+                            binding.RFNonLivingAreaLayout.DiningArea.text = safeText(x.diningArea)
+                            binding.RFNonLivingAreaLayout.RecreationLength.text = safeText(x.recreationLength)
+                            binding.RFNonLivingAreaLayout.RecreationWidth.text = safeText(x.recreationWidth)
+                            binding.RFNonLivingAreaLayout.RecreationArea.text = safeText(x.recreationArea)
+                            binding.RFNonLivingAreaLayout.ReceptionArea.text = safeText(x.receptionArea)
+
+
+
+
 //                            binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text= safeText(x.kitchenArea)
 //                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text= safeText(x.preparedFood)
 //                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text= safeText(x.noOfSeats)
@@ -801,19 +824,7 @@ class RFSRLMFormFragment : Fragment() {
 //                            binding.RFNonLivingAreaLayout.DiningWidth.text= safeText(x.diningWidth)
 //                            binding.RFNonLivingAreaLayout.ReceptionArea.text= safeText(x.receptionArea)
 
-                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
-                            binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
-                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
-                            binding.RFNonLivingAreaLayout.WashArea.text = safeText(x.washArea)
-                            binding.RFNonLivingAreaLayout.levelWhetherTv.text = safeText(x.noOfSeats)
-                            binding.RFNonLivingAreaLayout.WhetherTv.text = safeText(x.tvAvailable)
-                            binding.RFNonLivingAreaLayout.DiningLength.text = safeText(x.diningLength)
-                            binding.RFNonLivingAreaLayout.DiningWidth.text = safeText(x.diningWidth)
-                            binding.RFNonLivingAreaLayout.DiningArea.text = safeText(x.diningArea)
-                            binding.RFNonLivingAreaLayout.RecreationLength.text = safeText(x.recreationLength)
-                            binding.RFNonLivingAreaLayout.RecreationWidth.text = safeText(x.recreationWidth)
-                            binding.RFNonLivingAreaLayout.RecreationArea.text = safeText(x.recreationArea)
-                            binding.RFNonLivingAreaLayout.ReceptionArea.text = safeText(x.receptionArea)
+
 
                             PreparedFoodFile=x.preprationFoodPdf
                             ReceptionAreaPdf= x.receptionAreaPdf.toString()
@@ -832,7 +843,11 @@ class RFSRLMFormFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1101,7 +1116,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1256,9 +1275,25 @@ class RFSRLMFormFragment : Fragment() {
                                 }
                             }
 
-                            202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                            301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                            401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            202 ->
+
+                        {
+
+                            hideProgressBar()
+                            Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                        }
+
+                            301 ->
+                            {
+
+                                hideProgressBar()
+                                Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                            }
+                            401 -> {
+                                hideProgressBar()
+
+                                AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            }
                         }
                     }
                     result.onFailure {
@@ -1335,7 +1370,11 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1494,7 +1533,11 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1581,34 +1624,29 @@ class RFSRLMFormFragment : Fragment() {
             binding.btnSubmitFinal.visibility= View.GONE
             binding.RFResidentialFacilitiesAvailable.RFResidentialFacalityExpand.visibility= View.VISIBLE
         }
-
-
-
-
-
     }
-// new changes here
 
 
     private fun collectFinalSubmitData() {
 
-        viewModel.insertRFQteamVerification.observe(viewLifecycleOwner) { result ->
+        viewModel.insertRFSrlmVerification.observe(viewLifecycleOwner) { result ->
 
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> {
 
                         hideProgressBar()
-                        if (selectedRFBasicInformationApproval == "M" &&
-                            selectedInfrastctureDetailsComplainsApproval == "M" &&
-                            selectedRFLevingAreaInformationApproval == "M" &&
-                            selectedRFToiletApproval == "M" &&
-                            selectedNonAreaInfoApproval == "M" &&
-                            selectedIndoorGameApproval == "M" &&
-                            selectedResidintislFacilityApproval == "M" &&
+                        if (selectedRFBasicInformationApproval == "M" ||
+                            selectedInfrastctureDetailsComplainsApproval == "M" ||
+                            selectedRFLevingAreaInformationApproval == "M" ||
+                            selectedRFToiletApproval == "M" ||
+                            selectedNonAreaInfoApproval == "M" ||
+                            selectedIndoorGameApproval == "M" ||
+                            selectedResidintislFacilityApproval == "M" ||
                             selectedResidintislSupportFacilityApproval == "M"
                         )
                         {
+                            hideProgressBar()
                             // ✅ All approvals are "M"
                             Toast.makeText(
                                 requireContext(),
@@ -1621,6 +1659,7 @@ class RFSRLMFormFragment : Fragment() {
                             // findNavController().navigate(R.id.nextScreen)
 
                         } else {
+                            hideProgressBar()
                             // ❌ Some or all approvals are not "M"
                             Toast.makeText(
                                 requireContext(),
@@ -1649,7 +1688,13 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1726,7 +1771,16 @@ class RFSRLMFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
+
+
                 }
 
                 result.onFailure {
@@ -1938,7 +1992,12 @@ class RFSRLMFormFragment : Fragment() {
 
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -2037,10 +2096,12 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(
-                        findNavController(),
-                        requireContext()
-                    )
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
                 }
             }
             result.onFailure {
@@ -2126,7 +2187,11 @@ class RFSRLMFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {

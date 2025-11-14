@@ -23,7 +23,7 @@ class RfSrlmAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CenterViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_qteam_layout, parent, false)
+            .inflate(R.layout.rf_item_qteam_layout, parent, false)
         return CenterViewHolder(view)
     }
 

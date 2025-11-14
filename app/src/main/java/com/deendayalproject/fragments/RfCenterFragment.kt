@@ -16,6 +16,7 @@ import com.deendayalproject.BuildConfig
 import com.deendayalproject.R
 import com.deendayalproject.adapter.RfAdapterList
 import com.deendayalproject.databinding.FragmentCenterBinding
+import com.deendayalproject.databinding.FragmentRfCenterBinding
 import com.deendayalproject.model.request.AddNewRFReq
 import com.deendayalproject.model.request.ModifyRfList
 import com.deendayalproject.model.request.TrainingCenterRequest
@@ -24,7 +25,7 @@ import com.deendayalproject.util.AppUtil
 
 class RfCenterFragment : Fragment() {
 
-    private var _binding: FragmentCenterBinding? = null
+    private var _binding: FragmentRfCenterBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var viewModel: SharedViewModel
@@ -34,7 +35,7 @@ class RfCenterFragment : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentCenterBinding.inflate(inflater, container, false)
+        _binding = FragmentRfCenterBinding.inflate(inflater, container, false)
         return binding.root
     }
 

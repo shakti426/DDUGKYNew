@@ -31,7 +31,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvTrainingCenterName"
+                android:id="@+id/tvTitleName"
                 android:text="@string/training_center"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_16"/>
@@ -112,8 +112,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:padding="@dimen/dp_10"
                     android:visibility="gone"
-                    android:padding="10dp"
                     android:paddingTop="8dp">
 
                     <!-- Your existing fields here ... -->
@@ -281,8 +281,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
-                    android:padding="10dp"
                     android:visibility="gone">
 
                     <!-- IP Enabled -->
@@ -580,7 +580,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:visibility="gone">
 
                     <!-- Male Toilets (In No.) -->
@@ -1142,7 +1142,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -1655,7 +1655,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2004,7 +2004,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2196,7 +2196,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2345,7 +2345,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:padding="10dp"
+                    android:padding="@dimen/dp_10"
                     android:paddingBottom="8dp"
                     android:visibility="gone">
 
@@ -2521,8 +2521,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="10dp"
                     android:paddingTop="8dp"
+                    android:padding="@dimen/dp_10"
                     android:visibility="gone">
 
 
@@ -2932,7 +2932,7 @@
                                 android:orientation="horizontal"
                                 android:padding="1dp"
                                 android:gravity="center"
-                                android:weightSum="4">
+                                android:weightSum="5">
 
                                 <!-- Panchayat Name -->
                                 <TextView
@@ -2977,6 +2977,8 @@
                                     android:text="@string/roomlength"
                                     android:textColor="@color/white" />
 
+
+
                                 <!-- Divider View -->
                                 <View
                                     android:layout_width="1dp"
@@ -2993,6 +2995,19 @@
                                     android:layout_weight="1"
                                     android:gravity="center"
                                     android:text="@string/roomarea"
+                                    android:textColor="@color/white" />
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="50dp"
+                                    android:background="#DCDCDC" />
+                                <TextView
+                                    android:id="@+id/textMaxCandidate"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:text="@string/max_candidate"
                                     android:textColor="@color/white" />
 
 

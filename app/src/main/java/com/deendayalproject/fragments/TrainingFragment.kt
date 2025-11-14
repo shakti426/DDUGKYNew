@@ -766,8 +766,8 @@ class TrainingFragment : Fragment() {
     private var centerId: String = ""
     private var sanctionOrder: String = ""
     private var status: String? = ""
-    private var TrainingCenterName: String? = ""
     private var remarks: String? = ""
+    private var trainingCenterName: String? = ""
 
     private lateinit var sectionsStatus: SectionStatus
 
@@ -2599,12 +2599,12 @@ class TrainingFragment : Fragment() {
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         status = arguments?.getString("status")
         remarks = arguments?.getString("remarks")
+        trainingCenterName = arguments?.getString("trainingCenterName")
 
-        TrainingCenterName = arguments?.getString("TrainingCenterName")
-        binding.tvTrainingCenterName.text=TrainingCenterName
-
-
+        binding.tvTitleName.text=trainingCenterName
         RecyClerViewUI()
+
+
         binding.root.setOnTouchListener { v, event ->
             AppUtil.hideKeyboard(requireActivity())
             v.performClick()
@@ -7767,7 +7767,7 @@ private fun validateITComeDomainLab(): Boolean {
 
 
 
-                officeTable = spinnerOCCROfficeTable.selectedItem.toString(),
+                officeTable = etOfficeCumAnOfficeTableNo.text.toString(),
                 officeTableAttachment = base64ProofOCCROfficeTable ?: "",
 
 
