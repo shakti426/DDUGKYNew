@@ -30,6 +30,7 @@ class AcademicAreaAdapter(
         val roomno: TextView = view.findViewById(R.id.roomno)
         val roomlength: TextView = view.findViewById(R.id.roomlength)
         val roomarea: TextView = view.findViewById(R.id.roomarea)
+        val maxCandidate: TextView = view.findViewById(R.id.maxCandidate)
         val delete: ImageView = view.findViewById(R.id.ImageViewDelete)
     }
 
@@ -43,6 +44,8 @@ class AcademicAreaAdapter(
         val center = centers[position]
         holder.roomtype.text = center.roomType
         holder.roomno.text = center.roomNo
+        holder.maxCandidate.text = center.maxPermissibleCandidate
+
 //        holder.roomlength.text = center.roomLength
         holder.roomarea.text = center.roomArea
 

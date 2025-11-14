@@ -789,28 +789,11 @@ class RFQTeamFormFragment : Fragment() {
 
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
-
-
-//                            binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text= safeText(x.kitchenArea)
-//                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text= safeText(x.preparedFood)
-//                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text= safeText(x.noOfSeats)
-//                            binding.RFNonLivingAreaLayout.WashArea.text= safeText(x.washArea)
-//                            binding.RFNonLivingAreaLayout.WhetherTv.text= safeText(x.tvAvailable)
-////                            binding.RFNonLivingAreaLayout.PreparedFood.text= safeText(x.preparedFood)
-//                            binding.RFNonLivingAreaLayout.RecreationLength.text= safeText(x.recreationLength)
-//                            binding.RFNonLivingAreaLayout.RecreationArea.text= safeText(x.recreationArea)
-//                            binding.RFNonLivingAreaLayout.RecreationWidth.text= safeText(x.recreationWidth)
-//                            binding.RFNonLivingAreaLayout.DiningArea.text= safeText(x.diningArea)
-//                            binding.RFNonLivingAreaLayout.DiningLength.text= safeText(x.diningLength)
-//                            binding.RFNonLivingAreaLayout.DiningWidth.text= safeText(x.diningWidth)
-//                            binding.RFNonLivingAreaLayout.ReceptionArea.text= safeText(x.receptionArea)
-
                             binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
                             binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
                             binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
                             binding.RFNonLivingAreaLayout.WashArea.text = safeText(x.washArea)
-                            binding.RFNonLivingAreaLayout.levelWhetherTv.text = safeText(x.noOfSeats)
-                            binding.RFNonLivingAreaLayout.WhetherTv.text = safeText(x.tvAvailable)
+                            binding.RFNonLivingAreaLayout.WhetherTv.text = safeText(x.noOfSeats)
                             binding.RFNonLivingAreaLayout.DiningLength.text = safeText(x.diningLength)
                             binding.RFNonLivingAreaLayout.DiningWidth.text = safeText(x.diningWidth)
                             binding.RFNonLivingAreaLayout.DiningArea.text = safeText(x.diningArea)
@@ -1065,25 +1048,6 @@ class RFQTeamFormFragment : Fragment() {
                             }
 
 
-
-
-//                            RFQInfraDetailswallPhotosFileFile = x.wallPhotosFile.toString()
-////                            RFQInfraDetailsRoofbuildingFile = x.buildingPlanFile.toString()
-//                            RFQInfraDetailsbuildingPlanFile = x.buildingPlanFile.toString()
-//                            RFQInfraDetailprotectionStairsProofFile =x.protectionStairsProofFile.toString()
-//                            RFQInfraDetailhostelNameBoardProofFile = x.hostelNameBoardProofFile.toString()
-//                            RFQInfraDetailfoodSpecificationBoardFile = x.foodSpecificationBoardFile.toString()
-//                            RFQInfraContactDetailOfImportantPeopleFile = x.contactDetailImportantPeopleproofFile.toString()
-//                            RFQInfraDetailbasicInformationBoardproofFile = x.basicInformationBoardproofFile.toString()
-//                            RFQInfraDetailbasicsecuringWiresDoneProofFile = x.securingWiresDoneProofFile.toString()
-//                            RFQInfraDetailcorridorProofFile =x.corridorProofFile.toString()
-//                            RFQInfraDetailcirculatingAreaProofFile = x.circulatingAreaProofFile.toString()
-//                            RFQInfraDetailbuildingPhotosFile = x.selfDeclaration.toString()
-//                            RFQInfraDetailleakagesProofFile =x.leakagesProofFile.toString()
-//                            RFQInfraDetailconformanceDduProofFile= x.conformanceDduProofFile.toString()
-//                            RFQInfraDetailswitchBoardsPanelBoardsProofFile= x.switchBoardsPanelBoardsProofFile.toString()
-//                            RFQInfraDetailcontactDetailImportantPeopleproofFile= x.contactDetailImportantPeopleproofFile.toString()
-//                            RFQInfraDetailstudentEntitlementBoardProofFile= x.studentEntitlementBoardProofFile.toString()
 
 
                         }

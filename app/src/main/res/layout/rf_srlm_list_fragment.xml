@@ -24,7 +24,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/back_arrow"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="wrap_content"
             android:text="@string/residential_facility_srlm"
             android:textColor="@color/white"

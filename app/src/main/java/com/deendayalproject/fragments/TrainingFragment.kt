@@ -767,6 +767,7 @@ class TrainingFragment : Fragment() {
     private var sanctionOrder: String = ""
     private var status: String? = ""
     private var remarks: String? = ""
+    private var trainingCenterName: String? = ""
 
     private lateinit var sectionsStatus: SectionStatus
 
@@ -2598,6 +2599,9 @@ class TrainingFragment : Fragment() {
         sanctionOrder = arguments?.getString("sanctionOrder").toString()
         status = arguments?.getString("status")
         remarks = arguments?.getString("remarks")
+        trainingCenterName = arguments?.getString("trainingCenterName")
+
+        binding.tvTitleName.text=trainingCenterName
         RecyClerViewUI()
 
 
