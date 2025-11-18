@@ -19,7 +19,7 @@ import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.util.AppUtil
 
 class CenterFragment : Fragment() {
-
+//    Code commit in 181120250219
     private var _binding: FragmentCenterBinding? = null
     private val binding get() = _binding!!
     private val progress: AlertDialog? by lazy {
