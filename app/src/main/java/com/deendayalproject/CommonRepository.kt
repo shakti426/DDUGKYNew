@@ -49,6 +49,7 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
@@ -103,6 +104,7 @@ import com.deendayalproject.model.response.TcCommonEquipmentResponse
 import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletCountList
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletResponse
@@ -1292,7 +1294,7 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
 
 //    Ajit Ranjan create 27/October/2025  toiletRoomListView
 
-    suspend fun getToiletRoomListView(request: LivingRoomListViewRQ) : Result<ToiletViewRes>{
+    suspend fun getToiletRoomListView(request: ToiletRoomInformationReq) : Result<ToiletViewRes>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.getToiletRoomListView(request)
@@ -1306,6 +1308,7 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
             Result.failure(e)
         }
     }
+
     //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
     suspend fun getToiletRoomInformation(request: ToiletRoomInformationReq) : Result<ToiletRoomInformationViewRes>{
         return try {
@@ -1323,8 +1326,6 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
             Result.failure(e)
         }
     }
-
-
     suspend fun getRfLivingRoomListView(request: LivingRoomReq) : Result<LivingAreaListRes>{
         return try {
             // val bearerToken = "Bearer $token"
@@ -1586,4 +1587,21 @@ suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: R
     }
 
 
+    //    Ajit Ranjan create 17/Nov/2025  getToiletCountList
+    suspend fun getToiletCountList(request: ToiletCountListReq) : Result<ToiletCountList>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getToiletCountList(request)
+            if (response.isSuccessful){
+                response.body()?.let {
+                    Result.success(it)
+                }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

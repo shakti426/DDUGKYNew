@@ -738,4 +738,10 @@
     <string name="dining_width">Dining Width</string>
     <string name="max_candidate">Max Candidate</string>
     <string name="residential_multiple_list">Residential Multiple List</string>
+
+    <string name="under_text"><u>2</u></string>
+    <string name="bathroom">Bathroom</string>
+    <string name="toilet_and_bathroom">Toilet Cum Bathroom</string>
+    <string name="urinals">Urinals</string>
+    <string name="washbasins">Washbasins</string>
 </resources>

@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -30,6 +31,7 @@ import com.deendayalproject.adapter.IndoorGameRFAdapter
 import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.RFToiletAdapter
 import com.deendayalproject.databinding.RfQteamFormFagmentBinding
+import com.deendayalproject.databinding.RfSrlmFormFragmentBinding
 import com.deendayalproject.databinding.RoominformationPopdialogBinding
 //import com.deendayalproject.databinding.RoominformationDialogboxLayoutBinding
 import com.deendayalproject.databinding.TriPopdialogBinding
@@ -39,6 +41,7 @@ import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
 import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
+import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterInfo
@@ -142,14 +145,6 @@ class RFQTeamFormFragment : Fragment() {
     private var RFQTBasicInfoPdf = ""
     private var RFQTBasicInfoAppointMent = ""
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = RfQteamFormFagmentBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -176,7 +171,7 @@ class RFQTeamFormFragment : Fragment() {
 //
         }
 
-////        ImageView Click View file all use in Infrastcture Details and Complains
+//        ImageView Click View file all use in Infrastcture Details and Complains
 //        binding.infrastructureDetailsAndCompliancesLayout.BuildingAreaSQFPlanFile.setOnClickListener {
 //            showBase64ImageDialog(requireContext(), RFQInfraDetailsRoofbuildingFile, "")
 ////
@@ -343,7 +338,6 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
-
 //             Ajit Ranjan create 07/Novmber/2025     insertRFQteamVerificationRequest
 
         // Final Submit
@@ -372,7 +366,7 @@ class RFQTeamFormFragment : Fragment() {
                 supportFacilityAvailableStatus=selectedResidintislSupportFacilityApproval,
                 supportFacilityAvailableRemark=selectedResidintislSupportFacilityApprovalRemark.toString(),
                 facilityId = facilityId
-                )
+            )
 //            selectedNonAreaInfoApproval
 //            selectedRFNonLivingAreaRemarks
 
@@ -381,6 +375,7 @@ class RFQTeamFormFragment : Fragment() {
             showProgressBar()
 
         }
+
 
 
 
@@ -404,6 +399,16 @@ class RFQTeamFormFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+    }
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = RfQteamFormFagmentBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
 
@@ -454,7 +459,7 @@ class RFQTeamFormFragment : Fragment() {
                             binding.residentialfacilityqteamInfoLayout.ApproximateDistanceFrom.text =
                                 safeText(x.distBusStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromTheTrainingCenter.text = safeText(x.distFromTc)
-                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.pickUpDrop)
+                            binding.residentialfacilityqteamInfoLayout.AvailabilityOfPick.text = safeText(x.distRailStand)
                             binding.residentialfacilityqteamInfoLayout.DistanceFromRailwayStand.text = safeText(x.distRailStand)
 
                             binding.residentialfacilityqteamInfoLayout.DistanceFromAutoTraining.text = safeText(x.distAutoStand)
@@ -508,12 +513,16 @@ class RFQTeamFormFragment : Fragment() {
                     {
                         hideProgressBar()
                         Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()}
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -676,7 +685,7 @@ class RFQTeamFormFragment : Fragment() {
                         appVersion = BuildConfig.VERSION_NAME,
                         tcId = centerId.toInt(),
                         sanctionOrder = sanctionOrder,
-                        rfToiletId = data.toString(),
+                        toiletType = "Toilet",
                         facilityId = facilityId
                     )
                     viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
@@ -779,6 +788,7 @@ class RFQTeamFormFragment : Fragment() {
 
     }
 
+
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
 
     private fun NonAreaInformation() {
@@ -789,6 +799,9 @@ class RFQTeamFormFragment : Fragment() {
 
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
+
+
+
                             binding.RFNonLivingAreaLayout.WhetherFoodFor.text = safeText(x.preparedFood)
                             binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text = safeText(x.separateAreas)
                             binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text = safeText(x.noOfSeats)
@@ -802,8 +815,26 @@ class RFQTeamFormFragment : Fragment() {
                             binding.RFNonLivingAreaLayout.RecreationArea.text = safeText(x.recreationArea)
                             binding.RFNonLivingAreaLayout.ReceptionArea.text = safeText(x.receptionArea)
 
+
                             PreparedFoodFile=x.preprationFoodPdf
                             ReceptionAreaPdf= x.receptionAreaPdf.toString()
+//                            recreationAndDiningYes
+//                            LinLayOutrecreationAndDiningNo
+
+                            val value="Yes"
+//                            if (x.separateAreas=="Yes"){
+                            if (value=="No"){
+
+
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.GONE
+                            }
+                            else{
+
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.GONE
+                            }
+
                         }
                     }
 
@@ -819,7 +850,11 @@ class RFQTeamFormFragment : Fragment() {
                         Toast.LENGTH_SHORT
                     ).show()
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1050,6 +1085,25 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
+//                            RFQInfraDetailswallPhotosFileFile = x.wallPhotosFile.toString()
+////                            RFQInfraDetailsRoofbuildingFile = x.buildingPlanFile.toString()
+//                            RFQInfraDetailsbuildingPlanFile = x.buildingPlanFile.toString()
+//                            RFQInfraDetailprotectionStairsProofFile =x.protectionStairsProofFile.toString()
+//                            RFQInfraDetailhostelNameBoardProofFile = x.hostelNameBoardProofFile.toString()
+//                            RFQInfraDetailfoodSpecificationBoardFile = x.foodSpecificationBoardFile.toString()
+//                            RFQInfraContactDetailOfImportantPeopleFile = x.contactDetailImportantPeopleproofFile.toString()
+//                            RFQInfraDetailbasicInformationBoardproofFile = x.basicInformationBoardproofFile.toString()
+//                            RFQInfraDetailbasicsecuringWiresDoneProofFile = x.securingWiresDoneProofFile.toString()
+//                            RFQInfraDetailcorridorProofFile =x.corridorProofFile.toString()
+//                            RFQInfraDetailcirculatingAreaProofFile = x.circulatingAreaProofFile.toString()
+//                            RFQInfraDetailbuildingPhotosFile = x.selfDeclaration.toString()
+//                            RFQInfraDetailleakagesProofFile =x.leakagesProofFile.toString()
+//                            RFQInfraDetailconformanceDduProofFile= x.conformanceDduProofFile.toString()
+//                            RFQInfraDetailswitchBoardsPanelBoardsProofFile= x.switchBoardsPanelBoardsProofFile.toString()
+//                            RFQInfraDetailcontactDetailImportantPeopleproofFile= x.contactDetailImportantPeopleproofFile.toString()
+//                            RFQInfraDetailstudentEntitlementBoardProofFile= x.studentEntitlementBoardProofFile.toString()
+
+
                         }
                     }
 
@@ -1069,7 +1123,11 @@ class RFQTeamFormFragment : Fragment() {
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -1224,9 +1282,25 @@ class RFQTeamFormFragment : Fragment() {
                                 }
                             }
 
-                            202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                            301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                            401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            202 ->
+
+                            {
+
+                                hideProgressBar()
+                                Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+                            }
+
+                            301 ->
+                            {
+
+                                hideProgressBar()
+                                Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                            }
+                            401 -> {
+                                hideProgressBar()
+
+                                AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                            }
                         }
                     }
                     result.onFailure {
@@ -1303,7 +1377,11 @@ class RFQTeamFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1453,7 +1531,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                     {
-                         hideProgressBar()
+                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             "Please upgrade your app.",
@@ -1462,7 +1540,11 @@ class RFQTeamFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 -> {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
 
                 result.onFailure {
@@ -1549,13 +1631,7 @@ class RFQTeamFormFragment : Fragment() {
             binding.btnSubmitFinal.visibility= View.GONE
             binding.RFResidentialFacilitiesAvailable.RFResidentialFacalityExpand.visibility= View.VISIBLE
         }
-
-
-
-
-
     }
-
 
 
     private fun collectFinalSubmitData() {
@@ -1597,7 +1673,7 @@ class RFQTeamFormFragment : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    Toast.makeText(
+                        Toast.makeText(
                             requireContext(),
                             "Details sent successfully to"+getString(R.string.residential_facility_q_team),
                             Toast.LENGTH_SHORT
@@ -1610,18 +1686,18 @@ class RFQTeamFormFragment : Fragment() {
                     {
                         hideProgressBar()
                         Toast.makeText(
-                        requireContext(),
-                        it.responseDesc,
-                        Toast.LENGTH_SHORT
-                    ).show()}
+                            requireContext(),
+                            it.responseDesc,
+                            Toast.LENGTH_SHORT
+                        ).show()}
 
                     301 -> {
                         hideProgressBar()
                         Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()}
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
 
                     401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                 }
@@ -1636,13 +1712,14 @@ class RFQTeamFormFragment : Fragment() {
         }
     }
 
+
     private  fun ResidentialFacilitiesForm(){
         viewModel.RFResidentialFacilitiesAvailable.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
 
                 when (it.responseCode) {
                     200 -> {
-                             hideProgressBar()
+                        hideProgressBar()
                         val tcInfoData = it.wrappedList
                         for (x in tcInfoData) {
 
@@ -1673,7 +1750,7 @@ class RFQTeamFormFragment : Fragment() {
 
                     202 ->
                     {
-                         hideProgressBar()
+                        hideProgressBar()
 
                         Toast.makeText(
                             requireContext(),
@@ -1700,7 +1777,16 @@ class RFQTeamFormFragment : Fragment() {
                     }
 
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
+
+
                 }
 
                 result.onFailure {
@@ -1868,166 +1954,321 @@ class RFQTeamFormFragment : Fragment() {
             binding.RFResidentialConstraintLayoutFacilitiesAvailable.visibility= View.GONE
             binding.RFIndoorGameLayout.IndoorGameExpand.visibility= View.VISIBLE
         }}
-       private  fun RoomRecyclerView(){
-           viewModel.livingRoomListView.observe(viewLifecycleOwner) { result ->
-               result.onSuccess {
-                   when (it.responseCode) {
+    private  fun RoomRecyclerView(){
+        viewModel.livingRoomListView.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
 
-                       200 ->{
-
-
-                           hideProgressBar()
-                           adapter.updateData(it.wrappedList ?: emptyList())
+                    200 ->{
 
 
-                       }
+                        hideProgressBar()
+                        adapter.updateData(it.wrappedList ?: emptyList())
 
 
+                    }
 
 
 
 
 
 
-                       202 -> {
-                           hideProgressBar()
-                           Toast.makeText(
-                               requireContext(),
-                               "No data available.",
-                               Toast.LENGTH_SHORT
-                           ).show()
-                       }
-
-                       301 ->
-                       {
-
-                         hideProgressBar()
-
-                           Toast.makeText(
-                               requireContext(),
-                               "Please upgrade your app.",
-                               Toast.LENGTH_SHORT
-                           ).show()
-                       }
 
 
+                    202 -> {
+                        hideProgressBar()
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
 
-                       401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                   }
-               }
-               result.onFailure {
-                   hideProgressBar()
-                   Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-               }
-           }
-           viewModel.loading.observe(viewLifecycleOwner) { loading ->
-               binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-           }
-       }
+                    301 ->
+                    {
+
+                        hideProgressBar()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+
+                    401 ->
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
+    }
     private  fun ToiletRecyclerView() {
 
 
 
 
-            viewModel.ToiletRoomInformationView.observe(viewLifecycleOwner) { result ->
-                result.onSuccess {
-                    when (it.responseCode) {
-                        200 -> {
-                              hideProgressBar()
-                            val tcInfoData = it.wrappedList
-                            for (x in tcInfoData) {
-                                // Wait for 2 seconds
-                                val binding =
-                                    TriPopdialogBinding.inflate(layoutInflater)
-                                val dialog = AlertDialog.Builder(requireContext())
-                                    .setView(binding.root)
-                                    .create()
-                                dialog.show()
-                                binding.progressBar.visibility = View.VISIBLE
+        viewModel.ToiletRoomInformationView.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+                    200 -> {
+                        hideProgressBar()
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+                            // Wait for 2 seconds
+                            val binding =
+                                TriPopdialogBinding.inflate(layoutInflater)
+                            val dialog = AlertDialog.Builder(requireContext())
+                                .setView(binding.root)
+                                .create()
+                            dialog.show()
+                            binding.progressBar.visibility = View.VISIBLE
 //                                    delay(2000L)
 
-                                // Hide progress bar
-                                binding.progressBar.visibility = View.GONE
+                            // Hide progress bar
+                            binding.progressBar.visibility = View.GONE
 
 
-                                // Now set data to TextViews
-                                binding.triTypeOfFlooring.text =
-                                    safeText(x.flooring)
-                                binding.ConnectionToRunningWater.text = safeText(x.runningWater)
-                                binding.ToiletType.text =
-                                    safeText(x.type.toString())
-                                binding.TriLights.text = safeText(x.lights.toString())
-                                binding.FemaleUrinal.text = safeText(x.femaleUrinal.toString())
-                                binding.FemaleWashbasin.text = safeText(x.femaleWashbasin.toString())
-                                binding.OverheadTank.text = safeText(x.overheadTank.toString())
-
-
-
-                                //open Image
-                                binding.laiTypeOfFlooringFile.setOnClickListener {
-
-                                    showBase64ImageDialog(requireContext(), x.floorPdf, "Floor Preview")
-
-
-                                }
-                                binding.TriLightsFile.setOnClickListener {
-                                    showBase64ImageDialog(requireContext(), x.lightPdf, "Light Preview")
-
-
-                                }
+                            // Now set data to TextViews
+                            binding.triTypeOfFlooring.text =
+                                safeText(x.flooring)
+                            binding.ConnectionToRunningWater.text = safeText(x.runningWater)
+                            binding.ToiletType.text =
+                                safeText(x.type.toString())
+                            binding.TriLights.text = safeText(x.lights.toString())
+                            binding.FemaleUrinal.text = safeText(x.femaleUrinal.toString())
+                            binding.FemaleWashbasin.text = safeText(x.femaleWashbasin.toString())
+                            binding.OverheadTank.text = safeText(x.overheadTank.toString())
 
 
 
+                            //open Image
+                            binding.laiTypeOfFlooringFile.setOnClickListener {
 
-                                binding.backButton.setOnClickListener { dialog.dismiss() }
+                                showBase64ImageDialog(requireContext(), x.floorPdf, "Floor Preview")
+
+
                             }
+                            binding.TriLightsFile.setOnClickListener {
+                                showBase64ImageDialog(requireContext(), x.lightPdf, "Light Preview")
+
+
+                            }
+
+
+
+
+                            binding.backButton.setOnClickListener { dialog.dismiss() }
+                        }
+
+                    }
+
+
+
+
+
+                    202 -> {
+                        hideProgressBar()
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
+
+                    301 ->
+
+
+
+                    {
+
+                        hideProgressBar()
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
+
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+
+
+        }
+
+
+
+
+        binding.RFTioletLayout.recyclerViewToilet.layoutManager = LinearLayoutManager(requireContext())
+        binding.RFTioletLayout.recyclerViewToilet.adapter = adapterToilet
+
+        val ToiletCountListReq = ToiletCountListReq(
+            appVersion = BuildConfig.VERSION_NAME,
+            tcId = centerId.toInt(),
+            sanctionOrder = sanctionOrder,
+            facilityId = facilityId.toString()
+
+        )
+
+
+
+        viewModel.getToiletCountList(ToiletCountListReq)
+
+
+        viewModel.ToiletCountListView.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                when (it.responseCode) {
+
+
+                    200 ->
+
+                    {
+
+
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            binding.RFTioletLayout.TvToilet.text=x.toiletCount
+
+                            binding.RFTioletLayout.TvBathroom.text=x.washroomCount
+                            binding.RFTioletLayout.TvToiletBathroom.text=x.toiletWashroomCount
+
+
+                            binding.RFTioletLayout.TvToilet.paintFlags = binding.RFTioletLayout.TvToilet.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                            binding.RFTioletLayout.TvBathroom.paintFlags = binding.RFTioletLayout.TvBathroom.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+                            binding.RFTioletLayout.TvToiletBathroom.paintFlags = binding.RFTioletLayout.TvToiletBathroom.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+
+                            binding.RFTioletLayout.tvToilet.setOnClickListener {
+                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.VISIBLE
+                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.  GONE
+
+                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.toilet,
+                                    0,
+                                    0,
+                                    0
+                                )
+
+
+                            }
+                            binding.RFTioletLayout.linLayoutToilet.setOnClickListener {
+
+                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.back_black,
+                                    0,
+                                    0,
+                                    0
+                                )
+
+                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+
+                            }
+                            binding.RFTioletLayout.LinLayoutBathroom.setOnClickListener {
+
+                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.back_black,
+                                    0,
+                                    0,
+                                    0
+                                )
+                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+                            }
+                            binding.RFTioletLayout.LinLayoutToiletAndBathroom.setOnClickListener {
+
+                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                    R.drawable.back_black,
+                                    0,
+                                    0,
+                                    0
+                                )
+
+                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+                            }
+
+
+
+
+
+
+
+
+
 
                         }
 
 
 
 
+                        hideProgressBar()
 
-                        202 -> {
-                            hideProgressBar()
-                            Toast.makeText(
+
+                    }
+                    202 ->
+
+
+                    {
+                        hideProgressBar()
+                        Toast.makeText(
                             requireContext(),
                             "No data available.",
                             Toast.LENGTH_SHORT
-                        ).show()}
+                        ).show()
 
-                        301 ->
+                    }
 
-
-
-                        {
-
-                            hideProgressBar()
-
-
-                            Toast.makeText(
+                    301 -> {
+                        hideProgressBar()
+                        Toast.makeText(
                             requireContext(),
                             "Please upgrade your app.",
                             Toast.LENGTH_SHORT
                         ).show()}
 
-                        401 -> AppUtil.showSessionExpiredDialog(
-                            findNavController(),
-                            requireContext()
-                        )
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
                     }
                 }
-                result.onFailure {
-                    hideProgressBar()
-                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
             }
-            viewModel.loading.observe(viewLifecycleOwner) { loading ->
-                binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-
-
+            result.onFailure {
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+        }
 
 
 
@@ -2037,15 +2278,18 @@ class RFQTeamFormFragment : Fragment() {
         binding.RFTioletLayout.recyclerViewToilet.layoutManager = LinearLayoutManager(requireContext())
         binding.RFTioletLayout.recyclerViewToilet.adapter = adapterToilet
 
-        val livingRoomlistViewReq = LivingRoomListViewRQ(
+        val livingRoomlistViewReq = ToiletRoomInformationReq(
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId.toInt(),
             sanctionOrder = sanctionOrder,
-            facilityId = facilityId)
+            facilityId = facilityId,
+            toiletType="Washroom"
+
+        )
 
         viewModel.getToiletRoomListView(livingRoomlistViewReq)
 
-               showProgressBar()
+        showProgressBar()
 
 
 
@@ -2085,22 +2329,26 @@ class RFQTeamFormFragment : Fragment() {
                     {
                         hideProgressBar()
                         Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
 
                     301 -> {
                         hideProgressBar()
                         Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()}
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()}
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->  {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
                 }
             }
             result.onFailure {
@@ -2217,7 +2465,7 @@ class RFQTeamFormFragment : Fragment() {
             progress?.show()
         }
     }
-//
+    //
     fun hideProgressBar() {
         if (progress?.isShowing == true) {
             progress?.dismiss()

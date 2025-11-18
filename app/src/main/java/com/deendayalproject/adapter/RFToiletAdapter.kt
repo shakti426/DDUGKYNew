@@ -46,10 +46,5 @@ class RFToiletAdapter(
         toilet = newList
         notifyDataSetChanged()
     }
-
-//    fun updateDataToilet(newList: List<ToiletRes>) {
-//        toilet = newList
-//        notifyDataSetChanged()
-//    }
 }
 

@@ -219,179 +219,326 @@
                 app:layout_constraintTop_toBottomOf="@id/levelWhetherTv" />
 
 
+
             <TextView
-                android:id="@+id/levelDiningArea"
-                android:layout_width="match_parent"
+                android:id="@+id/recreationAndDiningFile"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:text="@string/dining_area"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_35"
+                android:visibility="gone"
+                android:text="@string/view"
+                android:textColor="@color/soft_navy_blue"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
 
 
-            <TextView
-                android:id="@+id/labelDiningLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/length_in_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/length"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/levelDiningArea" />
-
-            <TextView
-                android:id="@+id/DiningLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelDiningLength" />
 
 
-            <TextView
-                android:id="@+id/labelDiningWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/width_in_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/width"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningLength" />
-
-            <TextView
-                android:id="@+id/DiningWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelDiningWidth" />
 
 
-            <TextView
-                android:id="@+id/labelsDiningArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/area_in_sq_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/width"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningWidth" />
 
-            <TextView
-                android:id="@+id/DiningArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelsDiningArea" />
-
-
-            <TextView
-                android:id="@+id/laiHeadingRecreationArea"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:id="@+id/recreationAndDiningYes"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/dp_10"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                android:text="@string/recreation_area"
-                android:textColor="@color/light_blue"
-                android:textSize="@dimen/sp_18"
-                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DiningArea" />
+                app:layout_constraintTop_toBottomOf="@id/WhetherTv"
+                android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/labelRecreationLength"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/levelLengthRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/length_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/length"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/WashArea" />
+
+                <TextView
+                    android:id="@+id/LengthRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/levelWhetherTv" />
+
+                <TextView
+                    android:id="@+id/levelWidthRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/width_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/length"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/LengthRecreationAndDining" />
+
+                <TextView
+                    android:id="@+id/WidthRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/levelWidthRecreationAndDining" />
+
+
+
+
+
+                <TextView
+                    android:id="@+id/levelAreaRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/width_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/length"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/WidthRecreationAndDining" />
+
+                <TextView
+                    android:id="@+id/AreaRecreationAndDining"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/levelAreaRecreationAndDining" />
+
+
+
+
+                <TextView
+                    android:id="@+id/recreationAndDiningNoFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:visibility="gone"
+                    android:text="@string/view"
+                    android:textColor="@color/soft_navy_blue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/LinLayOutrecreationAndDiningNo"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/length_in_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/area"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/dp_10"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/laiHeadingRecreationArea" />
-
-            <TextView
-                android:id="@+id/RecreationLength"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationLength" />
-
-            <TextView
-                android:id="@+id/labelRecreationWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/width_in_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/area"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationLength" />
-
-            <TextView
-                android:id="@+id/RecreationWidth"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationWidth" />
+                app:layout_constraintTop_toBottomOf="@id/recreationAndDiningYes"
+                android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/labelRecreationArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_15"
-                android:drawablePadding="8dp"
-                android:text="@string/area_in_sq_ft"
-                android:textColor="@color/color_dark_green"
-                android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/area"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationWidth" />
+                <TextView
+                    android:id="@+id/levelDiningArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="@string/dining_area"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
 
-            <TextView
-                android:id="@+id/RecreationArea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp_35"
-                android:text="@string/n_a"
-                android:textColor="@color/color_follow_up_title"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/labelRecreationArea" />
+
+                <TextView
+                    android:id="@+id/labelDiningLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/length_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/length"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/levelDiningArea" />
+
+                <TextView
+                    android:id="@+id/DiningLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelDiningLength" />
+
+
+                <TextView
+                    android:id="@+id/labelDiningWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/width_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/width"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DiningLength" />
+
+                <TextView
+                    android:id="@+id/DiningWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelDiningWidth" />
+
+
+                <TextView
+                    android:id="@+id/labelsDiningArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/area_in_sq_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/width"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DiningWidth" />
+
+                <TextView
+                    android:id="@+id/DiningArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelsDiningArea" />
+
+
+                <TextView
+                    android:id="@+id/laiHeadingRecreationArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:gravity="center"
+                    android:text="@string/recreation_area"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/sp_18"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DiningArea" />
+
+
+                <TextView
+                    android:id="@+id/labelRecreationLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/length_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/laiHeadingRecreationArea" />
+
+                <TextView
+                    android:id="@+id/RecreationLength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelRecreationLength" />
+
+                <TextView
+                    android:id="@+id/labelRecreationWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/width_in_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/RecreationLength" />
+
+                <TextView
+                    android:id="@+id/RecreationWidth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelRecreationWidth" />
+
+
+                <TextView
+                    android:id="@+id/labelRecreationArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_15"
+                    android:drawablePadding="8dp"
+                    android:text="@string/area_in_sq_ft"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_18"
+                    app:drawableStartCompat="@drawable/area"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/RecreationWidth" />
+
+                <TextView
+                    android:id="@+id/RecreationArea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:text="@string/n_a"
+                    android:textColor="@color/color_follow_up_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/labelRecreationArea" />
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
+
 
             <TextView
                 android:id="@+id/laiHeadingReceptionArea"
@@ -406,7 +553,7 @@
                 android:textSize="@dimen/sp_18"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/RecreationArea" />
+                app:layout_constraintTop_toBottomOf="@id/LinLayOutrecreationAndDiningNo" />
 
 
             <TextView

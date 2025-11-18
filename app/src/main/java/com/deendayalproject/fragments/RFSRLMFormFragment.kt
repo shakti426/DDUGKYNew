@@ -677,7 +677,7 @@ class RFSRLMFormFragment : Fragment() {
                         appVersion = BuildConfig.VERSION_NAME,
                         tcId = centerId.toInt(),
                         sanctionOrder = sanctionOrder,
-                        rfToiletId = data.toString(),
+                        toiletType = data.toString(),
                         facilityId = facilityId
                     )
                     viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
@@ -808,26 +808,25 @@ class RFSRLMFormFragment : Fragment() {
                             binding.RFNonLivingAreaLayout.ReceptionArea.text = safeText(x.receptionArea)
 
 
-
-
-//                            binding.RFNonLivingAreaLayout.reTheDiningAndRecreationAreaSeparate.text= safeText(x.kitchenArea)
-//                            binding.RFNonLivingAreaLayout.WhetherFoodFor.text= safeText(x.preparedFood)
-//                            binding.RFNonLivingAreaLayout.NoOfStoolsChairsBenches.text= safeText(x.noOfSeats)
-//                            binding.RFNonLivingAreaLayout.WashArea.text= safeText(x.washArea)
-//                            binding.RFNonLivingAreaLayout.WhetherTv.text= safeText(x.tvAvailable)
-////                            binding.RFNonLivingAreaLayout.PreparedFood.text= safeText(x.preparedFood)
-//                            binding.RFNonLivingAreaLayout.RecreationLength.text= safeText(x.recreationLength)
-//                            binding.RFNonLivingAreaLayout.RecreationArea.text= safeText(x.recreationArea)
-//                            binding.RFNonLivingAreaLayout.RecreationWidth.text= safeText(x.recreationWidth)
-//                            binding.RFNonLivingAreaLayout.DiningArea.text= safeText(x.diningArea)
-//                            binding.RFNonLivingAreaLayout.DiningLength.text= safeText(x.diningLength)
-//                            binding.RFNonLivingAreaLayout.DiningWidth.text= safeText(x.diningWidth)
-//                            binding.RFNonLivingAreaLayout.ReceptionArea.text= safeText(x.receptionArea)
-
-
-
                             PreparedFoodFile=x.preprationFoodPdf
                             ReceptionAreaPdf= x.receptionAreaPdf.toString()
+//                            recreationAndDiningYes
+//                            LinLayOutrecreationAndDiningNo
+
+                            val value="Yes"
+//                            if (x.separateAreas=="Yes"){
+                            if (value=="No"){
+
+
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.GONE
+                            }
+                            else{
+
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.GONE
+                            }
+
                         }
                     }
 
@@ -2124,11 +2123,14 @@ class RFSRLMFormFragment : Fragment() {
         binding.RFTioletLayout.recyclerViewToilet.layoutManager = LinearLayoutManager(requireContext())
         binding.RFTioletLayout.recyclerViewToilet.adapter = adapterToilet
 
-        val livingRoomlistViewReq = LivingRoomListViewRQ(
+        val livingRoomlistViewReq = ToiletRoomInformationReq(
             appVersion = BuildConfig.VERSION_NAME,
             tcId = centerId.toInt(),
             sanctionOrder = sanctionOrder,
-            facilityId = facilityId)
+            facilityId = facilityId,
+            toiletType="Washroom"
+
+        )
 
         viewModel.getToiletRoomListView(livingRoomlistViewReq)
 

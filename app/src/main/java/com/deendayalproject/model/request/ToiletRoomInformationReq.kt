@@ -4,6 +4,6 @@ data class ToiletRoomInformationReq(
     val appVersion: String,
     val tcId: Int,
     val sanctionOrder: String,
-    val rfToiletId: String,
+    val toiletType: String,
     val facilityId:Int
 )
