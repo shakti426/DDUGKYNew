@@ -36,6 +36,7 @@ import com.deendayalproject.databinding.RoominformationPopdialogBinding
 //import com.deendayalproject.databinding.RoominformationDialogboxLayoutBinding
 import com.deendayalproject.databinding.TriPopdialogBinding
 import com.deendayalproject.model.request.CompliancesRFQTReq
+import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.LivingRoomListViewRQ
 import com.deendayalproject.model.request.RFGameRequest
 import com.deendayalproject.model.request.RFQteamVerificationRequest
@@ -43,6 +44,7 @@ import com.deendayalproject.model.request.RfCommonReq
 import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenter
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.IndoorRFGameResponseDetails
@@ -68,9 +70,11 @@ class RFQTeamFormFragment : Fragment() {
     private lateinit var adapterIndoorGame: IndoorGameRFAdapter
     private val RFindoorGamesList = mutableListOf<IndoorRFGameResponseDetails>()
     private val approvalList = listOf("Approved", "Send for modification")
+    private var rfToiletId = ""
     private var selectedRFBasicInformationApproval = ""
     private var selectedRFLevingAreaInformationApproval = ""
     private var selectedRFToiletApproval = ""
+    private var selectedRFToiletAdditionalSanctionApproval = ""
     private var selectedInfrastctureDetailsComplainsApproval = ""
     private var selectedIndoorGameApproval = ""
     private var selectedResidintislFacilityApproval = ""
@@ -124,6 +128,7 @@ class RFQTeamFormFragment : Fragment() {
     private var selectedRFBasicInformationRemarks = ""
     private var selectedRFLevingAreaInformationRemarks = ""
     private var selectedRFToiletRemarks = ""
+    private var selectedRFToiletAdditionalSanctionRemarks = ""
     private var selectedRFNonLivingAreaRemarks = ""
     private var selectedInfrastctureDetailsComplainsRemarks = ""
     private var selectedResidintislFacilityApprovalRemark = ""
@@ -136,6 +141,7 @@ class RFQTeamFormFragment : Fragment() {
     private lateinit var RFResidentialSupportFacilitiesAvailableAdapter: ArrayAdapter<String>
     private lateinit var tvLivingAreaInformationAdapter: ArrayAdapter<String>
     private lateinit var tvToiletAdapter: ArrayAdapter<String>
+    private lateinit var tvToiletAdditionalSectionAdapter: ArrayAdapter<String>
     private lateinit var tvNonLivingAreaAdapter: ArrayAdapter<String>
 
     private var centerId = ""
@@ -170,89 +176,6 @@ class RFQTeamFormFragment : Fragment() {
             showBase64ImageDialog(requireContext(), RFQTBasicInfoAppointMent, "police verification ")
 //
         }
-
-//        ImageView Click View file all use in Infrastcture Details and Complains
-//        binding.infrastructureDetailsAndCompliancesLayout.BuildingAreaSQFPlanFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailsRoofbuildingFile, "")
-////
-//        }
-//
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.ProtectionOfStairsFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailprotectionStairsProofFile, "RFQInfraDetailprotectionStairsProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.roofBuildingLabelFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailsbuildingPlanFile, "")
-//
-//        }
-//
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.WhetherItIsStructurallyFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailswallPhotosFileFile, "")
-//
-//        }
-//
-//
-//
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.HostelNameBoardFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailhostelNameBoardProofFile, "RFQInfraDetailhostelNameBoardProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//
-//
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.ContactDetailOfImportantPeopleFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraContactDetailOfImportantPeopleFile, "Contact Detail Of Important People")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.SpecificationBoardFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailfoodSpecificationBoardFile, "RFQInfraDetailfoodSpecificationBoardFileo")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.BasicInformationBoardFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailbasicInformationBoardproofFile, "RFQInfraDetailbasicInformationBoardproofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.SecuringWiresDoneFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailbasicsecuringWiresDoneProofFile, "RFQInfraDetailbasicsecuringWiresDoneProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.CorridorFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailcorridorProofFile, "RFQInfraDetailcorridorProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.circulatingAreaProofFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailcirculatingAreaProofFile, "RFQInfraDetailcirculatingAreaProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.OnwershipOfBuldingFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailbuildingPhotosFile, "RFQInfraDetailbuildingPhotosFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.VisibleSignsLeakagesFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailleakagesProofFile, "RFQInfraDetailleakagesProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.ConformanceToDduGkyFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailconformanceDduProofFile, "RFQInfraDetailconformanceDduProofFile")
-////                                openBase64Pdf(requireContext(), RFQTBasicInfoPdf)
-//
-//
-//        }
-//        binding.infrastructureDetailsAndCompliancesLayout.SwitchBoardsAndPanelBoards.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailswitchBoardsPanelBoardsProofFile, "RFQInfraDetailswitchBoardsPanelBoardsProofFile")
-//
-//        }
-//
-//        binding.infrastructureDetailsAndCompliancesLayout.StudentEntitlementFile.setOnClickListener {
-//            showBase64ImageDialog(requireContext(), RFQInfraDetailstudentEntitlementBoardProofFile, "Detail student Entitlement")
-//
-//        }
-//
-
 
 //                  Non Room Information ImageView Click 03/11/2025
 
@@ -365,9 +288,10 @@ class RFQTeamFormFragment : Fragment() {
                 rfAvailableRemark=selectedResidintislFacilityApprovalRemark.toString(),
                 supportFacilityAvailableStatus=selectedResidintislSupportFacilityApproval,
                 supportFacilityAvailableRemark=selectedResidintislSupportFacilityApprovalRemark.toString(),
+                addToiletStatus=selectedRFToiletAdditionalSanctionApproval.toString(),
+                addToiletRemark=selectedRFToiletAdditionalSanctionRemarks.toString(),
                 facilityId = facilityId
             )
-//            selectedNonAreaInfoApproval
 //            selectedRFNonLivingAreaRemarks
 
             viewModel.getFinalSubmitinsertRFQteamVerificationRequestData(requestTcInfraReq)
@@ -681,14 +605,11 @@ class RFQTeamFormFragment : Fragment() {
             adapterToilet = RFToiletAdapter(emptyList()) { selectedItem ->
                 val data = selectedItem.rfToiletId
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val requestToiletRoomInformationReq = ToiletRoomInformationReq(
+                    val toiletRoomReq = ToiletRoomReq(
                         appVersion = BuildConfig.VERSION_NAME,
-                        tcId = centerId.toInt(),
-                        sanctionOrder = sanctionOrder,
-                        toiletType = "Toilet",
-                        facilityId = facilityId
+                        rfToiletId = rfToiletId,
                     )
-                    viewModel.getRfToiletRoomInformation(requestToiletRoomInformationReq)
+                    viewModel.getRfToiletRoomInformation(toiletRoomReq)
                 }
             }
 
@@ -747,9 +668,15 @@ class RFQTeamFormFragment : Fragment() {
             }
 
             // ✅ Step 3: Proceed only if validation successful
+
+
+
             binding.RFTioletLayout.toiletsExpand.visibility = View.GONE
             binding.RFTioletLayout.viewToilet.visibility = View.GONE
-            binding.tvRFConstraintLayoutNonLivingArea.visibility = View.VISIBLE
+            binding.tvRFtoiletAdditionalSection.visibility = View.VISIBLE
+
+
+
 
             binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                 R.drawable.toilet,
@@ -762,16 +689,15 @@ class RFQTeamFormFragment : Fragment() {
                 binding.scroll.smoothScrollTo(0, 0)
             }
 
-            // ✅ Step 4: Proceed to API call for Non-Living Area Information
-            val requestLRLVRQ = LivingRoomListViewRQ(
-                appVersion = BuildConfig.VERSION_NAME,
-                tcId = centerId.toInt(),
-                sanctionOrder = sanctionOrder,
-                facilityId = facilityId
-            )
 
-            viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
-            NonAreaInformation()
+
+
+
+
+
+
+
+
         }
 
 
@@ -783,10 +709,205 @@ class RFQTeamFormFragment : Fragment() {
         }
 
 
+        val requestTcInfo = GetUrinalWashReq(
+            appVersion = BuildConfig.VERSION_NAME,
+            loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
+            tcId = centerId,
+            sanctionOrder = sanctionOrder,
+            imeiNo = AppUtil.getAndroidId(requireContext()),
+            facilityId = facilityId.toString()
+        )
+        viewModel.getToiletWashbasinDetails(requestTcInfo)
+        showProgressBar()
+
+        GetToiletWashbasinDetails()
+
+
+    }
+
+
+
+
+    private fun GetToiletWashbasinDetails() {
+        viewModel.getToiletWashbasinDetails.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                when (it.responseCode) {
+                    200 ->{
+
+
+                        for (x in it.wrappedList){
+
+
+                            binding.RFTioletAdditionalSectionLayout.UrinalAdditionalSection.setText(x.urinal)
+                            binding.RFTioletAdditionalSectionLayout.WashbasinsAdditionalSection.setText(x.washbasin)
+                            binding.RFTioletAdditionalSectionLayout.OverHeadTankAdditionalSection.setText(x.overheadTank)
+
+                            binding.RFTioletAdditionalSectionLayout.ToiletAdditionalSectionFile.setOnClickListener {
+                                showBase64ImageDialog(requireContext(), x.urinalFile,"Preview")
+
+                            }
+                            binding.RFTioletAdditionalSectionLayout.WashbasinsAdditionalSectionFile.setOnClickListener {
+                                showBase64ImageDialog(requireContext(), x.washbasinFile,"Preview")
+
+                            }
+                            binding.RFTioletAdditionalSectionLayout.OverHeadTankAdditionalSectionFile.setOnClickListener {
+                                showBase64ImageDialog(requireContext(), x.overheadTankFile,"Preview")
+
+                            }
+
+
+
+                        }
+
+
+
+
+
+                    }
+                    202 -> {
+                        hideProgressBar()
+                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                    301 ->
+                    {
+                         hideProgressBar()
+                        Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    }
+
+                    401 ->
+
+                    {
+                        hideProgressBar()
+
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+
+                    }
+
+                }
+            }
+            result.onFailure {
+                hideProgressBar()
+
+                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+
+        }
+
+
+
+
+
+        //AdditionalSection Adapter   Ajit Ranjan Toilets 27/10/2025
+
+        tvToiletAdditionalSectionAdapter = ArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_dropdown_item, approvalList
+        )
+        binding.RFTioletAdditionalSectionLayout.SpinnerAdditionalSection.setAdapter(tvToiletAdditionalSectionAdapter)
+
+
+        binding.RFTioletAdditionalSectionLayout.SpinnerAdditionalSection.setOnItemClickListener { parent, view, position, id ->
+            selectedRFToiletAdditionalSanctionApproval = parent.getItemAtPosition(position).toString()
+
+            if (selectedRFToiletAdditionalSanctionApproval == "Send for modification") {
+                binding.RFTioletAdditionalSectionLayout.textViewAdditionalSectionRemarks.visibility = View.VISIBLE
+                binding.RFTioletAdditionalSectionLayout.etAdditionalSectionRemarks.visibility = View.VISIBLE
+                selectedRFToiletAdditionalSanctionApproval = "M"
+            } else {
+                selectedRFToiletAdditionalSanctionApproval = "A"
+                binding.RFTioletAdditionalSectionLayout.etAdditionalSectionRemarks.visibility = View.GONE
+                binding.RFTioletAdditionalSectionLayout.textViewAdditionalSectionRemarks.visibility = View.GONE
+            }
+        }
+
+        binding.RFTioletAdditionalSectionLayout.btnAdditionalSectionNext.setOnClickListener {
+
+            // ✅ Step 1: Validate approval selection
+            if (selectedRFToiletAdditionalSanctionApproval.isEmpty()) {
+                Toast.makeText(requireContext(), "Kindly select Approval first", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // ✅ Step 2: If “Send for modification”, remarks are mandatory
+            if (selectedRFToiletAdditionalSanctionApproval == "M") {
+                selectedRFToiletAdditionalSanctionRemarks = binding.RFTioletAdditionalSectionLayout.etAdditionalSectionRemarks.text.toString().trim()
+
+                if (selectedRFToiletAdditionalSanctionRemarks.isEmpty()) {
+                    Toast.makeText(requireContext(), "Kindly enter remarks first", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            } else {
+                selectedRFToiletAdditionalSanctionRemarks = ""
+            }
+
+            // ✅ Step 3: Proceed only if validation successful
+
+
+
+            binding.RFTioletAdditionalSectionLayout.AdditionalSectionExpand.visibility = View.GONE
+            binding.RFTioletAdditionalSectionLayout.viewToiletAdditionalSection.visibility = View.GONE
+            binding.tvRFConstraintLayoutNonLivingArea.visibility = View.VISIBLE
+
+
+
+            binding.RFTioletAdditionalSectionLayout.tvToiletAdditionalSection.setCompoundDrawablesWithIntrinsicBounds(
+                R.drawable.toilet,
+                0,
+                R.drawable.ic_verified,
+                0
+            )
+
+            binding.scroll.post {
+                binding.scroll.smoothScrollTo(0, 0)
+            }
+
+
+
+
+// ✅ Step 4: Proceed to API call for Non-Living Area Information
+            val requestLRLVRQ = LivingRoomListViewRQ(
+                appVersion = BuildConfig.VERSION_NAME,
+                tcId = centerId.toInt(),
+                sanctionOrder = sanctionOrder,
+                facilityId = facilityId
+            )
+
+            viewModel.getRfNonLivingAreaInformation(requestLRLVRQ)
+            NonAreaInformation()
+
+
+
+
+
+
+        }
+
+
+        binding.RFTioletAdditionalSectionLayout.btnAdditionalSectionPrevious.setOnClickListener {
+            binding.tvRFTiolet.visibility= View.VISIBLE
+            binding.RFTioletLayout.toiletsExpand.visibility= View.VISIBLE
+            binding.tvRFtoiletAdditionalSection.visibility= View.GONE
+
+        }
+
+
+
+
+
+
 
 
 
     }
+
+
+
+
+
 
 
     @SuppressLint("SetTextI18n", "SuspiciousIndentation")
@@ -816,23 +937,48 @@ class RFQTeamFormFragment : Fragment() {
                             binding.RFNonLivingAreaLayout.ReceptionArea.text = safeText(x.receptionArea)
 
 
+
+
+                            binding.RFNonLivingAreaLayout.LengthRecreationAndDining.text = safeText(x.diningLength)
+                            binding.RFNonLivingAreaLayout.AreaRecreationAndDining.text = safeText(x.diningArea)
+                            binding.RFNonLivingAreaLayout.WidthRecreationAndDining.text = safeText(x.diningWidth)
+
+
+
+
+                            binding.RFNonLivingAreaLayout.recreationFile.setOnClickListener {
+
+                                showBase64ImageDialog(requireContext(), x.diningAreaFile, "Preview")
+
+
+                            }
+                            binding.RFNonLivingAreaLayout.recreationAndDiningFile.setOnClickListener {
+
+                                showBase64ImageDialog(requireContext(), x.diningRecreationAreaFile, "Preview")
+
+
+                            }
+
+
+
+
+
                             PreparedFoodFile=x.preprationFoodPdf
                             ReceptionAreaPdf= x.receptionAreaPdf.toString()
-//                            recreationAndDiningYes
-//                            LinLayOutrecreationAndDiningNo
 
-                            val value="Yes"
-//                            if (x.separateAreas=="Yes"){
-                            if (value=="No"){
+                            if (x.separateAreas=="Yes"){
+                                binding.RFNonLivingAreaLayout.recreationFile.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.GONE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningFile.visibility=View.GONE
 
-
-                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.VISIBLE
-                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.GONE
                             }
                             else{
 
-                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.VISIBLE
-                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.GONE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningFile.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.recreationAndDiningYes.visibility=View.VISIBLE
+                                binding.RFNonLivingAreaLayout.LinLayOutrecreationAndDiningNo.visibility=View.GONE
+                                binding.RFNonLivingAreaLayout.recreationFile.visibility=View.GONE
                             }
 
                         }
@@ -2048,9 +2194,7 @@ class RFQTeamFormFragment : Fragment() {
                             binding.ToiletType.text =
                                 safeText(x.type.toString())
                             binding.TriLights.text = safeText(x.lights.toString())
-                            binding.FemaleUrinal.text = safeText(x.femaleUrinal.toString())
-                            binding.FemaleWashbasin.text = safeText(x.femaleWashbasin.toString())
-                            binding.OverheadTank.text = safeText(x.overheadTank.toString())
+
 
 
 
@@ -2063,6 +2207,11 @@ class RFQTeamFormFragment : Fragment() {
                             }
                             binding.TriLightsFile.setOnClickListener {
                                 showBase64ImageDialog(requireContext(), x.lightPdf, "Light Preview")
+
+
+                            }
+                            binding.ConnectionToRunningWaterFile.setOnClickListener {
+                                showBase64ImageDialog(requireContext(), x.runningWaterFile, "Running WaterFile Preview")
 
 
                             }
@@ -2166,6 +2315,7 @@ class RFQTeamFormFragment : Fragment() {
 
 
                             binding.RFTioletLayout.tvToilet.setOnClickListener {
+
                                 binding.RFTioletLayout.LinLayoutCardView.visibility= View.VISIBLE
                                 binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.  GONE
 
@@ -2180,6 +2330,7 @@ class RFQTeamFormFragment : Fragment() {
                             }
                             binding.RFTioletLayout.linLayoutToilet.setOnClickListener {
 
+                                ListViewToilet("Toilet")
                                 binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                     R.drawable.back_black,
                                     0,
@@ -2192,7 +2343,7 @@ class RFQTeamFormFragment : Fragment() {
 
                             }
                             binding.RFTioletLayout.LinLayoutBathroom.setOnClickListener {
-
+                                ListViewToilet("Washroom")
                                 binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                     R.drawable.back_black,
                                     0,
@@ -2203,7 +2354,7 @@ class RFQTeamFormFragment : Fragment() {
                                 binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
                             }
                             binding.RFTioletLayout.LinLayoutToiletAndBathroom.setOnClickListener {
-
+                                ListViewToilet("Toilet Cum Washroom")
                                 binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
                                     R.drawable.back_black,
                                     0,
@@ -2275,6 +2426,12 @@ class RFQTeamFormFragment : Fragment() {
 
 
 
+
+    }
+
+
+    private fun ListViewToilet(toiletType: String){
+
         binding.RFTioletLayout.recyclerViewToilet.layoutManager = LinearLayoutManager(requireContext())
         binding.RFTioletLayout.recyclerViewToilet.adapter = adapterToilet
 
@@ -2283,7 +2440,7 @@ class RFQTeamFormFragment : Fragment() {
             tcId = centerId.toInt(),
             sanctionOrder = sanctionOrder,
             facilityId = facilityId,
-            toiletType="Washroom"
+            toiletType=toiletType
 
         )
 
@@ -2302,11 +2459,18 @@ class RFQTeamFormFragment : Fragment() {
                     200 ->
 
                     {
-
-
                         hideProgressBar()
-
                         adapterToilet.updateData(it.wrappedList ?: emptyList())
+                        val tcInfoData = it.wrappedList
+                        for (x in tcInfoData) {
+
+                            rfToiletId=x.rfToiletId
+
+
+                        }
+
+
+
                     }
 
 
@@ -2327,6 +2491,9 @@ class RFQTeamFormFragment : Fragment() {
 
 
                     {
+
+                        adapterToilet.updateData(emptyList())
+                        adapterToilet.updateData(mutableListOf())
                         hideProgressBar()
                         Toast.makeText(
                             requireContext(),
@@ -2337,6 +2504,8 @@ class RFQTeamFormFragment : Fragment() {
                     }
 
                     301 -> {
+                        adapterToilet.updateData(emptyList())
+                        adapterToilet.updateData(mutableListOf())
                         hideProgressBar()
                         Toast.makeText(
                             requireContext(),
@@ -2345,6 +2514,7 @@ class RFQTeamFormFragment : Fragment() {
                         ).show()}
 
                     401 ->  {
+
                         hideProgressBar()
 
                         AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
@@ -2360,7 +2530,6 @@ class RFQTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-
 
     private fun openBase64Pdf(context: Context, base64: String) {
         try {

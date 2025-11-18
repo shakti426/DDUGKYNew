@@ -5,13 +5,67 @@
     android:padding="8dp"
     android:background="@drawable/bg_item_border">
 
+
+
+<!--      <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#DDDDDD"
+                android:padding="8dp">
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="S.N."
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/toilet_type"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/lights"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/flooring"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="View"
+                    android:textStyle="bold" />
+            </LinearLayout>-->
+
+
+
     <TextView
-        android:id="@+id/tvToiletId"
+        android:id="@+id/tvToiletSerialNo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:text="@string/toiletid"
+        android:text="S.N."
         android:textSize="14sp" />
 
     <TextView
@@ -23,47 +77,37 @@
         android:text="@string/toilet_type"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvLength"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="12"
-        android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvWidth"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:visibility="gone"
-        android:text="10"
-        android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tvArea"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:visibility="gone"
-        android:gravity="center"
-        android:text="120"
-        android:textSize="14sp" />
 
+                    <TextView
+                         android:layout_width="0dp"
+                        android:id="@+id/tvLight"
+                          android:layout_height="wrap_content"
+                       android:layout_weight="1.5"
+                           android:gravity="center"
+                         android:text="@string/lights"
+                         />
 
 
 
     <TextView
-        android:id="@+id/btnToiletView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
+        android:id="@+id/TvFlooring"
         android:gravity="center"
-        android:textColor="@color/color_dark_blue"
-        android:text="@string/view"
-        android:textSize="12sp" />
+        android:text="@string/flooring"
+         />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/btnToiletView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@color/color_dark_blue"
+                android:text="@string/view"
+                android:textSize="12sp" />
+
+        </LinearLayout>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:padding="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/headerUrinalWashbasin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/urinal_washbasin_overhead"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:drawableStartCompat="@drawable/toilet" />
+
+                <ImageView
+                    android:id="@+id/ivToggleUrinalWashbasin"
+                    android:layout_width="20dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_dropdown_arrow" />
+            </LinearLayout>
+
+            <!-- Content -->
+            <LinearLayout
+                android:id="@+id/layoutUrinalWashbasinContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/dp_10"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/female_urinals"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:hint="@string/female_urinals">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFemaleUrinal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <Button
+                    android:id="@+id/btnUploadUrinal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload " />
+                <ImageView
+                    android:id="@+id/ivUrinalPreview"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/female_washbasins"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:hint="@string/female_washbasins">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFemaleWashbasins"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/btnUploadWashBasin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload " />
+                <ImageView
+                    android:id="@+id/ivWashBasinPreview"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/avenir_next_semi_bold"
+                    android:text="@string/overhead_tanks"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:textColor="@color/color_dark_green"
+                    android:textSize="@dimen/sp_16"
+                    />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp">
+                    <Spinner
+                        android:id="@+id/spinnerOverheadTanks"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/edittext_background"
+                        android:paddingStart="12dp"
+                        android:spinnerMode="dropdown"
+                        android:popupBackground="@color/white"
+                        android:textColor="@color/color_dark_green" />
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_dropdown_arrow"
+                        app:tint="@color/color_dark_green"
+                        tools:ignore="UseAppTint" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btnUploadOverHead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Upload " />
+                <ImageView
+                    android:id="@+id/ivOverHeadPreview"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="8dp"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/btnSubmitToiletAdditional"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:text="Submit"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

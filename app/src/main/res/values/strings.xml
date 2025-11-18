@@ -664,7 +664,8 @@
     <string name="type_of_roof_rcc_non_rcc">Type of Roof(RCC/Non RCC)</string>
     <string name="window_area_in_sq_ft">Window Area (In Sq. ft)</string>
     <string name="sleeping_and_storing_material">Sleeping and Storing Material</string>
-    <string name="cot_in_no">Cot (In No.)</string>
+    <string name="cot_in_no"> <font color='#FF0000'><u>Note: 1 bunk bed = 2 Cot</u></font> </string>
+    <string name="cot_in_no_hint">Cot (In No.)</string>
     <string name="mattress_in_no">Mattress (In No.)</string>
     <string name="bed_sheet_in_no">Bed Sheet (In No.)</string>
     <string name="cupboard_almirah_trunk_with_locking_arrangements_in_no">Cupboard / Almirah / Trunk with Locking Arrangements (In No.)</string>
@@ -672,8 +673,8 @@
     <string name="number_of_students_permitted">Number of Students Permitted</string>
 
     <string name="connection_to_running_water">Connection To Running Water</string>
-    <string name="female_urinals">Female Urinals</string>
-    <string name="female_washbasins">Female Washbasins</string>
+    <string name="female_urinals">Urinals</string>
+    <string name="female_washbasins">Washbasins</string>
     <string name="maximum_no_of_candidates_permissible">Maximum No. of Candidates Permissible</string>
     <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
     <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
@@ -738,10 +739,13 @@
     <string name="dining_width">Dining Width</string>
     <string name="max_candidate">Max Candidate</string>
     <string name="residential_multiple_list">Residential Multiple List</string>
+    <string name="common_dining_and_recreation">Common Dining and Recreation</string>
+    <string name="urinal_washbasin_overhead">Urinal/WashBasin/OverHead</string>
 
     <string name="under_text"><u>2</u></string>
     <string name="bathroom">Bathroom</string>
     <string name="toilet_and_bathroom">Toilet Cum Bathroom</string>
     <string name="urinals">Urinals</string>
     <string name="washbasins">Washbasins</string>
+    <string name="flooring">Flooring</string>
 </resources>

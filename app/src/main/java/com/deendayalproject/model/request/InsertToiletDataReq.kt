@@ -11,9 +11,7 @@ data class InsertToiletDataReq(
     val lights: Int,
     val flooring: String,
     val runningWater: String,
+    val runningWaterFile: String,
     val proofFloor: String,
-    val proofLight: String,
-    val femaleUrinal: Int,
-    val femaleWashbasin: Int,
-    val overheadTank: String
+    val proofLight: String
 )

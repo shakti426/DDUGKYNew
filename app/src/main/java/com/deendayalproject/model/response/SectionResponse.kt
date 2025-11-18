@@ -10,6 +10,7 @@ data class SectionResponse(
 data class SectionRFData(
     val livingAreaInfoSection: Int,
     val toiletSection: Int,
+    val toiletAdditionalSection: Int,
     val basiInfoSection: Int,
     val infraDtlComplianceSection: Int,
     val rfAvailableSection: Int,

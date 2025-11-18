@@ -12,6 +12,7 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -53,7 +54,9 @@ import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
@@ -68,6 +71,7 @@ import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.IndoorRFGameResponse
@@ -1310,7 +1314,7 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
     }
 
     //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
-    suspend fun getToiletRoomInformation(request: ToiletRoomInformationReq) : Result<ToiletRoomInformationViewRes>{
+    suspend fun getToiletRoomInformation(request: ToiletRoomReq) : Result<ToiletRoomInformationViewRes>{
         return try {
             // val bearerToken = "Bearer $token"
             val response = apiService.ToiletRoomInformation(request)
@@ -1585,6 +1589,41 @@ suspend fun getFinalSubmitinsertRFinsertRFSrlmVerificationRequestData(request: R
             Result.failure(e)
         }
     }
+
+
+
+    suspend fun insertRfToiletWashRoomDetail(request: UrinalWashbasinReq) : Result<ITLAbDetailsErrorResponse>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.insertRfToiletWashRoomDetail(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+    suspend fun getToiletWashbasinDetails(request: GetUrinalWashReq) : Result<GetUrinalWashRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.getToiletWashbasinDetails(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
 
 
     //    Ajit Ranjan create 17/Nov/2025  getToiletCountList

@@ -10,6 +10,7 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -50,8 +51,10 @@ import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
@@ -66,6 +69,7 @@ import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.IndoorRFGameResponse
@@ -377,7 +381,7 @@ interface ApiService {
 
     @POST(value ="getRfToiletRoomInformation")
     suspend fun ToiletRoomInformation
-                (@Body request: ToiletRoomInformationReq) :
+                (@Body request: ToiletRoomReq) :
             Response<ToiletRoomInformationViewRes>
 
 
@@ -509,7 +513,13 @@ interface ApiService {
                 (@Body request: ToiletCountListReq) :
             Response<ToiletCountList>
 
+    @POST(value = "insertRfToiletWashRoomDetail")
+    suspend fun insertRfToiletWashRoomDetail(@Body request: UrinalWashbasinReq) : Response<ITLAbDetailsErrorResponse>
 
 
+    @POST(value ="getToiletWashbasinDetails")
+    suspend fun getToiletWashbasinDetails
+                (@Body request: GetUrinalWashReq) :
+            Response<GetUrinalWashRes>
 
 }

@@ -23,5 +23,17 @@ data class InsertNonLivingReq(
     val recreationArea: Double,
     val receptionArea: String,
     val preparedFoodFile: String,
-    val receptionAreaFile: String
+    val receptionAreaFile: String,
+
+
+    val diningRecreationLength: Double,
+    val diningRecreationWidth: Double,
+    val diningRecreationArea: Double,
+
+    val diningRecreationAreaFile: String,
+    val diningAreaFile: String,
+    val recreationAreaFile: String
+
+
+
 )

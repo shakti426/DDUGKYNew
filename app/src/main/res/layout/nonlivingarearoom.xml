@@ -220,17 +220,7 @@
 
 
 
-            <TextView
-                android:id="@+id/recreationAndDiningFile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
-                android:layout_marginStart="@dimen/dp_35"
-                android:visibility="gone"
-                android:text="@string/view"
-                android:textColor="@color/soft_navy_blue"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
+
 
 
 
@@ -241,8 +231,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:id="@+id/recreationAndDiningYes"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/dp_10"
+                 android:visibility="gone"
+
+                android:layout_marginTop="@dimen/dp_15"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/WhetherTv"
@@ -323,10 +314,8 @@
                     app:layout_constraintTop_toBottomOf="@id/levelAreaRecreationAndDining" />
 
 
-
-
                 <TextView
-                    android:id="@+id/recreationAndDiningNoFile"
+                    android:id="@+id/recreationAndDiningFile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
@@ -335,7 +324,8 @@
                     android:text="@string/view"
                     android:textColor="@color/soft_navy_blue"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/WhetherTv" />
+                    app:layout_constraintTop_toBottomOf="@id/AreaRecreationAndDining" />
+
 
 
             </LinearLayout>
@@ -527,10 +517,30 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/labelRecreationArea" />
 
-
+                <TextView
+                    android:id="@+id/recreationFile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginStart="@dimen/dp_35"
+                    android:visibility="gone"
+                    android:text="@string/view"
+                    android:textColor="@color/soft_navy_blue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/RecreationArea" />
             </LinearLayout>
 
 
+<!--            <TextView-->
+<!--                android:id="@+id/recreationAndDiningNoFile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/dp_10"-->
+<!--                android:layout_marginStart="@dimen/dp_35"-->
+<!--                android:text="@string/view"-->
+<!--                android:textColor="@color/soft_navy_blue"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/AreaRecreationAndDining" />-->
 
 
 

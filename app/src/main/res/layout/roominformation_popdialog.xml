@@ -560,7 +560,7 @@
                 android:text="@string/lights_in_no"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/backup"
+                app:drawableStartCompat="@drawable/light"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiAirCondtionFile" />
 
@@ -594,7 +594,7 @@
                 android:text="@string/cupboard_almirah_trunk_with_locking_arrangements_in_no"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/backup"
+                app:drawableStartCompat="@drawable/baseline_note_alt_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiLightsFile" />
 
@@ -642,7 +642,7 @@
                 android:text="@string/living_area_information_board_as_per_sf_5_1_b4"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/backup"
+                app:drawableStartCompat="@drawable/board"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/laiStorageFile" />
 
@@ -678,7 +678,7 @@
                 android:text="@string/number_of_students_permitted"
                 android:textColor="@color/color_dark_green"
                 android:textSize="@dimen/sp_18"
-                app:drawableStartCompat="@drawable/backup"
+                app:drawableStartCompat="@drawable/baseline_person_2_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/LiaBasicInformationBoardFile" />
 

@@ -96,7 +96,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:gravity="center"
-                    android:text="@string/roomlength"
+                    android:text="@string/roomarea"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:text="@string/max_candidate"
                     android:textStyle="bold" />
 
 <!--                <TextView-->
