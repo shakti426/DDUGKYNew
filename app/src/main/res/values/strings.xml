@@ -673,8 +673,8 @@
     <string name="number_of_students_permitted">Number of Students Permitted</string>
 
     <string name="connection_to_running_water">Connection To Running Water</string>
-    <string name="female_urinals">Female Urinals</string>
-    <string name="female_washbasins">Female Washbasins</string>
+    <string name="female_urinals">Urinals</string>
+    <string name="female_washbasins">Washbasins</string>
     <string name="maximum_no_of_candidates_permissible">Maximum No. of Candidates Permissible</string>
     <string name="sanction_letter_no_and_date">Sanction letter No. and date</string>
     <string name="sanction_letter_no_and_date1">Sanction letter No. and date</string>
@@ -740,4 +740,5 @@
     <string name="max_candidate">Max Candidate</string>
     <string name="residential_multiple_list">Residential Multiple List</string>
     <string name="common_dining_and_recreation">Common Dining and Recreation</string>
+    <string name="urinal_washbasin_overhead">Urinal/WashBasin/OverHead</string>
 </resources>

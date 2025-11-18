@@ -3143,91 +3143,21 @@
                             tools:ignore="UseAppTint" />
                     </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/female_urinals"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <Button
+                        android:id="@+id/btnUploadRunningWater"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/female_urinals">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFemaleUrinal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/female_washbasins"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:layout_marginEnd="@dimen/dp_4"
-                        android:hint="@string/female_washbasins">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etFemaleWashbasins"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:text="Upload " />
+                    <ImageView
+                        android:id="@+id/ivRunningWaterPreview"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:fontFamily="@font/avenir_next_semi_bold"
-                        android:text="@string/overhead_tanks"
-                        android:layout_marginTop="@dimen/dp_10"
-                        android:layout_marginStart="@dimen/dp_4"
-                        android:textColor="@color/color_dark_green"
-                        android:textSize="@dimen/sp_16"
-                        />
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp">
-                        <Spinner
-                            android:id="@+id/spinnerOverheadTanks"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/edittext_background"
-                            android:paddingStart="12dp"
-                            android:spinnerMode="dropdown"
-                            android:popupBackground="@color/white"
-                            android:textColor="@color/color_dark_green" />
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginEnd="12dp"
-                            android:src="@drawable/ic_dropdown_arrow"
-                            app:tint="@color/color_dark_green"
-                            tools:ignore="UseAppTint" />
-                    </RelativeLayout>
 
 
                     <Button
@@ -3244,7 +3174,18 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Non-Living Areas-->
+
+    <!-- Urinal/Washbasin-->
+
+
+        <include
+            layout="@layout/item_urinal_washbasin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/urinalWashbasin"
+            android:layout_marginBottom="@dimen/dp_16" />
+
+    <!-- Non-Living Areas-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -3300,7 +3241,7 @@
                     android:layout_margin="@dimen/dp_10"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
 
 
@@ -3811,7 +3752,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/llForNotSeperateHide"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

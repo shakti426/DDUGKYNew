@@ -13,6 +13,7 @@ import com.deendayalproject.model.request.DLRequest
 import com.deendayalproject.model.request.DeleteLivingRoomList
 import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
+import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
 import com.deendayalproject.model.request.ITLabDetailsRequest
@@ -54,6 +55,7 @@ import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
+import com.deendayalproject.model.request.UrinalWashbasinReq
 import com.deendayalproject.model.request.VillageReq
 import com.deendayalproject.model.request.insertRfBasicInfoReq
 import com.deendayalproject.model.response.AcademicNonAcademicResponse
@@ -68,6 +70,7 @@ import com.deendayalproject.model.response.ElectircalWiringReponse
 import com.deendayalproject.model.response.ElectricalWireRes
 import com.deendayalproject.model.response.FinalSubmitRes
 import com.deendayalproject.model.response.GeneralDetails
+import com.deendayalproject.model.response.GetUrinalWashRes
 import com.deendayalproject.model.response.GpResponse
 import com.deendayalproject.model.response.ITLAbDetailsErrorResponse
 import com.deendayalproject.model.response.IndoorRFGameResponse
@@ -1593,6 +1596,40 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
             _loading.postValue(false)
         }
     }
+
+
+
+    private val _insertRfToiletWashRoomDetail = MutableLiveData<Result<ITLAbDetailsErrorResponse>>()
+    val insertRfToiletWashRoomDetail: LiveData<Result<ITLAbDetailsErrorResponse>> = _insertRfToiletWashRoomDetail
+
+    fun insertRfToiletWashRoomDetail(request: UrinalWashbasinReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.insertRfToiletWashRoomDetail(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _insertRfToiletWashRoomDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+    private val _getToiletWashbasinDetails = MutableLiveData<Result<GetUrinalWashRes>>()
+    val getToiletWashbasinDetails: LiveData<Result<GetUrinalWashRes>> = _getToiletWashbasinDetails
+
+    fun getToiletWashbasinDetails(request: GetUrinalWashReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getToiletWashbasinDetails(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _getToiletWashbasinDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
 
 
 
