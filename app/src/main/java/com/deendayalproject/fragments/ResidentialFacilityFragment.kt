@@ -835,7 +835,6 @@ class ResidentialFacilityFragment : Fragment() {
         binding.headerTCBasicInfo.setOnClickListener {
 
             if (sectionsStatus.basiInfoSection > 0) {
-
                 showEditSectionDialog("Basic Info") {
 
                     val requestTcInfo = RfCommonReq(
