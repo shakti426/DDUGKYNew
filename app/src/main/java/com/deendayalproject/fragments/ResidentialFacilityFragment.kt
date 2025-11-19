@@ -4809,7 +4809,6 @@ class ResidentialFacilityFragment : Fragment() {
                 when (it.responseCode) {
                     200 ->{
 
-
                         for (x in it.wrappedList){
 
                             binding.urinalWashbasin.layoutUrinalWashbasinContent.visible()

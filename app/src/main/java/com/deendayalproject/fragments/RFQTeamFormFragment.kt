@@ -11,7 +11,6 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,6 @@ import com.deendayalproject.adapter.IndoorGameRFAdapter
 import com.deendayalproject.adapter.LivingAreaInformationAdapter
 import com.deendayalproject.adapter.RFToiletAdapter
 import com.deendayalproject.databinding.RfQteamFormFagmentBinding
-import com.deendayalproject.databinding.RfSrlmFormFragmentBinding
 import com.deendayalproject.databinding.RoominformationPopdialogBinding
 //import com.deendayalproject.databinding.RoominformationDialogboxLayoutBinding
 import com.deendayalproject.databinding.TriPopdialogBinding
@@ -45,12 +43,8 @@ import com.deendayalproject.model.request.RfLivingAreaInformationRQ
 import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletRoomInformationReq
 import com.deendayalproject.model.request.ToiletRoomReq
-import com.deendayalproject.model.request.TrainingCenter
-import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.response.IndoorRFGameResponseDetails
-import com.deendayalproject.model.response.RFSupportFacilitiesAvailableDetails
 import com.deendayalproject.util.AppUtil
-import com.deendayalproject.util.ProgressDialogUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -613,7 +607,7 @@ class RFQTeamFormFragment : Fragment() {
                 }
             }
 
-            ToiletRecyclerView()
+            ToiletDetails()
             showProgressBar()
         }
 
@@ -674,6 +668,8 @@ class RFQTeamFormFragment : Fragment() {
             binding.RFTioletLayout.toiletsExpand.visibility = View.GONE
             binding.RFTioletLayout.viewToilet.visibility = View.GONE
             binding.tvRFtoiletAdditionalSection.visibility = View.VISIBLE
+
+
 
 
 
@@ -2161,7 +2157,8 @@ class RFQTeamFormFragment : Fragment() {
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
     }
-    private  fun ToiletRecyclerView() {
+    private  fun ToiletDetails()
+    {
 
 
 
@@ -2330,40 +2327,60 @@ class RFQTeamFormFragment : Fragment() {
                             }
                             binding.RFTioletLayout.linLayoutToilet.setOnClickListener {
 
-                                ListViewToilet("Toilet")
-                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
-                                    R.drawable.back_black,
-                                    0,
-                                    0,
-                                    0
-                                )
 
-                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
-                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+                                if (x.toiletCount!="0") {
+                                    ListViewToilet("Toilet")
+                                    binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.back_black,
+                                        0,
+                                        0,
+                                        0
+                                    )
+
+                                    binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                    binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+
+                                }
 
                             }
                             binding.RFTioletLayout.LinLayoutBathroom.setOnClickListener {
-                                ListViewToilet("Washroom")
-                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
-                                    R.drawable.back_black,
-                                    0,
-                                    0,
-                                    0
-                                )
-                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
-                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+
+
+                                if (x.washroomCount!="0"){
+                                    binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.back_black,
+                                        0,
+                                        0,
+                                        0
+                                    )
+                                    binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                    binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+                                    ListViewToilet("Washroom")
+
+                                }
+
+
+
                             }
                             binding.RFTioletLayout.LinLayoutToiletAndBathroom.setOnClickListener {
-                                ListViewToilet("Toilet Cum Washroom")
-                                binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
-                                    R.drawable.back_black,
-                                    0,
-                                    0,
-                                    0
-                                )
 
-                                binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
-                                binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+
+                                if (x.toiletWashroomCount!="0") {
+                                    ListViewToilet("Toilet Cum Washroom")
+
+                                    binding.RFTioletLayout.tvToilet.setCompoundDrawablesWithIntrinsicBounds(
+                                        R.drawable.back_black,
+                                        0,
+                                        0,
+                                        0
+                                    )
+
+                                    binding.RFTioletLayout.LinLayoutCardView.visibility= View.GONE
+                                    binding.RFTioletLayout.LinLayoutRecyclerView.visibility= View.VISIBLE
+
+                                }
+
+
                             }
 
 
