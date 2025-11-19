@@ -22,11 +22,10 @@ class RFSrlmListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfSrlmAdapter
-    private var centerId = ""
-    private var sanctionOrder = ""
-    private var centerName = ""
 
-
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -87,22 +86,52 @@ class RFSrlmListFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available. ",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    202 ->
+                    {
 
-                    301 -> Toast.makeText(
-                        requireContext(),
-                        "Please upgrade your app.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available. ",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+
+                    }
+
+
+                    301 ->
+
+
+                    {
+
+
+                        hideProgressBar()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+
+
+
+                    401 ->
+
+                    {
+
+
+                        hideProgressBar()
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }}
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -114,5 +143,17 @@ class RFSrlmListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+    //
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
     }
 }

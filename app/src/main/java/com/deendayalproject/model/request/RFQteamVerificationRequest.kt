@@ -21,6 +21,8 @@ data class RFQteamVerificationRequest(
     val rfAvailableRemark: String? = null,
     val supportFacilityAvailableStatus: String? = null,
     val supportFacilityAvailableRemark: String? = null,
+    val addToiletRemark: String? = null,
+    val addToiletStatus: String? = null,
     val facilityId:Int
 
 

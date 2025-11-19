@@ -120,18 +120,34 @@ class QTeamListFragment : Fragment() {
             result.onSuccess {
                 when (it.responseCode) {
                     200 ->{
+                        hideProgressBar()
                         adapter.updateData(it.wrappedList ?: emptyList())
                         adapter.notifyDataSetChanged()
 
                     }
                     202 -> {
+                        hideProgressBar()
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
                         adapter.updateData(it.wrappedList ?: emptyList())
                         adapter.notifyDataSetChanged()
                         Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
                     }
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                    301 -> {
+                        hideProgressBar()
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                        401 -> {
+                            hideProgressBar()
+                            AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                        }
+                        }
             }
             result.onFailure {
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -217,7 +233,20 @@ class QTeamListFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "❌ Location permission denied", Toast.LENGTH_SHORT).show()
             }
+
+
+        }
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    //
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
         }
 
-
+}
 }

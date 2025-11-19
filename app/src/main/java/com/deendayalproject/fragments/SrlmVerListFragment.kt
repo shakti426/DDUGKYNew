@@ -79,15 +79,24 @@ class SrlmVerListFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     }
                     202 -> {
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
+
                         adapter.updateData(it.wrappedList ?: emptyList())
                         adapter.notifyDataSetChanged()
                         Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
                     }
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
-                }
+                    301 -> {  hideProgressBar()
+                        Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
+                    }
+                    401 -> {
+                        hideProgressBar()
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+                    }
             }
             result.onFailure {
+                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -102,5 +111,17 @@ class SrlmVerListFragment : Fragment() {
     }
 
 
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
 
+    //
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+
+    }
 }

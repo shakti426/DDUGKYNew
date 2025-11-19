@@ -25,11 +25,13 @@ class RfMultipleListFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfModifyListAdapter
-    var centerId =""
-    var sanctionOrder =""
-    var facilityId =""
+    var centerId = ""
+    var sanctionOrder = ""
+    var facilityId = ""
 
-
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,13 +56,15 @@ class RfMultipleListFragment : Fragment() {
         adapter = RfModifyListAdapter(emptyList()) { selectedItem ->
 
 
-
             val action =
                 RfMultipleListFragmentDirections.actionRfMultipleListFragmentToFragmentResidentialFacility(
-                    selectedItem.trainingCenterId.toString(),selectedItem.senctionOrder.toString(),selectedItem.facilityId.toString(),selectedItem.remarks.toString(),selectedItem.status.toString()
+                    selectedItem.trainingCenterId.toString(),
+                    selectedItem.senctionOrder.toString(),
+                    selectedItem.facilityId.toString(),
+                    selectedItem.remarks.toString(),
+                    selectedItem.status.toString()
                 )
             findNavController().navigate(action)
-
 
 
         }
@@ -76,6 +80,7 @@ class RfMultipleListFragment : Fragment() {
             viewModel.saveInitialResidentialFacility(request)
 
             observeViewAddNewRF()
+            showProgressBar()
 
 
         }
@@ -84,6 +89,7 @@ class RfMultipleListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         observeViewModel()
+        showProgressBar()
 
 
         binding.backButton.setOnClickListener {
@@ -105,15 +111,55 @@ class RfMultipleListFragment : Fragment() {
         viewModel.getResidentialList.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    200 -> {
+                        hideProgressBar()
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
+
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                    }
+
+
+                    202 -> {
+                        hideProgressBar()
+
+                        Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+
+                    301 -> {
+                        hideProgressBar()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+                    401 -> {
+                        hideProgressBar()
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    }
+
+
                 }
             }
             result.onFailure {
-                Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
+
+                {
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT)
+                        .show()
+
+
+                }
+
             }
+
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
@@ -129,29 +175,77 @@ class RfMultipleListFragment : Fragment() {
         viewModel.saveInitialResidentialFacility.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 ->  {
-
+                    200 -> {
+                        hideProgressBar()
 
                         Toast.makeText(requireContext(), "Rf Added.", Toast.LENGTH_SHORT).show()
                         val action =
                             RfMultipleListFragmentDirections.actionRfMultipleListFragmentToFragmentResidentialFacility(
-                               centerId,sanctionOrder, it.facilityId.toString(),"",""
+                                centerId, sanctionOrder, it.facilityId.toString(), "", ""
                             )
                         findNavController().navigate(action)
 
                     }
-                    202 -> Toast.makeText(requireContext(), "No data available.", Toast.LENGTH_SHORT).show()
-                    301 -> Toast.makeText(requireContext(), "Please upgrade your app.", Toast.LENGTH_SHORT).show()
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+
+                    202 -> {
+                        hideProgressBar()
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    301 -> {
+                        hideProgressBar()
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Please upgrade your app.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+
+                    401 -> {
+
+                        hideProgressBar()
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+
+                    }
+
+
                 }
             }
             result.onFailure {
+                hideProgressBar()
+
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
         viewModel.loading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }
+
+
     }
 
+
+    fun showProgressBar() {
+        if (context != null && isAdded && progress?.isShowing == false) {
+            progress?.show()
+        }
+    }
+
+    //
+    fun hideProgressBar() {
+        if (progress?.isShowing == true) {
+            progress?.dismiss()
+        }
+
+
+    }
 }

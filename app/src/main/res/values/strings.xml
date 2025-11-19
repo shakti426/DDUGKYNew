@@ -741,4 +741,11 @@
     <string name="residential_multiple_list">Residential Multiple List</string>
     <string name="common_dining_and_recreation">Common Dining and Recreation</string>
     <string name="urinal_washbasin_overhead">Urinal/WashBasin/OverHead</string>
+
+    <string name="under_text"><u>2</u></string>
+    <string name="bathroom">Bathroom</string>
+    <string name="toilet_and_bathroom">Toilet Cum Bathroom</string>
+    <string name="urinals">Urinals</string>
+    <string name="washbasins">Washbasins</string>
+    <string name="flooring">Flooring</string>
 </resources>
