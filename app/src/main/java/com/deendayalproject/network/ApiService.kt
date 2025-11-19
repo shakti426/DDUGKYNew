@@ -400,6 +400,10 @@ interface ApiService {
 
 
 
+
+    @POST(value ="toiletSectionListView")
+    suspend fun toiletSectionListView(@Body request: LivingRoomReq) : Response<ToiletListRes>
+
     @POST(value ="deleteToiletRoom")
     suspend fun deleteToiletRoom(@Body request: ToiletDeleteList) : Response<LivingAreaDelete>
 

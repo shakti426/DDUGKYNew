@@ -1363,6 +1363,28 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     }
 
 
+    private val _toiletSectionListView = MutableLiveData<Result<ToiletListRes>>()
+    val toiletSectionListView: LiveData<Result<ToiletListRes>> = _toiletSectionListView
+
+
+    fun getToiletSectionListView(request: LivingRoomReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            try {
+                val result = repository.toiletSectionListView(request)
+                _toiletSectionListView.postValue(result) // ✅ Correct LiveData used here
+            } catch (e: Exception) {
+                _toiletSectionListView.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _loading.postValue(false)
+            }
+        }
+    }
+
+
+
+
 
 
     private val _deleteToiletRoom = MutableLiveData<Result<LivingAreaDelete>>()
