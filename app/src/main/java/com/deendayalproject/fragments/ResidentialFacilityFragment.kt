@@ -1079,7 +1079,7 @@ class ResidentialFacilityFragment : Fragment() {
 
                 )
 
-                viewModel.getRfToiletListView(rfLAreaListReq)
+                viewModel.getToiletSectionListView(rfLAreaListReq)
 
 
             } else {
@@ -4262,7 +4262,7 @@ class ResidentialFacilityFragment : Fragment() {
     }
 
     private fun observeViewModelToiletList() {
-        viewModel.getRfToiletListView.observe(viewLifecycleOwner) { result ->
+        viewModel.toiletSectionListView.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 hideProgressBar()
                 when (it.responseCode) {
@@ -4317,10 +4317,10 @@ class ResidentialFacilityFragment : Fragment() {
 
                 )
 
-                viewModel.getRfToiletListView(request)
+                viewModel.getToiletSectionListView(request)
 
                 // ✅ Observe fresh result directly here
-                viewModel.getRfToiletListView.observe(viewLifecycleOwner) { listResult ->
+                viewModel.toiletSectionListView.observe(viewLifecycleOwner) { listResult ->
                     listResult.onSuccess { listResponse ->
                         if (listResponse.responseCode == 200) {
                             ToiletAdapter.updateData(listResponse.wrappedList)

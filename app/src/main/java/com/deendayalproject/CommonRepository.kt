@@ -1374,6 +1374,26 @@ suspend fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) : Res
         }
     }
 
+
+    suspend fun toiletSectionListView(request: LivingRoomReq) : Result<ToiletListRes>{
+        return try {
+            // val bearerToken = "Bearer $token"
+            val response = apiService.toiletSectionListView(request)
+            if (response.isSuccessful){
+                response.body()?.let { Result.success(it) }
+                    ?: Result.failure(Exception("Empty response"))
+            } else {
+                Result.failure(Exception("Error code: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+
+
+
+
     suspend fun deleteToiletRoom(request: ToiletDeleteList) : Result<LivingAreaDelete>{
         return try {
             // val bearerToken = "Bearer $token"
