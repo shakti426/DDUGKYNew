@@ -15,22 +15,21 @@
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvRoomLength"
+        android:id="@+id/tvRoomArea"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
         android:gravity="center"
-        android:text="@string/roomlength"
+        android:text="@string/roomarea"
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/tvLength"
+        android:id="@+id/maxCandidate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="12"
+        android:text="0"
         android:textSize="14sp" />
 
     <TextView

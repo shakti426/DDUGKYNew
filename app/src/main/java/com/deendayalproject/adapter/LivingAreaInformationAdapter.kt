@@ -17,7 +17,8 @@ class LivingAreaInformationAdapter(
 
     inner class CenterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvRoomNumber: TextView = itemView.findViewById(R.id.tvRoomNumber)
-        val tvRoomLength: TextView = itemView.findViewById(R.id.tvRoomLength)
+        val tvRoomArea: TextView = itemView.findViewById(R.id.tvRoomArea)
+        val maxCandidate: TextView = itemView.findViewById(R.id.maxCandidate)
         val btnView: TextView = itemView.findViewById(R.id.btnView)
 
     }
@@ -31,7 +32,8 @@ class LivingAreaInformationAdapter(
     override fun onBindViewHolder(holder: CenterViewHolder, position: Int) {
         val room = rooms[position]
         holder.tvRoomNumber.text=room.roomNo.toString()
-        holder.tvRoomLength.text=room.length
+        holder.tvRoomArea.text=room.area
+        holder.maxCandidate.text=room.totalRfCapacity
 
 
         holder.btnView.setOnClickListener {

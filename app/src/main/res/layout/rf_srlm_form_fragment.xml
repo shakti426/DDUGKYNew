@@ -166,6 +166,31 @@
 
 
 
+        <!--AdditionalSection-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvRFtoiletAdditionalSection"
+            style="@style/editTextHome"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRFTiolet">
+
+
+
+            <include
+                android:id="@+id/RFTioletAdditionalSectionLayout"
+                layout="@layout/rf_toilet_additional_section"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <!--        RFNonLivingArea Ajit Ranjan 03/11/2025 -->
 
@@ -182,7 +207,7 @@
             android:elevation="@dimen/dp_2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvRFTiolet">
+            app:layout_constraintTop_toBottomOf="@+id/tvRFtoiletAdditionalSection">
 
 
 

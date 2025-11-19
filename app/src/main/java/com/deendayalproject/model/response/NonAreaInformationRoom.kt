@@ -24,6 +24,10 @@ data class  NonArea(
     val diningLength: String,
     val diningArea: String,
     val recreationWidth: String,
-    val preprationFoodPdf: String
+    val preprationFoodPdf: String,
+    val diningRecreationArea: String,
+    val diningRecreationLengh: String,
+    val diningRecreationWidth: String,
+    val diningRecreationAreaFile: String,
+    val diningAreaFile: String
 )
-

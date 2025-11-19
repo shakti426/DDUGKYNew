@@ -50,9 +50,11 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.UrinalWashbasinReq
@@ -108,6 +110,7 @@ import com.deendayalproject.model.response.TcDescriptionOtherAreasResponse
 import com.deendayalproject.model.response.TcSignagesInfoBoardResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletCountList
 import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletResponse
 import com.deendayalproject.model.response.ToiletRoomInformationViewRes
@@ -1277,7 +1280,7 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     //    Ajit Ranjan create 27/October/2025  toiletRoomListView
 
 
-    fun getToiletRoomListView(request: LivingRoomListViewRQ) {
+    fun getToiletRoomListView(request: ToiletRoomInformationReq) {
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repository.getToiletRoomListView(request)
@@ -1290,7 +1293,7 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
     }
 
     //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
-    fun getRfToiletRoomInformation(request: ToiletRoomInformationReq) {
+    fun getRfToiletRoomInformation(request: ToiletRoomReq) {
         _loading.postValue(true)
         viewModelScope.launch {
             val result = repository.getToiletRoomInformation(request)
@@ -1648,6 +1651,27 @@ fun getRfLivingAreaInformation(request: RfLivingAreaInformationRQ) {
                 _errorMessage.postValue(it.message ?: "Unknown error")
             }
             _getToiletWashbasinDetails.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+
+
+
+    //    Ajit Ranjan create 17/Nov/2025  getToiletCountList
+
+
+    private val _ToiletCountListView = MutableLiveData<Result<ToiletCountList>>()
+    val ToiletCountListView: LiveData<Result<ToiletCountList>> = _ToiletCountListView
+
+    fun getToiletCountList(request: ToiletCountListReq) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.getToiletCountList(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _ToiletCountListView.postValue(result)
             _loading.postValue(false)
         }
     }

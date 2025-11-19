@@ -47,9 +47,11 @@ import com.deendayalproject.model.request.TcCommonEquipmentRequest
 import com.deendayalproject.model.request.TcDescriptionOtherAreasRequest
 import com.deendayalproject.model.request.TcQTeamInsertReq
 import com.deendayalproject.model.request.TcSignagesInfoBoardRequest
+import com.deendayalproject.model.request.ToiletCountListReq
 import com.deendayalproject.model.request.ToiletDeleteList
 import com.deendayalproject.model.request.ToiletDetailsRequest
 import com.deendayalproject.model.request.ToiletRoomInformationReq
+import com.deendayalproject.model.request.ToiletRoomReq
 import com.deendayalproject.model.request.TrainingCenterInfo
 import com.deendayalproject.model.request.TrainingCenterRequest
 import com.deendayalproject.model.request.UrinalWashbasinReq
@@ -104,6 +106,7 @@ import com.deendayalproject.model.response.TcInfraResponse
 import com.deendayalproject.model.response.TcStaffAndTrainerResponse
 import com.deendayalproject.model.response.ToiletDetailsErrorResponse
 import com.deendayalproject.model.response.TeachingLearningRes
+import com.deendayalproject.model.response.ToiletCountList
 import com.deendayalproject.model.response.ToiletListRes
 import com.deendayalproject.model.response.ToiletRes
 import com.deendayalproject.model.response.ToiletResponse
@@ -372,13 +375,13 @@ interface ApiService {
 
 
     @POST(value ="toiletRoomListView")
-    suspend fun getToiletRoomListView(@Body request: LivingRoomListViewRQ) : Response<ToiletViewRes>
+    suspend fun getToiletRoomListView(@Body request: ToiletRoomInformationReq) : Response<ToiletViewRes>
 
     //    Ajit Ranjan create 30/October/2025  getRfToiletRoomInformation
 
     @POST(value ="getRfToiletRoomInformation")
     suspend fun ToiletRoomInformation
-                (@Body request: ToiletRoomInformationReq) :
+                (@Body request: ToiletRoomReq) :
             Response<ToiletRoomInformationViewRes>
 
 
@@ -508,6 +511,11 @@ interface ApiService {
             Response<ModifyRFRes>
 
 
+//    Ajit Ranjan create 17/Nov/2025  getToiletCountList
+    @POST(value ="getToiletCountList")
+    suspend fun getToiletCountList
+                (@Body request: ToiletCountListReq) :
+            Response<ToiletCountList>
 
     @POST(value = "insertRfToiletWashRoomDetail")
     suspend fun insertRfToiletWashRoomDetail(@Body request: UrinalWashbasinReq) : Response<ITLAbDetailsErrorResponse>

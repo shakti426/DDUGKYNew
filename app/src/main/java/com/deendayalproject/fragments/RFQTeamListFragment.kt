@@ -21,6 +21,9 @@ import com.deendayalproject.util.AppUtil
 class RFQTeamListFragment : Fragment() {
     private var _binding: RfQteamListFragmentBinding? = null
     private val binding get() = _binding!!
+    private val progress: androidx.appcompat.app.AlertDialog? by lazy {
+        AppUtil.getProgressDialog(context)
+    }
     private lateinit var viewModel: SharedViewModel
     private lateinit var adapter: RfQAdapter
     private var isApiCalled = false
@@ -78,6 +81,10 @@ class RFQTeamListFragment : Fragment() {
         observeViewModel()
 
 
+//        showProgressBar()
+
+
+
 
 
 
@@ -92,23 +99,59 @@ class RFQTeamListFragment : Fragment() {
         viewModel.trainingRfCenters.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
                 when (it.responseCode) {
-                    200 -> adapter.updateData(it.wrappedList ?: emptyList())
-                    202 -> Toast.makeText(
-                        requireContext(),
-                        "No data available.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    200 ->
 
-                    301 -> Toast.makeText(
+
+                    {
+
+//                        hideProgressBar()
+                        adapter.updateData(it.wrappedList ?: emptyList())
+                    }
+
+
+                    202 ->
+
+                    {
+//                        hideProgressBar()
+                        adapter.updateData(emptyList())
+                        adapter.updateData(mutableListOf())
+
+
+                        Toast.makeText(
+                            requireContext(),
+                            "No data available.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+
+
+
+                    301 ->
+
+                    {
+//                        hideProgressBar()
+
+
+                        Toast.makeText(
                         requireContext(),
                         "Please upgrade your app.",
                         Toast.LENGTH_SHORT
                     ).show()
+                    }
 
-                    401 -> AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                    401 ->
+                    {
+//                        hideProgressBar()
+                        AppUtil.showSessionExpiredDialog(findNavController(), requireContext())
+                }
+
+
                 }
             }
             result.onFailure {
+//                hideProgressBar()
                 Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -118,28 +161,21 @@ class RFQTeamListFragment : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-
-        if (!isApiCalled) {
-            isApiCalled = true
-
-            val request = ResidentialFacilityQTeamRequest(
-                loginId = AppUtil.getSavedLoginIdPreference(requireContext()),
-                appVersion = BuildConfig.VERSION_NAME,
-                imeiNo = AppUtil.getAndroidId(requireContext())
-            )
-
-            viewModel.fetchResidentialFacilityQTeamList(
-                request,
-                AppUtil.getSavedTokenPreference(requireContext())
-            )
-            observeViewModel()
-        }
-    }
     override fun onDestroyView() {
         super.onDestroyView()
 
         _binding = null
     }
+
+//    fun showProgressBar() {
+//        if (context != null && isAdded && progress?.isShowing == false) {
+//            progress?.show()
+//        }
+//    }
+//    //
+//    fun hideProgressBar() {
+//        if (progress?.isShowing == true) {
+//            progress?.dismiss()
+//        }
+//    }
 }

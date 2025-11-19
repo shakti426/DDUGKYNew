@@ -936,7 +936,6 @@ class ResidentialFacilityFragment : Fragment() {
         binding.headerTCBasicInfo.setOnClickListener {
 
             if (sectionsStatus.basiInfoSection > 0) {
-
                 showEditSectionDialog("Basic Info") {
 
                     val requestTcInfo = RfCommonReq(
@@ -4810,7 +4809,6 @@ class ResidentialFacilityFragment : Fragment() {
                 when (it.responseCode) {
                     200 ->{
 
-
                         for (x in it.wrappedList){
 
                             binding.urinalWashbasin.layoutUrinalWashbasinContent.visible()
@@ -4909,6 +4907,20 @@ class ResidentialFacilityFragment : Fragment() {
                             binding.etDiningLength.setText(x.diningLength)
                             binding.etDiningWidth.setText(x.diningWidth)
                             binding.etDiningArea.setText(x.diningArea)
+
+
+                            binding.etDiningAndRecreactionLength.setText(x.diningRecreationLengh)
+                            binding.etDiningAndRecreactionWidth.setText(x.diningRecreationWidth)
+                            binding.etDiningAndRecreactionArea.setText(x.diningRecreationArea)
+
+                            setBase64ToImage(binding.ivDiningAndRecreactionAreaPreview, x.diningRecreationAreaFile)
+
+                            base64RecreationDiningAreaDocFile = x.diningRecreationAreaFile
+                            binding.ivDiningAndRecreactionAreaPreview.visible()
+
+
+
+
 
                             binding.etRecreationLength.setText(x.recreationLength)
                             binding.etRecreationWidth.setText(x.recreationWidth)
