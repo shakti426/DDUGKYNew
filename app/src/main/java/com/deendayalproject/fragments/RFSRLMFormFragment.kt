@@ -51,6 +51,8 @@ import java.io.File
 
 class RFSRLMFormFragment : Fragment() {
 
+    // new changes
+
     private var RFQInfraDetailswallPhotosFileFile = ""
     private var RFQInfraDetailsRoofbuildingFile = ""
     private var  RFsafeDrinkingeFile =  ""
