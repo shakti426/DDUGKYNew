@@ -59,7 +59,9 @@ import java.util.Date
 import java.util.Locale
 import android.widget.FrameLayout
 import androidx.core.graphics.ColorUtils
+import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.response.AnnualTurnover
+import com.deendayalproject.model.response.AttachmentItem
 import com.deendayalproject.model.response.FieldVerificationDetailResponse
 import com.deendayalproject.model.response.FinancialDetailsResponse
 import com.deendayalproject.model.response.NetWorth
@@ -504,7 +506,7 @@ class FieldVerificationFormFragment : Fragment() {
         val orgAdapter = LocalFieldVerificationAdapter(
             items = orgItems,
             onViewClick = { pos, doc ->
-                Toast.makeText(requireContext(), "Position: $pos Viewing: $doc", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(), "Position: $pos Viewing: $doc", Toast.LENGTH_SHORT).show()
                 if (pos == 0 && doc=="Date of Incorporation (PRN)"){
                     val dialog = AlertDialog.Builder(requireContext())
                         .setTitle("Date of incorporation")
@@ -998,7 +1000,7 @@ class FieldVerificationFormFragment : Fragment() {
                 allowRemark = false
             ),
             FieldVerificationItem(
-                id = "FIN_TURNOVER",
+                id = "TRA_TURNOVER",
                 resources.getString(R.string.field_ver_hrs_training),
                 resources.getString(R.string.field_ver_hrs_note_training),
                 listOf(),
@@ -1006,7 +1008,7 @@ class FieldVerificationFormFragment : Fragment() {
                 allowRemark = true
             ),
             FieldVerificationItem(
-                id = "FIN_NETWORTH",
+                id = "TRA_NETWORTH",
                 resources.getString(R.string.field_ver_course_content_training),
                 resources.getString(R.string.field_ver_course_content_note_training),
                 listOf(),
@@ -1679,12 +1681,48 @@ class FieldVerificationFormFragment : Fragment() {
             val sectionMap = collectAllRemarksSectionWise()
 
             // Validate required remarks if backend requires specific ones:
-            // e.g., ensure manpower remark present:
-            val manpowerFound = sectionMap["Organization"]?.any { it.requirement.contains("Manpower", ignoreCase = true) } ?: false
 
-            Log.d("section Map :: ",sectionMap.toString())
+            val gson = com.google.gson.GsonBuilder().serializeNulls().create()
 
-            Log.d("manpowerFound :: ",manpowerFound.toString())
+
+            Log.d("section Map :: ",gson.toJson(sectionMap))
+
+            // Call SEPARATE training API (Option B)
+            viewModel.submitFieldVerification(sectionMap)
+
+            // Observe the LiveData once (remove previous observers first for safety)
+            viewModel.submitFieldVerificationDetails.removeObservers(viewLifecycleOwner)
+            viewModel.submitFieldVerificationDetails.observe(viewLifecycleOwner) { result ->
+                result.onSuccess { response ->
+                    try {
+
+                        val item = response.responseCode.toInt()
+                        if (item == 200){
+                            Log.d("Field Verification Submit if", item.toString())
+                            val navController = findNavController()
+
+                            // Signal to the list that it should refresh
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("refresh_pia_list", true)
+
+                            navController.navigateUp()
+                            //findNavController().navigateUp()
+                        }else{
+                            Log.d("Field Verification Submit else", item.toString())
+                        }
+
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(requireContext(), "Failed processing submitFieldVerification response: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }.onFailure { e ->
+                    Toast.makeText(requireContext(), "SubmitFieldVerification API failed: ${e.message ?: "Unknown"}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+
         }
 
         recyclerViewField = try {
@@ -2676,7 +2714,7 @@ class FieldVerificationFormFragment : Fragment() {
 
         commitFocusedEditText()
 
-        return sectionItems
+        /*return sectionItems
             .filter { it.allowRemark }
             .mapNotNull { item ->
                 val remark = item.remarkText?.trim().orEmpty()
@@ -2686,13 +2724,98 @@ class FieldVerificationFormFragment : Fragment() {
                     requirement = item.id,   // <── SEND ID, NOT LONG TEXT
                     remark = remark
                 )
+            }*/
+        // collect normal per-item remarks (only items with allowRemark)
+        val remarkList = sectionItems
+            .filter { it.allowRemark }
+            .mapNotNull { item ->
+                val r = item.remarkText?.trim().orEmpty()
+                if (r.isEmpty()) null
+                else RemarkItem(section = sectionName, requirement = item.id, remark = r)
             }
+            .toMutableList()
+        // Special case: attach captured base64 files into TrainingInfra section
+        if (sectionName.equals("TrainingInfra", ignoreCase = true)) {
+            // Prefer per-document base64 if you use DocumentEntry model:
+            val attachments = mutableListOf<AttachmentItem>()
+            if (!base64TrainingInfraDeclarationFile.isNullOrBlank()) {
+                // key format: TRAIN_INFRA::<label> - change if backend expects different key
+                //attachments["Self Declaration"] = base64TrainingInfraDeclarationFile!!
+                attachments.add(
+                    AttachmentItem(
+                        label = "Self Declaration",
+                        value = base64TrainingInfraDeclarationFile!!
+                    )
+                )
+            }
+            if (!base64TrainingInfraCentreFile.isNullOrBlank()) {
+                //attachments["Training Centre"] = base64TrainingInfraCentreFile!!
+                attachments.add(
+                    AttachmentItem(
+                        label = "Training Centre File",
+                        value = base64TrainingInfraCentreFile!!
+                    )
+                )
+            }
+            if (attachments.isNotEmpty()) {
+                // Add a single RemarkItem carrying the attachments map
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "TRAIN_INFRA_ATTACHMENTS",
+                        remark = "", // optional
+                        attachments = attachments
+                    )
+                )
+            }
+        }
+        // --- Add Field Visit coordinates to collected remarks ---
+        if (sectionName.equals("FieldVisit", ignoreCase = true)) {
+            val attachList = mutableListOf<AttachmentItem>()
+
+            // `latitude` and `longitude` are your fragment-level vars (strings)
+            // Only include when available (non-blank)
+            if (!latitude.isNullOrBlank()) {
+                attachList.add(AttachmentItem(label = "latitude", value = latitude))
+            }
+            if (!longitude.isNullOrBlank()) {
+                attachList.add(AttachmentItem(label = "longitude", value = longitude))
+            }
+
+            if (attachList.isNotEmpty()) {
+                remarkList.add(
+                    RemarkItem(
+                        section = sectionName,
+                        requirement = "FIELD_VISIT_COORDINATES",
+                        remark = "", // optional: you can put a human-readable string here if you want
+                        attachments = attachList
+                    )
+                )
+            }
+        }
+        return remarkList
     }
 
-    private fun collectAllRemarksSectionWise(): Map<String, List<RemarkItem>> {
+    //private fun collectAllRemarksSectionWise(): Map<String, Any> {
+    private fun collectAllRemarksSectionWise(): FieldVerificationFinalSubmit{
         commitFocusedEditText()
 
-        val result = mutableMapOf<String, List<RemarkItem>>()
+        val resultFinal = FieldVerificationFinalSubmit(
+            BuildConfig.VERSION_NAME,
+            AppUtil.getSavedLoginIdPreference(requireContext()),
+            captiveEmpanelmentId,
+            prnNo,
+            collectRemarksFromSection("Organization", orgItems),
+            collectRemarksFromSection("Finance", finItems),
+            collectRemarksFromSection("Training", trainingItems),
+            collectRemarksFromSection("TrainingInfra", trainingInfraItems),
+            collectRemarksFromSection("Certification", certItems),
+            collectRemarksFromSection("Placement", placementItems),
+            collectRemarksFromSection("FieldVisit", fieldItems)
+        )
+        Log.d("Final Result Data", resultFinal.toString())
+
+        val result = mutableMapOf<String, Any>()
 
         result["Organization"] = collectRemarksFromSection("Organization", orgItems)
         result["Finance"] = collectRemarksFromSection("Finance", finItems)
@@ -2701,8 +2824,13 @@ class FieldVerificationFormFragment : Fragment() {
         result["Certification"] = collectRemarksFromSection("Certification", certItems)
         result["Placement"] = collectRemarksFromSection("Placement", placementItems)
         result["FieldVisit"] = collectRemarksFromSection("FieldVisit", fieldItems)
+        result["appVersion"] = BuildConfig.VERSION_NAME
+        result["loginId"] = AppUtil.getSavedLoginIdPreference(requireContext())
+        result["captiveEmpanelmentId"] = captiveEmpanelmentId
+        result["prnNo"] = prnNo
 
-        return result
+        //return result
+        return resultFinal
     }
 
 
