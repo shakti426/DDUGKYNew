@@ -1,4 +1,5 @@
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +16,7 @@ import com.deendayalproject.model.request.DistrictRequest
 import com.deendayalproject.model.request.ElectricalWiringRequest
 import com.deendayalproject.model.request.GetUrinalWashReq
 import com.deendayalproject.model.request.FieldVerificationDetailRequest
+import com.deendayalproject.model.request.FieldVerificationFinalSubmit
 import com.deendayalproject.model.request.FieldVerificationListRequest
 import com.deendayalproject.model.request.GpRequest
 import com.deendayalproject.model.request.ITComeDomainLabDetailsRequest
@@ -240,6 +242,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _placementDetail = MutableLiveData<Result<FieldVerificationDetailResponse>>()
     val placementDetail: LiveData<Result<FieldVerificationDetailResponse>> = _placementDetail
 
+    private val _submitFieldVerification = MutableLiveData<Result<FieldVerificationDetailResponse>>()
+    val submitFieldVerificationDetails: LiveData<Result<FieldVerificationDetailResponse>> = _submitFieldVerification
+
     fun getFieldVerificationDetail(request: FieldVerificationDetailRequest) {
         _loading.postValue(true)
         viewModelScope.launch {
@@ -296,6 +301,18 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
             val result = repository.getFieldVerificationPlacementDetail(request)
             result.onFailure { _errorMessage.postValue(it.message ?: "Unknown error") }
             _placementDetail.postValue(result)
+            _loading.postValue(false)
+        }
+    }
+
+    fun submitFieldVerification(request: FieldVerificationFinalSubmit) {
+        _loading.postValue(true)
+        viewModelScope.launch {
+            val result = repository.submitFieldVerification(request)
+            result.onFailure {
+                _errorMessage.postValue(it.message ?: "Unknown error")
+            }
+            _submitFieldVerification.postValue(result)
             _loading.postValue(false)
         }
     }
@@ -446,6 +463,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun fetchFieldVerificationList(request: FieldVerificationListRequest, token: String) {
         _loading.postValue(true)
         viewModelScope.launch {
+            Log.d("FV", "fetchFieldVerificationList CALLED with loginId=${request.loginId}")
             val result = repository.fetchFieldVerificationList(request, token)
             result.onFailure {
                 _errorMessage.postValue(it.message ?: "Unknown error")

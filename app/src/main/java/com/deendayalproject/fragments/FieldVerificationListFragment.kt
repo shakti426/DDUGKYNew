@@ -85,6 +85,20 @@ class FieldVerificationListFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         observeViewModel()
+        val navController = findNavController()
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>("refresh_pia_list")
+            ?.observe(viewLifecycleOwner) { shouldRefresh ->
+                /*if (shouldRefresh == true) {
+                    loadFieldVerificationList()
+                    // reset flag
+                    navController.currentBackStackEntry
+                        ?.savedStateHandle
+                        ?.set("refresh_pia_list", false)
+                }*/
+                findNavController().navigateUp()
+            }
 
         val request = FieldVerificationListRequest(
             appVersion = BuildConfig.VERSION_NAME,
